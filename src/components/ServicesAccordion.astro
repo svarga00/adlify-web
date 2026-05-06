@@ -2,104 +2,112 @@
 /**
  * ServicesAccordion — 6-položkový accordion so službami.
  *
- * Vľavo zoznam, vpravo aktívny detail (na desktope).
- * Na mobile sa pravá strana skryje.
- *
- * JS handler pre klik na .svc-row je v inline <script> v page kde sa použije
- * (alebo ho môžeme presunúť do adlify-app.js neskôr).
- *
  * Props:
- *  - eyebrow?: string  — text v hranatých zátvorkách (default "[ 02 — SERVICES ]")
- *  - heading?: string  — h2 text (default "Čo pre vás vieme zariadiť")
- *  - lead?: string     — popis pri hlavičke
+ *  - eyebrow?: string
+ *  - heading?: string
+ *  - lead?: string
+ *  - services?: Service[]   — zo Supabase. Ak nie je poskytnuté, použije hardcoded fallback.
+ *  - linkToDetail?: boolean — či má každá služba mať link na /sluzby/[slug]
  */
+import type { Service } from '../lib/content';
 
 interface Props {
   eyebrow?: string;
   heading?: string;
   lead?: string;
+  services?: Service[];
+  linkToDetail?: boolean;
 }
 
 const {
   eyebrow = '[ 02 — SERVICES ]',
   heading = 'Čo pre vás vieme zariadiť',
   lead    = 'Postaráme sa o všetko, čo vám prinesie zákazníkov. Vy len sledujete čísla — my dolaďujeme detaily.',
+  services: providedServices,
+  linkToDetail = false,
 } = Astro.props;
 
-// Zoznam služieb (rovnaký ako v homepage)
-const services = [
+// Hardcoded fallback (ak Supabase nie je dostupné)
+const hardcodedServices: Service[] = [
   {
-    title: 'Google Ads',
-    desc: 'Search, Performance Max, Shopping a YouTube. Od nastavenia konverzií po bid stratégie.',
-    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
+    id: 'fb-google-ads', slug: 'google-ads', title: 'Google Ads',
+    short_desc: 'Search, Performance Max, Shopping a YouTube. Od nastavenia konverzií po bid stratégie.',
+    icon_svg: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
     specs: [
       { label: 'Setup',         value: '10 dní' },
       { label: 'Prvé výsledky', value: '4 týždne' },
       { label: 'Reporting',     value: 'Týždenne' },
       { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
     ],
+    sort_order: 1,
   },
   {
-    title: 'Meta Ads',
-    desc: 'Facebook a Instagram reklamy s dôrazom na kreatívy, audience targeting a retargeting.',
-    icon: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
+    id: 'fb-meta-ads', slug: 'meta-ads', title: 'Meta Ads',
+    short_desc: 'Facebook a Instagram reklamy s dôrazom na kreatívy, audience targeting a retargeting.',
+    icon_svg: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
     specs: [
-      { label: 'Setup',         value: '7 dní' },
+      { label: 'Setup', value: '7 dní' },
       { label: 'Prvé výsledky', value: '2 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+      { label: 'Reporting', value: 'Týždenne' },
+      { label: 'Zahrnuté', value: 'Vo všetkých plánoch' },
     ],
+    sort_order: 2,
   },
   {
-    title: 'SEO optimalizácia',
-    desc: 'Audit, technické SEO, content stratégia a link building. Dlhodobý rast organickej návštevnosti.',
-    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
+    id: 'fb-seo', slug: 'seo', title: 'SEO optimalizácia',
+    short_desc: 'Audit, technické SEO, content stratégia a link building. Dlhodobý rast organickej návštevnosti.',
+    icon_svg: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
     specs: [
-      { label: 'Audit',         value: '14 dní' },
+      { label: 'Audit', value: '14 dní' },
       { label: 'Prvé výsledky', value: '3 mesiace' },
-      { label: 'Reporting',     value: 'Mesačne' },
-      { label: 'Zahrnuté',      value: 'Plán Pro+' },
+      { label: 'Reporting', value: 'Mesačne' },
+      { label: 'Zahrnuté', value: 'Plán Pro+' },
     ],
+    sort_order: 3,
   },
   {
-    title: 'E-mailové kampane',
-    desc: 'Newslettery, automation flows a transakčné e-maily. Od dizajnu po dodanie.',
-    icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
+    id: 'fb-email', slug: 'email', title: 'E-mailové kampane',
+    short_desc: 'Newslettery, automation flows a transakčné e-maily. Od dizajnu po dodanie.',
+    icon_svg: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
     specs: [
-      { label: 'Setup',     value: '7 dní' },
-      { label: 'Frekvencia',value: '1–4× / mes.' },
+      { label: 'Setup', value: '7 dní' },
+      { label: 'Frekvencia', value: '1–4× / mes.' },
       { label: 'Reporting', value: 'Po každej kampani' },
-      { label: 'Zahrnuté',  value: 'Plán Pro+' },
+      { label: 'Zahrnuté', value: 'Plán Pro+' },
     ],
+    sort_order: 4,
   },
   {
-    title: 'Meranie a vyhodnocovanie',
-    desc: 'GA4, Google Tag Manager, server-side tracking, dashboard v Looker Studio. Bez tohto sa nedá optimalizovať.',
-    icon: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
+    id: 'fb-meranie', slug: 'meranie', title: 'Meranie a vyhodnocovanie',
+    short_desc: 'GA4, Google Tag Manager, server-side tracking, dashboard v Looker Studio. Bez tohto sa nedá optimalizovať.',
+    icon_svg: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
     specs: [
-      { label: 'Setup',         value: '5–10 dní' },
-      { label: 'Prvé reporty',  value: '2 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+      { label: 'Setup', value: '5–10 dní' },
+      { label: 'Prvé reporty', value: '2 týždne' },
+      { label: 'Reporting', value: 'Týždenne' },
+      { label: 'Zahrnuté', value: 'Vo všetkých plánoch' },
     ],
+    sort_order: 5,
   },
   {
-    title: 'Web a vstupné stránky',
-    desc: 'Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po implementáciu a A/B testy.',
-    icon: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
+    id: 'fb-web', slug: 'web', title: 'Web a vstupné stránky',
+    short_desc: 'Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po implementáciu a A/B testy.',
+    icon_svg: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
     specs: [
-      { label: 'Setup',         value: '14–21 dní' },
+      { label: 'Setup', value: '14–21 dní' },
       { label: 'Prvé výsledky', value: '4 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Doplnková služba' },
+      { label: 'Reporting', value: 'Týždenne' },
+      { label: 'Zahrnuté', value: 'Doplnková služba' },
     ],
+    sort_order: 6,
   },
 ];
+
+const services: Service[] = (providedServices && providedServices.length > 0) ? providedServices : hardcodedServices;
 ---
 
 <section class="section">
   <div class="container">
-    <!-- Section head -->
     <div class="sec-head">
       <div>
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
@@ -112,7 +120,6 @@ const services = [
     </div>
 
     <div class="svc-layout" data-svc-root>
-      <!-- Accordion list -->
       <div class="svc-list">
         {services.map((s, i) => (
           <button
@@ -133,19 +140,18 @@ const services = [
         ))}
       </div>
 
-      <!-- Detail pane (desktop only) -->
       <div class="svc-detail">
         <div class="svc-detail-orb"></div>
         {services.map((s, i) => (
           <div class={`svc-detail-pane ${i === 0 ? 'active' : ''}`} data-svc-pane={i} style="position: relative;">
             <div class="svc-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon}></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon_svg}></svg>
             </div>
             <div class="eyebrow" style="margin-bottom: 10px;">{String(i + 1).padStart(2, '0')}</div>
             <h3 class="h2" style="margin-bottom: 20px;">{s.title}</h3>
-            <p class="body" style="font-size: 16px; margin-bottom: 24px; max-width: 50ch;">{s.desc}</p>
-            <a href="/kontakt" class="btn btn-sm btn-ink" style="margin-bottom: 28px;">
-              Zobraziť celý detail
+            <p class="body" style="font-size: 16px; margin-bottom: 24px; max-width: 50ch;">{s.short_desc}</p>
+            <a href={linkToDetail ? `/sluzby/${s.slug}` : '/kontakt'} class="btn btn-sm btn-ink" style="margin-bottom: 28px;">
+              {linkToDetail ? 'Zobraziť celý detail' : 'Bezplatná konzultácia'}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M5 12h14"></path>
                 <path d="m12 5 7 7-7 7"></path>

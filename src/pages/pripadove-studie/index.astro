@@ -1,0 +1,148 @@
+---
+/**
+ * /pripadove-studie — Case Studies listing
+ *
+ * REFACTOROVANÉ: dáta fetchované zo Supabase (web_case_studies).
+ * Linky vedú na detail /pripadove-studie/[slug].
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import { fetchAllCases } from '../../lib/content';
+
+const cases = await fetchAllCases();
+
+// Definícia filter chips — odvodená dynamicky z kategórií čo sú v dátach
+const allCategories = ['e-commerce', 'dtc', 'local', 'b2c', 'b2b'];
+const usedCategories = Array.from(new Set(cases.map((c) => c.category)));
+const visibleCategories = allCategories.filter((c) => usedCategories.includes(c));
+
+const filterLabels: Record<string, string> = {
+  'all':         'Všetky',
+  'e-commerce':  'E-commerce',
+  'dtc':         'DTC',
+  'local':       'Local',
+  'b2c':         'B2C',
+  'b2b':         'B2B',
+};
+const filters = ['all', ...visibleCategories].map((key) => ({ key, label: filterLabels[key] || key }));
+---
+
+<Layout
+  title="Prípadové štúdie — Adlify"
+  description="6 príbehov rastu. E-commerce, DTC, B2C aj B2B — reálne čísla, reálni klienti. Tržby +284%, ROAS 6.2×, CPA −42%."
+  lang="sk"
+  pathname="/pripadove-studie"
+>
+
+  <PageHero
+    num="003"
+    kind="CASE STUDIES"
+    title="Prípadové"
+    titleAccent="štúdie."
+    lead="Čísla hovoria viac ako slová. Šesť príbehov rastu — od malého krajčírstva po B2B SaaS."
+  />
+
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+
+      {cases.length === 0 ? (
+        <!-- Fallback ak Supabase nie je pripojené -->
+        <div style="padding: 60px 24px; text-align: center; background: var(--bg-soft); border: 1px dashed var(--line); border-radius: 16px;">
+          <div class="eyebrow" style="margin-bottom: 12px;">[ ŽIADNY OBSAH ]</div>
+          <p class="body">Pripadové štúdie sa načítavajú zo Supabase. Nastav SUPABASE_URL a SUPABASE_ANON_KEY a re-deployuj.</p>
+        </div>
+      ) : (
+        <>
+          <!-- Filtre -->
+          <div class="filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--line);">
+            {filters.map((f, i) => (
+              <button
+                class={`cs-chip ${i === 0 ? 'active' : ''}`}
+                data-cs-filter={f.key}
+                type="button"
+                style={`padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 1px solid var(--line); background: ${i === 0 ? 'var(--ink)' : 'transparent'}; color: ${i === 0 ? 'var(--bg)' : 'var(--ink)'}; cursor: pointer; transition: all 0.2s;`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <!-- Grid case kariet -->
+          <div class="cases-grid">
+            {cases.map((c) => (
+              <a
+                href={`/pripadove-studie/${c.slug}`}
+                class="case-card cs-item"
+                data-cs-category={c.category}
+                style="display: block; color: inherit;"
+              >
+                <div class="case-cover" style={`background: ${c.cover_gradient};`}>
+                  <div class="case-cover-mesh"></div>
+                  <div style="position: absolute; top: 24px; left: 24px; color: white;">
+                    <div style="font-size: 11px; font-family: var(--mono); letter-spacing: 0.03em; opacity: 0.85; margin-bottom: 6px;">{c.tag}</div>
+                    <div style="font-size: 32px; font-weight: 700; letter-spacing: -0.03em;">{c.name}</div>
+                  </div>
+                  <div class="case-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7"></path>
+                      <path d="M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <div style="padding: 24px;">
+                  <p class="body" style="font-size: 14px; line-height: 1.55; margin-bottom: 20px; min-height: 3em;">
+                    {c.summary}
+                  </p>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 20px; border-top: 1px solid var(--line);">
+                    <div>
+                      <div class="eyebrow" style="font-size: 10px; margin-bottom: 6px;">{c.metric_a_label}</div>
+                      <div class="num grad" style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">{c.metric_a_value}</div>
+                    </div>
+                    <div>
+                      <div class="eyebrow" style="font-size: 10px; margin-bottom: 6px;">{c.metric_b_label}</div>
+                      <div class="num" style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">{c.metric_b_value}</div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+
+    <style>
+      .cs-chip:hover:not(.active) { background: var(--bg-soft); }
+      .cs-chip.active { background: var(--ink) !important; color: var(--bg) !important; border-color: var(--ink) !important; }
+      .cs-item.hidden { display: none; }
+    </style>
+  </section>
+
+
+  <ContactSection accent="stratégiu" />
+
+
+  <script>
+    (function () {
+      const chips = document.querySelectorAll<HTMLButtonElement>('.cs-chip');
+      const items = document.querySelectorAll<HTMLElement>('.cs-item');
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => c.classList.remove('active'));
+          chip.classList.add('active');
+          const filter = chip.dataset.csFilter;
+          items.forEach((item) => {
+            const isMatch = filter === 'all' || item.dataset.csCategory === filter;
+            item.classList.toggle('hidden', !isMatch);
+          });
+        });
+      });
+    })();
+  </script>
+
+</Layout>
