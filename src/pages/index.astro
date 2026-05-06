@@ -61,7 +61,7 @@ const manifestItems = [
         <!-- LEFT: text -->
         <div>
           <h1 class="hero-h1" style="font-size: clamp(44px, 5.5vw, 80px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin-bottom: 24px; max-width: 14ch; padding-top: 0.12em;">
-            Marketing, ktorý <span class="grad" style="display: inline-block; padding: 0 0.04em; line-height: 1.08;">prináša&nbsp;čísla</span>.
+            Marketing, ktorý <span class="grad" data-rotator-target style="display: inline-block; padding: 0 0.04em; line-height: 1.08;">prináša&nbsp;čísla</span>.
           </h1>
 
           <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); max-width: 50ch; margin-bottom: 28px; color: var(--muted); line-height: 1.5;">
@@ -350,21 +350,22 @@ const manifestItems = [
           </div>
         </div>
 
-        <!-- RIGHT: dashboard preview card -->
-        <div class="ba-dashboard">
+        <!-- RIGHT: BEFORE/AFTER drag slider dashboard -->
+        <div class="ba-dashboard" data-ba-slider style="cursor: ew-resize;">
           <div class="ba-dashboard-mesh"></div>
           <div class="ba-dashboard-grid"></div>
 
-          <div style="position: relative; display: flex; flex-direction: column; height: 100%; min-height: 416px;">
-            <!-- Header -->
+          <!-- BEFORE / AFTER labels -->
+          <div data-ba-label-before style="position: absolute; top: 16px; left: 16px; z-index: 6; padding: 5px 11px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; opacity: 1;">BEFORE</div>
+          <div data-ba-label-after  style="position: absolute; top: 16px; right: 16px; z-index: 6; padding: 5px 11px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: white; opacity: 0.4;">AFTER</div>
+
+          <!-- BASE LAYER (BEFORE state — sivá / tlmená) -->
+          <div style="position: relative; display: flex; flex-direction: column; height: 100%; min-height: 416px; z-index: 1;">
+            <!-- Dashboard header -->
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
               <div>
                 <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">NOVASHOP · DASHBOARD</div>
-                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92; margin-bottom: 14px;">Apríl 2026</div>
-                <div style="display: flex; align-items: baseline; gap: 10px;">
-                  <div data-ba-dash-revenue style="font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em;">€34&nbsp;939</div>
-                  <div data-ba-dash-delta style="font-size: 13px; font-weight: 700; color: rgb(134,239,172); font-family: var(--mono);">+27%</div>
-                </div>
+                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92; margin-bottom: 14px;">Marec 2026</div>
               </div>
               <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                 <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
@@ -372,43 +373,70 @@ const manifestItems = [
               </div>
             </div>
 
-            <!-- Mini-grid metrics 2×2 -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px;">
-              <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">ROAS</div>
-                <div data-ba-dash-roas style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">2.52×</div>
-              </div>
-              <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">KONV.</div>
-                <div data-ba-dash-conv style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">380</div>
-              </div>
-              <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">CPA</div>
-                <div data-ba-dash-cpa style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">€17.0</div>
-              </div>
-              <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">TREND</div>
-                <div style="font-size: 22px; font-weight: 700; color: rgb(134,239,172);">↗</div>
-              </div>
-            </div>
-
-            <!-- Bars: weekly revenue -->
+            <!-- Bars (BEFORE state — všetky sivé, plochá línia) -->
             <div style="margin-top: auto;">
               <div style="font-family: var(--mono); font-size: 10px; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between;">
                 <span>WEEKLY REVENUE</span>
-                <span data-ba-bars-trend>26 týždňov · trend ↗</span>
+                <span>26 týždňov · plochý</span>
               </div>
-              <div data-ba-bars style="display: flex; gap: 3px; align-items: flex-end; height: 80px;">
+              <div style="display: flex; gap: 3px; align-items: flex-end; height: 110px;">
                 {Array.from({ length: 26 }).map((_, i) => {
-                  const h = 30 + (i * 60) / 25;
+                  // BEFORE: nízke, plochľavé bary s malým noisom
+                  const h = 18 + ((i * 7) % 12);
                   return (
-                    <div
-                      class="ba-bar"
-                      style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 3px 3px 1px 1px; height: ${h}%; transition: height 0.5s cubic-bezier(0.2,0.8,0.2,1) ${i * 0.015}s;`}
-                    ></div>
+                    <div style={`flex: 1; background: rgba(255,255,255,0.18); border-radius: 3px 3px 1px 1px; height: ${h}%;`}></div>
                   );
                 })}
               </div>
+            </div>
+          </div>
+
+          <!-- AFTER OVERLAY (clip-path mení sa pri ťahaní) -->
+          <div data-ba-after style="position: absolute; inset: 0; padding: 32px; z-index: 3; clip-path: inset(0 0 0 35%); pointer-events: none; display: flex; flex-direction: column; min-height: 416px;">
+            <!-- Header (AFTER state) -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+              <div>
+                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">NOVASHOP · DASHBOARD</div>
+                <div style="font-size: 18px; font-weight: 600; opacity: 0.92; margin-bottom: 14px;">Október 2026</div>
+              </div>
+              <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
+                LIVE
+              </div>
+            </div>
+
+            <!-- Bars AFTER: stúpajúce s gradientom -->
+            <div style="margin-top: auto;">
+              <div style="font-family: var(--mono); font-size: 10px; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between;">
+                <span>WEEKLY REVENUE</span>
+                <span>26 týždňov · trend ↗</span>
+              </div>
+              <div style="display: flex; gap: 3px; align-items: flex-end; height: 110px;">
+                {Array.from({ length: 26 }).map((_, i) => {
+                  // AFTER: stúpa od ~25% až po ~95%
+                  const h = 25 + (i * 70) / 25;
+                  return (
+                    <div style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 3px 3px 1px 1px; height: ${h}%; box-shadow: 0 -4px 12px -4px var(--grad-start);`}></div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <!-- DRAG HANDLE (vertical line + circle uprostred) -->
+          <div data-ba-handle style="position: absolute; top: 0; bottom: 0; left: 35%; width: 2px; background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 12%, rgba(255,255,255,0.6) 88%, transparent 100%); transform: translateX(-50%); z-index: 5; pointer-events: none;">
+            <!-- Glow -->
+            <div aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--grad-start) 60%, transparent), transparent 70%); filter: blur(12px); opacity: 0.7;"></div>
+            <!-- Center handle button -->
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 8px 24px -6px rgba(241,100,52,0.6); cursor: ew-resize;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+                <polyline points="9 18 15 12 9 6" transform="translate(6 0)"></polyline>
+              </svg>
+            </div>
+            <!-- "← potiahni →" pillsa pod handlom -->
+            <div style="position: absolute; top: calc(50% + 36px); left: 50%; transform: translateX(-50%); padding: 5px 12px; background: rgba(255,255,255,0.95); color: rgb(10,10,10); border-radius: 999px; font-family: var(--mono); font-size: 10px; font-weight: 600; white-space: nowrap; pointer-events: none;">
+              ← potiahni →
             </div>
           </div>
         </div>
@@ -1029,97 +1057,7 @@ const manifestItems = [
        INTERACTIVITY pre tieto sekcie
        ============================================ -->
   <script>
-    // === SECTION 5 — Pred a po: timeline + dashboard sync ===
-    (function () {
-      // 8 mesiacov, hodnoty interpolujú medzi PRED (€27 480, ROAS 2.11×, 251 konv, CPA €18.20)
-      // a PO 6M (€87 412, ROAS 5.42×, 1284 konv, CPA €8.40).
-      const months = ['Marec', 'Apríl', 'Máj', 'Jún', 'Júl', 'August', 'September', 'Október'];
-      const data = [
-        { rev: 27480, roas: 2.11, conv: 251,  cpa: 18.20 }, // PRED
-        { rev: 34939, roas: 2.52, conv: 380,  cpa: 17.00 },
-        { rev: 43200, roas: 3.05, conv: 520,  cpa: 15.40 },
-        { rev: 52800, roas: 3.62, conv: 690,  cpa: 13.80 },
-        { rev: 62500, roas: 4.18, conv: 850,  cpa: 12.20 },
-        { rev: 71800, roas: 4.65, conv: 1010, cpa: 10.80 },
-        { rev: 80100, roas: 5.05, conv: 1160, cpa: 9.50  },
-        { rev: 87412, roas: 5.42, conv: 1284, cpa: 8.40  }, // PO 6M
-      ];
-      const baseline = data[0];
-
-      const fmtEur = (n) => '€' + n.toLocaleString('sk-SK').replace(/\u00A0|\s/g, '\u00A0');
-      const fmtRoas = (n) => n.toFixed(2) + '×';
-      const fmtCpa  = (n) => '€' + n.toFixed(1);
-      const pctDelta = (curr, base) => {
-        const d = ((curr - base) / base) * 100;
-        const sign = d >= 0 ? '+' : '−';
-        return sign + Math.abs(Math.round(d)) + '%';
-      };
-
-      const monthBtns = document.querySelectorAll('[data-ba-month]');
-      const labelEl   = document.querySelector('[data-ba-month-label]');
-
-      const elRev  = document.querySelector('[data-ba-metric="revenue"]');
-      const elRoas = document.querySelector('[data-ba-metric="roas"]');
-      const elConv = document.querySelector('[data-ba-metric="conv"]');
-      const elCpa  = document.querySelector('[data-ba-metric="cpa"]');
-      const dRev   = document.querySelector('[data-ba-delta="revenue"]');
-      const dRoas  = document.querySelector('[data-ba-delta="roas"]');
-      const dConv  = document.querySelector('[data-ba-delta="conv"]');
-      const dCpa   = document.querySelector('[data-ba-delta="cpa"]');
-
-      const dashMonth = document.querySelector('[data-ba-dash-month]');
-      const dashRev   = document.querySelector('[data-ba-dash-revenue]');
-      const dashDelta = document.querySelector('[data-ba-dash-delta]');
-      const dashRoas  = document.querySelector('[data-ba-dash-roas]');
-      const dashConv  = document.querySelector('[data-ba-dash-conv]');
-      const dashCpa   = document.querySelector('[data-ba-dash-cpa]');
-
-      const bars = document.querySelectorAll('[data-ba-bars] .ba-bar');
-
-      function setMonth(idx) {
-        const d = data[idx];
-        monthBtns.forEach((b, i) => b.classList.toggle('active', i <= idx));
-        if (labelEl) labelEl.textContent = `Mesiac ${idx + 1}/8`;
-
-        const cpaDeltaPct = ((d.cpa - baseline.cpa) / baseline.cpa) * 100;
-        const cpaText = (cpaDeltaPct >= 0 ? '+' : '−') + Math.abs(Math.round(cpaDeltaPct)) + '%';
-
-        if (elRev)  elRev.textContent  = fmtEur(d.rev);
-        if (elRoas) elRoas.textContent = fmtRoas(d.roas);
-        if (elConv) elConv.textContent = d.conv.toLocaleString('sk-SK');
-        if (elCpa)  elCpa.textContent  = fmtCpa(d.cpa);
-        if (dRev)   dRev.textContent   = pctDelta(d.rev,  baseline.rev);
-        if (dRoas)  dRoas.textContent  = pctDelta(d.roas, baseline.roas);
-        if (dConv)  dConv.textContent  = pctDelta(d.conv, baseline.conv);
-        if (dCpa)   dCpa.textContent   = cpaText;
-
-        if (dashMonth) dashMonth.textContent = months[idx] + ' 2026';
-        if (dashRev)   dashRev.textContent   = fmtEur(d.rev);
-        if (dashDelta) dashDelta.textContent = pctDelta(d.rev, baseline.rev);
-        if (dashRoas)  dashRoas.textContent  = fmtRoas(d.roas);
-        if (dashConv)  dashConv.textContent  = d.conv.toLocaleString('sk-SK');
-        if (dashCpa)   dashCpa.textContent   = fmtCpa(d.cpa);
-
-        bars.forEach((bar, i) => {
-          const progress = idx / 7;
-          const baseHeight = 30 + (i * 10) / 25;
-          const target = baseHeight + progress * 50;
-          bar.style.height = target + '%';
-        });
-      }
-
-      monthBtns.forEach((btn, i) => btn.addEventListener('click', () => setMonth(i)));
-
-      let i = 1;
-      const interval = setInterval(() => {
-        i++;
-        if (i > 7) { clearInterval(interval); return; }
-        setMonth(i);
-      }, 2000);
-      monthBtns.forEach((btn) =>
-        btn.addEventListener('click', () => clearInterval(interval), { once: true })
-      );
-    })();
+    // === SECTION 5 — Pred a po (BEFORE/AFTER slider) je v /js/adlify-app.js ===
 
     // === SECTION 7 — Services accordion ===
     (function () {

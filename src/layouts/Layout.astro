@@ -358,6 +358,10 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
     </footer>
 
     <!-- ============ INTERACTIVITY ============ -->
+    <!-- Externý JS modul: cursor blob, word rotator, hero chart, counters,
+         contact drawer, BEFORE/AFTER slider. Defer = beží po HTML parsingu. -->
+    <script src="/js/adlify-app.js" defer></script>
+
     <script>
       // === Scroll progress bar ===
       const sp = document.getElementById('scroll-progress');
