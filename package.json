@@ -1,0 +1,22 @@
+{
+  "name": "adlify-web",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adlify marketing website — Astro static site with Supabase content",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.1.1",
+    "@supabase/supabase-js": "^2.45.4",
+    "@astrojs/sitemap": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2"
+  }
+}
