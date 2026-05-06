@@ -636,14 +636,391 @@ const manifestItems = [
 
 
   <!-- ============================================
-       PLACEHOLDER — sekcie 9–12 prídu v ďalšej dávke
+       SECTION 9 — CALCULATOR
        ============================================ -->
-  <section style="padding: 80px 0; text-align: center; background: var(--bg);">
+  <section class="section">
     <div class="container">
-      <div class="eyebrow" style="margin-bottom: 12px;">[ COMING NEXT ]</div>
-      <p class="lead" style="max-width: 50ch; margin: 0 auto;">
-        Sekcie 9–12 (Calculator, Cases, Voices, Contact) doplníme v ďalšej dávke.
-      </p>
+      <!-- Section head -->
+      <div class="sec-head">
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+            <span class="eyebrow">[ 04 — CALCULATOR ]</span>
+            <span style="flex: 1; height: 1px; background: var(--line);"></span>
+          </div>
+          <h2 class="h1" style="max-width: 14ch;">Koľko môžete získať?</h2>
+        </div>
+        <p class="lead">
+          Rýchly odhad na základe reálnych dát našich klientov. Nie záruka — odrazový mostík.
+        </p>
+      </div>
+
+      <div class="calc">
+        <!-- LEFT: inputs (3 slidery) -->
+        <div class="calc-in">
+          <div class="calc-row">
+            <div class="calc-row-head">
+              <label>Mesačný budget na reklamu</label>
+              <span class="val" data-calc-budget-val>€2&nbsp;000</span>
+            </div>
+            <input type="range" class="calc-range" id="calc-budget" min="500" max="20000" step="100" value="2000" />
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-row-head">
+              <label>Priemerná hodnota objednávky</label>
+              <span class="val" data-calc-aov-val>€65</span>
+            </div>
+            <input type="range" class="calc-range" id="calc-aov" min="20" max="500" step="5" value="65" />
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-row-head">
+              <label>Koľko návštevníkov u vás kupuje</label>
+              <span class="val" data-calc-cr-val>1.5%</span>
+            </div>
+            <input type="range" class="calc-range" id="calc-cr" min="0.5" max="5" step="0.1" value="1.5" />
+          </div>
+
+          <p style="font-size: 11px; color: var(--muted); margin-top: 24px; font-family: var(--mono);">
+            Odhad podľa mediánu 48 našich klientov. Predpokladáme bežnú cenu za klik €0,55. Skutočné výsledky závisia od odvetvia.
+          </p>
+        </div>
+
+        <!-- RIGHT: outputs -->
+        <div class="calc-out">
+          <div class="eyebrow" style="margin-bottom: 12px;">Odhadované mesačné tržby</div>
+          <div class="grad num" data-calc-revenue style="font-size: clamp(52px, 7vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 1;">
+            €9&nbsp;400
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; margin-bottom: 32px;">
+            <div>
+              <div class="eyebrow" style="margin-bottom: 4px;">Potenciálny nárast</div>
+              <div class="num" data-calc-uplift style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">+88%</div>
+            </div>
+            <div>
+              <div class="eyebrow" style="margin-bottom: 4px;">Objednávok / mesiac</div>
+              <div class="num" data-calc-orders style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">145</div>
+            </div>
+          </div>
+
+          <a href="/kontakt" class="btn btn-ink">
+            Chcem presný plán
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       SECTION 10 — CASES (3 karty)
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft);">
+    <div class="container">
+      <!-- Section head -->
+      <div class="sec-head">
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+            <span class="eyebrow">[ 05 — CASES ]</span>
+            <span style="flex: 1; height: 1px; background: var(--line);"></span>
+          </div>
+          <h2 class="h1" style="max-width: 14ch;">Prípadové štúdie</h2>
+        </div>
+        <div>
+          <p class="lead" style="margin-bottom: 20px;">Čísla hovoria viac ako slová.</p>
+          <a href="/pripadove-studie" class="btn btn-sm btn-outline">
+            Všetky case studies
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="cases-grid">
+        {[
+          {
+            tag: 'E-COMMERCE · ŠPERKY',
+            name: 'Zlatka.sk',
+            gradient: 'linear-gradient(135deg, rgb(241, 100, 52), rgb(232, 93, 156))',
+            metrics: [
+              { label: 'Tržby YoY', value: '+284%', highlight: true },
+              { label: 'ROAS',      value: '6.2×',  highlight: false },
+            ],
+            href: '/pripadove-studie/zlatka',
+          },
+          {
+            tag: 'DTC · HOBBY',
+            name: 'Bonsai Lab',
+            gradient: 'linear-gradient(135deg, rgb(10, 10, 10), rgb(241, 100, 52))',
+            metrics: [
+              { label: 'CPA',  value: '−42%', highlight: true },
+              { label: 'ROAS', value: '3.8×', highlight: false },
+            ],
+            href: '/pripadove-studie/bonsai-lab',
+          },
+          {
+            tag: 'LOCAL · B2C',
+            name: 'Krajčírstvo',
+            gradient: 'linear-gradient(135deg, rgb(232, 93, 156), rgb(244, 127, 63))',
+            metrics: [
+              { label: 'Leads',     value: '+156%', highlight: true },
+              { label: 'Cena lead', value: '€14',   highlight: false },
+            ],
+            href: '/pripadove-studie/krajcirstvo',
+          },
+        ].map((c) => (
+          <a href={c.href} class="case-card">
+            <div class="case-cover" style={`background: ${c.gradient};`}>
+              <div class="case-cover-mesh"></div>
+              <div style="position: absolute; top: 24px; left: 24px; color: white;">
+                <div style="font-size: 11px; font-family: var(--mono); letter-spacing: 0.03em; opacity: 0.85; margin-bottom: 4px;">{c.tag}</div>
+                <div style="font-size: 32px; font-weight: 700; letter-spacing: -0.03em;">{c.name}</div>
+              </div>
+              <div class="case-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M7 7h10v10"></path>
+                </svg>
+              </div>
+            </div>
+            <div style="padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              {c.metrics.map((m) => (
+                <div>
+                  <div class="eyebrow" style="font-size: 10px; margin-bottom: 6px;">{m.label}</div>
+                  <div class={`num ${m.highlight ? 'grad' : ''}`} style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">
+                    {m.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       SECTION 11 — VOICES (testimonials)
+       ============================================ -->
+  <section class="section">
+    <div class="container">
+      {(() => {
+        const voices = [
+          {
+            quote: 'Rok sme strieľali naslepo. Teraz vieme, ktoré kampane zarábajú a ktoré sú peniaze do koša. Pondelkové reporty sú stručné, ale presne to, čo potrebujem.',
+            initials: 'LK',
+            name: 'Lucia Kováčová',
+            title: 'Majiteľka, Zlatka.sk',
+          },
+          {
+            quote: 'Nastavenie merania a pokročilého merania nám ušetril mesiace hádania. Reporty dostávam každý pondelok ráno, jasné a stručné.',
+            initials: 'PN',
+            name: 'Peter Nový',
+            title: 'CMO, Bonsai Lab',
+          },
+          {
+            quote: 'Neprezentujú nám slidy a teóriu. Otvoríme spolu Google Ads a vidím, čo robia a prečo. Za pol roka sa nám zdvojnásobil obrat z reklamy.',
+            initials: 'MD',
+            name: 'Martin Daniš',
+            title: 'CEO, NovaShop',
+          },
+          {
+            quote: 'Najmä oceňujem to, že nám hovoria aj keď niečo nefunguje. Predtým sme dostávali len pozitívne reporty — a žiadne výsledky.',
+            initials: 'EH',
+            name: 'Eva Horváthová',
+            title: 'Marketing, Krajčírstvo',
+          },
+        ];
+
+        return (
+          <div data-voices-root>
+            <!-- Eyebrow + nav arrows -->
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
+              <span class="eyebrow">[ 06 — VOICES ]</span>
+              <span style="flex: 1; height: 1px; background: var(--line);"></span>
+              <div style="display: flex; gap: 8px;">
+                <button class="voices-nav-btn" data-voices-prev aria-label="Predchádzajúce">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </button>
+                <button class="voices-nav-btn" data-voices-next aria-label="Ďalšie">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quote (text sa mení) -->
+            <blockquote class="voices-quote" data-voices-quote>
+              <span style="color: var(--muted-2);">"</span><span data-voices-text>{voices[0].quote}</span><span style="color: var(--muted-2);">"</span>
+            </blockquote>
+
+            <!-- Author + dots -->
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div data-voices-avatar style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">
+                  {voices[0].initials}
+                </div>
+                <div>
+                  <div data-voices-name style="font-weight: 600;">{voices[0].name}</div>
+                  <div data-voices-title style="font-size: 13px; color: var(--muted);">{voices[0].title}</div>
+                </div>
+              </div>
+              <div class="voices-dots" data-voices-dots>
+                {voices.map((_, i) => (
+                  <button class={`voices-dot ${i === 0 ? 'active' : ''}`} data-voices-dot={i} aria-label={`Testimonial ${i + 1}`}></button>
+                ))}
+              </div>
+            </div>
+
+            <!-- JSON dataset pre JS -->
+            <script type="application/json" data-voices-data set:html={JSON.stringify(voices)}></script>
+          </div>
+        );
+      })()}
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       SECTION 12 — CONTACT (čierna sekcia)
+       ============================================ -->
+  <section class="contact-section" id="kontakt">
+    <!-- Animated orbs + grid pozadie -->
+    <div aria-hidden="true" class="contact-orb-a"></div>
+    <div aria-hidden="true" class="contact-orb-b"></div>
+    <div aria-hidden="true" class="contact-grid-bg"></div>
+
+    <div class="container" style="position: relative;">
+      <!-- Eyebrow -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
+        <span style="font-family: var(--mono); font-size: 12px; opacity: 0.5; letter-spacing: 0.05em;">[ 07 — CONTACT ]</span>
+        <span style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.12);"></span>
+        <span class="pill" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75);">
+          <span class="dot"></span>
+          <span>Priemerná odpoveď · 4 hod</span>
+        </span>
+      </div>
+
+      <!-- Headline -->
+      <div style="max-width: 1000px; margin-bottom: 64px;">
+        <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
+          <span style="display: block;">Poďme si dohodnúť</span>
+          <span style="display: inline-block; position: relative;">
+            <span class="grad" style="display: inline-block;">audit.</span>
+            <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
+          </span>
+        </h2>
+        <p style="font-size: clamp(17px, 1.6vw, 21px); opacity: 0.65; max-width: 55ch; margin-top: 32px; line-height: 1.5;">
+          30 minút, bez záväzku. Prejdeme vaše účty, meranie a ukážeme, kde utekajú peniaze.
+        </p>
+      </div>
+
+      <!-- Split: hlavné CTA vľavo + 4 ci-chan boxy vpravo -->
+      <div class="contact-split">
+        <!-- Hlavné CTA -->
+        <a href="/kontakt" class="contact-cta">
+          <div aria-hidden="true" class="contact-cta-orb"></div>
+          <div style="position: relative;">
+            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">[ Hlavné CTA ]</div>
+            <div style="font-size: clamp(26px, 3vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 24px; max-width: 16ch;">
+              Otvoriť formulár<br>a napísať nám za 60 sekúnd
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 32px;">
+              <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: 0.7;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: rgb(34, 197, 94); box-shadow: 0 0 12px rgb(34, 197, 94);"></span>
+                <span>
+                  <span class="num" style="font-weight: 600; color: var(--bg);">1</span> voľná konzultácia tento týždeň
+                </span>
+              </div>
+              <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M7 7h10v10"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 4 ci-chan kontaktné boxy -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <a href="mailto:hello@adlify.eu" class="ci-chan">
+            <div class="ci-chan-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3 7 9 6 9-6"></path>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">E-mail</div>
+              <div style="font-weight: 500; font-size: 15px;">hello@adlify.eu</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
+              <path d="M7 17 17 7"></path>
+              <path d="M7 7h10v10"></path>
+            </svg>
+          </a>
+
+          <a href="tel:+421900000000" class="ci-chan">
+            <div class="ci-chan-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 20 20 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A20 20 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12 12 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12 12 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"></path>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Telefón</div>
+              <div style="font-weight: 500; font-size: 15px;">+421 900 000 000</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
+              <path d="M7 17 17 7"></path>
+              <path d="M7 7h10v10"></path>
+            </svg>
+          </a>
+
+          <a href="/kontakt" class="ci-chan">
+            <div class="ci-chan-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                <path d="M16 2v4"></path>
+                <path d="M8 2v4"></path>
+                <path d="M3 10h18"></path>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Rezervovať</div>
+              <div style="font-weight: 500; font-size: 15px;">30-min discovery call</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
+              <path d="M7 17 17 7"></path>
+              <path d="M7 7h10v10"></path>
+            </svg>
+          </a>
+
+          <div class="ci-chan" style="cursor: default;">
+            <div class="ci-chan-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Kancelária</div>
+              <div style="font-weight: 500; font-size: 15px;">Štúrova 12, Bratislava</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -704,7 +1081,6 @@ const manifestItems = [
         monthBtns.forEach((b, i) => b.classList.toggle('active', i <= idx));
         if (labelEl) labelEl.textContent = `Mesiac ${idx + 1}/8`;
 
-        // CPA klesá → zobrazujeme ako "−X%"
         const cpaDeltaPct = ((d.cpa - baseline.cpa) / baseline.cpa) * 100;
         const cpaText = (cpaDeltaPct >= 0 ? '+' : '−') + Math.abs(Math.round(cpaDeltaPct)) + '%';
 
@@ -724,7 +1100,6 @@ const manifestItems = [
         if (dashConv)  dashConv.textContent  = d.conv.toLocaleString('sk-SK');
         if (dashCpa)   dashCpa.textContent   = fmtCpa(d.cpa);
 
-        // Bars rastú s mesiacom
         bars.forEach((bar, i) => {
           const progress = idx / 7;
           const baseHeight = 30 + (i * 10) / 25;
@@ -735,7 +1110,6 @@ const manifestItems = [
 
       monthBtns.forEach((btn, i) => btn.addEventListener('click', () => setMonth(i)));
 
-      // Auto-cycle (stop pri user-clicku)
       let i = 1;
       const interval = setInterval(() => {
         i++;
@@ -758,6 +1132,106 @@ const manifestItems = [
           panes.forEach((p)   => p.classList.toggle('active', p.getAttribute('data-svc-pane') === idx));
         });
       });
+    })();
+
+    // === SECTION 9 — Calculator ===
+    (function () {
+      const sBudget = document.getElementById('calc-budget');
+      const sAov    = document.getElementById('calc-aov');
+      const sCr     = document.getElementById('calc-cr');
+      if (!sBudget || !sAov || !sCr) return;
+
+      const vBudget = document.querySelector('[data-calc-budget-val]');
+      const vAov    = document.querySelector('[data-calc-aov-val]');
+      const vCr     = document.querySelector('[data-calc-cr-val]');
+      const oRev    = document.querySelector('[data-calc-revenue]');
+      const oUplift = document.querySelector('[data-calc-uplift]');
+      const oOrders = document.querySelector('[data-calc-orders]');
+
+      const CPC = 0.55; // priemerná cena za klik
+      const ORG_BASELINE = 5000; // odhad organického baseline pre uplift %
+
+      const fmtEur = (n) => '€' + Math.round(n).toLocaleString('sk-SK').replace(/\s/g, '\u00A0');
+
+      function paintTrack(el) {
+        const min = parseFloat(el.min);
+        const max = parseFloat(el.max);
+        const val = parseFloat(el.value);
+        const pct = ((val - min) / (max - min)) * 100;
+        el.style.background = `linear-gradient(90deg, var(--grad-start) 0%, var(--grad-end) ${pct}%, var(--bg-mid) ${pct}%)`;
+      }
+
+      function recalc() {
+        const budget = parseFloat(sBudget.value);
+        const aov    = parseFloat(sAov.value);
+        const crPct  = parseFloat(sCr.value);
+        const cr     = crPct / 100;
+
+        // Vzorec: kliky = budget / CPC, objednávky = kliky × CR, tržby = obj × AOV
+        const clicks  = budget / CPC;
+        const orders  = clicks * cr;
+        const revenue = orders * aov;
+        const uplift  = (revenue / ORG_BASELINE - 1) * 100;
+
+        if (vBudget) vBudget.textContent = fmtEur(budget);
+        if (vAov)    vAov.textContent    = fmtEur(aov);
+        if (vCr)     vCr.textContent     = crPct.toFixed(1) + '%';
+        if (oRev)    oRev.textContent    = fmtEur(revenue);
+        if (oUplift) oUplift.textContent = (uplift >= 0 ? '+' : '') + Math.round(uplift) + '%';
+        if (oOrders) oOrders.textContent = Math.round(orders).toLocaleString('sk-SK');
+
+        paintTrack(sBudget);
+        paintTrack(sAov);
+        paintTrack(sCr);
+      }
+
+      [sBudget, sAov, sCr].forEach((el) => el.addEventListener('input', recalc));
+      recalc();
+    })();
+
+    // === SECTION 11 — Voices carousel ===
+    (function () {
+      const root = document.querySelector('[data-voices-root]');
+      if (!root) return;
+
+      const dataEl = root.querySelector('[data-voices-data]');
+      let voices = [];
+      try { voices = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+      const txt    = root.querySelector('[data-voices-text]');
+      const quote  = root.querySelector('[data-voices-quote]');
+      const avatar = root.querySelector('[data-voices-avatar]');
+      const name   = root.querySelector('[data-voices-name]');
+      const title  = root.querySelector('[data-voices-title]');
+      const dots   = root.querySelectorAll('[data-voices-dot]');
+      const prev   = root.querySelector('[data-voices-prev]');
+      const next   = root.querySelector('[data-voices-next]');
+
+      let idx = 0;
+
+      function render(newIdx) {
+        if (!voices[newIdx]) return;
+        idx = newIdx;
+        if (quote) quote.classList.add('fading');
+        setTimeout(() => {
+          if (txt)    txt.textContent    = voices[idx].quote;
+          if (avatar) avatar.textContent = voices[idx].initials;
+          if (name)   name.textContent   = voices[idx].name;
+          if (title)  title.textContent  = voices[idx].title;
+          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+          if (quote) quote.classList.remove('fading');
+        }, 200);
+      }
+
+      dots.forEach((d, i) => d.addEventListener('click', () => render(i)));
+      prev?.addEventListener('click', () => render((idx - 1 + voices.length) % voices.length));
+      next?.addEventListener('click', () => render((idx + 1) % voices.length));
+
+      // Auto-rotate každých 6 sekúnd, stop pri prvom user-action
+      const auto = setInterval(() => render((idx + 1) % voices.length), 6000);
+      [prev, next, ...dots].forEach((el) =>
+        el?.addEventListener('click', () => clearInterval(auto), { once: true })
+      );
     })();
   </script>
 
