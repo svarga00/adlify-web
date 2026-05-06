@@ -1,0 +1,50 @@
+---
+/**
+ * PageHero — používa sa na vrchole každej non-homepage stránky.
+ *
+ * Vyzerá ako: [ 002 ]SERVICES → "Čo pre vás vieme zariadiť" → lead text
+ *
+ * Props:
+ *  - num: string                — číslo stránky napr. "002"
+ *  - kind: string               — kategória v EN, napr. "SERVICES"
+ *  - title: string              — hlavný nadpis
+ *  - titleAccent?: string       — gradientová časť nadpisu (voliteľné)
+ *  - lead: string               — popis pod nadpisom
+ *  - extras?: any (slot)        — dodatočný obsah (napr. benefit chips na cenníku)
+ */
+
+interface Props {
+  num: string;
+  kind: string;
+  title: string;
+  titleAccent?: string;
+  lead: string;
+}
+
+const { num, kind, title, titleAccent, lead } = Astro.props;
+---
+
+<section class="section" style="padding-top: clamp(60px, 7vw, 100px); padding-bottom: clamp(60px, 7vw, 100px);">
+  <div class="container">
+
+    <!-- Eyebrow s číslom + kind -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
+      <span class="eyebrow">[ {num} ]</span>
+      <span style="font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; color: var(--ink);">{kind}</span>
+      <span style="flex: 1; height: 1px; background: var(--line);"></span>
+    </div>
+
+    <!-- Hlavný nadpis -->
+    <h1 class="display" style="font-size: clamp(48px, 8vw, 128px); line-height: 0.95; letter-spacing: -0.045em; max-width: 16ch; margin-bottom: 32px;">
+      {title}{titleAccent && (<><br /><span class="grad">{titleAccent}</span></>)}
+    </h1>
+
+    <!-- Lead text -->
+    <p class="lead" style="font-size: clamp(18px, 1.6vw, 22px); max-width: 60ch; color: var(--muted);">
+      {lead}
+    </p>
+
+    <!-- Voliteľný extra obsah (benefit chips, atď.) -->
+    <slot />
+  </div>
+</section>

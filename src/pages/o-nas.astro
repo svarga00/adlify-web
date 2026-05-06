@@ -1,0 +1,99 @@
+---
+/**
+ * /o-nas — O nás
+ *
+ * Sekcie:
+ *  1. PageHero
+ *  2. 4 hodnoty (Ako premýšľame: Dáta nad dojmy, Transparentnosť, Rýchlosť, Partnerstvo)
+ *  3. ContactSection
+ */
+
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const values = [
+  {
+    title: 'Dáta nad dojmy',
+    desc:  'Rozhodujeme podľa čísel, nie pocitov. Každá hypotéza má metriku.',
+    icon:  '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
+  },
+  {
+    title: 'Transparentnosť',
+    desc:  'Vidíte každé euro. Žiadne skryté marže, žiadne províziové hry.',
+    icon:  '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
+  },
+  {
+    title: 'Rýchlosť',
+    desc:  'Prvá kampaň do 14 dní. Reporty každý týždeň.',
+    icon:  '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+  },
+  {
+    title: 'Partnerstvo',
+    desc:  'Nie sme dodávateľ — sme súčasťou vášho tímu.',
+    icon:  '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+  },
+];
+---
+
+<Layout
+  title="O nás — Adlify"
+  description="Sme malý tím s veľkou obsesiou pre čísla. Adlify sme založili v 2021, pretože sme mali dosť agentúr, ktoré robia všetko pre všetkých."
+  lang="sk"
+  pathname="/o-nas"
+>
+
+  <PageHero
+    num="005"
+    kind="ABOUT"
+    title="Sme malý tím s veľkou"
+    titleAccent="obsesiou pre čísla."
+    lead="Založili sme Adlify v roku 2021, pretože sme mali dosť agentúr, ktoré robia všetko pre všetkých. Robíme výkonnostný marketing — a robíme ho dobre."
+  />
+
+
+  <!-- ============================================
+       4 HODNOTY — "Ako premýšľame"
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 56px;">
+        <span class="eyebrow">Ako premýšľame</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+
+      <div class="values-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+        {values.map((v, i) => (
+          <article class="rv" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
+            <!-- Mini gradient orb v rohu -->
+            <div aria-hidden="true" style="position: absolute; top: -30px; right: -30px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--grad-start) 16%, transparent), transparent 70%); opacity: 0.5; pointer-events: none;"></div>
+
+            <div style="position: relative;">
+              <!-- Ikonka -->
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={v.icon} aria-hidden="true"></svg>
+              </div>
+
+              <div class="eyebrow" style="margin-bottom: 12px;">{String(i + 1).padStart(2, '0')}</div>
+              <h3 class="h3" style="margin-bottom: 12px;">{v.title}</h3>
+              <p class="body" style="font-size: 14px;">{v.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 1024px) {
+        .values-grid { grid-template-columns: 1fr 1fr !important; }
+      }
+      @media (max-width: 560px) {
+        .values-grid { grid-template-columns: 1fr !important; }
+      }
+    </style>
+  </section>
+
+
+  <ContactSection accent="stratégiu" />
+
+</Layout>

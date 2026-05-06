@@ -1,0 +1,62 @@
+---
+/**
+ * ProcessGrid — 4-stĺpcová mriežka so 4 krokmi.
+ *
+ * Props:
+ *  - eyebrow?: string  (default "[ 03 — PROCESS ]")
+ *  - heading?: string  (default "Ako s nami spolupracujete")
+ *  - lead?: string
+ *  - background?: 'soft' | 'default'  — pozadie sekcie
+ */
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  lead?: string;
+  background?: 'soft' | 'default';
+}
+
+const {
+  eyebrow = '[ 03 — PROCESS ]',
+  heading = 'Ako s nami spolupracujete',
+  lead    = 'Transparentný proces bez skrytých krokov. Viete, čo sa deje, každý týždeň.',
+  background = 'soft',
+} = Astro.props;
+
+const steps = [
+  { title: 'Audit a stratégia', desc: 'Prejdeme si váš biznis, čísla a konkurenciu. Dostanete plán s jasnými cieľmi.' },
+  { title: 'Setup a spustenie', desc: 'Nastavíme meranie, kampane a kreatívy. Do 14 dní beží prvá kampaň.' },
+  { title: 'Optimalizácia',     desc: 'Týždenné reporty, A/B testy, škálovanie toho, čo funguje.' },
+  { title: 'Rast',               desc: 'Mesačné review, nové kanály, scaling budgetu podľa reálneho ROI.' },
+];
+
+const bgStyle = background === 'soft' ? 'background: var(--bg-soft);' : '';
+---
+
+<section class="section" style={bgStyle}>
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <span class="eyebrow">{eyebrow}</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <h2 class="h1" style="max-width: 14ch;">{heading}</h2>
+      </div>
+      <p class="lead">{lead}</p>
+    </div>
+
+    <div class="proc-grid">
+      {steps.map((step, i) => (
+        <div class="rv proc-item">
+          <div class="proc-meta">
+            <span>STEP / {String(i + 1).padStart(2, '0')}</span>
+            <span>{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h3 class="h3" style="margin-bottom: 10px;">{step.title}</h3>
+          <p class="body" style="font-size: 14px;">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

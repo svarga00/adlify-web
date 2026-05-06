@@ -1058,19 +1058,7 @@ const manifestItems = [
        ============================================ -->
   <script>
     // === SECTION 5 — Pred a po (BEFORE/AFTER slider) je v /js/adlify-app.js ===
-
-    // === SECTION 7 — Services accordion ===
-    (function () {
-      const toggles = document.querySelectorAll('[data-svc-toggle]');
-      const panes   = document.querySelectorAll('[data-svc-pane]');
-      toggles.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const idx = btn.getAttribute('data-svc-toggle');
-          toggles.forEach((b) => b.classList.toggle('active', b.getAttribute('data-svc-toggle') === idx));
-          panes.forEach((p)   => p.classList.toggle('active', p.getAttribute('data-svc-pane') === idx));
-        });
-      });
-    })();
+    // === SECTION 7 — Services accordion je v /js/adlify-app.js ===
 
     // === SECTION 9 — Calculator ===
     (function () {

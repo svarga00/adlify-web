@@ -1,0 +1,40 @@
+---
+/**
+ * /sluzby — Služby
+ *
+ * Sekcie:
+ *  1. PageHero
+ *  2. ServicesAccordion
+ *  3. ProcessGrid
+ *  4. ContactSection
+ */
+
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ServicesAccordion from '../components/ServicesAccordion.astro';
+import ProcessGrid from '../components/ProcessGrid.astro';
+import ContactSection from '../components/ContactSection.astro';
+---
+
+<Layout
+  title="Služby — Adlify"
+  description="Google Ads, Meta Ads, SEO, e-mailové kampane, meranie a vstupné stránky. Postaráme sa o všetko, čo vám prinesie zákazníkov."
+  lang="sk"
+  pathname="/sluzby"
+>
+
+  <PageHero
+    num="002"
+    kind="SERVICES"
+    title="Čo pre vás vieme"
+    titleAccent="zariadiť."
+    lead="Postaráme sa o všetko, čo vám prinesie zákazníkov. Vy len sledujete čísla — my dolaďujeme detaily."
+  />
+
+  <ServicesAccordion />
+
+  <ProcessGrid background="soft" />
+
+  <ContactSection accent="audit" />
+
+</Layout>

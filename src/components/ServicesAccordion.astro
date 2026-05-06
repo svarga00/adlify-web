@@ -1,0 +1,169 @@
+---
+/**
+ * ServicesAccordion — 6-položkový accordion so službami.
+ *
+ * Vľavo zoznam, vpravo aktívny detail (na desktope).
+ * Na mobile sa pravá strana skryje.
+ *
+ * JS handler pre klik na .svc-row je v inline <script> v page kde sa použije
+ * (alebo ho môžeme presunúť do adlify-app.js neskôr).
+ *
+ * Props:
+ *  - eyebrow?: string  — text v hranatých zátvorkách (default "[ 02 — SERVICES ]")
+ *  - heading?: string  — h2 text (default "Čo pre vás vieme zariadiť")
+ *  - lead?: string     — popis pri hlavičke
+ */
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  lead?: string;
+}
+
+const {
+  eyebrow = '[ 02 — SERVICES ]',
+  heading = 'Čo pre vás vieme zariadiť',
+  lead    = 'Postaráme sa o všetko, čo vám prinesie zákazníkov. Vy len sledujete čísla — my dolaďujeme detaily.',
+} = Astro.props;
+
+// Zoznam služieb (rovnaký ako v homepage)
+const services = [
+  {
+    title: 'Google Ads',
+    desc: 'Search, Performance Max, Shopping a YouTube. Od nastavenia konverzií po bid stratégie.',
+    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
+    specs: [
+      { label: 'Setup',         value: '10 dní' },
+      { label: 'Prvé výsledky', value: '4 týždne' },
+      { label: 'Reporting',     value: 'Týždenne' },
+      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+    ],
+  },
+  {
+    title: 'Meta Ads',
+    desc: 'Facebook a Instagram reklamy s dôrazom na kreatívy, audience targeting a retargeting.',
+    icon: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
+    specs: [
+      { label: 'Setup',         value: '7 dní' },
+      { label: 'Prvé výsledky', value: '2 týždne' },
+      { label: 'Reporting',     value: 'Týždenne' },
+      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+    ],
+  },
+  {
+    title: 'SEO optimalizácia',
+    desc: 'Audit, technické SEO, content stratégia a link building. Dlhodobý rast organickej návštevnosti.',
+    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
+    specs: [
+      { label: 'Audit',         value: '14 dní' },
+      { label: 'Prvé výsledky', value: '3 mesiace' },
+      { label: 'Reporting',     value: 'Mesačne' },
+      { label: 'Zahrnuté',      value: 'Plán Pro+' },
+    ],
+  },
+  {
+    title: 'E-mailové kampane',
+    desc: 'Newslettery, automation flows a transakčné e-maily. Od dizajnu po dodanie.',
+    icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
+    specs: [
+      { label: 'Setup',     value: '7 dní' },
+      { label: 'Frekvencia',value: '1–4× / mes.' },
+      { label: 'Reporting', value: 'Po každej kampani' },
+      { label: 'Zahrnuté',  value: 'Plán Pro+' },
+    ],
+  },
+  {
+    title: 'Meranie a vyhodnocovanie',
+    desc: 'GA4, Google Tag Manager, server-side tracking, dashboard v Looker Studio. Bez tohto sa nedá optimalizovať.',
+    icon: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
+    specs: [
+      { label: 'Setup',         value: '5–10 dní' },
+      { label: 'Prvé reporty',  value: '2 týždne' },
+      { label: 'Reporting',     value: 'Týždenne' },
+      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+    ],
+  },
+  {
+    title: 'Web a vstupné stránky',
+    desc: 'Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po implementáciu a A/B testy.',
+    icon: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
+    specs: [
+      { label: 'Setup',         value: '14–21 dní' },
+      { label: 'Prvé výsledky', value: '4 týždne' },
+      { label: 'Reporting',     value: 'Týždenne' },
+      { label: 'Zahrnuté',      value: 'Doplnková služba' },
+    ],
+  },
+];
+---
+
+<section class="section">
+  <div class="container">
+    <!-- Section head -->
+    <div class="sec-head">
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <span class="eyebrow">{eyebrow}</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <h2 class="h1" style="max-width: 14ch;">{heading}</h2>
+      </div>
+      <p class="lead">{lead}</p>
+    </div>
+
+    <div class="svc-layout" data-svc-root>
+      <!-- Accordion list -->
+      <div class="svc-list">
+        {services.map((s, i) => (
+          <button
+            class={`svc-row ${i === 0 ? 'active' : ''}`}
+            data-svc-toggle={i}
+            type="button"
+          >
+            <span class="svc-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="svc-title">{s.title}</span>
+            <span class="svc-cta">
+              <span class="svc-cta-text">OTVORIŤ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17 17 7"></path>
+                <path d="M7 7h10v10"></path>
+              </svg>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Detail pane (desktop only) -->
+      <div class="svc-detail">
+        <div class="svc-detail-orb"></div>
+        {services.map((s, i) => (
+          <div class={`svc-detail-pane ${i === 0 ? 'active' : ''}`} data-svc-pane={i} style="position: relative;">
+            <div class="svc-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon}></svg>
+            </div>
+            <div class="eyebrow" style="margin-bottom: 10px;">{String(i + 1).padStart(2, '0')}</div>
+            <h3 class="h2" style="margin-bottom: 20px;">{s.title}</h3>
+            <p class="body" style="font-size: 16px; margin-bottom: 24px; max-width: 50ch;">{s.desc}</p>
+            <a href="/kontakt" class="btn btn-sm btn-ink" style="margin-bottom: 28px;">
+              Zobraziť celý detail
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </a>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px;">
+              {s.specs.map((sp) => (
+                <div>
+                  <div class="eyebrow" style="font-size: 10px; margin-bottom: 4px;">{sp.label}</div>
+                  <div style="font-size: 15px; font-weight: 600;">{sp.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Klik handler pre accordion je v /js/adlify-app.js (initServicesAccordion) -->

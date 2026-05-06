@@ -596,18 +596,39 @@
   }
 
   /* ============================================================
+   * 8) SERVICES ACCORDION — funguje na homepage aj /sluzby
+   *    Klik na .svc-row (data-svc-toggle) prepne aktívny .svc-detail-pane
+   * ============================================================ */
+  function initServicesAccordion() {
+    const toggles = $$('[data-svc-toggle]');
+    if (!toggles.length) return;
+    const panes = $$('[data-svc-pane]');
+
+    toggles.forEach((btn) => {
+      if (btn.dataset.svcWired === '1') return;
+      btn.dataset.svcWired = '1';
+      btn.addEventListener('click', () => {
+        const idx = btn.getAttribute('data-svc-toggle');
+        toggles.forEach((b) => b.classList.toggle('active', b.getAttribute('data-svc-toggle') === idx));
+        panes.forEach((p)   => p.classList.toggle('active', p.getAttribute('data-svc-pane') === idx));
+      });
+    });
+  }
+
+  /* ============================================================
    * INIT — všetky moduly s try/catch wrapperom
    * ============================================================ */
   function init() {
     const safe = (name, fn) => { try { fn(); } catch (e) { console.warn('[adlify-app]', name, e); } };
 
-    safe('cursorBlob',       initCursorBlob);
-    safe('wordRotator',      initWordRotator);
-    safe('heroGrowthChart',  initHeroGrowthChart);
-    safe('counters',         initCounters);
-    safe('contactDrawer',    initContactDrawer);
-    safe('beforeAfter',      initBeforeAfterSlider);
-    safe('rangeSliders',     initRangeSliders);
+    safe('cursorBlob',         initCursorBlob);
+    safe('wordRotator',        initWordRotator);
+    safe('heroGrowthChart',    initHeroGrowthChart);
+    safe('counters',           initCounters);
+    safe('contactDrawer',      initContactDrawer);
+    safe('beforeAfter',        initBeforeAfterSlider);
+    safe('rangeSliders',       initRangeSliders);
+    safe('servicesAccordion',  initServicesAccordion);
   }
 
   if (document.readyState === 'loading') {
