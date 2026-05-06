@@ -1,0 +1,223 @@
+---
+/**
+ * /faq — Časté otázky
+ *
+ * Sekcie:
+ *  1. PageHero
+ *  2. Kategória taby (Spolupráca 5, Cena a fakturácia 5, Výsledky 4, Tracking a dáta 3, Služby 4)
+ *  3. Akordeón otázok pre aktívnu kategóriu
+ *  4. CTA box "Nenašli ste odpoveď?"
+ *  5. ContactSection
+ */
+
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+// 5 kategórií, každá s vlastnými otázkami
+const categories = [
+  {
+    key: 'spolupraca',
+    label: 'Spolupráca',
+    questions: [
+      { q: 'Aká je minimálna doba spolupráce?',
+        a: '3 mesiace. Výkonnostný marketing potrebuje čas na učenie kampaní. Po 3 mesiacoch pokračujeme mesačne s 30-dňovou výpovednou lehotou.' },
+      { q: 'Pracujete s konkurenciou v rovnakom odvetví?',
+        a: 'V malých nikách (napr. lokálni floristi v Bratislave) máme exkluzivitu. Pri väčších kategóriách (e-commerce fashion) máme striktné NDA medzi tímami a oddelené slack kanály.' },
+      { q: 'Komunikujete cez Slack alebo e-mail?',
+        a: 'Oboje. Slack alebo Teams pre rýchle veci, e-mail pre dôležité rozhodnutia. Týždenné reporty chodia automaticky e-mailom.' },
+      { q: 'Vlastníme reklamné účty?',
+        a: 'Áno, všetky účty (Google Ads, Meta, GA4) sú na vašu firmu. My máme prístup ako agentúra. Keď spolupráca skončí, prístupy odoberieme — vy si všetko ponecháte.' },
+      { q: 'Koľko trvá onboarding?',
+        a: '7–10 pracovných dní. Najprv discovery call, potom audit, stratégia, podpis a setup. Prvá kampaň beží do 14 dní od podpisu.' },
+    ],
+  },
+  {
+    key: 'cena',
+    label: 'Cena a fakturácia',
+    questions: [
+      { q: 'Účtujete si províziu z reklamného budgetu?',
+        a: 'Nie. Fixný mesačný paušál. Preferujeme transparentný model — naša odmena nesúvisí s tým, koľko miniete na reklamu. Vďaka tomu vás motivujeme šetriť, nie utrácať.' },
+      { q: 'Sú v cene aj reklamné rozpočty?',
+        a: 'Nie. Mesačný paušál pokrýva našu prácu. Reklamné rozpočty (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
+      { q: 'Koľko musím minimálne minúť na reklamu?',
+        a: 'Neexistuje tvrdý minimálny budget, ale reálne odporúčame aspoň €500–1000/mesiac na jeden kanál. Pod túto sumu kampane nevedia získať dosť dát na efektívne učenie.' },
+      { q: 'Aké sú platobné podmienky?',
+        a: 'Faktúra na začiatku mesiaca, splatnosť 14 dní. Akceptujeme bankový prevod aj kartu. Pri ročnej platbe vopred dostávate 15 % zľavu.' },
+      { q: 'Môžete robiť aj jednorazové projekty?',
+        a: 'Áno — audit účtu (€290), Nastavenie GA + tag manager (€490), Optimalizácia konverzií (€990). Pre kontinuálne riadenie kampaní však dlhodobá spolupráca dáva oveľa väčší zmysel.' },
+    ],
+  },
+  {
+    key: 'vysledky',
+    label: 'Výsledky',
+    questions: [
+      { q: 'Garantujete výsledky?',
+        a: 'Negarantujeme konkrétne čísla — to nikto seriózny nemôže. Garantujeme ale prácu na výsledku, transparentné dáta a otvorenú komunikáciu. Ak vám nevieme priniesť hodnotu, povieme vám to ako prví.' },
+      { q: 'Kedy uvidím prvé výsledky?',
+        a: 'Search kampane (Google Ads) prinášajú prvé konverzie už v prvom týždni. Display a Meta kampane potrebujú 2–4 týždne na učenie. Pokročilé optimalizácie sú merateľné po 2–3 mesiacoch.' },
+      { q: 'Aký ROAS je realistický?',
+        a: 'Závisí od kategórie. E-commerce (jednorazový nákup): 3–5×. Subscription / repeat purchase: 4–8×. Lead gen: meriame skôr CPA. Pri starte vás vždy upozorníme, kde sú benchmarky vašej kategórie.' },
+      { q: 'Čo robíte, keď kampaň nefunguje?',
+        a: 'Najprv hľadáme, či je problém v kampani (bidding, kreatíva, audience) alebo mimo nej (web, ponuka, ceny). Pri dlhšom probléme zvolávame ad-hoc retrospektívu, kde si rovno povieme, čo skúsime ďalej.' },
+    ],
+  },
+  {
+    key: 'tracking',
+    label: 'Tracking a dáta',
+    questions: [
+      { q: 'Riešite GDPR a cookie compliance?',
+        a: 'Áno. Pri onboarde nasadíme cookie consent (Cookiebot alebo Iubenda), nastavíme Google Analytics 4 v EÚ móde, použijeme server-side tracking pre Meta a Google, a všetko zdokumentujeme do GDPR DPA, ktorú s vami podpíšeme.' },
+      { q: 'Čo je server-side tracking?',
+        a: 'Klasický tracking funguje cez prehliadač, ktorý môže byť blokovaný (iOS, ad blockery). Server-side tracking posiela dáta z vášho servera priamo do reklamných platforiem — nezávisle od prehliadača. Výsledok: 20–40 % viac zachytených konverzií.' },
+      { q: 'Komu patria dáta?',
+        a: 'Vám. Všetky účty sú na vašu firmu, dáta sa ukladajú vo vašich Google a Meta účtoch. Naše dashboardy v Looker Studio sú postavené nad vašimi dátami — keď spolupráca skončí, máte ich naďalej.' },
+    ],
+  },
+  {
+    key: 'sluzby',
+    label: 'Služby',
+    questions: [
+      { q: 'Robíte aj SEO?',
+        a: 'Áno, ale pristupujeme k tomu inak ako klasické SEO agentúry. Náš fokus je na technickom SEO (rýchlosť, indexácia, štruktúrované dáta), keyword research orientovaný na komerčný úmysel a kvalitný content. Linkbuilding robíme len cestou cez digital PR alebo guest posty na overených weboch.' },
+      { q: 'Robíte e-mail marketing?',
+        a: 'Áno. Najmä cez Klaviyo (e-commerce) alebo Mailchimp / ActiveCampaign (B2B). Pripravujeme welcome flows, abandoned cart automatizácie, segmentáciu, A/B testy subject lines.' },
+      { q: 'Vyrábate kreatívu (videá, bannery, copy)?',
+        a: 'Áno, in-house designer pripraví prvý balík static a video kreatív (zvyčajne 12 variantov pre Meta). Pre rozsiahlejšie produkcie spolupracujeme s overenými partnermi.' },
+      { q: 'Robíte aj lokalizáciu kampaní (CZ, HU, DE)?',
+        a: 'Áno, vrátane native copy. V tíme máme natívnych Slovákov a Čechov, pre HU a DE spolupracujeme s native špecialistami. Lokalizácia nie je len preklad — adaptujeme aj kreatívu, ponuku a CTA.' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Časté otázky (FAQ) — Adlify"
+  description="Všetko, čo sa pýtajú klienti o spolupráci, cenách, výsledkoch, tracking a službách. Ak nenájdete odpoveď, napíšte nám — odpovieme do 24 hodín."
+  lang="sk"
+  pathname="/faq"
+>
+
+  <PageHero
+    num="007"
+    kind="FAQ"
+    title="Časté"
+    titleAccent="otázky."
+    lead="Všetko, čo sa pýtajú klienti — predtým než sa začneme baviť o cenníku. Ak nenájdete odpoveď, napíšte nám. Odpovedáme do 24 hodín."
+  />
+
+
+  <!-- ============================================
+       KATEGÓRIA TABS + OTÁZKY
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container" style="max-width: 980px;">
+
+      <!-- Taby -->
+      <div class="faq-tabs" style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 40px; padding: 6px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 16px;">
+        {categories.map((cat, i) => (
+          <button
+            class={`faq-tab ${i === 1 ? 'active' : ''}`}
+            data-faq-tab={cat.key}
+            type="button"
+            style={`flex: 1; min-width: 120px; padding: 14px 16px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; background: ${i === 1 ? 'var(--ink)' : 'transparent'}; color: ${i === 1 ? 'var(--bg)' : 'var(--ink)'}; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;`}
+          >
+            <span>{cat.label}</span>
+            <span class="num" style={`font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; background: ${i === 1 ? 'rgba(255,255,255,0.15)' : 'var(--bg)'}; opacity: 0.85;`}>
+              {cat.questions.length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Otázky pre každú kategóriu -->
+      {categories.map((cat, i) => (
+        <div
+          class={`faq-pane ${i === 1 ? 'active' : ''}`}
+          data-faq-pane={cat.key}
+          style={`display: ${i === 1 ? 'block' : 'none'};`}
+        >
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            {cat.questions.map((item, qi) => (
+              <details class="faq-item" style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden;" open={qi === 0}>
+                <summary style="padding: 24px 28px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; list-style: none;">
+                  <span>{item.q}</span>
+                  <svg class="faq-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.25s;" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </summary>
+                <div style="padding: 0 28px 24px; font-size: 15px; line-height: 1.6; color: var(--muted);">
+                  {item.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- CTA box "Nenašli ste odpoveď?" -->
+      <div style="margin-top: 56px; padding: clamp(28px, 4vw, 44px); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 20px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;" class="faq-cta">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 12px;">Nenašli ste odpoveď?</div>
+          <h3 class="h3" style="font-size: clamp(22px, 2.4vw, 30px); margin-bottom: 8px;">
+            Napíšte nám priamo.
+          </h3>
+          <p class="body" style="font-size: 14px; max-width: 50ch; margin-bottom: 8px;">
+            Konkrétne otázky o vašom prípade vždy odpovieme do 24 hodín. Bez predajného tlaku.
+          </p>
+          <a href="mailto:hello@adlify.eu" class="num" style="font-family: var(--mono); font-size: 13px; color: var(--ink); font-weight: 600; text-decoration: underline;">
+            hello@adlify.eu
+          </a>
+        </div>
+        <button class="btn btn-grad" style="white-space: nowrap;">
+          Otvoriť formulár
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <style>
+      .faq-tab:hover:not(.active) { background: var(--bg) !important; }
+      details[open] .faq-chev { transform: rotate(180deg); }
+      details > summary::-webkit-details-marker { display: none; }
+      @media (max-width: 600px) {
+        .faq-cta { grid-template-columns: 1fr !important; }
+      }
+    </style>
+  </section>
+
+
+  <ContactSection accent="audit" />
+
+
+  <!-- Tab switcher -->
+  <script>
+    (function () {
+      const tabs  = document.querySelectorAll<HTMLButtonElement>('[data-faq-tab]');
+      const panes = document.querySelectorAll<HTMLElement>('[data-faq-pane]');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const key = tab.dataset.faqTab;
+          tabs.forEach((t) => {
+            const isActive = t === tab;
+            t.classList.toggle('active', isActive);
+            t.style.background = isActive ? 'var(--ink)' : 'transparent';
+            t.style.color = isActive ? 'var(--bg)' : 'var(--ink)';
+            // Update count badge background
+            const badge = t.querySelector<HTMLElement>('.num');
+            if (badge) badge.style.background = isActive ? 'rgba(255,255,255,0.15)' : 'var(--bg)';
+          });
+          panes.forEach((p) => {
+            const isMatch = p.dataset.faqPane === key;
+            p.style.display = isMatch ? 'block' : 'none';
+            p.classList.toggle('active', isMatch);
+          });
+        });
+      });
+    })();
+  </script>
+
+</Layout>

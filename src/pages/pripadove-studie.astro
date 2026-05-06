@@ -1,0 +1,214 @@
+---
+/**
+ * /pripadove-studie — Case Studies
+ *
+ * Sekcie:
+ *  1. PageHero
+ *  2. Filter chips (kategórie biznisu)
+ *  3. Grid 6 case kariet (3 stĺpce × 2 riadky)
+ *  4. ContactSection
+ */
+
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const cases = [
+  {
+    tag:        'E-COMMERCE · ŠPERKY',
+    name:       'Zlatka.sk',
+    category:   'e-commerce',
+    summary:    'Online predajca šperkov, ktorý zdvojnásobil výnos z reklamy za 6 mesiacov.',
+    metrics: [
+      { label: 'Tržby YoY', value: '+284%', highlight: true },
+      { label: 'ROAS',       value: '6.2×',  highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(241, 100, 52), rgb(232, 93, 156))',
+    href:       '/pripadove-studie/zlatka',
+  },
+  {
+    tag:        'DTC · HOBBY',
+    name:       'Bonsai Lab',
+    category:   'dtc',
+    summary:    'DTC značka starostlivosti o bonsaje, ktorá znížila CPA o takmer polovicu.',
+    metrics: [
+      { label: 'CPA',  value: '−42%', highlight: true },
+      { label: 'ROAS', value: '3.8×', highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(10, 10, 10), rgb(241, 100, 52))',
+    href:       '/pripadove-studie/bonsai-lab',
+  },
+  {
+    tag:        'LOCAL · B2C',
+    name:       'Krajčírstvo',
+    category:   'local',
+    summary:    'Lokálne krajčírstvo v Bratislave so štedrým prílevom nových objednávok.',
+    metrics: [
+      { label: 'Leads',     value: '+156%', highlight: true },
+      { label: 'Cena lead', value: '€14',   highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(232, 93, 156), rgb(244, 127, 63))',
+    href:       '/pripadove-studie/krajcirstvo',
+  },
+  {
+    tag:        'E-COMMERCE · FASHION',
+    name:       'NovaShop',
+    category:   'e-commerce',
+    summary:    'Fashion e-shop, ktorý sa za pol roka prepracoval z €27k na €87k mesačných tržieb.',
+    metrics: [
+      { label: 'Tržby', value: '+198%', highlight: true },
+      { label: 'ROAS',   value: '5.1×',  highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(244, 127, 63), rgb(232, 93, 156))',
+    href:       '/pripadove-studie/novashop',
+  },
+  {
+    tag:        'B2C · EKOLÓGIA',
+    name:       'EkoDom',
+    category:   'b2c',
+    summary:    'Predajca tepelných čerpadiel a ekologických technológií. Lead gen mašinka.',
+    metrics: [
+      { label: 'Leads',     value: '+312%', highlight: true },
+      { label: 'Cena lead', value: '€9',    highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(34, 197, 94), rgb(241, 100, 52))',
+    href:       '/pripadove-studie/ekodom',
+  },
+  {
+    tag:        'SAAS · B2B',
+    name:       'TechPark',
+    category:   'b2b',
+    summary:    'B2B SaaS pre správu coworking priestorov. ROAS dvíhaný cez precízny ICP targeting.',
+    metrics: [
+      { label: 'ROAS', value: '4.4×',  highlight: true },
+      { label: 'CPA',  value: '−31%',  highlight: false },
+    ],
+    gradient:   'linear-gradient(135deg, rgb(10, 10, 10), rgb(232, 93, 156))',
+    href:       '/pripadove-studie/techpark',
+  },
+];
+
+const filters = [
+  { key: 'all',         label: 'Všetky' },
+  { key: 'e-commerce',  label: 'E-commerce' },
+  { key: 'dtc',         label: 'DTC' },
+  { key: 'local',       label: 'Local' },
+  { key: 'b2c',         label: 'B2C' },
+  { key: 'b2b',         label: 'B2B' },
+];
+---
+
+<Layout
+  title="Prípadové štúdie — Adlify"
+  description="6 príbehov rastu. E-commerce, DTC, B2C aj B2B — reálne čísla, reálni klienti. Tržby +284%, ROAS 6.2×, CPA −42%."
+  lang="sk"
+  pathname="/pripadove-studie"
+>
+
+  <PageHero
+    num="003"
+    kind="CASE STUDIES"
+    title="Prípadové"
+    titleAccent="štúdie."
+    lead="Čísla hovoria viac ako slová. Šesť príbehov rastu — od malého krajčírstva po B2B SaaS."
+  />
+
+
+  <!-- ============================================
+       FILTER CHIPS + 6 CASE KARIET
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+
+      <!-- Filtre -->
+      <div class="filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--line);">
+        {filters.map((f, i) => (
+          <button
+            class={`cs-chip ${i === 0 ? 'active' : ''}`}
+            data-cs-filter={f.key}
+            type="button"
+            style={`padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 1px solid var(--line); background: ${i === 0 ? 'var(--ink)' : 'transparent'}; color: ${i === 0 ? 'var(--bg)' : 'var(--ink)'}; cursor: pointer; transition: all 0.2s;`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Grid 6 case kariet -->
+      <div class="cases-grid">
+        {cases.map((c) => (
+          <a
+            href={c.href}
+            class="case-card cs-item"
+            data-cs-category={c.category}
+            style="display: block; color: inherit;"
+          >
+            <!-- Cover s gradientom -->
+            <div class="case-cover" style={`background: ${c.gradient};`}>
+              <div class="case-cover-mesh"></div>
+              <div style="position: absolute; top: 24px; left: 24px; color: white;">
+                <div style="font-size: 11px; font-family: var(--mono); letter-spacing: 0.03em; opacity: 0.85; margin-bottom: 6px;">{c.tag}</div>
+                <div style="font-size: 32px; font-weight: 700; letter-spacing: -0.03em;">{c.name}</div>
+              </div>
+              <div class="case-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M7 7h10v10"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div style="padding: 24px;">
+              <p class="body" style="font-size: 14px; line-height: 1.55; margin-bottom: 20px; min-height: 3em;">
+                {c.summary}
+              </p>
+
+              <!-- Metriky -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 20px; border-top: 1px solid var(--line);">
+                {c.metrics.map((m) => (
+                  <div>
+                    <div class="eyebrow" style="font-size: 10px; margin-bottom: 6px;">{m.label}</div>
+                    <div class={`num ${m.highlight ? 'grad' : ''}`} style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">
+                      {m.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      .cs-chip:hover:not(.active) { background: var(--bg-soft); }
+      .cs-chip.active { background: var(--ink) !important; color: var(--bg) !important; border-color: var(--ink) !important; }
+      .cs-item.hidden { display: none; }
+    </style>
+  </section>
+
+
+  <ContactSection accent="stratégiu" />
+
+
+  <!-- Filter handler -->
+  <script>
+    (function () {
+      const chips = document.querySelectorAll<HTMLButtonElement>('.cs-chip');
+      const items = document.querySelectorAll<HTMLElement>('.cs-item');
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => c.classList.remove('active'));
+          chip.classList.add('active');
+          const filter = chip.dataset.csFilter;
+          items.forEach((item) => {
+            const isMatch = filter === 'all' || item.dataset.csCategory === filter;
+            item.classList.toggle('hidden', !isMatch);
+          });
+        });
+      });
+    })();
+  </script>
+
+</Layout>
