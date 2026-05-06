@@ -1,0 +1,24 @@
+---
+import CaseDetail from '../../../components/pages/CaseDetail.astro';
+import { fetchAllCases } from '../../../lib/content';
+import type { Lang } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const langs: Lang[] = ['cs', 'hu', 'en', 'de'];
+  const paths = [];
+  for (const lang of langs) {
+    const cases = await fetchAllCases(lang);
+    for (const c of cases) {
+      paths.push({
+        params: { lang, slug: c.slug },
+        props:  { caseStudy: c },
+      });
+    }
+  }
+  return paths;
+}
+
+const { caseStudy } = Astro.props;
+const { lang } = Astro.params as { lang: Lang };
+---
+<CaseDetail caseStudy={caseStudy} lang={lang} />

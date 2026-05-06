@@ -1,0 +1,48 @@
+---
+/**
+ * /sluzby — Služby listing
+ *
+ * REFACTOROVANÉ: dáta zo Supabase (web_services).
+ * Linky vedú na detail /sluzby/[slug].
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import ServicesAccordion from '../ServicesAccordion.astro';
+import ProcessGrid from '../ProcessGrid.astro';
+import ContactSection from '../ContactSection.astro';
+import { fetchAllServices } from '../../lib/content';
+import { pageMeta } from '../../lib/pageMeta';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+const meta = pageMeta.services[lang];
+
+const services = await fetchAllServices(lang);
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  pathname="/sluzby"
+>
+
+  <PageHero
+    num={meta.hero!.num}
+    kind={meta.hero!.kind}
+    title={meta.hero!.title}
+    titleAccent={meta.hero!.titleAccent}
+    lead={meta.hero!.lead}
+  />
+
+  <ServicesAccordion services={services} linkToDetail={true} />
+
+  <ProcessGrid background="soft" />
+
+  <ContactSection accent="audit" />
+
+</Layout>

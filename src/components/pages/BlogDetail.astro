@@ -1,0 +1,217 @@
+---
+/**
+ * BlogDetail body — prijíma `post` a `lang` ako props.
+ * Page wrapper zaisťuje getStaticPaths.
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ContactSection from '../ContactSection.astro';
+import { type BlogPost } from '../../lib/content';
+import { buildUrl, type Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
+import { marked } from 'marked';
+
+interface Props {
+  post: BlogPost;
+  lang?: Lang;
+}
+
+const { post, lang = 'sk' } = Astro.props;
+
+// Render markdown na HTML
+const bodyHtml = marked.parse(post.body, { async: false }) as string;
+
+// Format dátumu
+const dateLocale = ({ sk: 'sk-SK', cs: 'cs-CZ', hu: 'hu-HU', en: 'en-US', de: 'de-DE' } as const)[lang];
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString(dateLocale, { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+// Súvisiace články — zatiaľ neimplementované
+---
+
+<Layout
+  title={`${post.title} — ${t('nav.blog', lang)} | Adlify`}
+  description={post.excerpt}
+  lang={lang}
+  pathname={`/blog/${post.slug}`}
+>
+
+  <!-- ============================================
+       HERO — gradient cover + meta
+       ============================================ -->
+  <section style="padding: clamp(60px, 7vw, 100px) 0 clamp(40px, 5vw, 60px); position: relative;">
+    <div class="container" style="max-width: 880px;">
+
+      <!-- Breadcrumb -->
+      <a href={buildUrl(lang, '/blog')} style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; font-family: var(--mono); font-size: 11px; color: var(--ink); margin-bottom: 32px; text-decoration: none; transition: background 0.2s;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        Späť na blog
+      </a>
+
+      <!-- Meta riadok -->
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; font-family: var(--mono); font-size: 12px; color: var(--muted);">
+        <span style="padding: 4px 10px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; border-radius: 999px; font-weight: 700; letter-spacing: 0.05em;">
+          {post.category.toUpperCase()}
+        </span>
+        <span>·</span>
+        <span>{formatDate(post.published_at)}</span>
+        <span>·</span>
+        <span>{post.read_time_min} min čítania</span>
+      </div>
+
+      <!-- Title -->
+      <h1 style="font-size: clamp(36px, 5.5vw, 64px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; margin-bottom: 24px;">
+        {post.title}
+      </h1>
+
+      <!-- Excerpt -->
+      <p style="font-size: clamp(17px, 1.7vw, 21px); color: var(--muted); line-height: 1.5; max-width: 60ch; margin-bottom: 40px;">
+        {post.excerpt}
+      </p>
+
+      <!-- Author -->
+      <div style="display: flex; align-items: center; gap: 14px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+          {post.author_initials}
+        </div>
+        <div>
+          <div style="font-size: 15px; font-weight: 600;">{post.author_name}</div>
+          {post.author_role && (
+            <div style="font-size: 13px; color: var(--muted);">{post.author_role}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       COVER (gradient banner)
+       ============================================ -->
+  <section style="padding-bottom: clamp(48px, 6vw, 80px);">
+    <div class="container" style="max-width: 980px;">
+      <div style={`aspect-ratio: 16 / 7; background: ${post.cover_gradient}; border-radius: 24px; position: relative; overflow: hidden;`}>
+        <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), transparent 50%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.15), transparent 55%); pointer-events: none;"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       TELO ČLÁNKU — markdown rendered
+       ============================================ -->
+  <section style="padding-bottom: clamp(64px, 8vw, 120px);">
+    <div class="container" style="max-width: 720px;">
+      <article class="prose" set:html={bodyHtml}></article>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       PROSE STYLES (markdown content)
+       ============================================ -->
+  <style is:global>
+    .prose {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .prose h2 {
+      font-size: clamp(24px, 2.6vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-top: 56px;
+      margin-bottom: 20px;
+    }
+    .prose h2:first-child { margin-top: 0; }
+    .prose h3 {
+      font-size: clamp(20px, 2vw, 24px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin-top: 40px;
+      margin-bottom: 14px;
+    }
+    .prose h4 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .prose p { margin-bottom: 18px; }
+    .prose ul, .prose ol {
+      margin-bottom: 18px;
+      padding-left: 24px;
+    }
+    .prose ul { list-style: none; padding-left: 0; }
+    .prose ul li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 10px;
+    }
+    .prose ul li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 12px;
+      width: 16px; height: 2px;
+      background: linear-gradient(90deg, var(--grad-start), var(--grad-end));
+      border-radius: 2px;
+    }
+    .prose ol { padding-left: 28px; }
+    .prose ol li { margin-bottom: 10px; }
+    .prose ol li::marker {
+      font-weight: 700;
+      color: var(--grad-start);
+    }
+    .prose strong { font-weight: 700; }
+    .prose code {
+      background: var(--bg-soft);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.92em;
+    }
+    .prose pre {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 20px 24px;
+      border-radius: 14px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .prose pre code { background: transparent; padding: 0; color: inherit; }
+    .prose blockquote {
+      border-left: 4px solid var(--grad-start);
+      padding-left: 24px;
+      margin: 32px 0;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .prose a {
+      color: var(--grad-start);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    .prose a:hover { color: var(--grad-end); }
+    .prose hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 48px 0;
+    }
+  </style>
+
+
+  <ContactSection accent="call" />
+
+</Layout>

@@ -1,0 +1,26 @@
+---
+import ServiceDetail from '../../../components/pages/ServiceDetail.astro';
+import { fetchAllServices } from '../../../lib/content';
+import type { Lang } from '../../../lib/i18n';
+
+const LANGS: Lang[] = ['cs', 'hu', 'en', 'de'];
+
+export async function getStaticPaths() {
+  const langs: Lang[] = ['cs', 'hu', 'en', 'de'];
+  const paths = [];
+  for (const lang of langs) {
+    const services = await fetchAllServices(lang);
+    for (const s of services) {
+      paths.push({
+        params: { lang, slug: s.slug },
+        props:  { service: s },
+      });
+    }
+  }
+  return paths;
+}
+
+const { service } = Astro.props;
+const { lang } = Astro.params as { lang: Lang };
+---
+<ServiceDetail service={service} lang={lang} />

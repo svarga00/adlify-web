@@ -16,11 +16,13 @@
  */
 
 import '../styles/global.css';
+import { LANGS, buildUrl, type Lang } from '../lib/i18n';
+import { t } from '../lib/translations';
 
 interface Props {
   title: string;
   description: string;
-  lang?: 'sk' | 'cs' | 'hu' | 'en' | 'de';
+  lang?: Lang;
   pathname?: string;
   ogImage?: string;
 }
@@ -35,40 +37,18 @@ const {
 
 const SITE = 'https://adlify.eu';
 
-// Lang config — labels, kódy, locale identifikátory
-const LANGS = [
-  { code: 'sk', label: 'Slovenčina', short: 'SK', locale: 'sk_SK' },
-  { code: 'cs', label: 'Čeština',    short: 'CS', locale: 'cs_CZ' },
-  { code: 'hu', label: 'Magyar',     short: 'HU', locale: 'hu_HU' },
-  { code: 'en', label: 'English',    short: 'EN', locale: 'en_US' },
-  { code: 'de', label: 'Deutsch',    short: 'DE', locale: 'de_DE' },
-] as const;
-
-// Funkcia na zostavenie URL pre konkrétny jazyk
-// SK = root, ostatné majú prefix /xx/
-function buildUrl(targetLang: string, path: string): string {
-  // Odstráň existujúci jazykový prefix z path
-  let cleanPath = path.replace(/^\/(cs|hu|en|de)(\/|$)/, '/');
-  if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
-
-  if (targetLang === 'sk') return cleanPath;
-  // Pre ne-SK pridáme prefix
-  return `/${targetLang}${cleanPath === '/' ? '' : cleanPath}`;
-}
-
 const canonicalPath = buildUrl(lang, pathname);
 const canonicalUrl = SITE + canonicalPath;
 
-// Navigačné položky — preložené stringy
-// Zatiaľ SK hardcoded, neskôr nahradíme z DB
-const NAV_ITEMS = [
-  { href: '/',                 label: 'Domov' },
-  { href: '/sluzby',           label: 'Služby' },
-  { href: '/ako-to-funguje',   label: 'Ako to funguje' },
-  { href: '/pripadove-studie', label: 'Prípadové štúdie' },
-  { href: '/cennik',           label: 'Cenník' },
-  { href: '/o-nas',            label: 'O nás' },
-  { href: '/blog',             label: 'Blog' },
+// Navigation — preložené per lang cez t()
+const NAV_ITEMS: Array<{ href: string; key: string }> = [
+  { href: '/',                 key: 'nav.home' },
+  { href: '/sluzby',           key: 'nav.services' },
+  { href: '/ako-to-funguje',   key: 'nav.howItWorks' },
+  { href: '/pripadove-studie', key: 'nav.cases' },
+  { href: '/cennik',           key: 'nav.pricing' },
+  { href: '/o-nas',            key: 'nav.about' },
+  { href: '/blog',             key: 'nav.blog' },
 ];
 
 const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
@@ -155,7 +135,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
             const isActive = canonicalPath === href;
             return (
               <a href={href} class={isActive ? 'active' : ''}>
-                {item.label}
+                {t(item.key, lang)}
               </a>
             );
           })}
@@ -194,7 +174,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
 
           <!-- CTA -->
           <a href={buildUrl(lang, '/kontakt')} class="btn btn-sm btn-ink">
-            Bezplatná konzultácia
+            {t('cta.freeConsultation', lang)}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
@@ -203,7 +183,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
         </div>
 
         <!-- Hamburger (mobile only) -->
-        <button class="hamburger" id="hamburger-btn" aria-label="Otvoriť menu">
+        <button class="hamburger" id="hamburger-btn" aria-label={t('nav.home', lang)}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6"  x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -233,7 +213,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
           const isActive = canonicalPath === href;
           return (
             <a href={href} class={isActive ? 'active' : ''}>
-              <span>{item.label}</span>
+              <span>{t(item.key, lang)}</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="m9 18 6-6-6-6"></path>
               </svg>
@@ -254,7 +234,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
           ))}
         </div>
         <a href={buildUrl(lang, '/kontakt')} class="btn btn-grad" style="justify-content: center;">
-          Bezplatná konzultácia
+          {t('cta.freeConsultation', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"></path>
             <path d="m12 5 7 7-7 7"></path>
@@ -274,14 +254,14 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
         <!-- CTA strip -->
         <a href={buildUrl(lang, '/kontakt')} class="footer-cta">
           <div>
-            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 12px;">[ NESTRÁCAJTE ČAS ]</div>
+            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 12px;">[ {t('cta.dontWaste', lang)} ]</div>
             <div style="font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;">
-              Bezplatný audit za 30 min
+              {t('cta.freeAudit30', lang)}
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 16px;">
             <div style="text-align: right; font-size: 13px; opacity: 0.7;">
-              <div class="mono">E-MAIL</div>
+              <div class="mono">{t('footer.email', lang)}</div>
               <div style="font-weight: 600; opacity: 1; font-size: 15px;">hello@adlify.eu</div>
             </div>
             <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center;">
@@ -300,7 +280,7 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
               <img src="/img/logo.webp" alt="Adlify" style="height: 32px; width: auto; margin-bottom: 20px;" />
             </a>
             <p class="body" style="font-size: 14px; max-width: 28ch; margin-bottom: 24px;">
-              Výkonnostný marketing bez prázdnych slov.
+              {t('footer.tagline', lang)}
             </p>
             <div style="display: flex; gap: 12px;">
               <a href="#" aria-label="LinkedIn" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;">
@@ -316,42 +296,42 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
           </div>
 
           <div>
-            <h5>Navigácia</h5>
+            <h5>{t('footer.colNav', lang)}</h5>
             <ul>
-              <li><a href={buildUrl(lang, '/')}>Domov</a></li>
-              <li><a href={buildUrl(lang, '/sluzby')}>Služby</a></li>
-              <li><a href={buildUrl(lang, '/pripadove-studie')}>Prípadové štúdie</a></li>
-              <li><a href={buildUrl(lang, '/cennik')}>Cenník</a></li>
+              <li><a href={buildUrl(lang, '/')}>{t('nav.home', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/sluzby')}>{t('nav.services', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/pripadove-studie')}>{t('nav.cases', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/cennik')}>{t('nav.pricing', lang)}</a></li>
             </ul>
           </div>
 
           <div>
-            <h5>Firma</h5>
+            <h5>{t('footer.colCompany', lang)}</h5>
             <ul>
-              <li><a href={buildUrl(lang, '/o-nas')}>O nás</a></li>
-              <li><a href={buildUrl(lang, '/ako-to-funguje')}>Ako to funguje</a></li>
-              <li><a href={buildUrl(lang, '/partneri')}>Partneri</a></li>
-              <li><a href={buildUrl(lang, '/kontakt')}>Kontakt</a></li>
+              <li><a href={buildUrl(lang, '/o-nas')}>{t('nav.about', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/ako-to-funguje')}>{t('nav.howItWorks', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/partneri')}>{t('nav.partners', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/kontakt')}>{t('nav.contact', lang)}</a></li>
             </ul>
           </div>
 
           <div>
-            <h5>Zdroje</h5>
+            <h5>{t('footer.colResources', lang)}</h5>
             <ul>
-              <li><a href={buildUrl(lang, '/blog')}>Blog</a></li>
-              <li><a href={buildUrl(lang, '/faq')}>FAQ</a></li>
-              <li><a href={buildUrl(lang, '/partneri')}>Partneri</a></li>
+              <li><a href={buildUrl(lang, '/blog')}>{t('nav.blog', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/faq')}>{t('nav.faq', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/partneri')}>{t('nav.partners', lang)}</a></li>
             </ul>
           </div>
         </div>
 
         <!-- Bottom strip -->
         <div class="footer-bottom">
-          <div>© {new Date().getFullYear()} Adlify s.r.o. — Všetky práva vyhradené.</div>
+          <div>© {new Date().getFullYear()} Adlify s.r.o. — {t('footer.copyright', lang)}</div>
           <div class="footer-bottom-links">
-            <a href={buildUrl(lang, '/ochrana-udajov')}>Ochrana údajov</a>
-            <a href={buildUrl(lang, '/obchodne-podmienky')}>Obchodné podmienky</a>
-            <a href={buildUrl(lang, '/cookies')}>Cookies</a>
+            <a href={buildUrl(lang, '/ochrana-udajov')}>{t('footer.privacy', lang)}</a>
+            <a href={buildUrl(lang, '/obchodne-podmienky')}>{t('footer.terms', lang)}</a>
+            <a href={buildUrl(lang, '/cookies')}>{t('footer.cookies', lang)}</a>
           </div>
         </div>
       </div>

@@ -1,0 +1,390 @@
+---
+/**
+ * /cennik — Cenník
+ *
+ * Sekcie:
+ *  1. PageHero (s benefit chips)
+ *  2. Pricing toggle (Mesačne / Ročne −15%)
+ *  3. 3 plán karty (Starter, Growth, Scale)
+ *  4. Detailné porovnanie (tabuľka)
+ *  5. Jednorazové projekty (3 karty)
+ *  6. FAQ
+ *  7. ContactSection
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import ContactSection from '../ContactSection.astro';
+import { pageMeta } from '../../lib/pageMeta';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+const meta = pageMeta.pricing[lang];
+
+// Cenníkové plány
+const plans = [
+  {
+    name: 'Starter',
+    tagline: 'Pre živnostníkov a malé e-shopy',
+    monthly: 149,
+    yearly: 127, // 149 - 15%
+    popular: false,
+    features: [
+      '1 reklamná platforma',
+      'Týždenné reporty',
+      'Nastavenie merania',
+      'Email podpora',
+      'Do €3k mesačného budgetu',
+    ],
+  },
+  {
+    name: 'Growth',
+    tagline: 'Pre rastúce e-shopy',
+    monthly: 399,
+    yearly: 339,
+    popular: true,
+    features: [
+      '3 reklamné platformy',
+      'Týždenné reporty + call',
+      'Pokročilé Google Analytics + tag manager',
+      'Dedikovaný špecialista',
+      'A/B testovanie kreatívy',
+      'Do €15k mesačného budgetu',
+    ],
+  },
+  {
+    name: 'Scale',
+    tagline: 'Pre zavedené značky',
+    monthly: 799,
+    yearly: 679,
+    popular: false,
+    features: [
+      'Neobmedzené platformy',
+      'Denné reporty + dashboard',
+      'Pokročilé meranie',
+      'Senior tím, 2 špecialisti',
+      'Dedikovaný strategik',
+      'Optimalizácia webu a vstupných stránok',
+      'Bez limitu',
+    ],
+  },
+];
+
+// Comparison rows: '✓' | '—' | string ako poznámka
+const compareRows = [
+  { group: 'Kanály', rows: [
+    { label: 'Google Ads',                          values: ['✓', '✓', '✓'] },
+    { label: 'Meta Ads (Facebook + Instagram)',     values: ['voliteľne', '✓', '✓'] },
+    { label: 'TikTok Ads',                          values: ['—', 'voliteľne', '✓'] },
+    { label: 'LinkedIn Ads',                        values: ['—', 'voliteľne', '✓'] },
+    { label: 'Microsoft Ads (Bing)',                values: ['—', '✓', '✓'] },
+    { label: 'E-mail marketing (Klaviyo / Mailchimp)', values: ['—', 'voliteľne', '✓'] },
+  ]},
+  { group: 'Tracking & analytika', rows: [
+    { label: 'Nastavenie Google Analytics + audit', values: ['✓', '✓', '✓'] },
+    { label: 'Google Tag Manager',                  values: ['✓', '✓', '✓'] },
+    { label: 'Enhanced ecommerce',                  values: ['—', '✓', '✓'] },
+    { label: 'Pokročilé meranie',                   values: ['—', '—', '✓'] },
+    { label: 'Looker Studio dashboard',             values: ['—', '✓', '✓'] },
+    { label: 'Customer Data Platform',              values: ['—', '—', '✓'] },
+  ]},
+  { group: 'Reporting & komunikácia', rows: [
+    { label: 'Týždenný report (e-mail)',            values: ['✓', '✓', '✓'] },
+    { label: 'Mesačný strategický call',            values: ['—', '✓', '✓'] },
+    { label: 'Slack komunikácia',                   values: ['—', '✓', '✓'] },
+    { label: 'Live dashboard 24/7',                 values: ['—', '—', '✓'] },
+    { label: 'Kvartálny QBR',                       values: ['—', '—', '✓'] },
+  ]},
+  { group: 'Tím & SLA', rows: [
+    { label: 'Dedikovaný špecialista',              values: ['—', '✓', '✓'] },
+    { label: 'Senior tím (2+ ľudí)',                values: ['—', '—', '✓'] },
+    { label: 'Strategický partner',                 values: ['—', '—', '✓'] },
+    { label: 'Reakcia do',                          values: ['48 hod', '24 hod', '4 hod'] },
+  ]},
+];
+
+// Jednorazové projekty
+const oneOffs = [
+  { title: 'Audit účtu',                       desc: 'Detailný audit Google/Meta Ads s konkrétnymi odporúčaniami. 7–10 dní.', price: 290 },
+  { title: 'Google Analytics + tag manager setup', desc: 'Kompletný setup analytiky vrátane pokročilého sledovania e-shopu a pokročilého GTM.', price: 490 },
+  { title: 'Optimalizácia konverzií',          desc: '4-týždňový sprint zameraný na konverzie. UX audit, A/B testy, implementácia.', price: 990 },
+];
+
+// FAQ
+const faqs = [
+  { q: 'Sú v cene aj reklamné rozpočty?',
+    a: 'Nie. Cena je za našu prácu. Reklamný rozpočet (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
+  { q: 'Účtujete províziu z budgetu?',
+    a: 'Nikdy. Fixný paušál — nemotivujeme vás utrácať viac, motivujeme vás zarábať viac.' },
+  { q: 'Aká je minimálna spolupráca?',
+    a: '3 mesiace. Výkonnostný marketing potrebuje čas na učenie. Po 3 mesiacoch pokračujeme mesačne s 30-dňovou výpovednou lehotou.' },
+  { q: 'Môžem zmeniť plán?',
+    a: 'Áno, kedykoľvek hore aj dole. Zmena je účinná od ďalšieho mesiaca.' },
+];
+
+// Helper na renderovanie buniek tabuľky
+function cellContent(v: string) {
+  if (v === '✓') return '<span style="color: rgb(22, 163, 74); font-weight: 700;">✓</span>';
+  if (v === '—') return '<span style="color: var(--muted-2);">—</span>';
+  return `<span style="font-size: 13px; color: var(--muted);">${v}</span>`;
+}
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  pathname="/cennik"
+>
+
+  <PageHero
+    num="004"
+    kind="PRICING"
+    title="Jednoduchý cenník."
+    titleAccent="Bez prekvapení."
+    lead="Fixný mesačný paušál. Žiadne provízie z reklamy, žiadne skryté poplatky. Minimálna spolupráca 3 mesiace."
+  >
+    <!-- Benefit chips pod lead -->
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;">
+      {['Žiadne provízie', 'Vlastníte všetky účty', '30-dňová výpoveď', 'NDA na vyžiadanie'].map((b) => (
+        <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--ink);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgb(34,197,94)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {b}
+        </span>
+      ))}
+    </div>
+  </PageHero>
+
+
+  <!-- ============================================
+       PRICING TOGGLE + 3 PLÁN KARTY
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+
+      <!-- Toggle: Mesačne / Ročne -->
+      <div style="display: flex; justify-content: center; margin-bottom: 56px;">
+        <div data-pricing-toggle style="display: inline-flex; padding: 4px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px;">
+          <button class="pricing-toggle-btn active" data-pricing-mode="monthly" style="padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--ink); color: var(--bg); border: none; cursor: pointer; transition: all 0.2s;">
+            Mesačne
+          </button>
+          <button class="pricing-toggle-btn" data-pricing-mode="yearly" style="padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--ink); border: none; cursor: pointer; transition: all 0.2s;">
+            Ročne <span style="color: rgb(22, 163, 74); font-weight: 700;">−15%</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 plány -->
+      <div class="plans-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch;">
+        {plans.map((plan) => (
+          <article
+            class={`plan-card ${plan.popular ? 'plan-popular' : ''}`}
+            style={`background: ${plan.popular ? 'var(--ink)' : 'var(--bg)'}; color: ${plan.popular ? 'var(--bg)' : 'var(--ink)'}; border: 1px solid ${plan.popular ? 'transparent' : 'var(--line-2)'}; border-radius: 24px; padding: 36px; position: relative; display: flex; flex-direction: column; ${plan.popular ? 'box-shadow: 0 24px 48px -16px rgba(241,100,52,0.25); transform: translateY(-8px);' : ''}`}
+          >
+            {plan.popular && (
+              <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; border-radius: 999px;">
+                NAJPOPULÁRNEJŠIE
+              </div>
+            )}
+
+            <h3 style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px;">{plan.name}</h3>
+            <p style={`font-size: 14px; opacity: ${plan.popular ? '0.7' : '1'}; color: ${plan.popular ? 'inherit' : 'var(--muted)'}; margin-bottom: 28px;`}>
+              {plan.tagline}
+            </p>
+
+            <!-- Cena (mení sa s toggle) -->
+            <div style="margin-bottom: 28px;">
+              <div style="display: flex; align-items: baseline; gap: 6px;">
+                <span style="font-size: 14px; opacity: 0.6;">€</span>
+                <span class="num plan-price" data-plan-monthly={plan.monthly} data-plan-yearly={plan.yearly} style="font-size: 56px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.monthly}</span>
+              </div>
+              <div style={`font-size: 13px; opacity: ${plan.popular ? '0.65' : '1'}; color: ${plan.popular ? 'inherit' : 'var(--muted)'}; margin-top: 6px;`}>
+                / mesiac bez DPH
+              </div>
+            </div>
+
+            <!-- Features -->
+            <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display: flex; flex-direction: column; gap: 10px; flex: 1;">
+              {plan.features.map((f) => (
+                <li style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={plan.popular ? 'rgb(134,239,172)' : 'rgb(34,197,94)'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <!-- CTA -->
+            <a
+              href="/kontakt"
+              class={plan.popular ? 'btn btn-grad' : 'btn btn-ink'}
+              style="width: 100%; justify-content: center;"
+            >
+              Vybrať {plan.name}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       DETAILNÉ POROVNANIE (tabuľka)
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
+        <span class="eyebrow">[ Detailné porovnanie ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+
+      <div class="compare-wrap" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; overflow-x: auto;">
+        <table class="compare-table" style="width: 100%; border-collapse: collapse; min-width: 720px;">
+          <!-- Header -->
+          <thead>
+            <tr style="border-bottom: 2px solid var(--line);">
+              <th style="text-align: left; padding: 24px 28px; font-size: 11px; font-family: var(--mono); font-weight: 500; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;">FUNKCIA</th>
+              {plans.map((p) => (
+                <th style="text-align: center; padding: 24px 16px; min-width: 120px;">
+                  <div style="font-size: 18px; font-weight: 700;">{p.name}</div>
+                  <div class="num" style="font-size: 12px; color: var(--muted); font-family: var(--mono); margin-top: 4px;">€{p.monthly}/mes</div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {compareRows.map((group) => (
+              <>
+                <tr>
+                  <td colspan="4" style="padding: 24px 28px 12px; font-size: 11px; font-family: var(--mono); font-weight: 600; color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; background: var(--bg-soft);">
+                    {group.group}
+                  </td>
+                </tr>
+                {group.rows.map((row) => (
+                  <tr style="border-bottom: 1px solid var(--line);">
+                    <td style="padding: 14px 28px; font-size: 14px;">{row.label}</td>
+                    {row.values.map((v) => (
+                      <td style="text-align: center; padding: 14px 16px; font-size: 14px;" set:html={cellContent(v)}></td>
+                    ))}
+                  </tr>
+                ))}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       JEDNORAZOVÉ PROJEKTY (3 karty)
+       ============================================ -->
+  <section class="section">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
+        <span class="eyebrow">[ Jednorazové projekty ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+
+      <div class="oneoff-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        {oneOffs.map((o) => (
+          <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: flex; flex-direction: column;">
+            <h3 class="h3" style="margin-bottom: 12px;">{o.title}</h3>
+            <p class="body" style="font-size: 14px; flex: 1; margin-bottom: 24px;">{o.desc}</p>
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px;">
+              <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em;">€{o.price}</div>
+              <a href="/kontakt" class="btn btn-sm btn-outline">
+                Objednať
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M7 7h10v10"></path>
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       FAQ (Otázky o cenníku)
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft); padding-top: clamp(56px, 6vw, 96px);">
+    <div class="container" style="max-width: 880px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
+        <span class="eyebrow">[ Otázky o cenníku ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+
+      <div class="faq-list" style="display: flex; flex-direction: column; gap: 12px;">
+        {faqs.map((item, i) => (
+          <details class="faq-item" style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden;" open={i === 0}>
+            <summary style="padding: 24px 28px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; list-style: none;">
+              <span>{item.q}</span>
+              <svg class="faq-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform 0.25s;" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </summary>
+            <div style="padding: 0 28px 24px; font-size: 15px; line-height: 1.6; color: var(--muted);">
+              {item.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <ContactSection accent="call" />
+
+
+  <!-- Pricing toggle JS -->
+  <script>
+    (function () {
+      const btns = document.querySelectorAll<HTMLElement>('[data-pricing-mode]');
+      const prices = document.querySelectorAll<HTMLElement>('.plan-price');
+      btns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.pricingMode;
+          btns.forEach((b) => {
+            const isActive = b === btn;
+            b.classList.toggle('active', isActive);
+            b.style.background = isActive ? 'var(--ink)' : 'transparent';
+            b.style.color = isActive ? 'var(--bg)' : 'var(--ink)';
+          });
+          prices.forEach((p) => {
+            const v = mode === 'yearly' ? p.dataset.planYearly : p.dataset.planMonthly;
+            if (v) p.textContent = v;
+          });
+        });
+      });
+    })();
+  </script>
+
+  <!-- Otvorenie/zatvorenie FAQ s rotáciou chevrona -->
+  <style>
+    details[open] .faq-chev { transform: rotate(180deg); }
+    details > summary::-webkit-details-marker { display: none; }
+    @media (max-width: 860px) {
+      .plans-grid { grid-template-columns: 1fr !important; }
+      .plan-popular { transform: none !important; }
+      .oneoff-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+</Layout>

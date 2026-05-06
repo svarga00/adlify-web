@@ -1,0 +1,167 @@
+---
+/**
+ * /partneri (a /[lang]/partneri) — Partners
+ *
+ * Body content je SK, page meta + hero sa berie z pageMeta podľa lang.
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import ContactSection from '../ContactSection.astro';
+import { pageMeta } from '../../lib/pageMeta';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+const meta = pageMeta.partners[lang];
+
+// 6 platforiem s certifikátom
+const partners = [
+  {
+    name:        'Google',
+    badge:       'Premier Partner 2025',
+    desc:        'Top 3 % agentúr globálne. Ads, Analytics, Tag Manager, Looker Studio.',
+    // Použijeme jednoduchý SVG marker namiesto loga (kvôli copyrightu)
+    initial:     'G',
+    gradient:    'linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335)',
+  },
+  {
+    name:        'Meta',
+    badge:       'Business Partner',
+    desc:        'Facebook, Instagram, WhatsApp Business. CAPI, Advanced Matching.',
+    initial:     'M',
+    gradient:    'linear-gradient(135deg, #0668E1, #1877F2)',
+  },
+  {
+    name:        'Microsoft Ads',
+    badge:       'Certified Partner',
+    desc:        'Bing, Edge, Yahoo. Často podceňovaný kanál s lacnejšími aukciami.',
+    initial:     'µ',
+    gradient:    'linear-gradient(135deg, #00A4EF, #7FBA00)',
+  },
+  {
+    name:        'Shopify',
+    badge:       'Partner',
+    desc:        'E-commerce platforma. Integrácia checkout, GA4, Meta CAPI.',
+    initial:     'S',
+    gradient:    'linear-gradient(135deg, #95BF47, #5E8E3E)',
+  },
+  {
+    name:        'Klaviyo',
+    badge:       'Master Partner',
+    desc:        'E-mail a SMS automatizácie pre e-commerce. Welcome flows, abandoned cart.',
+    initial:     'K',
+    gradient:    'linear-gradient(135deg, #232F3E, #FF6B00)',
+  },
+  {
+    name:        'Hubspot',
+    badge:       'Solutions Partner',
+    desc:        'CRM, marketing automation, lead scoring. Hlavne pre B2B klientov.',
+    initial:     'H',
+    gradient:    'linear-gradient(135deg, #FF7A59, #FFB86C)',
+  },
+];
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  pathname="/partneri"
+>
+
+  <PageHero
+    num={meta.hero!.num}
+    kind={meta.hero!.kind}
+    title={meta.hero!.title}
+    titleAccent={meta.hero!.titleAccent}
+    lead={meta.hero!.lead}
+  />
+
+
+  <!-- ============================================
+       6 PARTNEROV MRIEŽKA
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+
+      <!-- Eyebrow -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
+        <span class="eyebrow">[ Certifikácie a integrácie ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        <span class="pill" style="background: var(--bg); border: 1px solid var(--line);">
+          <span class="dot" style="background: rgb(34, 197, 94);"></span>
+          <span style="font-family: var(--mono); font-size: 11px;">6 PARTNEROV</span>
+        </span>
+      </div>
+
+      <!-- Grid 6 partnerov (3 stĺpce × 2 riadky) -->
+      <div class="partners-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 24px; overflow: hidden;">
+        {partners.map((p) => (
+          <article style="background: var(--bg); padding: 36px; position: relative; overflow: hidden; transition: background 0.2s;" class="partner-card">
+            <!-- Mini orb v rohu -->
+            <div aria-hidden="true" style="position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--grad-start) 12%, transparent), transparent 70%); opacity: 0.5; pointer-events: none;"></div>
+
+            <div style="position: relative;">
+              <!-- Logo placeholder (gradient kruh s prvým písmenom) -->
+              <div style={`width: 64px; height: 64px; border-radius: 16px; background: ${p.gradient}; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; margin-bottom: 24px; box-shadow: 0 12px 24px -10px rgba(0,0,0,0.2);`}>
+                {p.initial}
+              </div>
+
+              <!-- Názov -->
+              <h3 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px;">{p.name}</h3>
+
+              <!-- Badge (certifikát) -->
+              <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; border-radius: 999px; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 16px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                {p.badge}
+              </div>
+
+              <!-- Popis -->
+              <p class="body" style="font-size: 13px; line-height: 1.55; min-height: 3em;">{p.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      .partner-card:hover { background: var(--bg-soft) !important; }
+      @media (max-width: 900px) { .partners-grid { grid-template-columns: 1fr 1fr !important; } }
+      @media (max-width: 540px) { .partners-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       INFO STRIP — Prečo partneri záležia
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft);">
+    <div class="container" style="max-width: 980px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;" class="benefits-strip">
+        {[
+          { big: 'Beta prístup',     sub: 'Nové features dostávame skôr ako bežní inzerenti — typicky 3–6 mesiacov pred public roll-outom.' },
+          { big: 'Dedikovaný support', sub: 'Priama linka na account managera platformy. Žiadne čakanie v Help centre cez ticket systém.' },
+          { big: 'Školenia & QBR',    sub: 'Quarterly business reviews priamo s inžiniermi platforiem. Prinášame insighty do našich kampaní.' },
+        ].map((b) => (
+          <div style="background: var(--bg); padding: 32px;">
+            <h3 class="grad" style="font-size: clamp(22px, 2.4vw, 30px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px;">{b.big}</h3>
+            <p class="body" style="font-size: 13px; line-height: 1.55;">{b.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      <style>
+        @media (max-width: 900px) { .benefits-strip { grid-template-columns: 1fr !important; } }
+      </style>
+    </div>
+  </section>
+
+
+  <ContactSection accent="audit" />
+
+</Layout>
