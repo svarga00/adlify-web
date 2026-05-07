@@ -313,10 +313,19 @@ const pillars = [
       <div class="people-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
         {people.map((p, i) => (
           <a href={`mailto:${p.email}`} class="person-card" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 28px; transition: border-color 0.2s, transform 0.2s; color: var(--ink);">
-            <!-- Avatar -->
-            <div style={`width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(${i * 30 + 100}deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;`}>
-              {p.initials}
-            </div>
+            <!-- Avatar — fotka ak je nahraná, inak gradient s iniciálami -->
+            {p.photo_url ? (
+              <img
+                src={p.photo_url}
+                alt={p.name}
+                loading="lazy"
+                style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; background: var(--bg-soft);"
+              />
+            ) : (
+              <div style={`width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(${i * 30 + 100}deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;`}>
+                {p.initials}
+              </div>
+            )}
 
             <h3 style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 4px;">{p.name}</h3>
             <div style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">{p.role}</div>
