@@ -13,12 +13,19 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
+import { fetchPageSections } from '../../lib/content';
 
 interface Props {
   lang?: Lang;
 }
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.about[lang];
+
+// CMS content z web_pages_content (admin Etapa C)
+const sections = await fetchPageSections('about', lang);
+const mission = sections.mission || {};
+const missionTitle = mission.title || '';
+const missionBody  = mission.body  || '';
 
 const values = [
   {
@@ -58,6 +65,24 @@ const values = [
     titleAccent={meta.hero!.titleAccent}
     lead={meta.hero!.lead}
   />
+
+
+  {missionTitle && (
+    <section class="section">
+      <div class="container" style="max-width: 880px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
+          <span class="eyebrow">[ MISSION ]</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <h2 class="h2" style="margin-bottom: 24px;">{missionTitle}</h2>
+        {missionBody && (
+          <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); color: var(--muted); line-height: 1.6;">
+            {missionBody}
+          </p>
+        )}
+      </div>
+    </section>
+  )}
 
 
   <!-- ============================================
