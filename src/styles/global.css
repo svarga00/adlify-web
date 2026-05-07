@@ -526,6 +526,8 @@ textarea.field { resize: vertical; font-family: inherit; }
   width: 100%;
   text-align: left;
   padding: 24px 0;
+  text-decoration: none;
+  color: inherit;
   border-bottom: 1px solid var(--line);
   display: grid;
   grid-template-columns: 40px 1fr auto;

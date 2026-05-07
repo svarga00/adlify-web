@@ -122,10 +122,10 @@ const services: Service[] = (providedServices && providedServices.length > 0) ? 
     <div class="svc-layout" data-svc-root>
       <div class="svc-list">
         {services.map((s, i) => (
-          <button
+          <a
             class={`svc-row ${i === 0 ? 'active' : ''}`}
             data-svc-toggle={i}
-            type="button"
+            href={`/sluzby/${s.slug}`}
           >
             <span class="svc-num">{String(i + 1).padStart(2, '0')}</span>
             <span class="svc-title">{s.title}</span>
@@ -136,7 +136,7 @@ const services: Service[] = (providedServices && providedServices.length > 0) ? 
                 <path d="M7 7h10v10"></path>
               </svg>
             </span>
-          </button>
+          </a>
         ))}
       </div>
 

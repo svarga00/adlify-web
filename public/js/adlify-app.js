@@ -622,7 +622,9 @@
 
   /* ============================================================
    * 8) SERVICES ACCORDION — funguje na homepage aj /sluzby
-   *    Klik na .svc-row (data-svc-toggle) prepne aktívny .svc-detail-pane
+   *    Hover na .svc-row (data-svc-toggle) prepne aktívny .svc-detail-pane.
+   *    Klik na položku ide na /sluzby/[slug] (lebo položky sú <a> anchors).
+   *    Na touch zariadeniach (mobile) sa hover nespustí, klik proste navigne.
    * ============================================================ */
   function initServicesAccordion() {
     const toggles = $$('[data-svc-toggle]');
@@ -632,7 +634,7 @@
     toggles.forEach((btn) => {
       if (btn.dataset.svcWired === '1') return;
       btn.dataset.svcWired = '1';
-      btn.addEventListener('click', () => {
+      btn.addEventListener('mouseenter', () => {
         const idx = btn.getAttribute('data-svc-toggle');
         toggles.forEach((b) => b.classList.toggle('active', b.getAttribute('data-svc-toggle') === idx));
         panes.forEach((p)   => p.classList.toggle('active', p.getAttribute('data-svc-pane') === idx));
