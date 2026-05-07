@@ -353,28 +353,6 @@ const siteSettings = await fetchSettings(lang);
     <!-- ============ FOOTER ============ -->
     <footer class="footer">
       <div class="container">
-        <!-- CTA strip -->
-        <a href={buildUrl(lang, '/kontakt')} class="footer-cta">
-          <div>
-            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 12px;">[ {t('cta.dontWaste', lang)} ]</div>
-            <div style="font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;">
-              {t('cta.freeAudit30', lang)}
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div style="text-align: right; font-size: 13px; opacity: 0.7;">
-              <div class="mono">{t('footer.email', lang)}</div>
-              <div style="font-weight: 600; opacity: 1; font-size: 15px;">{siteSettings.contact_email || 'info@adlify.eu'}</div>
-            </div>
-            <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7"></path>
-                <path d="M7 7h10v10"></path>
-              </svg>
-            </div>
-          </div>
-        </a>
-
         <!-- 4-col footer nav -->
         <div class="footer-grid">
           <div>
