@@ -15,12 +15,26 @@
 import Layout from '../../layouts/Layout.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import { buildUrl, type Lang } from '../../lib/i18n';
+import { fetchPageSections } from '../../lib/content';
 
 interface Props {
   lang?: Lang;
 }
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.home[lang];
+
+// CMS content z web_pages_content (admin Etapa C)
+const sections = await fetchPageSections('homepage', lang);
+const hero = sections.hero || {};
+
+// Fallback texty ak admin ešte nezaseedoval / Supabase nedostupný
+const heroEyebrow = hero.eyebrow || 'Výkonnostný marketing pre malé a stredné firmy';
+const heroLead = hero.lead || 'Spravujeme Google a Meta reklamy pre e-shopy a remeselníkov tak, aby ste videli, kam každé euro ide.';
+const heroCtaPrimary = hero.cta_primary || 'Získať audit zadarmo';
+const heroCtaSecondary = hero.cta_secondary || 'Ako pracujeme';
+// TODO (next iteration): napojiť aj manifest sekciu, vyžaduje refactor 3-span layoutu
+// const manifestTitle = manifest.title || '...';
+// const manifestLead = manifest.lead || '...';
 
 const trustLogos = [
   'Zlatka.sk', 'NovaShop', 'Bonsai Lab', 'Krajčírstvo', 'Kaffe & Co',
@@ -58,7 +72,7 @@ const manifestItems = [
 
       <!-- Top eyebrow row -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <div class="pill"><span class="dot"></span><span>Výkonnostný marketing pre malé a stredné firmy</span></div>
+        <div class="pill"><span class="dot"></span><span>{heroEyebrow}</span></div>
         <span style="flex: 1; height: 1px; background: var(--line); max-width: 240px;"></span>
         <span class="eyebrow">EST. 2021 · BA / PRG / BUD</span>
       </div>
@@ -73,8 +87,7 @@ const manifestItems = [
           </h1>
 
           <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); max-width: 50ch; margin-bottom: 28px; color: var(--muted); line-height: 1.5;">
-            <span style="color: var(--ink); font-weight: 600;">Bez sľubov, bez prázdnych slov, bez teórií.</span>
-            Spravujeme Google a Meta reklamy pre e-shopy a remeselníkov tak, aby ste videli, kam&nbsp;každé&nbsp;euro&nbsp;ide.
+            {heroLead}
           </p>
 
           <!-- Statický ticker pillsa -->
@@ -95,11 +108,11 @@ const manifestItems = [
           <!-- CTA buttons -->
           <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 36px;">
             <a href={buildUrl(lang, "/kontakt")} class="btn btn-grad" style="padding: 18px 30px; font-size: 16px;">
-              Získať audit zadarmo
+              {heroCtaPrimary}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
             <a href={buildUrl(lang, "/ako-to-funguje")} class="btn btn-ghost" style="padding: 18px 24px; font-size: 16px;">
-              Ako pracujeme
+              {heroCtaSecondary}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
           </div>
