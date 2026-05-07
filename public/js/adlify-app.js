@@ -413,15 +413,16 @@
     const afterLayer = wrapper.querySelector('[data-ba-after]');
     if (!handle || !afterLayer) return;
 
-    // KPI elementy v ľavom stĺpci (text mení sa s pozíciou)
-    const elRev  = document.querySelector('[data-ba-metric="revenue"]');
-    const elRoas = document.querySelector('[data-ba-metric="roas"]');
-    const elConv = document.querySelector('[data-ba-metric="conv"]');
-    const elCpa  = document.querySelector('[data-ba-metric="cpa"]');
-    const dRev   = document.querySelector('[data-ba-delta="revenue"]');
-    const dRoas  = document.querySelector('[data-ba-delta="roas"]');
-    const dConv  = document.querySelector('[data-ba-delta="conv"]');
-    const dCpa   = document.querySelector('[data-ba-delta="cpa"]');
+    // KPI elementy — sú duplikované (ľavá kolóna + dashboard vpravo)
+    // querySelectorAll → JS updatuje VŠETKY výskyty súčasne
+    const elRev  = $$('[data-ba-metric="revenue"]');
+    const elRoas = $$('[data-ba-metric="roas"]');
+    const elConv = $$('[data-ba-metric="conv"]');
+    const elCpa  = $$('[data-ba-metric="cpa"]');
+    const dRev   = $$('[data-ba-delta="revenue"]');
+    const dRoas  = $$('[data-ba-delta="roas"]');
+    const dConv  = $$('[data-ba-delta="conv"]');
+    const dCpa   = $$('[data-ba-delta="cpa"]');
 
     // Dashboard label + month label
     const dashMonth = document.querySelector('[data-ba-dash-month]');
@@ -438,7 +439,15 @@
       conv: { before: 251,   after: 1284  },
       cpa:  { before: 18.20, after: 8.40  }, // CPA klesá → "+/-" obrátene
     };
-    const months = ['Marec', 'Apríl', 'Máj', 'Jún', 'Júl', 'August', 'September', 'Október'];
+    // 6 mesiacov spolupráce: Aug 2025 → Jan 2026 (preklenuté cez koniec roka)
+    const months = [
+      { name: 'August',   year: 2025 },
+      { name: 'September', year: 2025 },
+      { name: 'Október',   year: 2025 },
+      { name: 'November',  year: 2025 },
+      { name: 'December',  year: 2025 },
+      { name: 'Január',    year: 2026 },
+    ];
 
     const lerp = (a, b, t) => a + (b - a) * t;
     const fmtEur = (n) => '€' + Math.round(n).toLocaleString('sk-SK').replace(/,/g, ' ');
@@ -464,19 +473,27 @@
 
       // Handle position
       handle.style.left = pos + '%';
-      // After overlay clip-path: zobrazujeme len pravú časť za handle
-      afterLayer.style.clipPath = `inset(0 0 0 ${pos}%)`;
+      // After overlay clip-path: keď je slider vľavo (pos=0), AFTER je celý skrytý
+      // (ide o "inset zprava o 100%"). Keď je vpravo (pos=100), AFTER je celý
+      // viditeľný. Teda BEFORE je default (vľavo), AFTER sa odkrýva potiahnutím
+      // doprava — klasický pred/po pattern.
+      afterLayer.style.clipPath = `inset(0 ${100 - pos}% 0 0)`;
 
-      // KPI hodnoty
+      // KPI hodnoty (updatuje VŠETKY duplicity — ľavá kolóna + dashboard)
       const rev  = lerp(KPI.rev.before,  KPI.rev.after,  t);
       const roas = lerp(KPI.roas.before, KPI.roas.after, t);
       const conv = lerp(KPI.conv.before, KPI.conv.after, t);
       const cpa  = lerp(KPI.cpa.before,  KPI.cpa.after,  t);
 
-      if (elRev)  elRev.textContent  = fmtEur(rev);
-      if (elRoas) elRoas.textContent = fmtRoas(roas);
-      if (elConv) elConv.textContent = Math.round(conv).toLocaleString('sk-SK').replace(/,/g, ' ');
-      if (elCpa)  elCpa.textContent  = fmtCpa(cpa);
+      const sRev  = fmtEur(rev);
+      const sRoas = fmtRoas(roas);
+      const sConv = Math.round(conv).toLocaleString('sk-SK').replace(/,/g, ' ');
+      const sCpa  = fmtCpa(cpa);
+
+      elRev.forEach((el)  => { el.textContent = sRev;  });
+      elRoas.forEach((el) => { el.textContent = sRoas; });
+      elConv.forEach((el) => { el.textContent = sConv; });
+      elCpa.forEach((el)  => { el.textContent = sCpa;  });
 
       // Delta % (oproti before baseline)
       const upRev  = ((rev  - KPI.rev.before)  / KPI.rev.before)  * 100;
@@ -484,15 +501,23 @@
       const upConv = ((conv - KPI.conv.before) / KPI.conv.before) * 100;
       const upCpa  = ((cpa  - KPI.cpa.before)  / KPI.cpa.before)  * 100;
 
-      if (dRev)  { const r = pct(upRev,  false); dRev.textContent  = r.text; dRev.style.color  = r.color; }
-      if (dRoas) { const r = pct(upRoas, false); dRoas.textContent = r.text; dRoas.style.color = r.color; }
-      if (dConv) { const r = pct(upConv, false); dConv.textContent = r.text; dConv.style.color = r.color; }
-      if (dCpa)  { const r = pct(upCpa,  true);  dCpa.textContent  = r.text; dCpa.style.color  = r.color; }
+      const dRevR  = pct(upRev,  false);
+      const dRoasR = pct(upRoas, false);
+      const dConvR = pct(upConv, false);
+      const dCpaR  = pct(upCpa,  true);
+
+      dRev.forEach((el)  => { el.textContent = dRevR.text;  el.style.color = dRevR.color;  });
+      dRoas.forEach((el) => { el.textContent = dRoasR.text; el.style.color = dRoasR.color; });
+      dConv.forEach((el) => { el.textContent = dConvR.text; el.style.color = dConvR.color; });
+      dCpa.forEach((el)  => { el.textContent = dCpaR.text;  el.style.color = dCpaR.color;  });
 
       // Month label + dashboard
-      const monthIdx = Math.round(t * 7); // 0..7
-      if (labelEl)   labelEl.textContent   = `Mesiac ${monthIdx + 1}/8`;
-      if (dashMonth) dashMonth.textContent = months[monthIdx] + ' 2026';
+      const monthIdx = Math.round(t * 5); // 0..5 (6 mesiacov)
+      if (labelEl)   labelEl.textContent   = `Mesiac ${monthIdx + 1}/6`;
+      if (dashMonth) {
+        const m = months[monthIdx];
+        dashMonth.textContent = `${m.name} ${m.year}`;
+      }
 
       // Timeline buttons highlight
       monthBtns.forEach((b, i) => b.classList.toggle('active', i === monthIdx));
@@ -557,7 +582,7 @@
       btn.style.cursor = 'pointer';
       btn.addEventListener('click', () => {
         stopAutoPlay();
-        pos = (idx / 7) * 95 + 2.5;
+        pos = (idx / 5) * 95 + 2.5;
         update();
       });
     });
