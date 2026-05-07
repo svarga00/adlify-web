@@ -1,0 +1,17 @@
+---
+import IndustryDetail from '../../components/pages/IndustryDetail.astro';
+import { industries, getIndustry } from '../../lib/industries';
+
+export async function getStaticPaths() {
+  return industries.map((p) => ({
+    params: { slug: p.slug },
+  }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const pkg = getIndustry(slug);
+if (!pkg) {
+  return Astro.redirect('/odvetvia');
+}
+---
+<IndustryDetail pkg={pkg} lang="sk" />

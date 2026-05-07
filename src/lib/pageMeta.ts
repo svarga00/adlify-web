@@ -48,20 +48,20 @@ const home: LangPageMeta = {
 // ============================================================
 const services: LangPageMeta = {
   sk: { title: 'Služby — Adlify',
-        description: 'Google Ads, Meta Ads, SEO, e-mailové kampane, meranie a vstupné stránky. Postaráme sa o všetko, čo vám prinesie zákazníkov.',
-        hero: { num: '002', kind: 'SERVICES', title: 'Čo pre vás vieme', titleAccent: 'zariadiť.', lead: 'Postaráme sa o všetko, čo vám prinesie zákazníkov. Vy len sledujete čísla — my dolaďujeme detaily.' } },
+        description: '14 služieb v 5 oblastiach — online marketing, web a aplikácie, automatizácie, grafika a brand, konzultácie. Plus hotové balíky pre konkrétne odvetvia.',
+        hero: { num: '002', kind: 'SERVICES', title: 'Čo pre vás vieme', titleAccent: 'zariadiť.', lead: 'Od online marketingu cez tvorbu webov a aplikácií, automatizácie, grafiku a tlač až po konzultácie. Plus hotové balíky pre vaše odvetvie.' } },
   cs: { title: 'Služby — Adlify',
-        description: 'Google Ads, Meta Ads, SEO, e-mailové kampaně, měření a vstupní stránky. Postaráme se o všechno, co vám přivede zákazníky.',
-        hero: { num: '002', kind: 'SLUŽBY', title: 'Co pro vás umíme', titleAccent: 'zařídit.', lead: 'Postaráme se o všechno, co vám přivede zákazníky. Vy jen sledujete čísla — my doladíme detaily.' } },
+        description: '14 služeb v 5 oblastech — online marketing, web a aplikace, automatizace, grafika a brand, konzultace. Plus hotové balíčky pro konkrétní odvětví.',
+        hero: { num: '002', kind: 'SLUŽBY', title: 'Co pro vás umíme', titleAccent: 'zařídit.', lead: 'Od online marketingu přes tvorbu webů a aplikací, automatizace, grafiku a tisk až po konzultace. Plus hotové balíčky pro vaše odvětví.' } },
   hu: { title: 'Szolgáltatások — Adlify',
-        description: 'Google Ads, Meta Ads, SEO, e-mail kampányok, mérés és landing oldalak. Mindent elintézünk, ami ügyfeleket hoz.',
-        hero: { num: '002', kind: 'SZOLGÁLTATÁSOK', title: 'Mit tudunk Önnek', titleAccent: 'elintézni.', lead: 'Mindent elintézünk, ami ügyfeleket hoz. Ön csak a számokat figyeli — mi finomítjuk a részleteket.' } },
+        description: '14 szolgáltatás 5 területen — online marketing, web és alkalmazások, automatizálás, grafika és brand, konzultáció. Plusz kész csomagok konkrét iparágakra.',
+        hero: { num: '002', kind: 'SZOLGÁLTATÁSOK', title: 'Mit tudunk Önnek', titleAccent: 'elintézni.', lead: 'Az online marketingtől a web- és alkalmazásfejlesztésen, automatizáláson, grafikán és nyomtatáson át a konzultációig. Plusz kész csomagok az Ön iparágára.' } },
   en: { title: 'Services — Adlify',
-        description: 'Google Ads, Meta Ads, SEO, email campaigns, tracking, and landing pages. We handle everything that brings you customers.',
-        hero: { num: '002', kind: 'SERVICES', title: 'What we can', titleAccent: 'handle for you.', lead: 'We take care of everything that brings you customers. You watch the numbers — we fine-tune the details.' } },
+        description: '14 services in 5 areas — online marketing, web & apps, automations, graphics & brand, consulting. Plus ready-made packages for specific industries.',
+        hero: { num: '002', kind: 'SERVICES', title: 'What we can', titleAccent: 'handle for you.', lead: 'From online marketing through web & app development, automation, graphics and print, to consulting. Plus ready packages for your industry.' } },
   de: { title: 'Leistungen — Adlify',
-        description: 'Google Ads, Meta Ads, SEO, E-Mail-Kampagnen, Tracking und Landingpages. Wir kümmern uns um alles, was Ihnen Kunden bringt.',
-        hero: { num: '002', kind: 'LEISTUNGEN', title: 'Was wir für Sie', titleAccent: 'erledigen können.', lead: 'Wir kümmern uns um alles, was Ihnen Kunden bringt. Sie beobachten die Zahlen — wir feilen an den Details.' } },
+        description: '14 Leistungen in 5 Bereichen — Online-Marketing, Web & Apps, Automatisierung, Grafik & Brand, Beratung. Plus fertige Pakete für bestimmte Branchen.',
+        hero: { num: '002', kind: 'LEISTUNGEN', title: 'Was wir für Sie', titleAccent: 'erledigen können.', lead: 'Von Online-Marketing über Web- und App-Entwicklung, Automatisierung, Grafik und Druck bis hin zur Beratung. Plus fertige Pakete für Ihre Branche.' } },
 };
 
 // ============================================================

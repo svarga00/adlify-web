@@ -19,6 +19,7 @@ const DICT: Record<string, Dict> = {
   // ============ NAVIGATION ============
   'nav.home':              { sk: 'Domov',              cs: 'Domů',                hu: 'Kezdőlap',         en: 'Home',           de: 'Startseite' },
   'nav.services':          { sk: 'Služby',             cs: 'Služby',              hu: 'Szolgáltatások',   en: 'Services',       de: 'Leistungen' },
+  'nav.industries':        { sk: 'Pre odvetvia',       cs: 'Pro odvětví',         hu: 'Iparágaknak',      en: 'For industries', de: 'Für Branchen' },
   'nav.howItWorks':        { sk: 'Ako to funguje',     cs: 'Jak to funguje',      hu: 'Hogyan működik',   en: 'How it works',   de: 'So funktioniert es' },
   'nav.cases':             { sk: 'Prípadové štúdie',   cs: 'Případové studie',    hu: 'Esettanulmányok',  en: 'Case studies',   de: 'Fallstudien' },
   'nav.pricing':           { sk: 'Cenník',             cs: 'Ceník',               hu: 'Árak',             en: 'Pricing',        de: 'Preise' },
@@ -26,6 +27,7 @@ const DICT: Record<string, Dict> = {
   'nav.blog':              { sk: 'Blog',               cs: 'Blog',                hu: 'Blog',             en: 'Blog',           de: 'Blog' },
   'nav.faq':               { sk: 'FAQ',                cs: 'FAQ',                 hu: 'GYIK',             en: 'FAQ',            de: 'FAQ' },
   'nav.tools':             { sk: 'S čím pracujeme',   cs: 'S čím pracujeme',     hu: 'Eszközeink',       en: 'Tools',          de: 'Tools' },
+  'nav.industries':        { sk: 'Pre vaše odvetvie', cs: 'Pro váš obor',        hu: 'Az Ön iparágára',  en: 'Your Industry',  de: 'Ihre Branche' },
   'nav.contact':           { sk: 'Kontakt',            cs: 'Kontakt',             hu: 'Kapcsolat',        en: 'Contact',        de: 'Kontakt' },
 
   // ============ CTA ============

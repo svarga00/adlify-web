@@ -1,0 +1,235 @@
+---
+/**
+ * /odvetvia/[slug] — Detail balíčka pre konkrétne odvetvie
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ContactSection from '../ContactSection.astro';
+import { buildUrl, type Lang } from '../../lib/i18n';
+import type { IndustryPackage } from '../../lib/industries';
+
+interface Props {
+  pkg: IndustryPackage;
+  lang?: Lang;
+}
+const { pkg, lang = 'sk' } = Astro.props;
+---
+
+<Layout
+  title={`${pkg.name} — Adlify`}
+  description={pkg.tagline}
+  lang={lang}
+  pathname={`/odvetvia/${pkg.slug}`}
+>
+
+  <!-- ============================================
+       CUSTOM HERO (užší než PageHero)
+       ============================================ -->
+  <section class="section" style="padding-top: clamp(60px, 8vw, 120px); padding-bottom: clamp(40px, 5vw, 80px);">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav style="display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 32px;">
+        <a href={buildUrl(lang, '/sluzby')} style="color: var(--muted); text-decoration: none;">SLUŽBY</a>
+        <span style="opacity: 0.4;">/</span>
+        <span style="color: var(--ink);">BALÍČKY PRE ODVETVIA</span>
+        <span style="opacity: 0.4;">/</span>
+        <span style="color: var(--grad-start);">{pkg.name.toUpperCase()}</span>
+      </nav>
+
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end;" class="industry-hero-grid">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 24px;">[ Balíček pre odvetvie ]</div>
+          <h1 style="font-size: clamp(40px, 6vw, 84px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin-bottom: 24px;">
+            {pkg.name}
+          </h1>
+          <p style="font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; line-height: 1.4; max-width: 24ch; color: var(--ink-2);">
+            <span class="grad">{pkg.tagline}</span>
+          </p>
+        </div>
+
+        <div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--muted); margin-bottom: 24px;">
+            {pkg.heroLead}
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#balicek" class="btn btn-ink">
+              Pozrieť čo zahŕňa
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="/kontakt" data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} class="btn btn-grad">Mám záujem</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 1024px) {
+        .industry-hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; align-items: start !important; }
+      }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       PAINS — "Poznáte tieto problémy?"
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft); padding-top: clamp(48px, 5vw, 72px); padding-bottom: clamp(48px, 5vw, 72px);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Bolesti ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+      <h2 class="h2" style="margin-bottom: 40px; max-width: 22ch;">Poznáte tieto problémy?</h2>
+
+      <div class="pains-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        {pkg.pains.map((p) => (
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(220,38,38,0.1); color: rgb(220,38,38); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <p style="font-size: 15px; line-height: 1.5; margin: 0;">{p}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 768px) { .pains-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       BALÍČEK — čo zahŕňa
+       ============================================ -->
+  <section id="balicek" class="section">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Čo dostanete ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+      <h2 class="h2" style="margin-bottom: 12px;">Balíček obsahuje:</h2>
+      <p class="lead" style="font-size: 16px; max-width: 60ch; margin-bottom: 48px; color: var(--muted);">
+        Všetko od stratégie cez implementáciu po pravidelnú optimalizáciu. Bez prekvapení v cenníku.
+      </p>
+
+      <div class="includes-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        {pkg.includes.map((item, i) => (
+          <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--mono); font-size: 11px; font-weight: 700;">
+              {String(i + 1).padStart(2, '0')}
+            </div>
+            <div>
+              <h3 style="font-size: 16px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 6px 0;">{item.title}</h3>
+              <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">{item.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 880px) { .includes-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       VÝSLEDKY (príklady)
+       ============================================ -->
+  <section class="section" style="background: var(--ink); color: var(--bg);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow" style="color: var(--bg); opacity: 0.55;">[ Typické výsledky ]</span>
+        <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></span>
+      </div>
+      <h2 class="h1" style="margin-bottom: 24px; max-width: 18ch;">Čo môžete očakávať.</h2>
+      <p class="lead" style="max-width: 60ch; opacity: 0.7; margin-bottom: 56px;">
+        Toto sú typické výsledky pri zachovaní pravidiel — kvalitná služba a dostatočný reklamný rozpočet. Konkrétne čísla závisia od trhu a konkurencie.
+      </p>
+
+      <div class="results-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        {pkg.results.map((r) => (
+          <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 36px 32px; text-align: center;">
+            <div class="num grad" style="font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 12px;">{r.metric}</div>
+            <div style="font-size: 13px; opacity: 0.7;">{r.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 768px) { .results-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       CENA + TIMELINE + IDEAL FOR (info strip)
+       ============================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="info-strip" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 32px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 20px;">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">CENA</div>
+          <div style="font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1;">
+            od {pkg.priceFrom} €<span style="font-size: 14px; font-weight: 500; opacity: 0.55;"> / mes</span>
+          </div>
+          <div style="font-size: 12px; color: var(--muted); margin-top: 6px;">+ reklamný rozpočet</div>
+        </div>
+
+        <div>
+          <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">TIMELINE</div>
+          <div style="font-size: 15px; font-weight: 600; line-height: 1.4;">{pkg.timeline}</div>
+        </div>
+
+        <div>
+          <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">IDEÁLNE PRE</div>
+          <div style="font-size: 14px; line-height: 1.5; color: var(--ink-2);">{pkg.idealFor}</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="/kontakt" data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} class="btn btn-grad" style="font-size: 15px; padding: 16px 32px;">
+          Mám záujem o tento balíček
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 768px) { .info-strip { grid-template-columns: 1fr !important; gap: 20px !important; } }
+    </style>
+  </section>
+
+
+  <ContactSection accent="audit" />
+
+  <!-- Drawer preset trigger pre 'Mám záujem o tento balíček' -->
+  <script>
+    (function () {
+      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-pricing-cta]');
+      ctas.forEach((cta) => {
+        cta.addEventListener('click', (e) => {
+          e.preventDefault();
+          const planName = cta.dataset.planName || '';
+          const planSlug = cta.dataset.planSlug || '';
+          const w = window as any;
+          if (typeof w.openContact === 'function') {
+            w.openContact({ plan: planName, planSlug, period: 'mesačne' });
+          } else {
+            window.location.href = '/kontakt';
+          }
+        });
+      });
+    })();
+  </script>
+
+</Layout>

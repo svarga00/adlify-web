@@ -62,6 +62,7 @@ const canonicalUrl = SITE + canonicalPath;
 const NAV_ITEMS: Array<{ href: string; key: string }> = [
   { href: '/',                 key: 'nav.home' },
   { href: '/sluzby',           key: 'nav.services' },
+  { href: '/odvetvia',         key: 'nav.industries' },
   { href: '/ako-to-funguje',   key: 'nav.howItWorks' },
   { href: '/pripadove-studie', key: 'nav.cases' },
   { href: '/cennik',           key: 'nav.pricing' },
@@ -386,6 +387,7 @@ const siteSettings = await fetchSettings(lang);
             <ul>
               <li><a href={buildUrl(lang, '/')}>{t('nav.home', lang)}</a></li>
               <li><a href={buildUrl(lang, '/sluzby')}>{t('nav.services', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/odvetvia')}>{t('nav.industries', lang)}</a></li>
               <li><a href={buildUrl(lang, '/pripadove-studie')}>{t('nav.cases', lang)}</a></li>
               <li><a href={buildUrl(lang, '/cennik')}>{t('nav.pricing', lang)}</a></li>
             </ul>
@@ -404,6 +406,7 @@ const siteSettings = await fetchSettings(lang);
           <div>
             <h5>{t('footer.colResources', lang)}</h5>
             <ul>
+              <li><a href={buildUrl(lang, '/odvetvia')}>{t('nav.industries', lang)}</a></li>
               <li><a href={buildUrl(lang, '/blog')}>{t('nav.blog', lang)}</a></li>
               <li><a href={buildUrl(lang, '/faq')}>{t('nav.faq', lang)}</a></li>
             </ul>

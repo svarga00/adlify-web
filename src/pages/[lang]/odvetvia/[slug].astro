@@ -1,0 +1,23 @@
+---
+import IndustryDetail from '../../../components/pages/IndustryDetail.astro';
+import { industries, getIndustry } from '../../../lib/industries';
+import type { Lang } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const langs: Lang[] = ['cs', 'hu', 'en', 'de'];
+  const paths = [];
+  for (const lang of langs) {
+    for (const p of industries) {
+      paths.push({ params: { lang, slug: p.slug } });
+    }
+  }
+  return paths;
+}
+
+const { lang, slug } = Astro.params as { lang: Lang; slug: string };
+const pkg = getIndustry(slug);
+if (!pkg) {
+  return Astro.redirect(`/${lang}/odvetvia`);
+}
+---
+<IndustryDetail pkg={pkg} lang={lang} />

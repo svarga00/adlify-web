@@ -1,0 +1,142 @@
+---
+/**
+ * /odvetvia — Listing balíčkov pre odvetvia
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import ContactSection from '../ContactSection.astro';
+import { industries } from '../../lib/industries';
+import { buildUrl, type Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+---
+
+<Layout
+  title="Balíčky pre odvetvia — Adlify"
+  description="Hotové marketingové balíky pre konkrétne typy podnikov. Kaderníctva, autoservisy, reštaurácie, e-shopy, kovovýroba a remeselníci."
+  lang={lang}
+  pathname="/odvetvia"
+>
+
+  <PageHero
+    num="015"
+    kind="INDUSTRIES"
+    title="Hotové balíky"
+    titleAccent="pre vaše odvetvie."
+    lead="Predvídate, čo dostanete a koľko zaplatíte. Pre 6 najčastejších odvetví sme zostavili balíky z osvedčených nástrojov a postupov."
+  />
+
+
+  <!-- ============================================
+       INTRO box
+       ============================================ -->
+  <section class="section" style="padding-top: 0; padding-bottom: clamp(24px, 3vw, 48px);">
+    <div class="container" style="max-width: 880px;">
+      <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
+        <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
+          <strong>Prečo balíky pre odvetvia?</strong> Lebo kaderníctvo, autoservis a B2B kovovýroba potrebujú
+          <strong>úplne iné</strong> nástroje a komunikáciu. Hotový balík ušetrí čas pri konzultácii — viete,
+          čo dostanete, predtým ako sa vôbec spojíme. A balíky sú <strong>flexibilné</strong> — vždy ich
+          prispôsobíme vašej konkrétnej situácii.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       6 BALÍČKOV
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="industries-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+        {industries.map((p, i) => (
+          <a href={buildUrl(lang, `/odvetvia/${p.slug}`)} class="industry-card-big">
+            <!-- Header row -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px;">
+              <div>
+                <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">[ Balíček {String(i + 1).padStart(2, '0')} ]</div>
+                <h3 style="font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 0;">{p.name}</h3>
+              </div>
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7"></path>
+                  <path d="M7 7h10v10"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <p style="font-size: 16px; font-weight: 500; line-height: 1.4; margin-bottom: 24px; color: var(--ink-2);">
+              <span class="grad">{p.tagline}</span>
+            </p>
+
+            <!-- Footer info -->
+            <div style="display: flex; align-items: center; gap: 16px; padding-top: 20px; border-top: 1px solid var(--line); flex-wrap: wrap;">
+              <div>
+                <div style="font-size: 11px; color: var(--muted); font-family: var(--mono);">CENA OD</div>
+                <div style="font-size: 18px; font-weight: 700; letter-spacing: -0.015em;">{p.priceFrom} €/mes</div>
+              </div>
+              <div style="flex: 1;"></div>
+              <div style="font-size: 13px; color: var(--muted); text-align: right;">{p.includes.length} položiek v balíku</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      .industry-card-big {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 32px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: border-color 0.15s, transform 0.15s;
+        display: flex;
+        flex-direction: column;
+      }
+      .industry-card-big:hover {
+        border-color: var(--ink);
+        transform: translateY(-4px);
+      }
+      .industry-card-big:hover > div:first-child > div:last-child {
+        background: var(--ink) !important;
+        color: var(--bg);
+      }
+      @media (max-width: 880px) { .industries-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       NEPATRÍTE DO ŽIADNEJ KATEGÓRIE?
+       ============================================ -->
+  <section class="section">
+    <div class="container" style="max-width: 720px; text-align: center;">
+      <div style="background: var(--bg-soft); border: 1px solid var(--line); border-radius: 24px; padding: 48px 32px;">
+        <h3 style="font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px;">
+          Nepatríte do žiadnej kategórie?
+        </h3>
+        <p style="font-size: 15px; line-height: 1.7; color: var(--muted); margin-bottom: 24px; max-width: 50ch; margin-left: auto; margin-right: auto;">
+          Balíky sú len východiskový bod. Aj keď nepatríte do žiadnej z nich, určite nájdeme spôsob, ako vám pomôcť — napíšte nám a navrhneme individuálne riešenie.
+        </p>
+        <a href="/kontakt" class="btn btn-ink">
+          Nezáväzná konzultácia
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <ContactSection accent="audit" />
+
+</Layout>
