@@ -412,26 +412,15 @@ const manifestItems = [
             </div>
           </div>
 
-          <!-- AFTER OVERLAY (clip-path mení sa pri ťahaní) -->
+          <!-- AFTER OVERLAY (clip-path mení sa pri ťahaní)
+               Obsahuje iba farebné bars — header a footer label preberá BEFORE
+               vrstva pod (cez data-ba-dash-month sa dynamicky updatuje text).
+               Tým sa zabráni overlap dvoch textov pri prekrývaní vrstiev. -->
           <div data-ba-after style="position: absolute; inset: 0; padding: 32px; z-index: 3; clip-path: inset(0 0 0 35%); pointer-events: none; display: flex; flex-direction: column; min-height: 416px;">
-            <!-- Header (AFTER state) -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-              <div>
-                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">NOVASHOP · DASHBOARD</div>
-                <div style="font-size: 18px; font-weight: 600; opacity: 0.92; margin-bottom: 14px;">Október 2026</div>
-              </div>
-              <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
-                <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
-                LIVE
-              </div>
-            </div>
-
-            <!-- Bars AFTER: stúpajúce s gradientom -->
+            <!-- Bars AFTER: stúpajúce s gradientom (zarovnané dolu rovnako ako BEFORE) -->
             <div style="margin-top: auto;">
-              <div style="font-family: var(--mono); font-size: 10px; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between;">
-                <span>WEEKLY REVENUE</span>
-                <span>26 týždňov · trend ↗</span>
-              </div>
+              <!-- Spacer aby boli bars zarovnané s BEFORE label "WEEKLY REVENUE" -->
+              <div style="font-family: var(--mono); font-size: 10px; margin-bottom: 10px; visibility: hidden;">&nbsp;</div>
               <div style="display: flex; gap: 3px; align-items: flex-end; height: 110px;">
                 {Array.from({ length: 26 }).map((_, i) => {
                   // AFTER: stúpa od ~25% až po ~95%
