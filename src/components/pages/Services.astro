@@ -11,9 +11,9 @@ import PageHero from '../PageHero.astro';
 import ServicesAccordion from '../ServicesAccordion.astro';
 import ProcessGrid from '../ProcessGrid.astro';
 import ContactSection from '../ContactSection.astro';
-import { fetchAllServices } from '../../lib/content';
+import { fetchAllServices, fetchAllCases, fetchTestimonials, fetchFaq } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 
 interface Props {
   lang?: Lang;
@@ -21,7 +21,13 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.services[lang];
 
-const services = await fetchAllServices(lang);
+// Paralelný fetch pre rýchlosť
+const [services, cases, testimonials, faqs] = await Promise.all([
+  fetchAllServices(lang),
+  fetchAllCases(lang),
+  fetchTestimonials(lang, 3),
+  fetchFaq(lang, 6),
+]);
 ---
 
 <Layout
@@ -42,6 +48,161 @@ const services = await fetchAllServices(lang);
   <ServicesAccordion services={services} linkToDetail={true} showSectionHead={false} />
 
   <ProcessGrid background="soft" />
+
+  {/* ============ VYBRANÉ PRÍPADOVÉ ŠTÚDIE ============ */}
+  {cases.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <span class="eyebrow">[ 03 — VÝSLEDKY ]</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <div class="sec-head">
+          <h2 class="h1" style="max-width: 14ch;">Tu sú výsledky.</h2>
+          <p class="lead">
+            Nepredávame sľuby. Predávame čísla, ktoré hovoria samé za seba.
+          </p>
+        </div>
+
+        <div class="cases-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;">
+          {cases.slice(0, 3).map((c) => (
+            <a href={buildUrl(lang, `/pripadove-studie/${c.slug}`)} class="case-card" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 28px; transition: border-color 0.2s, transform 0.2s; color: var(--ink); display: flex; flex-direction: column;">
+              {c.category && (
+                <div class="eyebrow" style="margin-bottom: 16px; font-size: 10px;">{c.category}</div>
+              )}
+              <h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; margin-bottom: 12px;">{c.name}</h3>
+              <p style="font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 24px; flex: 1;">{c.summary}</p>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line);">
+                {c.metric_a_value && (
+                  <div>
+                    <div class="num grad" style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">{c.metric_a_value}</div>
+                    <div style="font-size: 11px; color: var(--muted); margin-top: 4px;">{c.metric_a_label}</div>
+                  </div>
+                )}
+                {c.metric_b_value && (
+                  <div>
+                    <div class="num grad" style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">{c.metric_b_value}</div>
+                    <div style="font-size: 11px; color: var(--muted); margin-top: 4px;">{c.metric_b_label}</div>
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+          <a href={buildUrl(lang, '/pripadove-studie')} class="btn btn-ink">
+            Všetky prípadové štúdie
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <style>
+        .case-card:hover { border-color: var(--ink) !important; transform: translateY(-4px); }
+        @media (max-width: 1024px) { .cases-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 640px)  { .cases-grid { grid-template-columns: 1fr !important; } }
+      </style>
+    </section>
+  )}
+
+  {/* ============ TESTIMONIÁLY ============ */}
+  {testimonials.length > 0 && (
+    <section class="section" style="background: var(--bg-soft);">
+      <div class="container">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <span class="eyebrow">[ 04 — KLIENTI ]</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <h2 class="h1" style="max-width: 16ch; margin-bottom: 56px;">Čo o nás hovoria.</h2>
+
+        <div class="testim-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+          {testimonials.map((t) => (
+            <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: flex; flex-direction: column;">
+              {/* Stars */}
+              <div style="display: flex; gap: 2px; margin-bottom: 20px;">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={i < t.rating ? 'var(--grad-start)' : 'var(--line)'} aria-hidden="true">
+                    <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p style="font-size: 16px; line-height: 1.55; margin-bottom: 24px; flex: 1;">„{t.quote}"</p>
+
+              {/* Author */}
+              <div style="display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line);">
+                {t.author_logo_url ? (
+                  <img src={t.author_logo_url} alt={t.author_name} loading="lazy" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--bg-soft);" />
+                ) : (
+                  <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+                    {t.author_name.split(' ').map(p => p[0]).slice(0, 2).join('')}
+                  </div>
+                )}
+                <div>
+                  <div style="font-size: 14px; font-weight: 600;">{t.author_name}</div>
+                  {t.author_role && <div style="font-size: 12px; color: var(--muted);">{t.author_role}</div>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style>
+        @media (max-width: 1024px) { .testim-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 640px)  { .testim-grid { grid-template-columns: 1fr !important; } }
+      </style>
+    </section>
+  )}
+
+  {/* ============ FAQ ============ */}
+  {faqs.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <span class="eyebrow">[ 05 — FAQ ]</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+        <div class="sec-head">
+          <h2 class="h1" style="max-width: 14ch;">Časté otázky.</h2>
+          <p class="lead">Pýtajú sa nás to najčastejšie. Ak nenájdete svoju otázku, napíšte nám.</p>
+        </div>
+
+        <div style="max-width: 880px; margin-top: 48px;">
+          {faqs.map((f, i) => (
+            <details class="faq-item" style="border-top: 1px solid var(--line);" open={i === 0}>
+              <summary style="display: flex; align-items: center; justify-content: space-between; padding: 24px 0; cursor: pointer; list-style: none; font-size: clamp(17px, 2vw, 20px); font-weight: 600; gap: 24px;">
+                <span>{f.question}</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; transition: transform 0.2s;">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </summary>
+              <div style="padding: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 70ch;">
+                {f.answer}
+              </div>
+            </details>
+          ))}
+          <div style="border-top: 1px solid var(--line);"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+          <a href={buildUrl(lang, '/faq')} class="btn btn-ink-outline">
+            Všetky otázky a odpovede
+          </a>
+        </div>
+      </div>
+
+      <style>
+        .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+        .faq-item summary::-webkit-details-marker { display: none; }
+      </style>
+    </section>
+  )}
 
   <ContactSection accent="audit" />
 

@@ -207,6 +207,74 @@ export async function fetchAllServices(lang: Lang): Promise<Service[]> {
 }
 
 // ============================================================
+// FETCHERS — testimonials (web_testimonials)
+// ============================================================
+
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author_name: string;
+  author_role: string;
+  author_logo_url: string;
+  rating: number;
+}
+
+export async function fetchTestimonials(lang: Lang, limit?: number): Promise<Testimonial[]> {
+  if (!supabase) return [];
+  let q = supabase
+    .from('web_testimonials')
+    .select('*')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true });
+  if (limit) q = q.limit(limit);
+  const { data, error } = await q;
+  if (error) {
+    console.warn('[content] fetchTestimonials error:', error.message);
+    return [];
+  }
+  return (data || []).map((row) => ({
+    id:               String(row.id ?? ''),
+    quote:            pickLang(row.quote,         lang),
+    author_name:      pickLang(row.author_name,   lang),
+    author_role:      pickLang(row.author_role,   lang),
+    author_logo_url:  String(row.author_logo_url ?? ''),
+    rating:           Number(row.rating ?? 5),
+  }));
+}
+
+// ============================================================
+// FETCHERS — FAQ (web_faq)
+// ============================================================
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+}
+
+export async function fetchFaq(lang: Lang, limit?: number): Promise<FaqItem[]> {
+  if (!supabase) return [];
+  let q = supabase
+    .from('web_faq')
+    .select('*')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true });
+  if (limit) q = q.limit(limit);
+  const { data, error } = await q;
+  if (error) {
+    console.warn('[content] fetchFaq error:', error.message);
+    return [];
+  }
+  return (data || []).map((row) => ({
+    id:        String(row.id ?? ''),
+    question:  pickLang(row.question, lang),
+    answer:    pickLang(row.answer,   lang),
+    category:  String(row.category ?? ''),
+  }));
+}
+
+// ============================================================
 // FETCHERS — single by slug
 // ============================================================
 
