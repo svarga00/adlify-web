@@ -1,0 +1,163 @@
+---
+/**
+ * /obchodne-podmienky — Všeobecné obchodné podmienky
+ *
+ * Vzorová šablóna pre marketingovú agentúru. Údaje firmy sa
+ * dotahujú zo web_settings (cez admin). Ak nie sú vyplnené,
+ * zobrazia sa placeholdery v hranatých zátvorkách.
+ *
+ * VYHRADENÝ: tento dokument je len vzor. Pred živým použitím
+ * by mal byť skontrolovaný advokátom alebo právnym poradcom,
+ * najmä ak meníte rozsah služieb alebo cenovú štruktúru.
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import { fetchSettings } from '../../lib/content';
+import { pageMeta } from '../../lib/pageMeta';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+const meta = pageMeta.terms[lang];
+const settings = await fetchSettings(lang);
+
+// Placeholder ak admin Settings nemá údaje vyplnené
+const ph = (val: string, label: string) => val || `[${label}]`;
+const company    = ph(settings.company_name,    'názov firmy');
+const ico        = ph(settings.company_ico,     'IČO');
+const dic        = ph(settings.company_dic,     'DIČ');
+const address    = ph(settings.contact_address, 'sídlo');
+const email      = ph(settings.contact_email,   'e-mail');
+
+const today = new Date().toLocaleDateString('sk-SK');
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  pathname="/obchodne-podmienky"
+>
+  <PageHero
+    num={meta.hero!.num}
+    kind={meta.hero!.kind}
+    title={meta.hero!.title}
+    titleAccent={meta.hero!.titleAccent}
+    lead={meta.hero!.lead}
+  />
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container" style="max-width: 760px;">
+      <article class="legal-prose">
+
+        <p class="legal-meta">Účinnosť od: {today}</p>
+
+        <h2>1. Všeobecné ustanovenia</h2>
+        <p>
+          Tieto všeobecné obchodné podmienky (ďalej len <strong>„VOP"</strong>) upravujú zmluvný vzťah
+          medzi spoločnosťou <strong>{company}</strong>, IČO: {ico}, DIČ: {dic}, so sídlom {address}
+          (ďalej len <strong>„poskytovateľ"</strong>) a klientom (ďalej len <strong>„objednávateľ"</strong>).
+        </p>
+        <p>
+          Predmetom zmluvy je poskytovanie marketingových služieb v oblasti online reklamy
+          (Google Ads, Meta Ads), SEO, e-mail marketingu, analytiky a súvisiacich služieb.
+        </p>
+
+        <h2>2. Uzatvorenie zmluvy</h2>
+        <p>
+          Zmluva medzi poskytovateľom a objednávateľom vzniká písomným potvrdením cenovej
+          ponuky alebo elektronicky cez e-mail z adresy {email}. Súčasťou zmluvy sú tieto VOP.
+        </p>
+
+        <h2>3. Cena a platobné podmienky</h2>
+        <ul>
+          <li>Cena za služby je dohodnutá individuálne a uvedená v cenovej ponuke alebo zmluve.</li>
+          <li>Mediálne náklady (Google Ads, Meta Ads atď.) si objednávateľ uhrádza priamo platforme.</li>
+          <li>Faktúry vystavujeme mesačne, splatnosť 14 dní od vystavenia.</li>
+          <li>Pri omeškaní s platbou má poskytovateľ právo prerušiť poskytovanie služieb až do úhrady.</li>
+          <li>Cena nezahŕňa náklady na licencie tretích strán (e-mail platformy, hosting atď.), ak nie je dohodnuté inak.</li>
+        </ul>
+
+        <h2>4. Práva a povinnosti poskytovateľa</h2>
+        <ul>
+          <li>Poskytovať služby s odbornou starostlivosťou v súlade s dohodnutým rozsahom.</li>
+          <li>Pravidelne reportovať výsledky kampaní (mesačne alebo podľa dohodnutej frekvencie).</li>
+          <li>Chrániť dôverné informácie objednávateľa (NDA podpisujeme na požiadanie).</li>
+          <li>Garantovať doby reakcie podľa zvoleného balíka služieb.</li>
+        </ul>
+
+        <h2>5. Práva a povinnosti objednávateľa</h2>
+        <ul>
+          <li>Poskytnúť včas všetky podklady potrebné na realizáciu kampaní (prístupy, kreatívy, briefy).</li>
+          <li>Uhradiť faktúry v termíne splatnosti.</li>
+          <li>Schvaľovať materiály v dohodnutom termíne; pri omeškaní sa o tento čas posúva harmonogram.</li>
+          <li>Garantovať pravdivosť dodaných údajov a obsahu.</li>
+        </ul>
+
+        <h2>6. Garancie a zodpovednosť</h2>
+        <p>
+          Poskytovateľ <strong>nezaručuje</strong> konkrétnu výkonnostnú metriku
+          (napr. počet objednávok, ROAS, CPC), pretože tieto výsledky závisia od mnohých
+          faktorov mimo jeho kontroly (sezónnosť, trh, cena produktu, kvalita webu).
+        </p>
+        <p>
+          Poskytovateľ však garantuje:
+        </p>
+        <ul>
+          <li>Profesionálne nastavenie kampaní a meraní.</li>
+          <li>Pravidelný reporting a komunikáciu.</li>
+          <li>Implementáciu best practice z oblasti performance marketingu.</li>
+        </ul>
+        <p>
+          V prípade nespokojnosti so službami má objednávateľ právo požiadať o nápravu
+          do 14 dní. Ak sa náprava nedosiahne, môže zmluvu vypovedať s 30-dňovou výpovednou lehotou.
+        </p>
+
+        <h2>7. Trvanie a ukončenie zmluvy</h2>
+        <ul>
+          <li>Zmluva sa uzatvára na dobu neurčitú alebo na dobu definovanú v cenovej ponuke.</li>
+          <li>Obe strany majú právo zmluvu vypovedať bez udania dôvodu s výpovednou lehotou 30 dní.</li>
+          <li>Pri závažnom porušení (omeškanie s platbou viac ako 30 dní, porušenie NDA atď.) je možné odstúpiť okamžite.</li>
+          <li>Po ukončení zmluvy poskytovateľ odovzdá objednávateľovi prístupy k jeho účtom a relevantné údaje.</li>
+        </ul>
+
+        <h2>8. Duševné vlastníctvo</h2>
+        <p>
+          Po úhrade všetkých faktúr prechádzajú práva k vytvoreným kreatívam, copy a kampaňovým
+          dátam na objednávateľa. Poskytovateľ má právo používať dosiahnuté výsledky
+          (anonymizovane alebo so súhlasom) ako prípadovú štúdiu.
+        </p>
+
+        <h2>9. Mlčanlivosť</h2>
+        <p>
+          Obe strany sa zaväzujú zachovávať mlčanlivosť o dôverných informáciách, ktoré získajú
+          počas spolupráce. Mlčanlivosť trvá aj po ukončení zmluvy. Na požiadanie podpisujeme
+          samostatnú zmluvu o mlčanlivosti (NDA).
+        </p>
+
+        <h2>10. Reklamácie</h2>
+        <p>
+          Reklamácie ohľadom kvality služieb sa uplatňujú písomne na e-mail {email} do 14 dní
+          od zistenia nedostatku. Poskytovateľ na reklamáciu odpovedá do 7 pracovných dní.
+        </p>
+
+        <h2>11. Záverečné ustanovenia</h2>
+        <ul>
+          <li>Vzťahy neupravené týmito VOP sa riadia Obchodným zákonníkom (513/1991 Zb.) a Občianskym zákonníkom Slovenskej republiky.</li>
+          <li>Spory sa primárne riešia mimosúdne; ak sa to nepodarí, príslušné sú súdy SR.</li>
+          <li>Poskytovateľ si vyhradzuje právo VOP meniť. O zmenách informuje objednávateľa minimálne 30 dní vopred.</li>
+        </ul>
+
+        <hr />
+        <p class="legal-meta">
+          Posledná aktualizácia: {today}<br />
+          Pri otázkach napíšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+        </p>
+      </article>
+    </div>
+  </section>
+
+</Layout>

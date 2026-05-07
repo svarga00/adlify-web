@@ -500,5 +500,56 @@ const siteSettings = await fetchSettings(lang);
         rvEls.forEach((el) => el.classList.add('in'));
       }
     </script>
+
+    <!-- ============ COOKIE CONSENT BANNER ============ -->
+    <div id="cookie-banner" style="position: fixed; bottom: 16px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto; z-index: 9000; background: var(--ink); color: var(--bg); padding: 20px 24px; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); display: none;">
+      <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
+        Používame cookies pre fungovanie webu, analytiku a personalizáciu reklamy.
+        Detaily nájdete v <a href={buildUrl(lang, '/cookies')} style="color: var(--bg); text-decoration: underline;">Cookies</a>.
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button id="cookie-accept-all" style="flex: 1; min-width: 120px; padding: 10px 14px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; border: none; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;">
+          Prijať všetky
+        </button>
+        <button id="cookie-accept-essential" style="flex: 1; min-width: 120px; padding: 10px 14px; background: transparent; color: var(--bg); border: 1px solid rgba(255,255,255,0.25); border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;">
+          Len nevyhnutné
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Cookie consent — minimálna implementácia
+      // Stav v localStorage: 'all' | 'essential'
+      (function () {
+        const KEY = 'cookie_consent';
+        const banner = document.getElementById('cookie-banner');
+        if (!banner) return;
+
+        const saved = localStorage.getItem(KEY);
+        if (!saved) {
+          // Zobraz banner po 800ms (aby neblokoval LCP)
+          setTimeout(() => { banner.style.display = 'block'; }, 800);
+        }
+
+        document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+          localStorage.setItem(KEY, 'all');
+          banner.style.display = 'none';
+          // TODO: aktivuj GA / Meta pixel scripty tu ked ich pridas
+        });
+        document.getElementById('cookie-accept-essential')?.addEventListener('click', () => {
+          localStorage.setItem(KEY, 'essential');
+          banner.style.display = 'none';
+        });
+
+        // Reset z /cookies stranky
+        document.querySelectorAll('[data-cookie-reset]').forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem(KEY);
+            banner.style.display = 'block';
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

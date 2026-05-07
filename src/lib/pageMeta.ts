@@ -233,6 +233,63 @@ const howItWorks: LangPageMeta = {
 };
 
 // ============================================================
+// LEGAL PAGES (Obchodné podmienky, Ochrana údajov, Cookies)
+// ============================================================
+const terms: LangPageMeta = {
+  sk: { title: 'Obchodné podmienky — Adlify',
+        description: 'Všeobecné obchodné podmienky pre poskytovanie marketingových služieb.',
+        hero: { num: '012', kind: 'TERMS', title: 'Obchodné', titleAccent: 'podmienky.', lead: 'Pravidlá, podľa ktorých spolupracujeme. Bez prekvapení.' } },
+  cs: { title: 'Obchodní podmínky — Adlify',
+        description: 'Všeobecné obchodní podmínky pro poskytování marketingových služeb.',
+        hero: { num: '012', kind: 'TERMS', title: 'Obchodní', titleAccent: 'podmínky.', lead: 'Pravidla, podle kterých spolupracujeme. Bez překvapení.' } },
+  hu: { title: 'Általános szerződési feltételek — Adlify',
+        description: 'Általános szerződési feltételek marketingszolgáltatások nyújtására.',
+        hero: { num: '012', kind: 'TERMS', title: 'Általános', titleAccent: 'feltételek.', lead: 'A szabályok, amelyek alapján együttműködünk. Meglepetések nélkül.' } },
+  en: { title: 'Terms of Service — Adlify',
+        description: 'Terms and conditions for the provision of marketing services.',
+        hero: { num: '012', kind: 'TERMS', title: 'Terms of', titleAccent: 'service.', lead: 'The rules we collaborate by. No surprises.' } },
+  de: { title: 'AGB — Adlify',
+        description: 'Allgemeine Geschäftsbedingungen für Marketing-Dienstleistungen.',
+        hero: { num: '012', kind: 'TERMS', title: 'Allgemeine', titleAccent: 'Geschäftsbedingungen.', lead: 'Die Regeln, nach denen wir zusammenarbeiten. Ohne Überraschungen.' } },
+};
+
+const privacy: LangPageMeta = {
+  sk: { title: 'Ochrana osobných údajov — Adlify',
+        description: 'Ako spracúvame vaše osobné údaje. Súlad s GDPR.',
+        hero: { num: '013', kind: 'PRIVACY', title: 'Ochrana', titleAccent: 'osobných údajov.', lead: 'Aké údaje zbierame, načo, ako dlho a aké máte práva.' } },
+  cs: { title: 'Ochrana osobních údajů — Adlify',
+        description: 'Jak zpracováváme vaše osobní údaje. Soulad s GDPR.',
+        hero: { num: '013', kind: 'PRIVACY', title: 'Ochrana', titleAccent: 'osobních údajů.', lead: 'Jaké údaje sbíráme, k čemu, jak dlouho a jaká máte práva.' } },
+  hu: { title: 'Adatvédelem — Adlify',
+        description: 'Hogyan kezeljük személyes adatait. GDPR megfelelés.',
+        hero: { num: '013', kind: 'PRIVACY', title: 'Személyes', titleAccent: 'adatok védelme.', lead: 'Milyen adatokat gyűjtünk, miért, mennyi ideig és milyen jogai vannak.' } },
+  en: { title: 'Privacy Policy — Adlify',
+        description: 'How we process your personal data. GDPR compliant.',
+        hero: { num: '013', kind: 'PRIVACY', title: 'Privacy', titleAccent: 'policy.', lead: 'What data we collect, why, for how long, and what rights you have.' } },
+  de: { title: 'Datenschutz — Adlify',
+        description: 'Wie wir Ihre personenbezogenen Daten verarbeiten. DSGVO-konform.',
+        hero: { num: '013', kind: 'PRIVACY', title: 'Datenschutz', titleAccent: 'erklärung.', lead: 'Welche Daten wir sammeln, wofür, wie lange und welche Rechte Sie haben.' } },
+};
+
+const cookies: LangPageMeta = {
+  sk: { title: 'Cookies — Adlify',
+        description: 'Aké cookies používame a prečo.',
+        hero: { num: '014', kind: 'COOKIES', title: 'Cookies a', titleAccent: 'sledovanie.', lead: 'Aké cookies používame a ako ich môžete spravovať.' } },
+  cs: { title: 'Cookies — Adlify',
+        description: 'Jaké cookies používáme a proč.',
+        hero: { num: '014', kind: 'COOKIES', title: 'Cookies a', titleAccent: 'sledování.', lead: 'Jaké cookies používáme a jak je můžete spravovat.' } },
+  hu: { title: 'Cookie-k — Adlify',
+        description: 'Milyen cookie-kat használunk és miért.',
+        hero: { num: '014', kind: 'COOKIES', title: 'Cookie-k és', titleAccent: 'követés.', lead: 'Milyen cookie-kat használunk és hogyan kezelheted őket.' } },
+  en: { title: 'Cookies — Adlify',
+        description: 'What cookies we use and why.',
+        hero: { num: '014', kind: 'COOKIES', title: 'Cookies and', titleAccent: 'tracking.', lead: 'What cookies we use and how you can manage them.' } },
+  de: { title: 'Cookies — Adlify',
+        description: 'Welche Cookies wir verwenden und warum.',
+        hero: { num: '014', kind: 'COOKIES', title: 'Cookies und', titleAccent: 'Tracking.', lead: 'Welche Cookies wir verwenden und wie Sie sie verwalten können.' } },
+};
+
+// ============================================================
 // EXPORT
 // ============================================================
 export const pageMeta = {
@@ -246,6 +303,9 @@ export const pageMeta = {
   contact,
   partners,
   howItWorks,
+  terms,
+  privacy,
+  cookies,
 };
 
 export type PageKey = keyof typeof pageMeta;
