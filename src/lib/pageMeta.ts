@@ -90,20 +90,20 @@ const cases: LangPageMeta = {
 // ============================================================
 const pricing: LangPageMeta = {
   sk: { title: 'Cenník — Adlify',
-        description: 'Fixný mesačný paušál. Žiadne provízie z reklamy, žiadne skryté poplatky. Minimálna spolupráca 3 mesiace.',
-        hero: { num: '004', kind: 'PRICING', title: 'Jednoduchý cenník.', titleAccent: 'Bez prekvapení.', lead: 'Fixný mesačný paušál. Žiadne provízie z reklamy, žiadne skryté poplatky. Minimálna spolupráca 3 mesiace.' } },
+        description: 'Fixný mesačný paušál. Žiadne skryté poplatky. Bez viazanosti — odísť môžete kedykoľvek.',
+        hero: { num: '004', kind: 'PRICING', title: 'Jednoduchý cenník.', titleAccent: 'Bez prekvapení.', lead: 'Fixný mesačný paušál. Žiadne skryté poplatky. Bez viazanosti — odísť môžete kedykoľvek.' } },
   cs: { title: 'Ceník — Adlify',
-        description: 'Fixní měsíční paušál. Žádné provize z reklamy, žádné skryté poplatky. Minimální spolupráce 3 měsíce.',
-        hero: { num: '004', kind: 'CENÍK', title: 'Jednoduchý ceník.', titleAccent: 'Bez překvapení.', lead: 'Fixní měsíční paušál. Žádné provize z reklamy, žádné skryté poplatky. Minimální spolupráce 3 měsíce.' } },
+        description: 'Fixní měsíční paušál. Žádné skryté poplatky. Bez vázanosti — odejít můžete kdykoli.',
+        hero: { num: '004', kind: 'CENÍK', title: 'Jednoduchý ceník.', titleAccent: 'Bez překvapení.', lead: 'Fixní měsíční paušál. Žádné skryté poplatky. Bez vázanosti — odejít můžete kdykoli.' } },
   hu: { title: 'Árak — Adlify',
-        description: 'Fix havi átalány. Nincs hirdetési jutalék, nincsenek rejtett díjak. Minimum 3 hónapos együttműködés.',
-        hero: { num: '004', kind: 'ÁRAK', title: 'Egyszerű árazás.', titleAccent: 'Meglepetések nélkül.', lead: 'Fix havi átalány. Nincs hirdetési jutalék, nincsenek rejtett díjak. Minimum 3 hónapos együttműködés.' } },
+        description: 'Fix havi átalány. Nincsenek rejtett díjak. Kötöttség nélkül — bármikor leállíthatja.',
+        hero: { num: '004', kind: 'ÁRAK', title: 'Egyszerű árazás.', titleAccent: 'Meglepetések nélkül.', lead: 'Fix havi átalány. Nincsenek rejtett díjak. Kötöttség nélkül — bármikor leállíthatja.' } },
   en: { title: 'Pricing — Adlify',
-        description: 'Fixed monthly retainer. No ad commissions, no hidden fees. Minimum 3-month engagement.',
-        hero: { num: '004', kind: 'PRICING', title: 'Simple pricing.', titleAccent: 'No surprises.', lead: 'Fixed monthly retainer. No commissions on ad spend, no hidden fees. Minimum 3-month engagement.' } },
+        description: 'Fixed monthly retainer. No hidden fees. No commitment — cancel anytime.',
+        hero: { num: '004', kind: 'PRICING', title: 'Simple pricing.', titleAccent: 'No surprises.', lead: 'Fixed monthly retainer. No hidden fees. No commitment — cancel anytime.' } },
   de: { title: 'Preise — Adlify',
-        description: 'Fixe monatliche Pauschale. Keine Werbeprovisionen, keine versteckten Gebühren. Mindestlaufzeit 3 Monate.',
-        hero: { num: '004', kind: 'PREISE', title: 'Einfache Preise.', titleAccent: 'Keine Überraschungen.', lead: 'Fixe monatliche Pauschale. Keine Provisionen auf Werbebudgets, keine versteckten Gebühren. Mindestlaufzeit 3 Monate.' } },
+        description: 'Fixe monatliche Pauschale. Keine versteckten Gebühren. Keine Bindung — jederzeit kündbar.',
+        hero: { num: '004', kind: 'PREISE', title: 'Einfache Preise.', titleAccent: 'Keine Überraschungen.', lead: 'Fixe monatliche Pauschale. Keine versteckten Gebühren. Keine Bindung — jederzeit kündbar.' } },
 };
 
 // ============================================================
