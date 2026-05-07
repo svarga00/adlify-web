@@ -4,8 +4,11 @@
  *
  * Sekcie:
  *  1. PageHero
- *  2. 4 hodnoty (Ako premýšľame: Dáta nad dojmy, Transparentnosť, Rýchlosť, Partnerstvo)
- *  3. ContactSection
+ *  2. Manifest — prečo Adlify existuje + skúsenosť od 2014
+ *  3. Pre koho sme tu (4 segmenty zákazníkov)
+ *  4. Hodnoty (Ako pracujeme)
+ *  5. Ako sa líšime od bežnej agentúry (porovnávacia tabuľka)
+ *  6. ContactSection
  */
 
 import Layout from '../../layouts/Layout.astro';
@@ -21,33 +24,70 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.about[lang];
 
-// CMS content z web_pages_content (admin Etapa C)
+// CMS content z web_pages_content (admin Etapa C) — ak je vyplnený,
+// prevažuje nad hardcoded manifestom.
 const sections = await fetchPageSections('about', lang);
-const mission = sections.mission || {};
-const missionTitle = mission.title || '';
-const missionBody  = mission.body  || '';
+const cmsMission = sections.mission || {};
+const cmsMissionTitle = cmsMission.title || '';
+const cmsMissionBody  = cmsMission.body  || '';
 
+// 4 segmenty zákazníkov "Pre koho sme tu"
+const segments = [
+  {
+    title: 'Živnostníci a remeselníci',
+    desc: 'Kaderníčky, autoservisy, klampiarske firmy, sklenári. Lokálne podnikanie potrebuje lokálnu reklamu — a tu vám dokážeme pomôcť aj s rozpočtom 200 € mesačne.',
+    icon: '<path d="M12 2 2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>',
+  },
+  {
+    title: 'Malé e-shopy',
+    desc: 'Začínate predávať online a chcete získať prvých zákazníkov. Nastavíme meranie, rozbehneme prvé kampane a ukážeme vám, čo funguje a čo nie.',
+    icon: '<rect x="2" y="6" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path><path d="M7 14h2"></path><path d="M11 14h2"></path>',
+  },
+  {
+    title: 'Služby a freelanceri',
+    desc: 'Konzultanti, kouči, terapeuti, fotografi, dizajnéri. Pomáhame vám priviesť klientov, ktorí majú o vás reálny záujem — nie len kliky.',
+    icon: '<circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a8.5 8.5 0 0 1 13 0"></path>',
+  },
+  {
+    title: 'Výrobné a B2B firmy',
+    desc: 'Kovovýroba, plastikárstvo, stavebné firmy, technologické služby. B2B reklama nie je o impresiách — je o správnych rozhodovacích osobách. To vieme.',
+    icon: '<path d="M2 20h20"></path><path d="M5 20V8l5-3 5 3v12"></path><path d="M11 20V4l5-2v18"></path>',
+  },
+];
+
+// 4 hodnoty — prepísané aby zodpovedali "dostupnosť pre všetkých"
 const values = [
   {
     title: 'Dáta nad dojmy',
-    desc:  'Rozhodujeme podľa čísel, nie pocitov. Každá hypotéza má metriku.',
+    desc:  'Rozhodujeme podľa čísel, nie pocitov. Aj malá kampaň má merať to čo veľká.',
     icon:  '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
   },
   {
-    title: 'Transparentnosť',
-    desc:  'Vidíte každé euro. Žiadne skryté marže, žiadne prekvapenia na faktúre.',
+    title: 'Bez viazanosti',
+    desc:  'Žiadne 3-, 6- ani 12-mesačné kontrakty. Ak vám to nesedí, odídete kedykoľvek bez výpovede.',
+    icon:  '<path d="M9 12l2 2 4-4"></path><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1"></path><path d="M3 12v7c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-7"></path>',
+  },
+  {
+    title: 'Transparentná cena',
+    desc:  'Vidíte každé euro. Žiadne skryté marže, žiadne prekvapenia na faktúre, žiadne provízie z budgetu.',
     icon:  '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
   },
   {
-    title: 'Rýchlosť',
-    desc:  'Prvá kampaň do 14 dní. Reporty každý týždeň.',
-    icon:  '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+    title: 'Reálna dostupnosť',
+    desc:  'Píšete priamo človeku, ktorý kampane nastavuje. Žiadny ticket systém, žiadne 5 úrovní eskalácie.',
+    icon:  '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
   },
-  {
-    title: 'Partnerstvo',
-    desc:  'Nie sme dodávateľ — sme súčasťou vášho tímu.',
-    icon:  '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
-  },
+];
+
+// "Ako sa líšime" — porovnanie agentúra vs. Adlify
+const compareRows = [
+  { label: 'Minimálny mesačný rozpočet na reklamu', them: 'Často 3 000 €+',                us: 'Od 200 €' },
+  { label: 'Minimálna doba spolupráce',             them: '6 alebo 12 mesiacov',            us: 'Bez viazanosti' },
+  { label: 'Cenotvorba',                            them: '15 % provízia z reklamy',        us: 'Fixný paušál' },
+  { label: 'Komunikácia',                           them: 'Account manager + ticket',       us: 'Priamo s človekom čo robí kampane' },
+  { label: 'Reporting',                             them: 'Mesačný PDF report',             us: 'Real-time dashboard 24/7' },
+  { label: 'Vlastníctvo účtov',                     them: 'Účty na agentúru',               us: 'Účty vždy na vašu firmu' },
+  { label: 'Pre koho je vhodný',                    them: 'Stredné a veľké firmy',          us: 'Aj živnostníci a malé firmy' },
 ];
 ---
 
@@ -67,42 +107,118 @@ const values = [
   />
 
 
-  {missionTitle && (
-    <section class="section">
-      <div class="container" style="max-width: 880px;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-          <span class="eyebrow">[ MISSION ]</span>
-          <span style="flex: 1; height: 1px; background: var(--line);"></span>
-        </div>
-        <h2 class="h2" style="margin-bottom: 24px;">{missionTitle}</h2>
-        {missionBody && (
-          <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); color: var(--muted); line-height: 1.6;">
-            {missionBody}
-          </p>
-        )}
+  <!-- ============================================
+       MANIFEST — prečo Adlify existuje
+       ============================================ -->
+  <section class="section">
+    <div class="container" style="max-width: 920px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
+        <span class="eyebrow">[ Manifest ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
-    </section>
-  )}
+
+      {cmsMissionTitle ? (
+        <>
+          <h2 class="h2" style="margin-bottom: 24px; max-width: 24ch;">{cmsMissionTitle}</h2>
+          {cmsMissionBody && (
+            <p class="lead" style="font-size: clamp(18px, 1.5vw, 22px); color: var(--ink-2); line-height: 1.6;">
+              {cmsMissionBody}
+            </p>
+          )}
+        </>
+      ) : (
+        <>
+          <h2 class="h2" style="margin-bottom: 32px; max-width: 22ch; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.03em;">
+            Výkonnostný marketing nemá byť privilégium <span class="grad">veľkých.</span>
+          </h2>
+
+          <div style="display: flex; flex-direction: column; gap: 22px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.7; color: var(--ink-2); max-width: 70ch;">
+            <p>
+              Väčšina agentúr vás ani nezdvihne, ak nemáte rozpočet aspoň 3 000 € mesačne.
+              Pýtajú minimálne 6-mesačné zmluvy, účtujú províziu z budgetu a komunikujú
+              cez tri vrstvy account managerov.
+            </p>
+
+            <p>
+              <strong>To nie je marketing pre malých.</strong>
+              A pritom práve malí — kaderníčky, mäsiari, výrobné firmy z regiónu — potrebujú
+              kvalitnú reklamu rovnako ako veľké e-shopy. Možno ešte viac, lebo bojujú o každého zákazníka.
+            </p>
+
+            <p>
+              Adlify sme založili, aby sme to zmenili. <strong>Bez viazanosti, od 149 € mesačne,
+              priamo s človekom čo kampane robí.</strong> Nie s tímom, ktorý vám pridelí
+              juniora a fakturuje senior sadzbu.
+            </p>
+
+            <p>
+              Online marketingu sa venujeme od <strong>roku 2014</strong>. Začínali sme s Google Ads,
+              prešli cez Meta, TikTok, e-mail automatizácie aj server-side meranie. Vieme, čo funguje
+              v rôznych odvetviach — a čo je len zbytočne drahá hra.
+            </p>
+          </div>
+        </>
+      )}
+    </div>
+  </section>
 
 
   <!-- ============================================
-       4 HODNOTY — "Ako premýšľame"
+       PRE KOHO SME TU — 4 segmenty
        ============================================ -->
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 56px;">
-        <span class="eyebrow">Ako premýšľame</span>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Pre koho sme tu ]</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
+
+      <h2 class="h1" style="max-width: 18ch; margin-bottom: 56px;">
+        Pomáhame tým, ktorých <span class="grad">veľké agentúry odmietli.</span>
+      </h2>
+
+      <div class="segments-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+        {segments.map((s, i) => (
+          <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 36px; display: flex; gap: 24px; align-items: flex-start;">
+            <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon} aria-hidden="true"></svg>
+            </div>
+            <div style="flex: 1;">
+              <div class="eyebrow" style="margin-bottom: 10px; font-size: 10px;">{String(i + 1).padStart(2, '0')}</div>
+              <h3 style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px;">{s.title}</h3>
+              <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0;">{s.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 880px) { .segments-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       HODNOTY — "Ako pracujeme"
+       ============================================ -->
+  <section class="section">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Ako pracujeme ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+
+      <h2 class="h1" style="max-width: 16ch; margin-bottom: 56px;">
+        Štyri princípy, na ktorých <span class="grad">stojíme.</span>
+      </h2>
 
       <div class="values-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
         {values.map((v, i) => (
           <article class="rv" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-            <!-- Mini gradient orb v rohu -->
             <div aria-hidden="true" style="position: absolute; top: -30px; right: -30px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--grad-start) 16%, transparent), transparent 70%); opacity: 0.5; pointer-events: none;"></div>
 
             <div style="position: relative;">
-              <!-- Ikonka -->
               <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={v.icon} aria-hidden="true"></svg>
               </div>
@@ -117,11 +233,71 @@ const values = [
     </div>
 
     <style>
-      @media (max-width: 1024px) {
-        .values-grid { grid-template-columns: 1fr 1fr !important; }
-      }
-      @media (max-width: 560px) {
-        .values-grid { grid-template-columns: 1fr !important; }
+      @media (max-width: 1024px) { .values-grid { grid-template-columns: 1fr 1fr !important; } }
+      @media (max-width: 560px)  { .values-grid { grid-template-columns: 1fr !important; } }
+    </style>
+  </section>
+
+
+  <!-- ============================================
+       AKO SA LÍŠIME — porovnanie agentúra vs. Adlify
+       ============================================ -->
+  <section class="section" style="background: var(--ink); color: var(--bg);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow" style="opacity: 0.55; color: var(--bg);">[ Porovnanie ]</span>
+        <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></span>
+      </div>
+
+      <h2 class="h1" style="max-width: 20ch; margin-bottom: 56px;">
+        V čom sa líšime od <span class="grad">bežnej agentúry.</span>
+      </h2>
+
+      <div class="compare-wrap" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden;">
+        <!-- Header -->
+        <div class="compare-row compare-head" style="display: grid; grid-template-columns: 1.4fr 1fr 1fr; padding: 20px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.55;">
+          <div>FAKTOR</div>
+          <div style="text-align: center;">BEŽNÁ AGENTÚRA</div>
+          <div style="text-align: center; color: var(--grad-start); opacity: 1;">ADLIFY</div>
+        </div>
+
+        <!-- Riadky -->
+        {compareRows.map((row, i) => (
+          <div class="compare-row" style={`display: grid; grid-template-columns: 1.4fr 1fr 1fr; padding: 22px 28px; ${i < compareRows.length - 1 ? 'border-bottom: 1px solid rgba(255,255,255,0.06);' : ''} font-size: 14px; align-items: center;`}>
+            <div style="font-weight: 500;">{row.label}</div>
+            <div style="text-align: center; opacity: 0.6; font-size: 13px;">
+              <span style="display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                {row.them}
+              </span>
+            </div>
+            <div style="text-align: center; font-weight: 600; color: var(--bg);">
+              <span style="display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgb(134,239,172)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                {row.us}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style="text-align: center; margin-top: 32px; font-size: 13px; opacity: 0.5; max-width: 600px; margin-left: auto; margin-right: auto;">
+        To, ako pracujú iné agentúry, je výsledkom histórie a klientely, ktorú obsluhujú. Nie sú to zlí ľudia — len ich biznis model nesedí na malé a stredné firmy. Adlify je iný.
+      </p>
+    </div>
+
+    <style>
+      @media (max-width: 760px) {
+        .compare-row { grid-template-columns: 1fr !important; gap: 8px; }
+        .compare-head { display: none !important; }
+        .compare-row > div { text-align: left !important; }
+        .compare-row > div:nth-child(2)::before { content: 'Bežná agentúra: '; opacity: 0.5; font-size: 11px; font-family: var(--mono); }
+        .compare-row > div:nth-child(3)::before { content: 'Adlify: '; opacity: 0.7; font-size: 11px; font-family: var(--mono); color: var(--grad-start); }
       }
     </style>
   </section>

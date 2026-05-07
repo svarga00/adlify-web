@@ -111,20 +111,20 @@ const pricing: LangPageMeta = {
 // ============================================================
 const about: LangPageMeta = {
   sk: { title: 'O nás — Adlify',
-        description: 'Sme malý tím s veľkou obsesiou pre čísla. Založili sme Adlify v roku 2021. Robíme výkonnostný marketing — a robíme ho dobre.',
-        hero: { num: '005', kind: 'ABOUT', title: 'Sme malý tím s veľkou', titleAccent: 'obsesiou pre čísla.', lead: 'Založili sme Adlify v roku 2021, pretože sme mali dosť agentúr, ktoré robia všetko pre všetkých. Robíme výkonnostný marketing — a robíme ho dobre.' } },
+        description: 'Online marketingu sa venujeme od roku 2014. Adlify sme založili preto, aby výkonnostný marketing bol dostupný aj pre živnostníkov a malé firmy — nie len pre veľké e-shopy.',
+        hero: { num: '005', kind: 'ABOUT', title: 'Marketing pre tých,', titleAccent: 'na ktorých veľké agentúry zabudli.', lead: 'Online marketingu sa venujeme od roku 2014. Adlify sme založili preto, aby kvalitnú reklamu mohli mať aj živnostníci, malé e-shopy a regionálne firmy — nie len veľkí hráči s rozpočtom 5 000 € mesačne.' } },
   cs: { title: 'O nás — Adlify',
-        description: 'Jsme malý tým s velkou posedlostí pro čísla. Adlify jsme založili v roce 2021. Děláme výkonnostní marketing — a děláme ho dobře.',
-        hero: { num: '005', kind: 'O NÁS', title: 'Jsme malý tým s velkou', titleAccent: 'posedlostí pro čísla.', lead: 'Adlify jsme založili v roce 2021, protože jsme měli dost agentur, které dělají všechno pro všechny. Děláme výkonnostní marketing — a děláme ho dobře.' } },
+        description: 'Online marketingu se věnujeme od roku 2014. Adlify jsme založili proto, aby byl výkonnostní marketing dostupný i pro živnostníky a malé firmy — ne jen pro velké e-shopy.',
+        hero: { num: '005', kind: 'O NÁS', title: 'Marketing pro ty,', titleAccent: 'na které velké agentury zapomněly.', lead: 'Online marketingu se věnujeme od roku 2014. Adlify jsme založili proto, aby kvalitní reklamu mohli mít i živnostníci, malé e-shopy a regionální firmy — ne jen velcí hráči s rozpočtem 5 000 € měsíčně.' } },
   hu: { title: 'Rólunk — Adlify',
-        description: 'Egy kis csapat vagyunk, akik megszállottan szeretik a számokat. Az Adlify-t 2021-ben alapítottuk. Teljesítményalapú marketinget csinálunk — és jól csináljuk.',
-        hero: { num: '005', kind: 'RÓLUNK', title: 'Kis csapat vagyunk', titleAccent: 'a számok megszállottjai.', lead: 'Az Adlify-t 2021-ben alapítottuk, mert elegünk volt azokból az ügynökségekből, amelyek mindent megcsinálnak mindenkinek. Teljesítményalapú marketinget csinálunk — és jól csináljuk.' } },
+        description: '2014 óta foglalkozunk online marketinggel. Az Adlify-t azért alapítottuk, hogy a teljesítményalapú marketing elérhető legyen a kisvállalkozók és kis cégek számára is — ne csak a nagy webshopoknak.',
+        hero: { num: '005', kind: 'RÓLUNK', title: 'Marketing azoknak,', titleAccent: 'akikről a nagy ügynökségek elfeledkeztek.', lead: '2014 óta foglalkozunk online marketinggel. Az Adlify-t azért alapítottuk, hogy a minőségi reklám elérhető legyen vállalkozók, kis webshopok és regionális cégek számára is — ne csak a havi 5 000 €-s költségvetéssel rendelkező nagyoknak.' } },
   en: { title: 'About — Adlify',
-        description: 'A small team obsessed with numbers. We founded Adlify in 2021. We do performance marketing — and we do it well.',
-        hero: { num: '005', kind: 'ABOUT', title: "We're a small team with a big", titleAccent: 'obsession for numbers.', lead: 'We founded Adlify in 2021 because we got tired of agencies that do everything for everyone. We do performance marketing — and we do it well.' } },
+        description: "We've been doing online marketing since 2014. We founded Adlify to make performance marketing accessible to solopreneurs and small businesses — not just large e-shops.",
+        hero: { num: '005', kind: 'ABOUT', title: 'Marketing for those', titleAccent: 'big agencies forgot about.', lead: "We've been doing online marketing since 2014. We founded Adlify so that quality advertising would be available to solopreneurs, small e-shops, and regional businesses — not just big players with €5,000+ monthly budgets." } },
   de: { title: 'Über uns — Adlify',
-        description: 'Ein kleines Team mit großer Leidenschaft für Zahlen. Adlify gründeten wir 2021. Wir machen Performance-Marketing — und zwar richtig.',
-        hero: { num: '005', kind: 'ÜBER UNS', title: 'Kleines Team mit großer', titleAccent: 'Leidenschaft für Zahlen.', lead: 'Adlify gründeten wir 2021, weil wir genug von Agenturen hatten, die alles für jeden machen. Wir machen Performance-Marketing — und zwar richtig.' } },
+        description: 'Online-Marketing machen wir seit 2014. Adlify haben wir gegründet, damit Performance-Marketing auch für Selbstständige und kleine Unternehmen zugänglich ist — nicht nur für große Online-Shops.',
+        hero: { num: '005', kind: 'ÜBER UNS', title: 'Marketing für die,', titleAccent: 'die große Agenturen vergessen haben.', lead: 'Online-Marketing machen wir seit 2014. Adlify haben wir gegründet, damit qualitatives Werbung auch für Selbstständige, kleine Online-Shops und regionale Firmen zugänglich ist — nicht nur für große Player mit 5 000 €+ Monatsbudget.' } },
 };
 
 // ============================================================
