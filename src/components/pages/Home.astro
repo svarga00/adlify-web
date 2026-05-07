@@ -603,10 +603,10 @@ const manifestItems = [
             <!-- Accordion list -->
             <div class="svc-list">
               {services.map((s, i) => (
-                <button
+                <a
                   class={`svc-row ${i === 0 ? 'active' : ''}`}
                   data-svc-toggle={i}
-                  type="button"
+                  href={`/sluzby/${s.slug}`}
                 >
                   <span class="svc-num">{String(i + 1).padStart(2, '0')}</span>
                   <span class="svc-title">{s.title}</span>
@@ -617,7 +617,7 @@ const manifestItems = [
                       <path d="M7 7h10v10"></path>
                     </svg>
                   </span>
-                </button>
+                </a>
               ))}
             </div>
 
