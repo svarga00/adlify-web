@@ -39,7 +39,7 @@ const services = await fetchAllServices(lang);
     lead={meta.hero!.lead}
   />
 
-  <ServicesAccordion services={services} linkToDetail={true} />
+  <ServicesAccordion services={services} linkToDetail={true} showSectionHead={false} />
 
   <ProcessGrid background="soft" />
 
