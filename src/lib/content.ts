@@ -247,6 +247,51 @@ export async function fetchServiceBySlug(slug: string, lang: Lang): Promise<Serv
 }
 
 // ============================================================
+// FETCHERS — page content sections (web_pages_content)
+// ============================================================
+
+/**
+ * Vráti všetky sekcie pre danú stránku, ako mapu section_key → flat content.
+ * Content je JSONB s ľubovoľnou štruktúrou per-pole `{sk, cs, hu, en, de}`,
+ * tu ho splošťujeme pre daný lang.
+ *
+ * Príklad: fetchPageSections('homepage', 'sk')
+ * → {
+ *     hero:     { eyebrow: 'Marketingová...', title: 'Reklama, ktorá...', ... },
+ *     manifest: { title: 'Marketingová agentúra...', lead: 'Veríme...' },
+ *   }
+ */
+export async function fetchPageSections(
+  pageSlug: string,
+  lang: Lang,
+): Promise<Record<string, Record<string, string>>> {
+  if (!supabase) return {};
+  const { data, error } = await supabase
+    .from('web_pages_content')
+    .select('section_key, content')
+    .eq('page_slug', pageSlug)
+    .order('sort_order', { ascending: true });
+  if (error) {
+    console.warn('[content] fetchPageSections error:', error.message);
+    return {};
+  }
+  const result: Record<string, Record<string, string>> = {};
+  for (const row of data || []) {
+    const sectionKey = String(row.section_key);
+    const content = row.content as Record<string, unknown> | null;
+    if (!content || typeof content !== 'object') continue;
+    // Flatten — pre každý kľúč v content { fieldName: { sk, cs, ... } }
+    // vyber lang verziu
+    const flat: Record<string, string> = {};
+    for (const [field, value] of Object.entries(content)) {
+      flat[field] = pickLang(value, lang);
+    }
+    result[sectionKey] = flat;
+  }
+  return result;
+}
+
+// ============================================================
 // FETCHERS — slug listy (pre getStaticPaths)
 // ============================================================
 
