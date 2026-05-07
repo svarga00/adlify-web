@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#1A1A1A"/>
+    </linearGradient>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F16434"/>
+      <stop offset="50%" stop-color="#F47F3F"/>
+      <stop offset="100%" stop-color="#E85D9C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow blob -->
+  <circle cx="1000" cy="200" r="220" fill="#F16434" opacity="0.18"/>
+  <circle cx="1100" cy="500" r="180" fill="#E85D9C" opacity="0.16"/>
+
+  <!-- Eyebrow -->
+  <text x="80" y="140" font-family="Figtree, system-ui, sans-serif" font-size="20" fill="#F16434" font-weight="600" letter-spacing="3">
+    [ ADLIFY · MARKETINGOVÁ AGENTÚRA ]
+  </text>
+
+  <!-- Hlavný headline -->
+  <text x="80" y="290" font-family="Figtree, system-ui, sans-serif" font-size="92" fill="#FAFAFA" font-weight="700" letter-spacing="-3">
+    Marketing,
+  </text>
+  <text x="80" y="400" font-family="Figtree, system-ui, sans-serif" font-size="92" fill="#FAFAFA" font-weight="700" letter-spacing="-3">
+    ktorý prináša
+  </text>
+  <text x="80" y="510" font-family="Figtree, system-ui, sans-serif" font-size="92" fill="url(#grad)" font-weight="700" letter-spacing="-3">
+    čísla.
+  </text>
+
+  <!-- Bottom strip -->
+  <rect x="0" y="600" width="1200" height="30" fill="url(#grad)"/>
+
+  <!-- URL -->
+  <text x="80" y="585" font-family="JetBrains Mono, monospace" font-size="18" fill="#999" letter-spacing="2">
+    ADLIFY.EU
+  </text>
+</svg>

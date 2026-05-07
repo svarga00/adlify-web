@@ -25,6 +25,22 @@ interface Props {
   lang?: Lang;
   pathname?: string;
   ogImage?: string;
+  /**
+   * Type of page for JSON-LD schema generation.
+   *  - 'website' (default): Adds Organization schema only
+   *  - 'article':           Adds Article schema (use with articleData)
+   *  - 'localbusiness':     Adds LocalBusiness schema (kontakt page)
+   */
+  pageType?: 'website' | 'article' | 'localbusiness';
+  /**
+   * Article-specific data (only used when pageType='article')
+   */
+  articleData?: {
+    publishedTime?: string;  // ISO date
+    modifiedTime?: string;   // ISO date
+    author?: string;
+    section?: string;        // category
+  };
 }
 
 const {
@@ -33,6 +49,8 @@ const {
   lang = 'sk',
   pathname = '/',
   ogImage = '/img/og-default.jpg',
+  pageType = 'website',
+  articleData,
 } = Astro.props;
 
 const SITE = 'https://adlify.eu';
@@ -103,13 +121,93 @@ const currentLangObj = LANGS.find((l) => l.code === lang) ?? LANGS[0];
     <link rel="preload" href="/img/logo.webp" as="image" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Async font load (non-render-blocking). Fallback in <noscript> for no-JS clients. -->
     <link
+      rel="preload"
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- ============ JSON-LD STRUCTURED DATA ============ -->
+    <!-- Organization schema (vždy prítomný) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Adlify',
+      url: SITE,
+      logo: SITE + '/img/logo.webp',
+      description: 'Výkonnostná marketingová agentúra. Spravujeme Google a Meta Ads pre e-shopy a remeselníkov.',
+      sameAs: [
+        'https://www.facebook.com/adlify',
+        'https://www.linkedin.com/company/adlify',
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: 'info@adlify.eu',
+        contactType: 'customer service',
+        availableLanguage: ['Slovak', 'Czech', 'English'],
+      },
+    })} />
+
+    <!-- Article schema (pre blog detail stránky) -->
+    {pageType === 'article' && articleData && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        image: ogImage.startsWith('http') ? ogImage : SITE + ogImage,
+        datePublished: articleData.publishedTime,
+        dateModified: articleData.modifiedTime || articleData.publishedTime,
+        author: {
+          '@type': 'Person',
+          name: articleData.author || 'Adlify',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Adlify',
+          logo: {
+            '@type': 'ImageObject',
+            url: SITE + '/img/logo.webp',
+          },
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': canonicalUrl,
+        },
+        ...(articleData.section && { articleSection: articleData.section }),
+      })} />
+    )}
+
+    <!-- LocalBusiness schema (pre kontakt) -->
+    {pageType === 'localbusiness' && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        name: 'Adlify',
+        image: SITE + '/img/logo.webp',
+        '@id': SITE,
+        url: SITE,
+        email: 'info@adlify.eu',
+        priceRange: '€€',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Prešov',
+          addressCountry: 'SK',
+        },
+        areaServed: ['SK', 'CZ', 'HU'],
+      })} />
+    )}
   </head>
 
   <body>

@@ -36,6 +36,12 @@ function formatDate(iso: string): string {
   description={post.excerpt}
   lang={lang}
   pathname={`/blog/${post.slug}`}
+  pageType="article"
+  articleData={{
+    publishedTime: post.published_at,
+    author: post.author_name,
+    section: post.category,
+  }}
 >
 
   <!-- ============================================

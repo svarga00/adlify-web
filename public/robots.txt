@@ -1,0 +1,8 @@
+# robots.txt — adlify.eu
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://adlify.eu/sitemap-index.xml
