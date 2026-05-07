@@ -36,12 +36,6 @@ const heroCtaSecondary = hero.cta_secondary || 'Ako pracujeme';
 // const manifestTitle = manifest.title || '...';
 // const manifestLead = manifest.lead || '...';
 
-const trustLogos = [
-  'Zlatka.sk', 'NovaShop', 'Bonsai Lab', 'Krajčírstvo', 'Kaffe & Co',
-  'EkoDom', 'Motorista', 'Drevárik', 'OptikaPro', 'TechPark',
-  'Bicykle SK', 'Kvetinár',
-];
-
 const stats = [
   { label: 'Skúsenosti od',         value: '2014',  color: 'rgb(241, 100, 52)' },
   { label: 'Bez viazanosti',        value: '0 dní', color: 'rgb(232, 93, 156)' },
@@ -173,20 +167,16 @@ const manifestItems = [
               <div style="flex: 1; position: relative; min-height: 200px;">
                 <!-- Trend line -->
                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
-                  <path d="M2 92 L10 86 L18 78 L26 70 L34 64 L42 56 L50 48 L58 38 L66 32 L74 26 L82 18 L92 10" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="1.5 1.5" />
+                  <path d="M2 72 L10 65 L18 70 L26 58 L34 52 L42 56 L50 44 L58 38 L66 42 L74 30 L82 22 L92 12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="1.5 1.5" />
                 </svg>
                 <!-- Bars container -->
                 <div data-hero-bars style="position: absolute; inset: 0; display: flex; gap: 6px; align-items: flex-end;">
-                  {Array.from({ length: 12 }).map((_, i) => {
-                    // Stúpajúce výšky 12% → 96%
-                    const height = 12 + (i * 84) / 11;
-                    return (
-                      <div
-                        class="hero-bar"
-                        style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 6px 6px 2px 2px; box-shadow: 0 -8px 24px -10px var(--grad-start); height: ${height}%; transition: height 0.8s cubic-bezier(0.2,0.8,0.2,1) ${i * 0.04}s;`}
-                      ></div>
-                    );
-                  })}
+                  {[28, 35, 30, 42, 48, 44, 56, 62, 58, 70, 78, 88].map((height, i) => (
+                    <div
+                      class="hero-bar"
+                      style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 6px 6px 2px 2px; box-shadow: 0 -8px 24px -10px var(--grad-start); height: ${height}%; transition: height 0.8s cubic-bezier(0.2,0.8,0.2,1) ${i * 0.04}s;`}
+                    ></div>
+                  ))}
                 </div>
               </div>
 
@@ -200,27 +190,9 @@ const manifestItems = [
 
 
   <!-- ============================================
-       SECTION 2 — TRUST TICKER (logos marquee)
+       SECTION 2 — Trust ticker DOČASNE ODSTRÁNENÉ
+       Vráti sa keď budú reálni klienti so súhlasom na zobrazenie loga.
        ============================================ -->
-  <section style="padding-bottom: 80px;">
-    <div class="container" style="margin-bottom: 32px;">
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <span class="eyebrow">Dôverujú nám</span>
-        <span style="flex: 1; height: 1px; background: var(--line);"></span>
-      </div>
-    </div>
-    <div class="marquee">
-      <div class="marquee-track">
-        <!-- Renderujeme dvojnásobne pre seamless loop -->
-        {[...trustLogos, ...trustLogos].map((logo) => (
-          <div style="display: flex; align-items: center; gap: 64px;">
-            <span style="font-size: 34px; font-weight: 700; color: var(--muted-2); letter-spacing: -0.02em;">{logo}</span>
-            <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--line-2);"></span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
 
   <!-- ============================================
@@ -291,7 +263,7 @@ const manifestItems = [
 
 
   <!-- ============================================
-       SECTION 5 — PRED A PO (NovaShop interaktívne)
+       SECTION 5 — PRED A PO (interaktívna ukážka portálu)
        ============================================ -->
   <section class="section" style="background: var(--bg-soft); position: relative; overflow: hidden;">
     <!-- Pozadie radial gradient -->
@@ -300,11 +272,11 @@ const manifestItems = [
     <div class="container" style="position: relative;">
       <!-- Eyebrow -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <span class="eyebrow">[ INTERAKTÍVNE — REÁLNY KLIENT ]</span>
+        <span class="eyebrow">[ INTERAKTÍVNA UKÁŽKA — PORTÁL ]</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
         <span class="pill" style="background: var(--bg); border: 1px solid var(--line);">
           <span class="dot" style="background: rgb(34, 197, 94);"></span>
-          <span style="font-size: 11px; font-family: var(--mono);">LIVE DATA</span>
+          <span style="font-size: 11px; font-family: var(--mono);">DEMO</span>
         </span>
       </div>
 
@@ -315,7 +287,7 @@ const manifestItems = [
             Pred a <span class="grad">po.</span>
           </h2>
           <p class="lead" style="color: var(--muted); max-width: 38ch; margin-bottom: 32px;">
-            NovaShop. 6 mesiacov spolupráce. <strong style="color: var(--ink);">Pretiahni posuvník</strong> a sleduj, ako sa menia čísla.
+            Ukážka, ako vyzerá klientsky portál pri typickom 6-mesačnom rozbehu e-shopu. <strong style="color: var(--ink);">Pretiahni posuvník</strong> a sleduj, ako sa menia metriky.
           </p>
 
           <!-- 4 metriky (zhodne updatovane s dashboardom napravo) -->
@@ -374,12 +346,12 @@ const manifestItems = [
             <!-- Dashboard header -->
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
               <div>
-                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">NOVASHOP · DASHBOARD</div>
+                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">UKÁŽKA · DASHBOARD E-SHOPU</div>
                 <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92;">August 2025</div>
               </div>
               <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                 <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
-                LIVE
+                DEMO
               </div>
             </div>
 
@@ -774,180 +746,6 @@ const manifestItems = [
   </section>
 
 
-  <!-- ============================================
-       SECTION 10 — CASES (3 karty)
-       ============================================ -->
-  <section class="section" style="background: var(--bg-soft);">
-    <div class="container">
-      <!-- Section head -->
-      <div class="sec-head">
-        <div>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 05 — CASES ]</span>
-            <span style="flex: 1; height: 1px; background: var(--line);"></span>
-          </div>
-          <h2 class="h1" style="max-width: 14ch;">Prípadové štúdie</h2>
-        </div>
-        <div>
-          <p class="lead" style="margin-bottom: 20px;">Čísla hovoria viac ako slová.</p>
-          <a href={buildUrl(lang, "/pripadove-studie")} class="btn btn-sm btn-outline">
-            Všetky case studies
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="cases-grid">
-        {[
-          {
-            tag: 'E-COMMERCE · ŠPERKY',
-            name: 'Zlatka.sk',
-            gradient: 'linear-gradient(135deg, rgb(241, 100, 52), rgb(232, 93, 156))',
-            metrics: [
-              { label: 'Tržby YoY', value: '+284%', highlight: true },
-              { label: 'ROAS',      value: '6.2×',  highlight: false },
-            ],
-            href: '/pripadove-studie/zlatka',
-          },
-          {
-            tag: 'DTC · HOBBY',
-            name: 'Bonsai Lab',
-            gradient: 'linear-gradient(135deg, rgb(10, 10, 10), rgb(241, 100, 52))',
-            metrics: [
-              { label: 'CPA',  value: '−42%', highlight: true },
-              { label: 'ROAS', value: '3.8×', highlight: false },
-            ],
-            href: '/pripadove-studie/bonsai-lab',
-          },
-          {
-            tag: 'LOCAL · B2C',
-            name: 'Krajčírstvo',
-            gradient: 'linear-gradient(135deg, rgb(232, 93, 156), rgb(244, 127, 63))',
-            metrics: [
-              { label: 'Leads',     value: '+156%', highlight: true },
-              { label: 'Cena lead', value: '€14',   highlight: false },
-            ],
-            href: '/pripadove-studie/krajcirstvo',
-          },
-        ].map((c) => (
-          <a href={c.href} class="case-card">
-            <div class="case-cover" style={`background: ${c.gradient};`}>
-              <div class="case-cover-mesh"></div>
-              <div style="position: absolute; top: 24px; left: 24px; color: white;">
-                <div style="font-size: 11px; font-family: var(--mono); letter-spacing: 0.03em; opacity: 0.85; margin-bottom: 4px;">{c.tag}</div>
-                <div style="font-size: 32px; font-weight: 700; letter-spacing: -0.03em;">{c.name}</div>
-              </div>
-              <div class="case-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M7 17 17 7"></path>
-                  <path d="M7 7h10v10"></path>
-                </svg>
-              </div>
-            </div>
-            <div style="padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              {c.metrics.map((m) => (
-                <div>
-                  <div class="eyebrow" style="font-size: 10px; margin-bottom: 6px;">{m.label}</div>
-                  <div class={`num ${m.highlight ? 'grad' : ''}`} style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">
-                    {m.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================
-       SECTION 11 — VOICES (testimonials)
-       ============================================ -->
-  <section class="section">
-    <div class="container">
-      {(() => {
-        const voices = [
-          {
-            quote: 'Rok sme strieľali naslepo. Teraz vieme, ktoré kampane zarábajú a ktoré sú peniaze do koša. Pondelkové reporty sú stručné, ale presne to, čo potrebujem.',
-            initials: 'LK',
-            name: 'Lucia Kováčová',
-            title: 'Majiteľka, Zlatka.sk',
-          },
-          {
-            quote: 'Nastavenie merania a pokročilého merania nám ušetril mesiace hádania. Reporty dostávam každý pondelok ráno, jasné a stručné.',
-            initials: 'PN',
-            name: 'Peter Nový',
-            title: 'CMO, Bonsai Lab',
-          },
-          {
-            quote: 'Neprezentujú nám slidy a teóriu. Otvoríme spolu Google Ads a vidím, čo robia a prečo. Za pol roka sa nám zdvojnásobil obrat z reklamy.',
-            initials: 'MD',
-            name: 'Martin Daniš',
-            title: 'CEO, NovaShop',
-          },
-          {
-            quote: 'Najmä oceňujem to, že nám hovoria aj keď niečo nefunguje. Predtým sme dostávali len pozitívne reporty — a žiadne výsledky.',
-            initials: 'EH',
-            name: 'Eva Horváthová',
-            title: 'Marketing, Krajčírstvo',
-          },
-        ];
-
-        return (
-          <div data-voices-root>
-            <!-- Eyebrow + nav arrows -->
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-              <span class="eyebrow">[ 06 — VOICES ]</span>
-              <span style="flex: 1; height: 1px; background: var(--line);"></span>
-              <div style="display: flex; gap: 8px;">
-                <button class="voices-nav-btn" data-voices-prev aria-label="Predchádzajúce">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);" aria-hidden="true">
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </button>
-                <button class="voices-nav-btn" data-voices-next aria-label="Ďalšie">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Quote (text sa mení) -->
-            <blockquote class="voices-quote" data-voices-quote>
-              <span style="color: var(--muted-2);">"</span><span data-voices-text>{voices[0].quote}</span><span style="color: var(--muted-2);">"</span>
-            </blockquote>
-
-            <!-- Author + dots -->
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-              <div style="display: flex; align-items: center; gap: 16px;">
-                <div data-voices-avatar style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 600; display: flex; align-items: center; justify-content: center;">
-                  {voices[0].initials}
-                </div>
-                <div>
-                  <div data-voices-name style="font-weight: 600;">{voices[0].name}</div>
-                  <div data-voices-title style="font-size: 13px; color: var(--muted);">{voices[0].title}</div>
-                </div>
-              </div>
-              <div class="voices-dots" data-voices-dots>
-                {voices.map((_, i) => (
-                  <button class={`voices-dot ${i === 0 ? 'active' : ''}`} data-voices-dot={i} aria-label={`Testimonial ${i + 1}`}></button>
-                ))}
-              </div>
-            </div>
-
-            <!-- JSON dataset pre JS -->
-            <script type="application/json" data-voices-data set:html={JSON.stringify(voices)}></script>
-          </div>
-        );
-      })()}
-    </div>
-  </section>
-
 
   <!-- ============================================
        SECTION 12 — CONTACT (čierna sekcia)
@@ -1142,51 +940,6 @@ const manifestItems = [
 
       [sBudget, sAov, sCr].forEach((el) => el.addEventListener('input', recalc));
       recalc();
-    })();
-
-    // === SECTION 11 — Voices carousel ===
-    (function () {
-      const root = document.querySelector('[data-voices-root]');
-      if (!root) return;
-
-      const dataEl = root.querySelector('[data-voices-data]');
-      let voices = [];
-      try { voices = JSON.parse(dataEl.textContent); } catch (e) { return; }
-
-      const txt    = root.querySelector('[data-voices-text]');
-      const quote  = root.querySelector('[data-voices-quote]');
-      const avatar = root.querySelector('[data-voices-avatar]');
-      const name   = root.querySelector('[data-voices-name]');
-      const title  = root.querySelector('[data-voices-title]');
-      const dots   = root.querySelectorAll('[data-voices-dot]');
-      const prev   = root.querySelector('[data-voices-prev]');
-      const next   = root.querySelector('[data-voices-next]');
-
-      let idx = 0;
-
-      function render(newIdx) {
-        if (!voices[newIdx]) return;
-        idx = newIdx;
-        if (quote) quote.classList.add('fading');
-        setTimeout(() => {
-          if (txt)    txt.textContent    = voices[idx].quote;
-          if (avatar) avatar.textContent = voices[idx].initials;
-          if (name)   name.textContent   = voices[idx].name;
-          if (title)  title.textContent  = voices[idx].title;
-          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-          if (quote) quote.classList.remove('fading');
-        }, 200);
-      }
-
-      dots.forEach((d, i) => d.addEventListener('click', () => render(i)));
-      prev?.addEventListener('click', () => render((idx - 1 + voices.length) % voices.length));
-      next?.addEventListener('click', () => render((idx + 1) % voices.length));
-
-      // Auto-rotate každých 6 sekúnd, stop pri prvom user-action
-      const auto = setInterval(() => render((idx + 1) % voices.length), 6000);
-      [prev, next, ...dots].forEach((el) =>
-        el?.addEventListener('click', () => clearInterval(auto), { once: true })
-      );
     })();
   </script>
 
