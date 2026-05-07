@@ -360,7 +360,7 @@
         status.style.display = 'block';
         status.style.background = 'rgba(244,80,80,0.15)';
         status.style.color = '#fca5a5';
-        status.textContent = 'Nepodarilo sa odoslať. Napíšte priamo na hello@adlify.eu.';
+        status.textContent = 'Nepodarilo sa odoslať. Napíšte priamo na info@adlify.eu.';
       } finally {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
