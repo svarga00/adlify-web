@@ -508,6 +508,12 @@ textarea.field { resize: vertical; font-family: inherit; }
   font-style: italic;
   font-weight: 500;
 }
+/* Italic gradient text potrebuje extra padding aby gradient nebol clipnutý
+   na konci slova (italic glyphy presahujú za baseline bbox). */
+.mstrip-item.italic .grad {
+  padding-right: 0.15em;
+  display: inline-block;
+}
 
 /* ============ SERVICES ACCORDION ============ */
 .svc-layout {
