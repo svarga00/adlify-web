@@ -207,6 +207,66 @@ export async function fetchAllServices(lang: Lang): Promise<Service[]> {
 }
 
 // ============================================================
+// FETCHERS — pricing plans (web_pricing)
+// ============================================================
+
+export interface PricingFeature {
+  label: string;
+  included: boolean;
+}
+
+export interface PricingPlan {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  price_monthly: number;
+  price_setup: number;
+  icon: string;
+  badge_label: string;
+  badge_color: string;
+  is_popular: boolean;
+  is_custom: boolean;
+  features: PricingFeature[];
+  cta_label: string;
+}
+
+export async function fetchPricingPlans(lang: Lang): Promise<PricingPlan[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('web_pricing')
+    .select('*')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true });
+  if (error) {
+    console.warn('[content] fetchPricingPlans error:', error.message);
+    return [];
+  }
+  return (data || []).map((row) => ({
+    id:            String(row.id ?? ''),
+    slug:          String(row.slug ?? ''),
+    name:          pickLang(row.name,        lang),
+    tagline:       pickLang(row.tagline,     lang),
+    description:   pickLang(row.description, lang),
+    price_monthly: Number(row.price_monthly ?? 0),
+    price_setup:   Number(row.price_setup ?? 0),
+    icon:          String(row.icon ?? ''),
+    badge_label:   pickLang(row.badge_label, lang),
+    badge_color:   String(row.badge_color ?? ''),
+    is_popular:    Boolean(row.is_popular),
+    is_custom:     Boolean(row.is_custom),
+    features:      Array.isArray(row.features)
+      ? row.features.map((f: any) => ({
+          label: pickLang(f.label, lang),
+          included: Boolean(f.included),
+        }))
+      : [],
+    cta_label:     pickLang(row.cta_label,   lang),
+  }));
+}
+
+// ============================================================
 // FETCHERS — testimonials (web_testimonials)
 // ============================================================
 

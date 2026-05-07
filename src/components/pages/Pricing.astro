@@ -15,6 +15,7 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
+import { fetchPricingPlans, type PricingPlan } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
 
@@ -24,54 +25,83 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.pricing[lang];
 
-// Cenníkové plány
-const plans = [
+// Cenníkové plány zo Supabase (web_pricing)
+// Ak DB nie je dostupná alebo je prázdna, použije sa hardcoded fallback nižšie.
+const plansFromDb = await fetchPricingPlans(lang);
+
+// Fallback (zachovaný pre prípad že DB je prázdna pri prvom builde)
+const fallbackPlans: PricingPlan[] = [
   {
-    name: 'Starter',
-    tagline: 'Pre živnostníkov a malé e-shopy',
-    monthly: 149,
-    yearly: 127, // 149 - 15%
-    popular: false,
+    id: 'fb-starter', slug: 'starter', name: 'Starter', tagline: 'Pre začiatok',
+    description: 'Ideálne pre živnostníkov, ktorí chcú vyskúšať online reklamu',
+    price_monthly: 119, price_setup: 0, icon: '🚀',
+    badge_label: 'Pre začiatok', badge_color: '#F16434',
+    is_popular: false, is_custom: false,
     features: [
-      '1 reklamná platforma',
-      'Týždenné reporty',
-      'Nastavenie merania',
-      'Email podpora',
-      'Do €3k mesačného budgetu',
+      { label: '1 reklamná platforma', included: true },
+      { label: '1 kampaň', included: true },
+      { label: '2 reklamné vizuály', included: true },
+      { label: 'Reklamné texty (copy)', included: true },
+      { label: 'Základná optimalizácia', included: true },
+      { label: 'Mesačný report', included: true },
+      { label: 'Email podpora', included: true },
     ],
+    cta_label: 'Vybrať Starter',
   },
   {
-    name: 'Growth',
-    tagline: 'Pre rastúce e-shopy',
-    monthly: 399,
-    yearly: 339,
-    popular: true,
+    id: 'fb-pro', slug: 'pro', name: 'Pro', tagline: 'Najobľúbenejšie',
+    description: 'Pre firmy, ktoré chcú rásť na viacerých platformách',
+    price_monthly: 199, price_setup: 0, icon: '⭐',
+    badge_label: 'Najobľúbenejšie', badge_color: '#F16434',
+    is_popular: true, is_custom: false,
     features: [
-      '3 reklamné platformy',
-      'Týždenné reporty + call',
-      'Pokročilé Google Analytics + tag manager',
-      'Dedikovaný špecialista',
-      'A/B testovanie kreatívy',
-      'Do €15k mesačného budgetu',
+      { label: '2 platformy (FB/IG + Google)', included: true },
+      { label: 'Až 3 kampane súčasne', included: true },
+      { label: '4 reklamné vizuály', included: true },
+      { label: 'A/B testovanie', included: true },
+      { label: 'Optimalizácia každé 2 týždne', included: true },
+      { label: 'Detailný report', included: true },
+      { label: 'Email + telefón podpora', included: true },
     ],
+    cta_label: 'Vybrať Pro',
   },
   {
-    name: 'Scale',
-    tagline: 'Pre zavedené značky',
-    monthly: 799,
-    yearly: 679,
-    popular: false,
+    id: 'fb-enterprise', slug: 'enterprise', name: 'Enterprise', tagline: 'Pre firmy',
+    description: 'Pre e-shopy a firmy s vyšším rozpočtom na reklamu',
+    price_monthly: 319, price_setup: 0, icon: '💎',
+    badge_label: 'Pre firmy', badge_color: '#F16434',
+    is_popular: false, is_custom: false,
     features: [
-      'Neobmedzené platformy',
-      'Denné reporty + dashboard',
-      'Pokročilé meranie',
-      'Senior tím, 2 špecialisti',
-      'Dedikovaný strategik',
-      'Optimalizácia webu a vstupných stránok',
-      'Bez limitu',
+      { label: 'Všetky platformy + remarketing', included: true },
+      { label: 'Až 5 kampaní súčasne', included: true },
+      { label: '8 reklamných vizuálov', included: true },
+      { label: 'Pokročilé A/B testovanie', included: true },
+      { label: 'Týždenná optimalizácia', included: true },
+      { label: 'Strategické konzultácie', included: true },
+      { label: 'Prioritná podpora + WhatsApp', included: true },
     ],
+    cta_label: 'Vybrať Enterprise',
+  },
+  {
+    id: 'fb-premium', slug: 'premium', name: 'Premium', tagline: 'VIP',
+    description: 'Individuálna cena podľa rozsahu a potrieb vášho projektu',
+    price_monthly: 799, price_setup: 0, icon: '🏆',
+    badge_label: 'VIP', badge_color: '#F59E0B',
+    is_popular: false, is_custom: true,
+    features: [
+      { label: 'Všetky platformy + remarketing', included: true },
+      { label: 'Neobmedzený počet kampaní', included: true },
+      { label: 'Neobmedzené vizuály', included: true },
+      { label: 'Dedikovaný account manager', included: true },
+      { label: 'Denná optimalizácia', included: true },
+      { label: 'Mesačné strategické stretnutia', included: true },
+      { label: '24/7 VIP podpora', included: true },
+    ],
+    cta_label: 'Kontaktujte nás',
   },
 ];
+
+const plans: PricingPlan[] = plansFromDb.length > 0 ? plansFromDb : fallbackPlans;
 
 // Comparison rows: '✓' | '—' | string ako poznámka
 const compareRows = [
@@ -167,123 +197,109 @@ function cellContent(v: string) {
   <section class="section" style="padding-top: 0;">
     <div class="container">
 
-      <!-- Toggle: Mesačne / Ročne -->
+      <!-- Toggle: Mesačne / 6 mesiacov / 12 mesiacov -->
       <div style="display: flex; justify-content: center; margin-bottom: 56px;">
-        <div data-pricing-toggle style="display: inline-flex; padding: 4px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px;">
-          <button class="pricing-toggle-btn active" data-pricing-mode="monthly" style="padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--ink); color: var(--bg); border: none; cursor: pointer; transition: all 0.2s;">
+        <div data-pricing-toggle style="display: inline-flex; padding: 4px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; flex-wrap: wrap;">
+          <button class="pricing-toggle-btn active" data-pricing-mode="m1" data-pricing-discount="0" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--bg); color: var(--ink); border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
             Mesačne
           </button>
-          <button class="pricing-toggle-btn" data-pricing-mode="yearly" style="padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--ink); border: none; cursor: pointer; transition: all 0.2s;">
-            Ročne <span style="color: rgb(22, 163, 74); font-weight: 700;">−15%</span>
+          <button class="pricing-toggle-btn" data-pricing-mode="m6" data-pricing-discount="10" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+            6 mesiacov
+            <span style="background: rgb(34,197,94); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.02em;">−10%</span>
+          </button>
+          <button class="pricing-toggle-btn" data-pricing-mode="m12" data-pricing-discount="20" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+            12 mesiacov
+            <span style="background: rgb(34,197,94); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.02em;">−20%</span>
           </button>
         </div>
       </div>
 
-      <!-- 3 plány -->
-      <div class="plans-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch;">
-        {plans.map((plan) => (
-          <article
-            class={`plan-card ${plan.popular ? 'plan-popular' : ''}`}
-            style={`background: ${plan.popular ? 'var(--ink)' : 'var(--bg)'}; color: ${plan.popular ? 'var(--bg)' : 'var(--ink)'}; border: 1px solid ${plan.popular ? 'transparent' : 'var(--line-2)'}; border-radius: 24px; padding: 36px; position: relative; display: flex; flex-direction: column; ${plan.popular ? 'box-shadow: 0 24px 48px -16px rgba(241,100,52,0.25); transform: translateY(-8px);' : ''}`}
-          >
-            {plan.popular && (
-              <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; border-radius: 999px;">
-                NAJPOPULÁRNEJŠIE
-              </div>
-            )}
-
-            <h3 style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px;">{plan.name}</h3>
-            <p style={`font-size: 14px; opacity: ${plan.popular ? '0.7' : '1'}; color: ${plan.popular ? 'inherit' : 'var(--muted)'}; margin-bottom: 28px;`}>
-              {plan.tagline}
-            </p>
-
-            <!-- Cena (mení sa s toggle) -->
-            <div style="margin-bottom: 28px;">
-              <div style="display: flex; align-items: baseline; gap: 6px;">
-                <span style="font-size: 14px; opacity: 0.6;">€</span>
-                <span class="num plan-price" data-plan-monthly={plan.monthly} data-plan-yearly={plan.yearly} style="font-size: 56px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.monthly}</span>
-              </div>
-              <div style={`font-size: 13px; opacity: ${plan.popular ? '0.65' : '1'}; color: ${plan.popular ? 'inherit' : 'var(--muted)'}; margin-top: 6px;`}>
-                / mesiac bez DPH
-              </div>
-            </div>
-
-            <!-- Features -->
-            <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display: flex; flex-direction: column; gap: 10px; flex: 1;">
-              {plan.features.map((f) => (
-                <li style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5;">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={plan.popular ? 'rgb(134,239,172)' : 'rgb(34,197,94)'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;" aria-hidden="true">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <!-- CTA -->
-            <a
-              href="/kontakt"
-              class={plan.popular ? 'btn btn-grad' : 'btn btn-ink'}
-              style="width: 100%; justify-content: center;"
+      <!-- 4 plány -->
+      <div class="plans-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch;">
+        {plans.map((plan) => {
+          const isDark = plan.is_popular || plan.is_custom;
+          const cardBg = plan.is_custom ? '#0f1729' : (plan.is_popular ? 'var(--ink)' : 'var(--bg)');
+          const cardColor = isDark ? 'var(--bg)' : 'var(--ink)';
+          const cardBorder = plan.is_custom ? '#F59E0B' : (plan.is_popular ? 'transparent' : 'var(--line-2)');
+          const accentColor = plan.is_custom ? '#F59E0B' : 'var(--grad-start)';
+          const checkColor = plan.is_custom ? '#FBBF24' : (plan.is_popular ? 'rgb(134,239,172)' : 'rgb(34,197,94)');
+          return (
+            <article
+              class={`plan-card ${plan.is_popular ? 'plan-popular' : ''} ${plan.is_custom ? 'plan-custom' : ''}`}
+              style={`background: ${cardBg}; color: ${cardColor}; border: 2px solid ${cardBorder}; border-radius: 24px; padding: 28px; position: relative; display: flex; flex-direction: column; ${plan.is_popular ? 'box-shadow: 0 24px 48px -16px rgba(241,100,52,0.25); transform: translateY(-8px);' : ''} ${plan.is_custom ? 'box-shadow: 0 24px 48px -16px rgba(245,158,11,0.25);' : ''}`}
             >
-              Vybrať {plan.name}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+              <!-- Badge top-right -->
+              {plan.badge_label && (
+                <div style={`position: absolute; top: 16px; right: 16px; padding: 5px 12px; background: ${plan.is_custom ? 'rgba(245,158,11,0.95)' : (plan.is_popular ? 'linear-gradient(100deg, var(--grad-start), var(--grad-end))' : 'rgba(241,100,52,0.12)')}; color: ${plan.is_popular || plan.is_custom ? 'white' : 'var(--grad-start)'}; font-size: 11px; font-weight: 600; border-radius: 999px;`}>
+                  {plan.badge_label}
+                </div>
+              )}
 
+              <!-- Icon -->
+              {plan.icon && (
+                <div style="font-size: 32px; line-height: 1; margin-bottom: 28px;">{plan.icon}</div>
+              )}
 
-  <!-- ============================================
-       DETAILNÉ POROVNANIE (tabuľka)
-       ============================================ -->
-  <section class="section" style="background: var(--bg-soft);">
-    <div class="container">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-        <span class="eyebrow">[ Detailné porovnanie ]</span>
-        <span style="flex: 1; height: 1px; background: var(--line);"></span>
-      </div>
+              <!-- Name -->
+              <h3 style={`font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; color: ${plan.is_popular ? accentColor : (plan.is_custom ? '#F59E0B' : 'var(--ink)')};`}>{plan.name}</h3>
 
-      <div class="compare-wrap" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; overflow-x: auto;">
-        <table class="compare-table" style="width: 100%; border-collapse: collapse; min-width: 720px;">
-          <!-- Header -->
-          <thead>
-            <tr style="border-bottom: 2px solid var(--line);">
-              <th style="text-align: left; padding: 24px 28px; font-size: 11px; font-family: var(--mono); font-weight: 500; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;">FUNKCIA</th>
-              {plans.map((p) => (
-                <th style="text-align: center; padding: 24px 16px; min-width: 120px;">
-                  <div style="font-size: 18px; font-weight: 700;">{p.name}</div>
-                  <div class="num" style="font-size: 12px; color: var(--muted); font-family: var(--mono); margin-top: 4px;">€{p.monthly}/mes</div>
-                </th>
-              ))}
-            </tr>
-          </thead>
+              <!-- Price -->
+              {plan.is_custom ? (
+                <div style="margin-bottom: 16px;">
+                  <div style="display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
+                    <span style="font-size: 22px; font-weight: 600; opacity: 0.85;">od</span>
+                    <span class="num plan-price" data-plan-base={plan.price_monthly} style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.price_monthly}€</span>
+                    <span style="font-size: 14px; opacity: 0.65;">/mes</span>
+                  </div>
+                </div>
+              ) : (
+                <div style="margin-bottom: 16px;">
+                  <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                    <span class="plan-price-original" data-plan-base={plan.price_monthly} style={`font-size: 18px; font-weight: 500; text-decoration: line-through; opacity: 0.45; display: none;`}>{Math.round(plan.price_monthly / 0.8)}€</span>
+                    <span class="num plan-price" data-plan-base={plan.price_monthly} style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.price_monthly}€</span>
+                    <span style="font-size: 14px; opacity: 0.65;">/mes</span>
+                  </div>
+                  <!-- Total za rok (zobrazí sa len pri 12 mesiacov toggle) -->
+                  <div class="plan-total" data-plan-base={plan.price_monthly} style={`font-size: 13px; opacity: 0.55; margin-top: 6px; display: none;`}>
+                    <span class="plan-total-amount">{plan.price_monthly * 12}</span>€ za 12 mesiacov <span style="opacity: 0.7;">celkom</span>
+                  </div>
+                </div>
+              )}
 
-          <tbody>
-            {compareRows.map((group) => (
-              <>
-                <tr>
-                  <td colspan="4" style="padding: 24px 28px 12px; font-size: 11px; font-family: var(--mono); font-weight: 600; color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; background: var(--bg-soft);">
-                    {group.group}
-                  </td>
-                </tr>
-                {group.rows.map((row) => (
-                  <tr style="border-bottom: 1px solid var(--line);">
-                    <td style="padding: 14px 28px; font-size: 14px;">{row.label}</td>
-                    {row.values.map((v) => (
-                      <td style="text-align: center; padding: 14px 16px; font-size: 14px;" set:html={cellContent(v)}></td>
-                    ))}
-                  </tr>
+              <!-- Description -->
+              <p style={`font-size: 13px; line-height: 1.55; opacity: ${isDark ? '0.7' : '1'}; color: ${isDark ? 'inherit' : 'var(--muted)'}; margin-bottom: 24px; min-height: 40px;`}>
+                {plan.description || plan.tagline}
+              </p>
+
+              <!-- Separator -->
+              <div style={`height: 1px; background: ${isDark ? 'rgba(255,255,255,0.12)' : 'var(--line)'}; margin-bottom: 24px;`}></div>
+
+              <!-- Features -->
+              <ul style="list-style: none; padding: 0; margin: 0 0 28px 0; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+                {plan.features.filter((f) => f.included).map((f) => (
+                  <li style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.45;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={checkColor} stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>{f.label}</span>
+                  </li>
                 ))}
-              </>
-            ))}
-          </tbody>
-        </table>
+              </ul>
+
+              <!-- CTA -->
+              <a
+                href={plan.is_custom ? '/kontakt' : '#'}
+                data-pricing-cta
+                data-plan-slug={plan.slug}
+                data-plan-name={plan.name}
+                class={plan.is_popular ? 'btn btn-pricing-popular' : (plan.is_custom ? 'btn btn-pricing-custom' : 'btn btn-pricing-default')}
+                style="width: 100%; justify-content: center;"
+              >
+                {plan.cta_label || `Vybrať ${plan.name}`}
+              </a>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -353,36 +369,156 @@ function cellContent(v: string) {
   <ContactSection accent="call" />
 
 
-  <!-- Pricing toggle JS -->
+  <!-- Pricing toggle JS + drawer preset -->
   <script>
     (function () {
+      // Toggle: Mesačne / 6 mes -10% / 12 mes -20%
       const btns = document.querySelectorAll<HTMLElement>('[data-pricing-mode]');
       const prices = document.querySelectorAll<HTMLElement>('.plan-price');
+      const originals = document.querySelectorAll<HTMLElement>('.plan-price-original');
+      const totals = document.querySelectorAll<HTMLElement>('.plan-total');
+
+      function applyDiscount(discount: number) {
+        prices.forEach((p) => {
+          const base = parseFloat(p.dataset.planBase || '0');
+          if (!base) return;
+          const newPrice = Math.round(base * (1 - discount / 100));
+          p.textContent = newPrice + '€';
+        });
+        originals.forEach((o) => {
+          const base = parseFloat(o.dataset.planBase || '0');
+          if (!base) return;
+          // Originál cena = base / 0.8 ak chceme zobraziť "before discount"
+          // Ale tu chceme: pri 10% zľave = base, pri 20% zľave = base × (1 + 25%) ako "porovnanie"
+          // Najjednoduchšie: ukáž base ako original keď je discount > 0
+          if (discount > 0) {
+            o.textContent = base + '€';
+            o.style.display = 'inline';
+          } else {
+            o.style.display = 'none';
+          }
+        });
+        totals.forEach((t) => {
+          const base = parseFloat(t.dataset.planBase || '0');
+          if (!base) return;
+          const newPrice = Math.round(base * (1 - discount / 100));
+          const totalAmount = newPrice * 12;
+          const amountEl = t.querySelector('.plan-total-amount') as HTMLElement;
+          if (amountEl) amountEl.textContent = totalAmount.toString();
+          // Total ukazujeme len pri 12-mesačnom toggle
+          t.style.display = discount === 20 ? 'block' : 'none';
+        });
+      }
+
       btns.forEach((btn) => {
         btn.addEventListener('click', () => {
-          const mode = btn.dataset.pricingMode;
+          const discount = parseFloat(btn.dataset.pricingDiscount || '0');
           btns.forEach((b) => {
             const isActive = b === btn;
             b.classList.toggle('active', isActive);
-            b.style.background = isActive ? 'var(--ink)' : 'transparent';
-            b.style.color = isActive ? 'var(--bg)' : 'var(--ink)';
+            b.style.background = isActive ? 'var(--bg)' : 'transparent';
+            b.style.color = isActive ? 'var(--ink)' : 'var(--muted)';
+            b.style.boxShadow = isActive ? '0 2px 6px rgba(0,0,0,0.06)' : 'none';
           });
-          prices.forEach((p) => {
-            const v = mode === 'yearly' ? p.dataset.planYearly : p.dataset.planMonthly;
-            if (v) p.textContent = v;
-          });
+          applyDiscount(discount);
+        });
+      });
+
+      // CTA tlačítko -> drawer preset
+      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-pricing-cta]');
+      ctas.forEach((cta) => {
+        cta.addEventListener('click', (e) => {
+          // Pre is_custom (Premium) ide na /kontakt — nechaj default behavior
+          const slug = cta.dataset.planSlug;
+          const planName = cta.dataset.planName || '';
+          if (cta.getAttribute('href') === '#') {
+            e.preventDefault();
+          } else {
+            // Aj ked ide na /kontakt, otvor drawer
+            e.preventDefault();
+          }
+          // Ziskat aktuálne zvolený toggle
+          const activeBtn = document.querySelector<HTMLElement>('[data-pricing-mode].active');
+          const period = activeBtn?.dataset.pricingMode || 'm1';
+          const periodLabel = period === 'm6' ? '6 mesiacov' : period === 'm12' ? '12 mesiacov' : 'mesačne';
+
+          const w = window as any;
+          if (typeof w.openContact === 'function') {
+            w.openContact({
+              plan: planName,
+              planSlug: slug,
+              period: periodLabel,
+            });
+          } else {
+            // Fallback ak drawer nie je dostupny
+            window.location.href = '/kontakt';
+          }
         });
       });
     })();
   </script>
 
-  <!-- Otvorenie/zatvorenie FAQ s rotáciou chevrona -->
+  <!-- FAQ chevron + responsive grid + pricing button styles -->
   <style>
     details[open] .faq-chev { transform: rotate(180deg); }
     details > summary::-webkit-details-marker { display: none; }
-    @media (max-width: 860px) {
-      .plans-grid { grid-template-columns: 1fr !important; }
+
+    /* Pricing buttons */
+    .btn-pricing-default {
+      background: var(--bg-soft);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-pricing-default:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+    .btn-pricing-popular {
+      background: var(--bg);
+      color: var(--grad-start);
+      border: 1px solid transparent;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-pricing-popular:hover { background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; }
+
+    .btn-pricing-custom {
+      background: linear-gradient(100deg, #F59E0B, #D97706);
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-pricing-custom:hover { filter: brightness(1.1); }
+
+    /* Responsive grid */
+    @media (max-width: 1200px) {
+      .plans-grid { grid-template-columns: repeat(2, 1fr) !important; }
       .plan-popular { transform: none !important; }
+    }
+    @media (max-width: 640px) {
+      .plans-grid { grid-template-columns: 1fr !important; }
       .oneoff-grid { grid-template-columns: 1fr !important; }
     }
   </style>

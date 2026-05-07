@@ -44,7 +44,7 @@ export default async (req) => {
     });
   }
 
-  const { name = '', email = '', company = '', message = '', _gotcha = '' } = body;
+  const { name = '', email = '', company = '', message = '', plan = '', period = '', _gotcha = '' } = body;
 
   // Honeypot: ak je vyplnený, predstierame úspech a vyhodíme
   if (_gotcha) {
@@ -82,38 +82,45 @@ export default async (req) => {
 
   // Prepare email content
   const safeText = (s) => String(s).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
-  const subject = `Nová správa z webu — ${name}`;
+  const subject = plan
+    ? `Záujem o plán ${plan} — ${name}`
+    : `Nová správa z webu — ${name}`;
+
+  const planRow = plan
+    ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Záujem o plán</td><td style="padding: 8px 0; font-weight: 700; color: #F16434;">${safeText(plan)}${period ? ` <span style="color: #6b6b6b; font-weight: 400;">(${safeText(period)})</span>` : ''}</td></tr>`
+    : '';
 
   const html = `
     <!DOCTYPE html>
     <html>
     <body style="font-family: -apple-system, system-ui, sans-serif; background: #f5f4f1; padding: 32px; color: #0a0a0a;">
       <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 16px; padding: 32px; border: 1px solid rgba(0,0,0,0.08);">
-        <div style="font-family: ui-monospace, monospace; font-size: 11px; color: #6b6b6b; letter-spacing: 0.05em; margin-bottom: 8px;">[ NOVÝ KONTAKT ]</div>
-        <h1 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px 0;">Nová správa z webu</h1>
-        
+        <div style="font-family: ui-monospace, monospace; font-size: 11px; color: #6b6b6b; letter-spacing: 0.05em; margin-bottom: 8px;">[ ${plan ? 'PRICING ZÁUJEM' : 'NOVÝ KONTAKT'} ]</div>
+        <h1 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px 0;">${plan ? `Záujem o plán ${safeText(plan)}` : 'Nová správa z webu'}</h1>
+
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 8px 0; color: #6b6b6b; width: 100px;">Meno</td><td style="padding: 8px 0; font-weight: 600;">${safeText(name)}</td></tr>
+          ${planRow}
+          <tr><td style="padding: 8px 0; color: #6b6b6b; width: 140px;">Meno</td><td style="padding: 8px 0; font-weight: 600;">${safeText(name)}</td></tr>
           <tr><td style="padding: 8px 0; color: #6b6b6b;">E-mail</td><td style="padding: 8px 0; font-weight: 600;"><a href="mailto:${safeText(email)}" style="color: #F16434;">${safeText(email)}</a></td></tr>
           ${company ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Firma / Web</td><td style="padding: 8px 0; font-weight: 600;">${safeText(company)}</td></tr>` : ''}
         </table>
-        
+
         <div style="margin-top: 24px; padding: 16px; background: #f5f4f1; border-radius: 12px; border-left: 3px solid #F16434;">
           <div style="font-family: ui-monospace, monospace; font-size: 10px; color: #6b6b6b; letter-spacing: 0.05em; margin-bottom: 8px;">SPRÁVA</div>
           <div style="white-space: pre-wrap; line-height: 1.55;">${safeText(message)}</div>
         </div>
-        
+
         <p style="margin-top: 32px; font-size: 12px; color: #6b6b6b;">Prijatá z formulára na adlify.eu — ${new Date().toLocaleString('sk-SK', { timeZone: 'Europe/Bratislava' })}</p>
       </div>
     </body>
     </html>
   `;
 
-  const text = `Nová správa z webu Adlify
+  const text = `${plan ? `Záujem o plán ${plan}${period ? ` (${period})` : ''}` : 'Nová správa z webu Adlify'}
 
 Meno: ${name}
 E-mail: ${email}
-${company ? `Firma / Web: ${company}\n` : ''}
+${company ? `Firma / Web: ${company}\n` : ''}${plan ? `Plán: ${plan}${period ? ` (${period})` : ''}\n` : ''}
 Správa:
 ${message}
 

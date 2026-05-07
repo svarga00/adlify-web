@@ -240,7 +240,9 @@
       <div style="padding: 22px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between;">
         <div>
           <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; letter-spacing: 0.05em;">[ CONTACT ]</div>
-          <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">Audit zdarma do 24 hodín</div>
+          <div data-drawer-heading style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">Audit zdarma do 24 hodín</div>
+          <div data-drawer-chip style="display: none; margin-top: 8px; padding: 4px 10px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; align-items: center;">
+          </div>
         </div>
         <button data-drawer-close aria-label="Zavrieť" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -253,6 +255,9 @@
         </p>
 
         <form data-drawer-form>
+          <!-- Hidden polia pre preset z cenníka -->
+          <input type="hidden" name="plan" value="">
+          <input type="hidden" name="period" value="">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
             <div>
               <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">MENO *</label>
@@ -309,11 +314,43 @@
       drawer.style.transform = 'translateX(0)';
       drawer.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      // Pre-fill správy ak je preset.plan
+
+      // Reset preset state na default
+      const headingEl = drawer.querySelector('[data-drawer-heading]');
+      const chipEl = drawer.querySelector('[data-drawer-chip]');
+      const planInput = drawer.querySelector('input[name="plan"]');
+      const periodInput = drawer.querySelector('input[name="period"]');
+      if (headingEl) headingEl.textContent = 'Audit zdarma do 24 hodín';
+      if (chipEl) chipEl.style.display = 'none';
+      if (planInput) planInput.value = '';
+      if (periodInput) periodInput.value = '';
+
+      // Aplikuj preset (z cenníka: openContact({ plan: 'Pro', period: '12 mesiacov' }))
       if (preset.plan) {
+        // Custom heading
+        if (headingEl) headingEl.textContent = `Záujem o plán ${preset.plan}`;
+
+        // Chip pod headingom (vizuálny indikátor)
+        if (chipEl) {
+          let chipText = `Plán: ${preset.plan}`;
+          if (preset.period) chipText += ` · ${preset.period}`;
+          chipEl.textContent = chipText;
+          chipEl.style.display = 'inline-flex';
+        }
+
+        // Pre-fill správy
         const msg = drawer.querySelector('textarea[name="message"]');
-        if (msg && !msg.value) msg.value = `Mám záujem o plán ${preset.plan}.`;
+        if (msg && !msg.value) {
+          msg.value = preset.period
+            ? `Mám záujem o plán ${preset.plan} (${preset.period}).`
+            : `Mám záujem o plán ${preset.plan}.`;
+        }
+
+        // Hidden polia pre submit
+        if (planInput) planInput.value = preset.plan;
+        if (periodInput && preset.period) periodInput.value = preset.period;
       }
+
       // Auto-focus prvého inputu
       setTimeout(() => {
         const firstInput = drawer.querySelector('input[name="name"]');
