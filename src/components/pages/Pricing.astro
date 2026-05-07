@@ -34,7 +34,7 @@ const fallbackPlans: PricingPlan[] = [
   {
     id: 'fb-starter', slug: 'starter', name: 'Starter', tagline: 'Pre začiatok',
     description: 'Ideálne pre živnostníkov, ktorí chcú vyskúšať online reklamu',
-    price_monthly: 119, price_setup: 0, icon: '🚀',
+    price_monthly: 149, price_setup: 0, icon: '🚀',
     badge_label: 'Pre začiatok', badge_color: '#F16434',
     is_popular: false, is_custom: false,
     features: [
@@ -51,7 +51,7 @@ const fallbackPlans: PricingPlan[] = [
   {
     id: 'fb-pro', slug: 'pro', name: 'Pro', tagline: 'Najobľúbenejšie',
     description: 'Pre firmy, ktoré chcú rásť na viacerých platformách',
-    price_monthly: 199, price_setup: 0, icon: '⭐',
+    price_monthly: 249, price_setup: 0, icon: '⭐',
     badge_label: 'Najobľúbenejšie', badge_color: '#F16434',
     is_popular: true, is_custom: false,
     features: [
@@ -68,7 +68,7 @@ const fallbackPlans: PricingPlan[] = [
   {
     id: 'fb-enterprise', slug: 'enterprise', name: 'Enterprise', tagline: 'Pre firmy',
     description: 'Pre e-shopy a firmy s vyšším rozpočtom na reklamu',
-    price_monthly: 319, price_setup: 0, icon: '💎',
+    price_monthly: 399, price_setup: 0, icon: '💎',
     badge_label: 'Pre firmy', badge_color: '#F16434',
     is_popular: false, is_custom: false,
     features: [
@@ -145,14 +145,20 @@ const oneOffs = [
 
 // FAQ
 const faqs = [
+  { q: 'Musím platiť vopred?',
+    a: 'Áno, naše služby sa platia vopred na začiatku každého mesiaca. Pri 6-mesačnej alebo 12-mesačnej spolupráci je možná aj jednorazová platba so zľavou.' },
   { q: 'Sú v cene aj reklamné rozpočty?',
-    a: 'Nie. Cena je za našu prácu. Reklamný rozpočet (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
+    a: 'Nie. Cena je za našu prácu (správa kampaní, kreatívy, optimalizácia, reporting). Reklamný rozpočet (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
   { q: 'Účtujete províziu z budgetu?',
     a: 'Nikdy. Fixný paušál — nemotivujeme vás utrácať viac, motivujeme vás zarábať viac.' },
+  { q: 'Môžem zmeniť balík počas spolupráce?',
+    a: 'Samozrejme. Môžete kedykoľvek upgradovať na vyšší balík (zmena platná od ďalšieho mesiaca). Downgrade je možný po dovŕšení dohodnutého obdobia.' },
   { q: 'Aká je minimálna spolupráca?',
-    a: '3 mesiace. Výkonnostný marketing potrebuje čas na učenie. Po 3 mesiacoch pokračujeme mesačne s 30-dňovou výpovednou lehotou.' },
-  { q: 'Môžem zmeniť plán?',
-    a: 'Áno, kedykoľvek hore aj dole. Zmena je účinná od ďalšieho mesiaca.' },
+    a: '3 mesiace. Výkonnostný marketing potrebuje čas na učenie algoritmov. Po 3 mesiacoch pokračujeme mesačne s 30-dňovou výpovednou lehotou.' },
+  { q: 'Ako funguje Premium balík?',
+    a: 'Premium je určený pre väčšie projekty s individuálnymi potrebami. Cena sa stanovuje podľa rozsahu — počet kanálov, veľkosti rozpočtu, frekvencia stretnutí. Napíšte nám, dohodneme sa.' },
+  { q: 'Sú v cene aj náklady na grafiku a copy?',
+    a: 'Áno. Všetky reklamné vizuály a texty sú zahrnuté v cene podľa balíka. Nepriplácate za štandardné kreatívy.' },
 ];
 
 // Helper na renderovanie buniek tabuľky
@@ -259,9 +265,9 @@ function cellContent(v: string) {
                     <span class="num plan-price" data-plan-base={plan.price_monthly} style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.price_monthly}€</span>
                     <span style="font-size: 14px; opacity: 0.65;">/mes</span>
                   </div>
-                  <!-- Total za rok (zobrazí sa len pri 12 mesiacov toggle) -->
-                  <div class="plan-total" data-plan-base={plan.price_monthly} style={`font-size: 13px; opacity: 0.55; margin-top: 6px; display: none;`}>
-                    <span class="plan-total-amount">{plan.price_monthly * 12}</span>€ za 12 mesiacov <span style="opacity: 0.7;">celkom</span>
+                  <!-- Total za obdobie (zobrazí sa pri 6m alebo 12m toggle) -->
+                  <div class="plan-total" data-plan-base={plan.price_monthly} style={`font-size: 13px; opacity: 0.7; margin-top: 6px; display: none;`}>
+                    <span class="plan-total-amount" style="font-weight: 600;">{plan.price_monthly * 12}</span>€ za <span class="plan-total-period">12 mesiacov</span> <span style="opacity: 0.7;">celkom</span>
                   </div>
                 </div>
               )}
@@ -301,7 +307,68 @@ function cellContent(v: string) {
           );
         })}
       </div>
+
+      <!-- Disclaimer pod kartami -->
+      <p style="text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        * Ceny sú bez DPH. <strong style="color: var(--ink-2);">Reklamný rozpočet</strong> (budget na reklamy v Google/Meta) <strong style="color: var(--ink-2);">nie je zahrnutý</strong> — platíte ho priamo platformám zo svojej karty.
+      </p>
     </div>
+  </section>
+
+
+  <!-- ============================================
+       REKLAMNÝ ROZPOČET — 3 príklady
+       ============================================ -->
+  <section class="section" style="background: var(--bg-soft);">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Dôležité ]</span>
+        <span style="flex: 1; height: 1px; background: var(--line);"></span>
+      </div>
+      <div class="sec-head">
+        <h2 class="h1" style="max-width: 16ch;">Čo je reklamný rozpočet?</h2>
+        <p class="lead">
+          Okrem našej ceny za správu kampaní potrebujete aj <strong>reklamný rozpočet (budget)</strong> — peniaze, ktoré platíte priamo Facebooku alebo Google za zobrazovanie vašich reklám. Tento rozpočet si nastavujete vy podľa svojich možností. Čím viac investujete, tým viac ľudí oslovíte.
+        </p>
+      </div>
+
+      <div class="budget-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px;">
+        <!-- 150-300€ -->
+        <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; text-align: center; display: flex; flex-direction: column;">
+          <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px;">150–300 €</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.05em; margin-bottom: 16px;">/MESIAC</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Starter / Pro</div>
+          <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
+            Pre živnostníkov a malé firmy. Test kampaní, prvé výsledky, overenie potenciálu.
+          </p>
+        </div>
+
+        <!-- 300-700€ -->
+        <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; text-align: center; display: flex; flex-direction: column;">
+          <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px;">300–700 €</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.05em; margin-bottom: 16px;">/MESIAC</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Pro / Enterprise</div>
+          <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
+            Pre stabilnejšie výsledky. Viacero kampaní paralelne, lepšie testovanie, väčší dosah.
+          </p>
+        </div>
+
+        <!-- 1500€+ -->
+        <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 32px; text-align: center; display: flex; flex-direction: column;">
+          <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px;">1 500 €+</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.05em; margin-bottom: 16px;">/MESIAC</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Premium</div>
+          <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
+            Pre veľké projekty s maximálnym dosahom. Plný škálovaný marketing s remarketingom.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @media (max-width: 1024px) { .budget-grid { grid-template-columns: 1fr 1fr !important; } }
+      @media (max-width: 640px)  { .budget-grid { grid-template-columns: 1fr !important; } }
+    </style>
   </section>
 
 
@@ -379,18 +446,20 @@ function cellContent(v: string) {
       const totals = document.querySelectorAll<HTMLElement>('.plan-total');
 
       function applyDiscount(discount: number) {
+        // discount: 0 (Mesačne), 10 (6 mes), 20 (12 mes)
+        const months = discount === 0 ? 0 : (discount === 10 ? 6 : 12);
+
         prices.forEach((p) => {
           const base = parseFloat(p.dataset.planBase || '0');
           if (!base) return;
           const newPrice = Math.round(base * (1 - discount / 100));
           p.textContent = newPrice + '€';
         });
+
         originals.forEach((o) => {
           const base = parseFloat(o.dataset.planBase || '0');
           if (!base) return;
-          // Originál cena = base / 0.8 ak chceme zobraziť "before discount"
-          // Ale tu chceme: pri 10% zľave = base, pri 20% zľave = base × (1 + 25%) ako "porovnanie"
-          // Najjednoduchšie: ukáž base ako original keď je discount > 0
+          // Original cena = base (pôvodná) keď je discount > 0
           if (discount > 0) {
             o.textContent = base + '€';
             o.style.display = 'inline';
@@ -398,15 +467,20 @@ function cellContent(v: string) {
             o.style.display = 'none';
           }
         });
+
         totals.forEach((t) => {
           const base = parseFloat(t.dataset.planBase || '0');
-          if (!base) return;
+          if (!base || months === 0) {
+            t.style.display = 'none';
+            return;
+          }
           const newPrice = Math.round(base * (1 - discount / 100));
-          const totalAmount = newPrice * 12;
+          const totalAmount = newPrice * months;
           const amountEl = t.querySelector('.plan-total-amount') as HTMLElement;
+          const periodEl = t.querySelector('.plan-total-period') as HTMLElement;
           if (amountEl) amountEl.textContent = totalAmount.toString();
-          // Total ukazujeme len pri 12-mesačnom toggle
-          t.style.display = discount === 20 ? 'block' : 'none';
+          if (periodEl) periodEl.textContent = `${months} mesiacov`;
+          t.style.display = 'block';
         });
       }
 
