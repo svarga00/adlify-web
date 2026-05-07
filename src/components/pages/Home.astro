@@ -329,30 +329,6 @@ const manifestItems = [
             NovaShop. 6 mesiacov spolupráce. <strong style="color: var(--ink);">Pretiahni posuvník</strong> a sleduj, ako sa menia čísla.
           </p>
 
-          <!-- 4 metriky -->
-          <div class="ba-metrics-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
-            <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">MESAČNÉ TRŽBY</div>
-              <div class="num" data-ba-metric="revenue" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">€34&nbsp;939</div>
-              <div data-ba-delta="revenue" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+27%</div>
-            </div>
-            <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">ROAS</div>
-              <div class="num" data-ba-metric="roas" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">2.52×</div>
-              <div data-ba-delta="roas" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+20%</div>
-            </div>
-            <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">KONVERZIE</div>
-              <div class="num" data-ba-metric="conv" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">380</div>
-              <div data-ba-delta="conv" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+51%</div>
-            </div>
-            <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">CPA</div>
-              <div class="num" data-ba-metric="cpa" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">€17.0</div>
-              <div data-ba-delta="cpa" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">−7%</div>
-            </div>
-          </div>
-
           <!-- Timeline -->
           <div>
             <div class="eyebrow" style="margin-bottom: 10px;">Časová os</div>
@@ -381,16 +357,40 @@ const manifestItems = [
           <div data-ba-label-after  style="position: absolute; top: 16px; right: 16px; z-index: 6; padding: 5px 11px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: white; opacity: 0.4;">AFTER</div>
 
           <!-- BASE LAYER (BEFORE state — sivá / tlmená) -->
-          <div style="position: relative; display: flex; flex-direction: column; height: 100%; min-height: 416px; z-index: 1;">
+          <div style="position: relative; display: flex; flex-direction: column; height: 100%; min-height: 460px; z-index: 1;">
             <!-- Dashboard header -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
               <div>
                 <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">NOVASHOP · DASHBOARD</div>
-                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92; margin-bottom: 14px;">Marec 2026</div>
+                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92;">Marec 2026</div>
               </div>
               <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                 <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
                 LIVE
+              </div>
+            </div>
+
+            <!-- KPI dlaždice (4 ks) priamo v dashboarde -->
+            <div class="ba-dash-kpis" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px;">
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">TRŽBY</div>
+                <div data-ba-metric="revenue" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">€34&nbsp;939</div>
+                <div data-ba-delta="revenue" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+27%</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">ROAS</div>
+                <div data-ba-metric="roas" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">2.52×</div>
+                <div data-ba-delta="roas" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+20%</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">KONV.</div>
+                <div data-ba-metric="conv" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">380</div>
+                <div data-ba-delta="conv" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+51%</div>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">CPA</div>
+                <div data-ba-metric="cpa" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">€17.0</div>
+                <div data-ba-delta="cpa" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(220,38,38);">−7%</div>
               </div>
             </div>
 
