@@ -43,17 +43,17 @@ const trustLogos = [
 ];
 
 const stats = [
-  { label: 'Spustených kampaní',  value: '847',   color: 'rgb(241, 100, 52)' },
-  { label: 'Priemerný ROAS',       value: '5.2×',  color: 'rgb(232, 93, 156)' },
-  { label: 'Optimalizácií / mes.', value: '312',   color: 'rgb(244, 127, 63)' },
-  { label: 'Uptime trackingu',     value: '99.9%', color: 'rgb(34, 197, 94)' },
+  { label: 'Skúsenosti od',         value: '2014',  color: 'rgb(241, 100, 52)' },
+  { label: 'Bez viazanosti',        value: '0 dní', color: 'rgb(232, 93, 156)' },
+  { label: 'Krajín EÚ',             value: '5+',    color: 'rgb(244, 127, 63)' },
+  { label: 'Uptime trackingu',      value: '99.9%', color: 'rgb(34, 197, 94)' },
 ];
 
 const manifestItems = [
-  { num: '48+',   label: 'Klientov od 2021' },
-  { num: '€680k', label: 'Spravovaný budget / mesiac' },
-  { num: '5.2×',  label: 'Priemerný ROAS' },
-  { num: '7',     label: 'Krajín EÚ' },
+  { num: '2014', label: 'Online marketingu sa venujeme od' },
+  { num: 'Bez',  label: 'Viazanosti — odísť môžete kedykoľvek' },
+  { num: 'Od 149€', label: 'Mesačne, bez skrytých poplatkov' },
+  { num: '5+',   label: 'Krajín EÚ (SK, CZ, HU, AT, DE)' },
 ];
 ---
 
@@ -74,7 +74,7 @@ const manifestItems = [
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
         <div class="pill"><span class="dot"></span><span>{heroEyebrow}</span></div>
         <span style="flex: 1; height: 1px; background: var(--line); max-width: 240px;"></span>
-        <span class="eyebrow">EST. 2021 · BA / PRG / BUD</span>
+        <span class="eyebrow">EST. 2014 · PRESOV / SK</span>
       </div>
 
       <!-- 2-col grid: text left, chart right -->
@@ -97,11 +97,11 @@ const manifestItems = [
               AKTUÁLNE
             </span>
             <span style="display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <strong style="color: var(--ink); font-weight: 700;">48+ klientov</strong>
+              <strong style="color: var(--ink); font-weight: 700;">Bez viazanosti</strong>
               <span style="color: var(--muted);">·</span>
-              <strong style="color: var(--ink); font-weight: 700;">€680k tržieb</strong>
+              <strong style="color: var(--ink); font-weight: 700;">Od 149&nbsp;€/mes</strong>
               <span style="color: var(--muted);">·</span>
-              <strong style="color: rgb(22, 163, 74); font-weight: 700;">5.2× návrat</strong>
+              <strong style="color: rgb(22, 163, 74); font-weight: 700;">Skúsenosti od 2014</strong>
             </span>
           </div>
 
@@ -127,17 +127,6 @@ const manifestItems = [
                 </div>
               ))}
             </div>
-            <!-- Stars + rating -->
-            <div>
-              <div style="display: flex; gap: 2px; margin-bottom: 2px;">
-                {Array.from({ length: 5 }).map(() => (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="rgb(245,158,11)" stroke="none"><path d="M12 2 14.5 9 22 9.5 16 14.5 18 22 12 18 6 22 8 14.5 2 9.5 9.5 9z"></path></svg>
-                ))}
-              </div>
-              <div style="font-size: 13px; color: var(--muted);">
-                <span style="font-weight: 700; color: var(--ink);">4.9</span> · 48+ klientov
-              </div>
-            </div>
             <!-- Bez výpovednej lehoty -->
             <div style="display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted);">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: rgb(34,197,94);"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -160,16 +149,16 @@ const manifestItems = [
               <!-- Header -->
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
                 <div>
-                  <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">LIVE · TÝŽDEŇ 17/2026</div>
-                  <div style="font-size: 16px; font-weight: 500; opacity: 0.92; margin-bottom: 14px;">Agregovaný dashboard</div>
+                  <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">UKÁŽKA · KLIENTSKY PORTÁL</div>
+                  <div style="font-size: 16px; font-weight: 500; opacity: 0.92; margin-bottom: 14px;">Tržby z reklamy / mesiac</div>
                   <div style="display: flex; align-items: baseline; gap: 10px;">
-                    <div style="font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em;">€680&nbsp;000</div>
-                    <div style="font-size: 13px; font-weight: 700; color: rgb(134,239,172); font-family: var(--mono);">+312%</div>
+                    <div style="font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em;">€××&nbsp;×××</div>
+                    <div style="font-size: 13px; font-weight: 700; color: rgb(134,239,172); font-family: var(--mono);">+×××%</div>
                   </div>
                 </div>
                 <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                   <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94); animation: heroPulse 2s infinite ease;"></span>
-                  LIVE
+                  PREVIEW
                 </div>
               </div>
 
@@ -750,7 +739,7 @@ const manifestItems = [
           </div>
 
           <p style="font-size: 11px; color: var(--muted); margin-top: 24px; font-family: var(--mono);">
-            Odhad podľa mediánu 48 našich klientov. Predpokladáme bežnú cenu za klik €0,55. Skutočné výsledky závisia od odvetvia.
+            Odhad podľa benchmarkov z odvetvia. Predpokladáme bežnú cenu za klik €0,55. Skutočné výsledky závisia od konkurencie a kvality kampane.
           </p>
         </div>
 

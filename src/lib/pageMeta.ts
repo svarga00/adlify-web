@@ -31,16 +31,16 @@ type LangPageMeta = Record<Lang, PageMeta>;
 // HOMEPAGE
 // ============================================================
 const home: LangPageMeta = {
-  sk: { title: 'Adlify — Výkonnostný marketing pre ambiciózne firmy',
-        description: 'Spravujeme Google a Meta reklamy pre e-shopy a remeselníkov tak, aby ste videli, kam každé euro ide. 48+ klientov, €680k tržieb, 5.2× priemerný návrat.' },
-  cs: { title: 'Adlify — Výkonnostní marketing pro ambiciózní firmy',
-        description: 'Spravujeme Google a Meta reklamy pro e-shopy a řemeslníky tak, abyste viděli, kam každé euro jde. 48+ klientů, €680k tržeb, 5.2× průměrný návrat.' },
-  hu: { title: 'Adlify — Teljesítményalapú marketing ambiciózus cégeknek',
-        description: 'Google és Meta hirdetéseket kezelünk e-kereskedők és kisvállalkozók számára átláthatóan. 48+ ügyfél, €680k bevétel, 5.2× átlagos megtérülés.' },
-  en: { title: 'Adlify — Performance marketing for ambitious companies',
-        description: 'We manage Google and Meta ads for e-shops and tradespeople so you can see where every euro goes. 48+ clients, €680k revenue, 5.2× average return.' },
-  de: { title: 'Adlify — Performance-Marketing für ambitionierte Unternehmen',
-        description: 'Wir verwalten Google- und Meta-Anzeigen für Online-Shops und Handwerker, damit Sie sehen, wohin jeder Euro fließt. 48+ Kunden, €680k Umsatz, 5,2× durchschnittlicher Return.' },
+  sk: { title: 'Adlify — Výkonnostný marketing pre malé a stredné firmy',
+        description: 'Online marketingu sa venujeme od roku 2014. Adlify robí výkonnostný marketing dostupný aj pre živnostníkov a malé firmy. Bez viazanosti, od 149 € mesačne.' },
+  cs: { title: 'Adlify — Výkonnostní marketing pro malé a střední firmy',
+        description: 'Online marketingu se věnujeme od roku 2014. Adlify dělá výkonnostní marketing dostupný i pro živnostníky a malé firmy. Bez vázanosti, od 149 € měsíčně.' },
+  hu: { title: 'Adlify — Teljesítményalapú marketing kis- és középvállalkozásoknak',
+        description: '2014 óta foglalkozunk online marketinggel. Az Adlify a teljesítményalapú marketinget elérhetővé teszi vállalkozók és kisvállalkozások számára is. Kötöttség nélkül, havi 149 €-tól.' },
+  en: { title: 'Adlify — Performance marketing for small and mid-sized businesses',
+        description: "We've been doing online marketing since 2014. Adlify makes performance marketing accessible to solopreneurs and small businesses. No commitment, from €149/month." },
+  de: { title: 'Adlify — Performance-Marketing für KMU',
+        description: 'Online-Marketing machen wir seit 2014. Adlify macht Performance-Marketing zugänglich auch für Selbstständige und kleine Unternehmen. Keine Bindung, ab 149 €/Monat.' },
 };
 
 // ============================================================
