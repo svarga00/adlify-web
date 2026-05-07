@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Forms</title></head>
+<body>
+  <!--
+    Tento súbor existuje len preto, aby Netlify pri builde detegoval
+    formuláre a aktivoval form handling endpoint. Polia tu musia
+    zodpovedať poliam v skutočnom formulári v aplikácii (Contact.astro).
+    Netlify scrapuje tento HTML a vytvorí pre form 'kontakt' submission endpoint.
+  -->
+  <form name="kontakt" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="text" name="meno" />
+    <input type="email" name="email" />
+    <input type="text" name="firma" />
+    <input type="tel" name="telefon" />
+    <select name="rozpocet">
+      <option value="do_500"></option>
+      <option value="500_2000"></option>
+      <option value="2000_5000"></option>
+      <option value="5000_plus"></option>
+      <option value="neviem"></option>
+    </select>
+    <textarea name="sprava"></textarea>
+    <input type="checkbox" name="gdpr" />
+    <input type="text" name="bot-field" />
+  </form>
+</body>
+</html>
