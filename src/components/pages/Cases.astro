@@ -54,14 +54,47 @@ const filters = ['all', ...visibleCategories].map((key) => ({ key, label: filter
   />
 
 
+  <!-- ============================================
+       INTRO — krátky odsek o prípadových štúdiách
+       ============================================ -->
+  <section class="section" style="padding-top: 0; padding-bottom: clamp(40px, 4vw, 64px);">
+    <div class="container" style="max-width: 880px;">
+      <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
+        <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
+          <strong>Prečo zverejňujeme reálne čísla?</strong> Lebo veríme, že vidieť konkrétny príklad
+          povie viac než desať odhadov a sľubov. Každá štúdia obsahuje konkrétne metriky, obdobie,
+          kanály a popis toho, čo sme robili. Mená klientov zverejňujeme len s ich súhlasom.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
   <section class="section" style="padding-top: 0;">
     <div class="container">
 
       {cases.length === 0 ? (
-        <!-- Fallback ak Supabase nie je pripojené -->
-        <div style="padding: 60px 24px; text-align: center; background: var(--bg-soft); border: 1px dashed var(--line); border-radius: 16px;">
-          <div class="eyebrow" style="margin-bottom: 12px;">[ ŽIADNY OBSAH ]</div>
-          <p class="body">Pripadové štúdie sa načítavajú zo Supabase. Nastav SUPABASE_URL a SUPABASE_ANON_KEY a re-deployuj.</p>
+        <!-- Fallback — pre návštevníka, nie pre developera -->
+        <div style="padding: 64px 32px; text-align: center; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 24px; max-width: 720px; margin: 0 auto;">
+          <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <path d="M9 9h6v6H9z"></path>
+            </svg>
+          </div>
+          <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px;">
+            Pripravujeme prvé verejné štúdie.
+          </h3>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 50ch; margin: 0 auto 24px;">
+            Niekoľko klientov je v procese odsúhlasovania zverejnenia výsledkov. Medzitým vám čísla
+            radi ukážeme priamo na stretnutí — anonymizované alebo so súhlasom toho-ktorého klienta.
+          </p>
+          <a href="/kontakt" class="btn btn-ink">
+            Spýtať sa na referencie
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
         </div>
       ) : (
         <>

@@ -45,6 +45,23 @@ const [services, cases, testimonials, faqs] = await Promise.all([
     lead={meta.hero!.lead}
   />
 
+
+  <!-- ============================================
+       INTRO — krátky odsek
+       ============================================ -->
+  <section class="section" style="padding-top: 0; padding-bottom: clamp(24px, 3vw, 48px);">
+    <div class="container" style="max-width: 880px;">
+      <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
+        <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
+          <strong>Nezačíname výberom kanálu.</strong> Začíname tým, čo váš biznis potrebuje — viac
+          objednávok, viac dopytov, lepšiu cenu za zákazníka. A potom vyberáme, ktorá služba (alebo
+          kombinácia) na to sedí najlepšie. Nasleduje 6 oblastí, v ktorých vám vieme pomôcť.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
   <ServicesAccordion services={services} linkToDetail={true} showSectionHead={false} />
 
   <ProcessGrid background="soft" />

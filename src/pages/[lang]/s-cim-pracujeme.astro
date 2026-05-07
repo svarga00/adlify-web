@@ -1,5 +1,5 @@
 ---
-import Partners from '../../components/pages/Partners.astro';
+import Tools from '../../components/pages/Tools.astro';
 import type { Lang } from '../../lib/i18n';
 
 export async function getStaticPaths() {
@@ -13,4 +13,4 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.params as { lang: Lang };
 ---
-<Partners lang={lang} />
+<Tools lang={lang} />

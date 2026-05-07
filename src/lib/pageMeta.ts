@@ -193,22 +193,22 @@ const contact: LangPageMeta = {
 // ============================================================
 // PARTNERS
 // ============================================================
-const partners: LangPageMeta = {
-  sk: { title: 'Partneri — Adlify',
-        description: 'Certifikovaný partner hlavných platforiem. Premier status na Google, Master Partner na Klaviyo. Dedikovaná support linka, betas a školenia priamo od platforiem.',
-        hero: { num: '010', kind: 'PARTNERS', title: 'Nepracujeme sami.', titleAccent: 'Integrujeme to najlepšie.', lead: 'Certifikovaný partner hlavných platforiem. Premier status na Google, Master Partner na Klaviyo. Vďaka tomu máme prístup k betám, dedikovanej support linke a školeniam priamo od platforiem.' } },
-  cs: { title: 'Partneři — Adlify',
-        description: 'Certifikovaný partner hlavních platforem. Premier status u Google, Master Partner u Klaviyo. Dedikovaná support linka, beta verze a školení přímo od platforem.',
-        hero: { num: '010', kind: 'PARTNEŘI', title: 'Nepracujeme sami.', titleAccent: 'Integrujeme to nejlepší.', lead: 'Certifikovaný partner hlavních platforem. Premier status u Google, Master Partner u Klaviyo. Díky tomu máme přístup k beta verzím, dedikované support lince a školení přímo od platforem.' } },
-  hu: { title: 'Partnerek — Adlify',
-        description: 'Vezető platformok tanúsított partnere. Premier státusz a Google-nél, Master Partner a Klaviyónál. Dedikált support, béta verziók és képzések közvetlenül a platformoktól.',
-        hero: { num: '010', kind: 'PARTNEREK', title: 'Nem egyedül dolgozunk.', titleAccent: 'A legjobbat integráljuk.', lead: 'A vezető platformok tanúsított partnere vagyunk. Premier státusz a Google-nél, Master Partner a Klaviyónál. Ezért hozzáférünk a béta verziókhoz, dedikált supporthoz és közvetlenül a platformoktól származó képzésekhez.' } },
-  en: { title: 'Partners — Adlify',
-        description: 'Certified partner of major platforms. Premier status with Google, Master Partner with Klaviyo. Dedicated support line, betas, and training directly from the platforms.',
-        hero: { num: '010', kind: 'PARTNERS', title: "We don't work alone.", titleAccent: 'We integrate the best.', lead: 'Certified partner of major platforms. Premier status with Google, Master Partner with Klaviyo. This gives us access to betas, a dedicated support line, and training directly from the platforms.' } },
-  de: { title: 'Partner — Adlify',
-        description: 'Zertifizierter Partner der wichtigsten Plattformen. Premier-Status bei Google, Master-Partner bei Klaviyo. Dedizierter Support, Betas und Schulungen direkt von den Plattformen.',
-        hero: { num: '010', kind: 'PARTNER', title: 'Wir arbeiten nicht allein.', titleAccent: 'Wir integrieren das Beste.', lead: 'Zertifizierter Partner der wichtigsten Plattformen. Premier-Status bei Google, Master-Partner bei Klaviyo. Dadurch haben wir Zugang zu Betas, einer dedizierten Support-Linie und Schulungen direkt von den Plattformen.' } },
+const tools: LangPageMeta = {
+  sk: { title: 'S čím pracujeme — Adlify',
+        description: 'Honest list nástrojov a platforiem, s ktorými reálne pracujeme každý deň. Reklamy, meranie, analytika, e-mail, e-commerce, AI a kreatíva.',
+        hero: { num: '010', kind: 'TOOLS', title: 'Naše', titleAccent: 'pracovné nástroje.', lead: 'Žiadne marketingové tituly. Toto je reálny zoznam platforiem, s ktorými pracujeme každý deň — od Google Ads cez Klaviyo až po server-side tracking. A pri každom napíšeme, kedy a načo ho nasadzujeme.' } },
+  cs: { title: 'S čím pracujeme — Adlify',
+        description: 'Honest list nástrojů a platforem, se kterými reálně pracujeme každý den. Reklamy, měření, analytika, e-mail, e-commerce, AI a kreativa.',
+        hero: { num: '010', kind: 'TOOLS', title: 'Naše', titleAccent: 'pracovní nástroje.', lead: 'Žádné marketingové tituly. Toto je reálný seznam platforem, se kterými pracujeme každý den — od Google Ads přes Klaviyo až po server-side tracking. A u každého napíšeme, kdy a na co ho nasazujeme.' } },
+  hu: { title: 'Eszközeink — Adlify',
+        description: 'Őszinte lista azokról az eszközökről és platformokról, amelyekkel valóban dolgozunk minden nap. Hirdetések, mérés, analitika, e-mail, e-kereskedelem, AI és kreatíva.',
+        hero: { num: '010', kind: 'TOOLS', title: 'Munka', titleAccent: 'eszközeink.', lead: 'Semmi marketing címke. Ez egy valódi lista azokról a platformokról, amelyekkel mindennap dolgozunk — a Google Ads-től a Klaviyo-ig és a server-side trackingig. És minden eszköznél leírjuk, mikor és mire használjuk.' } },
+  en: { title: 'What We Work With — Adlify',
+        description: "An honest list of tools and platforms we actually use every day. Ads, measurement, analytics, e-mail, e-commerce, AI and creative.",
+        hero: { num: '010', kind: 'TOOLS', title: 'Our', titleAccent: 'working tools.', lead: "No marketing titles. This is a real list of platforms we work with every day — from Google Ads through Klaviyo to server-side tracking. And for each one, we explain when and why we use it." } },
+  de: { title: 'Unsere Tools — Adlify',
+        description: 'Ehrliche Liste der Tools und Plattformen, mit denen wir täglich arbeiten. Werbung, Tracking, Analytik, E-Mail, E-Commerce, KI und Kreatives.',
+        hero: { num: '010', kind: 'TOOLS', title: 'Unsere', titleAccent: 'Arbeitswerkzeuge.', lead: 'Keine Marketing-Titel. Das ist eine echte Liste von Plattformen, mit denen wir täglich arbeiten — von Google Ads über Klaviyo bis zum Server-Side-Tracking. Und bei jedem erklären wir, wann und wofür wir es einsetzen.' } },
 };
 
 // ============================================================
@@ -216,20 +216,20 @@ const partners: LangPageMeta = {
 // ============================================================
 const howItWorks: LangPageMeta = {
   sk: { title: 'Ako to funguje — Adlify',
-        description: 'Transparentný proces, jasné termíny, žiadne čierne skrinky. Od prvej správy po prvé výsledky vediete vy — my len pridáme tempo.',
-        hero: { num: '011', kind: 'HOW IT WORKS', title: 'Ako to u nás funguje.', titleAccent: 'Krok po kroku.', lead: 'Transparentný proces, jasné termíny, žiadne čierne skrinky. Od prvej správy po prvé výsledky vediete vy — my len pridáme tempo.' } },
+        description: 'Transparentný proces, jasné termíny a klientsky portál s prístupom 24/7. Od prvej správy po prvé výsledky vediete vy — my dodáme tempo a plný prehľad.',
+        hero: { num: '011', kind: 'HOW IT WORKS', title: 'Ako to u nás funguje.', titleAccent: 'Krok po kroku.', lead: 'Transparentný proces, jasné termíny a vlastný klientsky portál s prístupom 24/7 — pridaná hodnota, ktorú dostávate v cene každého balíka. Od prvej správy po prvé výsledky vediete vy.' } },
   cs: { title: 'Jak to funguje — Adlify',
-        description: 'Transparentní proces, jasné termíny, žádné černé skříňky. Od první zprávy po první výsledky vedete vy — my jen přidáme tempo.',
-        hero: { num: '011', kind: 'JAK TO FUNGUJE', title: 'Jak to u nás funguje.', titleAccent: 'Krok po kroku.', lead: 'Transparentní proces, jasné termíny, žádné černé skříňky. Od první zprávy po první výsledky vedete vy — my jen přidáme tempo.' } },
+        description: 'Transparentní proces, jasné termíny a klientský portál s přístupem 24/7. Od první zprávy po první výsledky vedete vy — my dodáme tempo a plný přehled.',
+        hero: { num: '011', kind: 'JAK TO FUNGUJE', title: 'Jak to u nás funguje.', titleAccent: 'Krok po kroku.', lead: 'Transparentní proces, jasné termíny a vlastní klientský portál s přístupem 24/7 — přidaná hodnota, kterou dostáváte v ceně každého balíčku. Od první zprávy po první výsledky vedete vy.' } },
   hu: { title: 'Hogyan működik — Adlify',
-        description: 'Átlátható folyamat, egyértelmű határidők, semmi feketedoboz. Az első üzenettől az első eredményekig Ön irányít — mi csak gyorsítunk.',
-        hero: { num: '011', kind: 'HOGYAN MŰKÖDIK', title: 'Így működünk mi.', titleAccent: 'Lépésről lépésre.', lead: 'Átlátható folyamat, egyértelmű határidők, semmi feketedoboz. Az első üzenettől az első eredményekig Ön irányít — mi csak gyorsítunk.' } },
+        description: 'Átlátható folyamat, egyértelmű határidők és 24/7 ügyfélportál hozzáférés. Az első üzenettől az első eredményekig Ön irányít — mi adjuk a tempót és a teljes átláthatóságot.',
+        hero: { num: '011', kind: 'HOGYAN MŰKÖDIK', title: 'Így működünk mi.', titleAccent: 'Lépésről lépésre.', lead: 'Átlátható folyamat, egyértelmű határidők és saját ügyfélportál 24/7 hozzáféréssel — hozzáadott érték, amelyet minden csomag tartalmaz. Az első üzenettől az első eredményekig Ön irányít.' } },
   en: { title: 'How it works — Adlify',
-        description: 'Transparent process, clear deadlines, no black boxes. From the first message to the first results, you lead — we just add tempo.',
-        hero: { num: '011', kind: 'HOW IT WORKS', title: 'How we work.', titleAccent: 'Step by step.', lead: 'Transparent process, clear deadlines, no black boxes. From the first message to the first results, you lead — we just add tempo.' } },
+        description: 'Transparent process, clear deadlines, and 24/7 client portal access. From the first message to the first results, you lead — we provide tempo and full transparency.',
+        hero: { num: '011', kind: 'HOW IT WORKS', title: 'How we work.', titleAccent: 'Step by step.', lead: 'Transparent process, clear deadlines, and your own client portal with 24/7 access — added value included in every plan. From the first message to the first results, you lead.' } },
   de: { title: 'So funktioniert es — Adlify',
-        description: 'Transparenter Prozess, klare Deadlines, keine Black Boxes. Von der ersten Nachricht bis zu den ersten Ergebnissen führen Sie — wir geben nur das Tempo.',
-        hero: { num: '011', kind: 'SO FUNKTIONIERT ES', title: 'So arbeiten wir.', titleAccent: 'Schritt für Schritt.', lead: 'Transparenter Prozess, klare Deadlines, keine Black Boxes. Von der ersten Nachricht bis zu den ersten Ergebnissen führen Sie — wir geben nur das Tempo.' } },
+        description: 'Transparenter Prozess, klare Deadlines und 24/7 Kundenportal-Zugang. Von der ersten Nachricht bis zu den ersten Ergebnissen führen Sie — wir geben Tempo und volle Transparenz.',
+        hero: { num: '011', kind: 'SO FUNKTIONIERT ES', title: 'So arbeiten wir.', titleAccent: 'Schritt für Schritt.', lead: 'Transparenter Prozess, klare Deadlines und Ihr eigenes Kundenportal mit 24/7-Zugang — Mehrwert, der in jedem Paket enthalten ist. Von der ersten Nachricht bis zu den ersten Ergebnissen führen Sie.' } },
 };
 
 // ============================================================
@@ -301,7 +301,7 @@ export const pageMeta = {
   blog,
   faq,
   contact,
-  partners,
+  tools,
   howItWorks,
   terms,
   privacy,

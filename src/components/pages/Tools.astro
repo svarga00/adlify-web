@@ -1,0 +1,198 @@
+---
+/**
+ * /s-cim-pracujeme — Nástroje a platformy ktoré reálne používame
+ *
+ * Predtym sa stranka volala /partneri a obsahovala fake "Premier Partner"
+ * certifikaty. Teraz je to honest list nastrojov ktore pouzivame
+ * v dennom marketingu, kategorizovany podla ucelu, s popisom
+ * KEDY A NACO kazdy nastroj nasadzujeme.
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../PageHero.astro';
+import ContactSection from '../ContactSection.astro';
+import { pageMeta } from '../../lib/pageMeta';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'sk' } = Astro.props;
+const meta = pageMeta.tools[lang];
+
+// Kategorie nastrojov — kazda kategoria ma 3-5 nastrojov, kazdy s 'kedy/naco'
+const categories = [
+  {
+    title: 'Reklama a kampane',
+    desc: 'Platformy, na ktorých kupujeme reklamný priestor a spravujeme kampane.',
+    tools: [
+      { name: 'Google Ads',          when: 'Pre väčšinu klientov.',                  what: 'Search, Performance Max, Shopping, YouTube. Vyhľadávacia reklama je #1 kanál pre okamžitý dopyt.' },
+      { name: 'Meta Ads',            when: 'Pri B2C, e-shopoch, službách.',          what: 'Facebook + Instagram. Silné pre brand building, vizuálne produkty a impulzné nákupy.' },
+      { name: 'TikTok Ads',          when: 'Pre značky cieliace na <35-ročných.',    what: 'Krátke video kampane, často nižší CPC než Meta. Funguje aj pre B2B v IT a HR.' },
+      { name: 'LinkedIn Ads',        when: 'Pre B2B s vyššou hodnotou klienta.',     what: 'Drahší kanál, ale presné cielenie podľa pozície, firmy, veľkosti.' },
+      { name: 'Microsoft Ads (Bing)',when: 'Pri B2B a 40+ cieľovkách.',              what: 'Často 30-50 % nižší CPC než Google. Často podceňované, ale stojí za test.' },
+    ],
+  },
+  {
+    title: 'Meranie a analytika',
+    desc: 'Bez merania nie je optimalizácie. Toto je kritická základná vrstva.',
+    tools: [
+      { name: 'Google Analytics 4',     when: 'Vždy, povinný základ.',              what: 'Sledovanie návštev, konverzií, atribúcie. Konfigurujeme udalosti vrátane custom eventov.' },
+      { name: 'Google Tag Manager',     when: 'Pri každom novom klientovi.',        what: 'Centrálny manažment všetkých trackingových kódov. Žiadne ručné editovanie webu.' },
+      { name: 'Server-side tracking',   when: 'Pri väčších rozpočtoch (€2k+/mes).', what: 'Obísť iOS 14.5+ a ad-blockery. Dáta idú cez náš server priamo platformám.' },
+      { name: 'Meta CAPI',              when: 'Vždy, ak používame Meta Ads.',       what: 'Conversion API doplňuje pixel. Bez nej strácate ~30 % konverzií v atribúcii.' },
+      { name: 'Looker Studio',          when: 'Pre Pro+ klientov.',                 what: 'Vizuálne dashboardy s dátami z všetkých zdrojov (Ads, GA4, Shopify, CRM).' },
+      { name: 'Hotjar / Microsoft Clarity', when: 'Pri webe s nízkou konverziou.',  what: 'Heatmapy a nahrávky relácií — vidíme, čo robia návštevníci a kde "padajú".' },
+    ],
+  },
+  {
+    title: 'E-mail a automatizácie',
+    desc: 'Existujúci zákazník je 5× lacnejší než nový. E-mail to využíva.',
+    tools: [
+      { name: 'Mailchimp',     when: 'Pre menších klientov a začiatočníkov.', what: 'Jednoduchý newsletter + základné automatizácie. Lacné a rýchle nasadenie.' },
+      { name: 'Klaviyo',       when: 'Pre rastúce e-shopy.',                  what: 'Najlepšia integrácia so Shopify/WooCommerce. Welcome flow, abandoned cart, post-purchase.' },
+      { name: 'Brevo (Sendinblue)', when: 'Pre B2B a transakčné e-maily.',    what: 'Lacný transakčný e-mail + WhatsApp + SMS v jednom. Dobrá deliverabilita v EÚ.' },
+      { name: 'Make.com',      when: 'Keď treba prepojiť 3+ nástroje.',       what: 'Visual automation builder. Napr.: nový lead → CRM → Slack notifikácia → e-mail.' },
+    ],
+  },
+  {
+    title: 'E-commerce platformy',
+    desc: 'Vieme nasadiť reklamu a meranie na všetky bežné e-shop platformy.',
+    tools: [
+      { name: 'Shopify',     when: 'Odporúčame pre nové e-shopy.',         what: 'Najjednoduchšia integrácia s Meta CAPI, Klaviyo, GA4. Najmenej technických problémov.' },
+      { name: 'WooCommerce', when: 'Ak už klient má WordPress.',           what: 'Flexibilné, ale vyžaduje viac údržby. Vieme nasadiť tracking aj cez GTM.' },
+      { name: 'Upgates',     when: 'SK/CZ trh, lokálni klienti.',          what: 'Slovenská platforma s dobrým support-om. Vieme nasadiť GA4, Meta pixel, Google Merchant.' },
+      { name: 'Shoptet',     when: 'CZ/SK e-shopy.',                       what: 'Veľmi populárna v ČR. Máme overené postupy pre nastavenie konverzií a feed na Google Shopping.' },
+    ],
+  },
+  {
+    title: 'AI a kreatíva',
+    desc: 'Šetríme čas pri tvorbe vizuálov, copy a brainstorm-e — ale finálnu kvalitu vždy kontrolujeme my.',
+    tools: [
+      { name: 'ChatGPT / Claude', when: 'Pri brainstorm-e copy a stratégie.',          what: 'Použijeme na rýchle nápady. Finálne ad copy vždy editujeme manuálne.' },
+      { name: 'Midjourney / Ideogram', when: 'Pri tvorbe ad creatives a moodboard-ov.', what: 'Generujeme rýchlo viacero variácií. Hodnotíme čo funguje cez A/B testy.' },
+      { name: 'Canva',           when: 'Pre rýchle úpravy a šablóny.',                  what: 'Bannerová grafika, social media posty, jednoduché videá. Spolupracujeme s klientom.' },
+      { name: 'Figma',           when: 'Pri tvorbe landing pages a UI mockup-ov.',      what: 'Návrh stránok pred implementáciou. Klient vidí finál pred coding-om.' },
+    ],
+  },
+  {
+    title: 'Web a hosting',
+    desc: 'Nezáleží na technológii — vieme reklamu nasadiť kdekoľvek.',
+    tools: [
+      { name: 'WordPress',   when: 'Najčastejší prípad u SK/CZ klientov.', what: 'Inštalujeme GTM, GA4, schema markup. Vieme aj rýchle landing pages cez Elementor.' },
+      { name: 'Webflow',     when: 'Pre custom prezentačné weby.',         what: 'Bez kódu, ale profesionálne výsledky. Dobré CMS pre malé tímy.' },
+      { name: 'Astro',       when: 'Pri kritickej rýchlosti webu.',        what: 'Statický generátor — najrýchlejšie weby na trhu. (Mimochodom, na ňom beží aj tento web.)' },
+      { name: 'Netlify / Vercel', when: 'Hosting pre moderné weby.',       what: 'CDN, automatické deploy z GitHub-u, bezplatné SSL. Bez headache.' },
+    ],
+  },
+];
+---
+
+<Layout
+  title={meta.title}
+  description={meta.description}
+  lang={lang}
+  pathname="/s-cim-pracujeme"
+>
+
+  <PageHero
+    num={meta.hero!.num}
+    kind={meta.hero!.kind}
+    title={meta.hero!.title}
+    titleAccent={meta.hero!.titleAccent}
+    lead={meta.hero!.lead}
+  />
+
+
+  <!-- ============================================
+       INTRO — krátky odsek o filozofii
+       ============================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container" style="max-width: 880px;">
+      <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
+        <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
+          <strong>Čo sa naučíme od nového klienta najprv?</strong> Akú technológiu už používa.
+          Lebo dobrý marketing nezačína kampaňou — začína na meraní, e-shopovej platforme a CRM-e.
+          Ak je to už hotové, ideme rýchlejšie. Ak nie je, nasadíme to my.
+        </p>
+        <p style="font-size: 14px; line-height: 1.6; margin: 16px 0 0 0; color: var(--muted);">
+          Toto nie sú „certifikácie" ani marketingové tituly. Toto je honest list nástrojov, s ktorými
+          reálne pracujeme každý deň. Kde dáva zmysel sa do nich zaučiť hlbšie, kde stačí povrch.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       KATEGÓRIE NÁSTROJOV
+       ============================================ -->
+  {categories.map((cat, ci) => (
+    <section class="section" style={`${ci % 2 === 1 ? 'background: var(--bg-soft);' : ''} padding-top: clamp(56px, 6vw, 80px);`}>
+      <div class="container">
+        <!-- Eyebrow + nadpis -->
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span class="eyebrow">[ {String(ci + 1).padStart(2, '0')} — {cat.title.toUpperCase()} ]</span>
+          <span style="flex: 1; height: 1px; background: var(--line);"></span>
+        </div>
+
+        <h2 class="h2" style="max-width: 22ch; margin-bottom: 12px;">{cat.title}</h2>
+        <p class="lead" style="font-size: 16px; max-width: 60ch; margin-bottom: 40px; color: var(--muted);">
+          {cat.desc}
+        </p>
+
+        <!-- Grid 2 stĺpce × N riadkov -->
+        <div class="tools-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          {cat.tools.map((t) => (
+            <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px;">
+              <!-- Hlavička: názov + "kedy" badge -->
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                <h3 style="font-size: 18px; font-weight: 700; letter-spacing: -0.015em; margin: 0;">{t.name}</h3>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: rgba(241,100,52,0.08); color: var(--grad-start); border-radius: 999px; font-size: 11px; font-weight: 600; line-height: 1.3; max-width: 100%;">
+                  {t.when}
+                </span>
+              </div>
+
+              <!-- Čo s tým robíme -->
+              <p style="font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0;">
+                {t.what}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <style>
+        @media (max-width: 720px) { .tools-grid { grid-template-columns: 1fr !important; } }
+      </style>
+    </section>
+  ))}
+
+
+  <!-- ============================================
+       NEMÁTE NÁSTROJ NA NAŠOM ZOZNAME?
+       ============================================ -->
+  <section class="section">
+    <div class="container" style="max-width: 720px; text-align: center;">
+      <div style="background: var(--bg-soft); border: 1px solid var(--line); border-radius: 24px; padding: 48px 32px;">
+        <h3 style="font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px;">
+          Používate niečo iné?
+        </h3>
+        <p style="font-size: 15px; line-height: 1.7; color: var(--muted); margin-bottom: 24px; max-width: 50ch; margin-left: auto; margin-right: auto;">
+          Tento list nie je vyčerpávajúci. Pracovali sme s viac než 30 platformami za posledných 10+ rokov.
+          Ak používate niečo, čo tu nevidíte, skoro určite to vieme alebo sa rýchlo doučíme.
+        </p>
+        <a href="/kontakt" class="btn btn-ink">
+          Spýtať sa o váš nástroj
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <ContactSection accent="audit" />
+
+</Layout>

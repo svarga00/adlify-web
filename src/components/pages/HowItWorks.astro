@@ -40,9 +40,9 @@ const steps = [
   },
   {
     day:    'Deň 7',
-    sub:    'Bez veľkých záväzkov',
-    title:  'Podpis zmluvy',
-    desc:   'Mesačný paušál, NDA, GDPR DPA. Bez viazanosti — odísť môžete kedykoľvek. Žiadne skryté poplatky.',
+    sub:    'Žiadny šuchot s papiermi',
+    title:  'Potvrdenie objednávky',
+    desc:   'Stačí jeden e-mail s potvrdením objednávky. NDA aj GDPR DPA dostanete na vyžiadanie. Bez viazanosti — odísť môžete kedykoľvek.',
   },
   {
     day:    'Deň 8—14',
@@ -168,17 +168,20 @@ const inEveryPlan = [
     <div class="container">
       <div class="sec-head">
         <div>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
             <span class="eyebrow">[ 02 — KLIENTSKY PORTÁL ]</span>
-            <span style="flex: 1; height: 1px; background: var(--line);"></span>
-            <span class="pill"><span class="dot"></span><span>Live preview</span></span>
+            <span style="flex: 1; height: 1px; background: var(--line); min-width: 40px;"></span>
+            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
+              SÚČASŤ KAŽDÉHO BALÍKA
+            </span>
           </div>
-          <h2 class="h1" style="max-width: 14ch;">
-            Vaše dáta. <span class="grad">Real-time.</span>
+          <h2 class="h1" style="max-width: 18ch;">
+            Plný prehľad o všetkom. <span class="grad">24/7. Bez čakania.</span>
           </h2>
         </div>
         <p class="lead">
-          Klientsky portál Adlify One vám dáva prístup ku všetkým dátam v reálnom čase. Žiadne čakanie na mesačný report, žiadne vyžiadanie údajov mailom.
+          Vlastný klientsky portál — pridaná hodnota, ktorú dostávate <strong style="color: var(--ink);">v cene každého balíka</strong>.
+          Iné agentúry vám pošlú PDF report raz za mesiac. U nás vidíte všetko v reálnom čase, kedykoľvek sa prihlásite.
         </p>
       </div>
 
@@ -186,19 +189,23 @@ const inEveryPlan = [
         <!-- LEFT: Bullet list -->
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px;">
           {[
-            'Prehľad nákladov, tržieb a ROAS po kanáloch',
-            'Audit log — kto čo a kedy zmenil',
-            'Týždenné a mesačné PDF reporty na stiahnutie',
-            'Notifikácie na anomálie a milníky',
-            'Zdieľanie dashboardu s tímom (read-only)',
+            { title: 'Live čísla z reklám', desc: 'Náklady, tržby, ROAS, CPA — všetko za dnes, tento týždeň, mesiac.' },
+            { title: 'Aktuálne kampane', desc: 'Ktoré bežia, ktoré pauzované, ktoré sa optimalizujú práve teraz.' },
+            { title: 'Audit log',          desc: 'Vidíte, kto a kedy v účtoch niečo zmenil. Žiadne tajomstvá.' },
+            { title: 'Týždenné a mesačné reporty', desc: 'PDF reporty na stiahnutie, archív všetkých minulých mesiacov.' },
+            { title: 'Notifikácie',        desc: 'E-mailom alebo na mobil keď sa stane niečo dôležité — anomália alebo milník.' },
+            { title: 'Prístup pre tím',    desc: 'Pozvete kolegov (read-only). Manažér, účtovník, externý poradca.' },
           ].map((b) => (
-            <li style="display: flex; align-items: flex-start; gap: 14px; font-size: 16px; line-height: 1.5;">
-              <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+            <li style="display: flex; align-items: flex-start; gap: 14px;">
+              <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </div>
-              <span>{b}</span>
+              <div>
+                <div style="font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 4px;">{b.title}</div>
+                <div style="font-size: 13px; color: var(--muted); line-height: 1.5;">{b.desc}</div>
+              </div>
             </li>
           ))}
         </ul>

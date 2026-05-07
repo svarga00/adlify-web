@@ -25,7 +25,7 @@ const DICT: Record<string, Dict> = {
   'nav.about':             { sk: 'O nás',              cs: 'O nás',               hu: 'Rólunk',           en: 'About',          de: 'Über uns' },
   'nav.blog':              { sk: 'Blog',               cs: 'Blog',                hu: 'Blog',             en: 'Blog',           de: 'Blog' },
   'nav.faq':               { sk: 'FAQ',                cs: 'FAQ',                 hu: 'GYIK',             en: 'FAQ',            de: 'FAQ' },
-  'nav.partners':          { sk: 'Partneri',           cs: 'Partneři',            hu: 'Partnerek',        en: 'Partners',       de: 'Partner' },
+  'nav.tools':             { sk: 'S čím pracujeme',   cs: 'S čím pracujeme',     hu: 'Eszközeink',       en: 'Tools',          de: 'Tools' },
   'nav.contact':           { sk: 'Kontakt',            cs: 'Kontakt',             hu: 'Kapcsolat',        en: 'Contact',        de: 'Kontakt' },
 
   // ============ CTA ============
