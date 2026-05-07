@@ -247,6 +247,135 @@ export async function fetchServiceBySlug(slug: string, lang: Lang): Promise<Serv
 }
 
 // ============================================================
+// FETCHERS — team members (web_team)
+// ============================================================
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  initials: string;
+  email: string;
+  phone: string;
+  photo_url: string;
+  role: string;
+  bio: string;
+  sort_order: number;
+}
+
+export async function fetchTeam(lang: Lang): Promise<TeamMember[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('web_team')
+    .select('*')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true });
+  if (error) {
+    console.warn('[content] fetchTeam error:', error.message);
+    return [];
+  }
+  return (data || []).map((row) => ({
+    id:         String(row.id ?? ''),
+    name:       String(row.name ?? ''),
+    initials:   String(row.initials ?? ''),
+    email:      String(row.email ?? ''),
+    phone:      String(row.phone ?? ''),
+    photo_url:  String(row.photo_url ?? ''),
+    role:       pickLang(row.role, lang),
+    bio:        pickLang(row.bio, lang),
+    sort_order: Number(row.sort_order ?? 0),
+  }));
+}
+
+// ============================================================
+// FETCHERS — site settings (web_settings)
+// ============================================================
+
+export interface SiteSettings {
+  // Kontakty
+  contact_email: string;
+  contact_phone: string;
+  contact_address: string;
+  // Firma
+  company_name: string;
+  company_ico: string;
+  company_dic: string;
+  company_iban: string;
+  // Sociálne
+  social_linkedin: string;
+  social_facebook: string;
+  social_instagram: string;
+  social_youtube: string;
+  // Prekladateľné texty
+  footer_tagline: string;
+  footer_copyright: string;
+  cookie_message: string;
+  default_seo_title: string;
+  default_seo_description: string;
+  default_og_image_url: string;
+}
+
+const EMPTY_SETTINGS: SiteSettings = {
+  contact_email: '',
+  contact_phone: '',
+  contact_address: '',
+  company_name: '',
+  company_ico: '',
+  company_dic: '',
+  company_iban: '',
+  social_linkedin: '',
+  social_facebook: '',
+  social_instagram: '',
+  social_youtube: '',
+  footer_tagline: '',
+  footer_copyright: '',
+  cookie_message: '',
+  default_seo_title: '',
+  default_seo_description: '',
+  default_og_image_url: '',
+};
+
+/**
+ * Vráti site settings flatten-uté na konkrétny lang.
+ * Statické polia (TEXT) ako email, telefón, IČO sa vrátia priamo.
+ * Prekladateľné polia (JSONB) sa flatten-ujú cez pickLang().
+ *
+ * Ak settings v DB neexistujú alebo Supabase je nedostupné, vráti
+ * EMPTY_SETTINGS (všetky polia ''), aby fallback v stránkach mohol
+ * preberať.
+ */
+export async function fetchSettings(lang: Lang): Promise<SiteSettings> {
+  if (!supabase) return EMPTY_SETTINGS;
+  const { data, error } = await supabase
+    .from('web_settings')
+    .select('*')
+    .eq('id', 'global')
+    .maybeSingle();
+  if (error || !data) {
+    if (error) console.warn('[content] fetchSettings error:', error.message);
+    return EMPTY_SETTINGS;
+  }
+  return {
+    contact_email:    String(data.contact_email   ?? ''),
+    contact_phone:    String(data.contact_phone   ?? ''),
+    contact_address:  String(data.contact_address ?? ''),
+    company_name:     String(data.company_name    ?? ''),
+    company_ico:      String(data.company_ico     ?? ''),
+    company_dic:      String(data.company_dic     ?? ''),
+    company_iban:     String(data.company_iban    ?? ''),
+    social_linkedin:  String(data.social_linkedin  ?? ''),
+    social_facebook:  String(data.social_facebook  ?? ''),
+    social_instagram: String(data.social_instagram ?? ''),
+    social_youtube:   String(data.social_youtube   ?? ''),
+    footer_tagline:           pickLang(data.footer_tagline,           lang),
+    footer_copyright:         pickLang(data.footer_copyright,         lang),
+    cookie_message:           pickLang(data.cookie_message,           lang),
+    default_seo_title:        pickLang(data.default_seo_title,        lang),
+    default_seo_description:  pickLang(data.default_seo_description,  lang),
+    default_og_image_url:     String(data.default_og_image_url ?? ''),
+  };
+}
+
+// ============================================================
 // FETCHERS — page content sections (web_pages_content)
 // ============================================================
 
