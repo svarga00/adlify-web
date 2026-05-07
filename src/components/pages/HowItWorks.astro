@@ -164,7 +164,7 @@ const inEveryPlan = [
   <!-- ============================================
        KLIENTSKY PORTÁL PREVIEW
        ============================================ -->
-  <section class="section">
+  <section class="section" data-portal-section>
     <div class="container">
       <div class="sec-head">
         <div>
@@ -243,7 +243,7 @@ const inEveryPlan = [
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
                 <div>
                   <div style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">Prehľad · Október 2026</div>
-                  <div style="font-size: 12px; opacity: 0.55; margin-top: 4px;">Aktualizované pred 2 minútami</div>
+                  <div data-portal-updated style="font-size: 12px; opacity: 0.55; margin-top: 4px;">Aktualizované pred 2 minútami</div>
                 </div>
                 <div class="pill" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.85);">
                   <span class="dot"></span>
@@ -254,14 +254,14 @@ const inEveryPlan = [
               <!-- 3 KPI -->
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px;">
                 {[
-                  { label: 'TRŽBY',     val: '€87 412', delta: '+24%' },
-                  { label: 'ROAS',       val: '5.42×',   delta: '+0.8' },
-                  { label: 'KONVERZIE', val: '1 284',   delta: '+18%' },
+                  { label: 'TRŽBY',     val: '€87 412', delta: '+24%', target: 87412, fmt: 'eur',  deltaTarget: 24 },
+                  { label: 'ROAS',       val: '5.42×',   delta: '+0.8', target: 5.42,  fmt: 'roas', deltaTarget: 0.8 },
+                  { label: 'KONVERZIE', val: '1 284',   delta: '+18%', target: 1284,  fmt: 'num',  deltaTarget: 18 },
                 ].map((kpi) => (
                   <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
                     <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">{kpi.label}</div>
-                    <div style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">{kpi.val}</div>
-                    <div style="font-size: 11px; font-weight: 700; color: rgb(134,239,172); margin-top: 2px;">{kpi.delta}</div>
+                    <div data-portal-kpi data-target={kpi.target} data-fmt={kpi.fmt} style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">{kpi.val}</div>
+                    <div data-portal-delta data-target={kpi.deltaTarget} data-fmt={kpi.fmt === 'roas' ? 'plain' : 'pct'} style="font-size: 11px; font-weight: 700; color: rgb(134,239,172); margin-top: 2px;">{kpi.delta}</div>
                   </div>
                 ))}
               </div>
@@ -272,10 +272,10 @@ const inEveryPlan = [
                   <span>Tržby vs. náklady · 30 dní</span>
                   <span>Mediánny ROAS 5.4×</span>
                 </div>
-                <div style="display: flex; gap: 3px; align-items: flex-end; height: 80px;">
+                <div data-portal-chart style="display: flex; gap: 3px; align-items: flex-end; height: 80px;">
                   {Array.from({ length: 30 }).map((_, i) => {
                     const h = 30 + (i * 60) / 29 + (Math.sin(i * 0.7) * 8);
-                    return <div style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 2px 2px 1px 1px; height: ${h}%;`}></div>;
+                    return <div data-portal-bar data-h={h} style={`flex: 1; background: linear-gradient(180deg, var(--grad-start), var(--grad-end)); border-radius: 2px 2px 1px 1px; height: 0%; transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);`}></div>;
                   })}
                 </div>
               </div>
@@ -420,5 +420,123 @@ const inEveryPlan = [
 
 
   <ContactSection accent="call" />
+
+  <!-- ============================================
+       INTERAKTÍVNY PORTAL DASHBOARD
+       Spustí sa keď sa sekcia dostane do view.
+       Animuje KPI count-up + bary fill-in.
+       ============================================ -->
+  <script>
+    (function () {
+      const section = document.querySelector('[data-portal-section]');
+      if (!section) return;
+
+      let started = false;
+
+      // Helper: format number podľa typu
+      function formatVal(val: number, fmt: string): string {
+        switch (fmt) {
+          case 'eur':
+            return '€' + Math.round(val).toLocaleString('sk-SK').replace(/,/g, ' ').replace(/\u00A0/g, ' ');
+          case 'roas':
+            return val.toFixed(2) + '×';
+          case 'num':
+            return Math.round(val).toLocaleString('sk-SK').replace(/,/g, ' ').replace(/\u00A0/g, ' ');
+          case 'pct':
+            return '+' + Math.round(val) + '%';
+          case 'plain':
+            return '+' + val.toFixed(1);
+          default:
+            return String(val);
+        }
+      }
+
+      // Easing pre count-up
+      const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+      function animateCountUp(el: HTMLElement, target: number, fmt: string, duration = 1800) {
+        const start = performance.now();
+        function tick(now: number) {
+          const elapsed = now - start;
+          const t = Math.min(elapsed / duration, 1);
+          const eased = easeOut(t);
+          const current = target * eased;
+          el.textContent = formatVal(current, fmt);
+          if (t < 1) requestAnimationFrame(tick);
+          else el.textContent = formatVal(target, fmt);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function startAnimation() {
+        if (started) return;
+        started = true;
+
+        // 1) KPI count-up (rovno spustí všetky 3 paralelne)
+        const kpis = section!.querySelectorAll<HTMLElement>('[data-portal-kpi]');
+        kpis.forEach((el) => {
+          const target = parseFloat(el.dataset.target || '0');
+          const fmt = el.dataset.fmt || 'num';
+          el.textContent = formatVal(0, fmt);
+          animateCountUp(el, target, fmt);
+        });
+
+        // 2) Delta count-up (s drobným delay aby šlo po KPI)
+        const deltas = section!.querySelectorAll<HTMLElement>('[data-portal-delta]');
+        setTimeout(() => {
+          deltas.forEach((el) => {
+            const target = parseFloat(el.dataset.target || '0');
+            const fmt = el.dataset.fmt || 'pct';
+            el.textContent = formatVal(0, fmt);
+            animateCountUp(el, target, fmt, 1200);
+          });
+        }, 400);
+
+        // 3) Bary fill-in (staggered zľava doprava)
+        const bars = section!.querySelectorAll<HTMLElement>('[data-portal-bar]');
+        bars.forEach((bar, i) => {
+          const finalH = parseFloat(bar.dataset.h || '0');
+          setTimeout(() => {
+            bar.style.height = finalH + '%';
+          }, 200 + i * 35); // 35ms stagger
+        });
+
+        // 4) Cyklus "Aktualizované pred X minútami"
+        const updatedEl = section!.querySelector<HTMLElement>('[data-portal-updated]');
+        if (updatedEl) {
+          const phrases = [
+            'Aktualizované pred 2 minútami',
+            'Aktualizované pred 1 minútou',
+            'Aktualizované práve teraz',
+            'Aktualizované pred chvíľou',
+          ];
+          let idx = 0;
+          setInterval(() => {
+            idx = (idx + 1) % phrases.length;
+            updatedEl.textContent = phrases[idx];
+          }, 4500);
+        }
+      }
+
+      // Spustí pri prvom scroll-in
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                startAnimation();
+                io.disconnect();
+              }
+            }
+          },
+          { threshold: 0.25 }
+        );
+        io.observe(section);
+      } else {
+        // Fallback: spustí ihned
+        startAnimation();
+      }
+    })();
+  </script>
 
 </Layout>
