@@ -487,31 +487,38 @@ export async function fetchSettings(lang: Lang): Promise<SiteSettings> {
   if (!supabase) return EMPTY_SETTINGS;
   const { data, error } = await supabase
     .from('web_settings')
-    .select('*')
-    .eq('id', 'global')
-    .maybeSingle();
+    .select('key, value');
   if (error || !data) {
     if (error) console.warn('[content] fetchSettings error:', error.message);
     return EMPTY_SETTINGS;
   }
+
+  // Konvertuj rows [{key, value}] → mapa { key: value }
+  const map: Record<string, string> = {};
+  for (const row of data) {
+    if (row.key && typeof row.value !== 'undefined' && row.value !== null) {
+      map[row.key] = String(row.value);
+    }
+  }
+
   return {
-    contact_email:    String(data.contact_email   ?? ''),
-    contact_phone:    String(data.contact_phone   ?? ''),
-    contact_address:  String(data.contact_address ?? ''),
-    company_name:     String(data.company_name    ?? ''),
-    company_ico:      String(data.company_ico     ?? ''),
-    company_dic:      String(data.company_dic     ?? ''),
-    company_iban:     String(data.company_iban    ?? ''),
-    social_linkedin:  String(data.social_linkedin  ?? ''),
-    social_facebook:  String(data.social_facebook  ?? ''),
-    social_instagram: String(data.social_instagram ?? ''),
-    social_youtube:   String(data.social_youtube   ?? ''),
-    footer_tagline:           pickLang(data.footer_tagline,           lang),
-    footer_copyright:         pickLang(data.footer_copyright,         lang),
-    cookie_message:           pickLang(data.cookie_message,           lang),
-    default_seo_title:        pickLang(data.default_seo_title,        lang),
-    default_seo_description:  pickLang(data.default_seo_description,  lang),
-    default_og_image_url:     String(data.default_og_image_url ?? ''),
+    contact_email:    map.contact_email   ?? '',
+    contact_phone:    map.contact_phone   ?? '',
+    contact_address:  map.contact_address ?? map.office_address ?? '',
+    company_name:     map.company_name    ?? '',
+    company_ico:      map.company_ico     ?? '',
+    company_dic:      map.company_dic     ?? '',
+    company_iban:     map.company_iban    ?? '',
+    social_linkedin:  map.social_linkedin  ?? '',
+    social_facebook:  map.social_facebook  ?? '',
+    social_instagram: map.social_instagram ?? '',
+    social_youtube:   map.social_youtube   ?? '',
+    footer_tagline:          map.footer_tagline           ?? '',
+    footer_copyright:        map.footer_copyright         ?? '',
+    cookie_message:          map.cookie_message           ?? '',
+    default_seo_title:       map.default_seo_title        ?? '',
+    default_seo_description: map.default_seo_description  ?? '',
+    default_og_image_url:    map.default_og_image_url     ?? '',
   };
 }
 
