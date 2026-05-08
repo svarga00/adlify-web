@@ -439,7 +439,9 @@ export interface SiteSettings {
   company_name: string;
   company_ico: string;
   company_dic: string;
+  company_ic_dph: string;
   company_iban: string;
+  company_register: string;
   // Sociálne
   social_linkedin: string;
   social_facebook: string;
@@ -461,7 +463,9 @@ const EMPTY_SETTINGS: SiteSettings = {
   company_name: '',
   company_ico: '',
   company_dic: '',
+  company_ic_dph: '',
   company_iban: '',
+  company_register: '',
   social_linkedin: '',
   social_facebook: '',
   social_instagram: '',
@@ -508,7 +512,9 @@ export async function fetchSettings(lang: Lang): Promise<SiteSettings> {
     company_name:     map.company_name    ?? '',
     company_ico:      map.company_ico     ?? '',
     company_dic:      map.company_dic     ?? '',
+    company_ic_dph:   map.company_ic_dph  ?? '',
     company_iban:     map.company_iban    ?? '',
+    company_register: map.company_register ?? '',
     social_linkedin:  map.social_linkedin  ?? '',
     social_facebook:  map.social_facebook  ?? '',
     social_instagram: map.social_instagram ?? '',

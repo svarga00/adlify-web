@@ -240,7 +240,7 @@
       <div style="padding: 22px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between;">
         <div>
           <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; letter-spacing: 0.05em;">[ CONTACT ]</div>
-          <div data-drawer-heading style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">Audit zdarma do 24 hodín</div>
+          <div data-drawer-heading style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">Audit zadarmo do 24 hodín</div>
           <div data-drawer-chip style="display: none; margin-top: 8px; padding: 4px 10px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; align-items: center;">
           </div>
         </div>
@@ -320,7 +320,7 @@
       const chipEl = drawer.querySelector('[data-drawer-chip]');
       const planInput = drawer.querySelector('input[name="plan"]');
       const periodInput = drawer.querySelector('input[name="period"]');
-      if (headingEl) headingEl.textContent = 'Audit zdarma do 24 hodín';
+      if (headingEl) headingEl.textContent = 'Audit zadarmo do 24 hodín';
       if (chipEl) chipEl.style.display = 'none';
       if (planInput) planInput.value = '';
       if (periodInput) periodInput.value = '';
