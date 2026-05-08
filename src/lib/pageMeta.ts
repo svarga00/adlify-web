@@ -174,20 +174,20 @@ const faq: LangPageMeta = {
 // ============================================================
 const contact: LangPageMeta = {
   sk: { title: 'Kontakt — Adlify',
-        description: 'Audit zdarma, jasné odporúčania a plán, čo by sa dalo zlepšiť. Bez záväzku, bez predajného tlaku. Odpovedáme do 24 hodín.',
-        hero: { num: '008', kind: 'CONTACT', title: 'Napíšte nám.', titleAccent: 'Odpovieme do 24 hodín.', lead: 'Audit zdarma, jasné odporúčania a plán, čo by sa dalo zlepšiť. Bez záväzku, bez predajného tlaku.' } },
+        description: 'Bezplatný audit, jasné odporúčania a plán. Bez záväzku, bez predajného tlaku. Píšeme priamo, odpovedáme rýchlo — väčšinou do 4 hodín počas pracovného dňa.',
+        hero: { num: '008', kind: 'CONTACT', title: 'Napíšte nám.', titleAccent: 'Píše vám priamo Štefan.', lead: 'Žiadna recepcia, žiadny ticket systém. Adlify je solo prevádzka — píšete priamo človeku, ktorý kampane robí. Bezplatný audit, jasné odporúčania, bez predajného tlaku.' } },
   cs: { title: 'Kontakt — Adlify',
-        description: 'Audit zdarma, jasná doporučení a plán, co by se dalo zlepšit. Bez závazku, bez prodejního tlaku. Odpovídáme do 24 hodin.',
-        hero: { num: '008', kind: 'KONTAKT', title: 'Napište nám.', titleAccent: 'Odpovíme do 24 hodin.', lead: 'Audit zdarma, jasná doporučení a plán, co by se dalo zlepšit. Bez závazku, bez prodejního tlaku.' } },
+        description: 'Bezplatný audit, jasná doporučení a plán. Bez závazku, bez prodejního tlaku. Píšeme přímo, odpovídáme rychle — většinou do 4 hodin během pracovního dne.',
+        hero: { num: '008', kind: 'KONTAKT', title: 'Napište nám.', titleAccent: 'Píše vám přímo Štefan.', lead: 'Žádná recepce, žádný ticket systém. Adlify je solo provoz — píšete přímo člověku, který kampaně dělá. Bezplatný audit, jasná doporučení, bez prodejního tlaku.' } },
   hu: { title: 'Kapcsolat — Adlify',
-        description: 'Ingyenes audit, világos ajánlások és terv arra, hogy mit lehetne javítani. Kötelezettség nélkül, értékesítési nyomás nélkül. 24 órán belül válaszolunk.',
-        hero: { num: '008', kind: 'KAPCSOLAT', title: 'Írjon nekünk.', titleAccent: '24 órán belül válaszolunk.', lead: 'Ingyenes audit, világos ajánlások és terv arra, hogy mit lehetne javítani. Kötelezettség nélkül, értékesítési nyomás nélkül.' } },
+        description: 'Ingyenes audit, világos ajánlások és terv. Kötelezettség nélkül, értékesítési nyomás nélkül. Közvetlenül válaszolunk, általában 4 órán belül munkaidőben.',
+        hero: { num: '008', kind: 'KAPCSOLAT', title: 'Írjon nekünk.', titleAccent: 'Közvetlenül Štefannak ír.', lead: 'Nincs recepció, nincs ticket rendszer. Az Adlify egyszemélyes vállalkozás — közvetlenül annak ír, aki a kampányokat csinálja. Ingyenes audit, világos ajánlások, értékesítési nyomás nélkül.' } },
   en: { title: 'Contact — Adlify',
-        description: 'Free audit, clear recommendations, and a plan for what could be improved. No commitment, no sales pressure. We reply within 24 hours.',
-        hero: { num: '008', kind: 'CONTACT', title: 'Write to us.', titleAccent: 'We reply within 24 hours.', lead: 'Free audit, clear recommendations, and a plan for what could be improved. No commitment, no sales pressure.' } },
+        description: 'Free audit, clear recommendations, and a plan. No commitment, no sales pressure. We reply directly and fast — usually within 4 hours during business hours.',
+        hero: { num: '008', kind: 'CONTACT', title: 'Write to us.', titleAccent: 'You reach Štefan directly.', lead: "No reception, no ticket system. Adlify is a solo operation — you write directly to the person who runs the campaigns. Free audit, clear recommendations, no sales pressure." } },
   de: { title: 'Kontakt — Adlify',
-        description: 'Kostenloser Audit, klare Empfehlungen und ein Plan, was verbessert werden könnte. Ohne Verpflichtung, ohne Verkaufsdruck. Wir antworten innerhalb von 24 Stunden.',
-        hero: { num: '008', kind: 'KONTAKT', title: 'Schreiben Sie uns.', titleAccent: 'Antwort in 24 Stunden.', lead: 'Kostenloser Audit, klare Empfehlungen und ein Plan, was verbessert werden könnte. Ohne Verpflichtung, ohne Verkaufsdruck.' } },
+        description: 'Kostenloser Audit, klare Empfehlungen und ein Plan. Ohne Verpflichtung, ohne Verkaufsdruck. Direkte Antwort, meist innerhalb von 4 Stunden zur Geschäftszeit.',
+        hero: { num: '008', kind: 'KONTAKT', title: 'Schreiben Sie uns.', titleAccent: 'Sie schreiben direkt an Štefan.', lead: 'Keine Rezeption, kein Ticket-System. Adlify ist ein Solo-Betrieb — Sie schreiben direkt an den, der die Kampagnen macht. Kostenloser Audit, klare Empfehlungen, ohne Verkaufsdruck.' } },
 };
 
 // ============================================================
