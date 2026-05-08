@@ -355,31 +355,147 @@ const auditItems = [
           </a>
         </div>
 
-        <!-- Mapa-mock (gradient + pin) -->
-        <div style="background: var(--ink); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; min-height: 360px; color: var(--bg);">
-          <div aria-hidden="true" style="position: absolute; inset: -10%; background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--grad-start) 40%, transparent), transparent 50%), radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--grad-end) 30%, transparent), transparent 55%); filter: blur(40px); opacity: 0.5; pointer-events: none;"></div>
-          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none;"></div>
+        <!-- Mapa-mock — realistická SVG mestská sieť ulíc -->
+        <div style="background: #0a0a0a; border-radius: 20px; position: relative; overflow: hidden; min-height: 380px; color: var(--bg);">
 
-          <div style="position: relative; height: 100%; display: flex; flex-direction: column;">
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative;">
-              <div style="position: relative;">
-                <div aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%; border: 1px solid rgba(241,100,52,0.5); animation: contactPulse 3s ease-out infinite;"></div>
-                <div aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; border: 1px solid rgba(241,100,52,0.7); animation: contactPulse 3s ease-out infinite 1s;"></div>
-                <div style="position: relative; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 32px -10px rgba(241,100,52,0.6);">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0" aria-hidden="true">
-                    <path d="M12 2 14.5 9 22 9.5 16 14.5 18 22 12 18 6 22 8 14.5 2 9.5 9.5 9z"></path>
-                  </svg>
-                </div>
-                <div style="position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 4px 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; white-space: nowrap;">
-                  ADLIFY
-                </div>
-              </div>
-            </div>
+          <!-- SVG mapa s ulicami -->
+          <svg
+            viewBox="0 0 600 400"
+            preserveAspectRatio="xMidYMid slice"
+            style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"
+            aria-hidden="true"
+          >
+            <!-- Pozadie (vodný útvar / parky) — väčšie tvary -->
+            <defs>
+              <linearGradient id="mapBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0f0f10" />
+                <stop offset="100%" stop-color="#161618" />
+              </linearGradient>
+              <radialGradient id="pinGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#F16434" stop-opacity="0.5" />
+                <stop offset="60%" stop-color="#F16434" stop-opacity="0.1" />
+                <stop offset="100%" stop-color="#F16434" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="pinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#F16434" />
+                <stop offset="100%" stop-color="#E85D9C" />
+              </linearGradient>
+            </defs>
 
-            <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between;">
-              <span>{officeCityShort.toUpperCase()}</span>
-              <span>{(company.company_country || 'Slovensko').toUpperCase()}</span>
-            </div>
+            <rect width="600" height="400" fill="url(#mapBgGrad)" />
+
+            <!-- Park (zelená plocha) -->
+            <path d="M 50 280 Q 100 250, 180 270 L 220 320 L 130 360 Z" fill="#1a2418" opacity="0.6" />
+            <!-- Rieka / vodný tok -->
+            <path d="M 0 100 Q 150 130, 280 90 T 600 110 L 600 130 Q 450 150, 280 110 T 0 120 Z" fill="#0f1a24" opacity="0.7" />
+
+            <!-- Mestské bloky (svetlé prázdne plochy = budovy) -->
+            <g fill="#1f1f22" opacity="0.7">
+              <rect x="60"  y="50"  width="80" height="50" rx="2" />
+              <rect x="160" y="50"  width="60" height="60" rx="2" />
+              <rect x="240" y="40"  width="90" height="40" rx="2" />
+              <rect x="350" y="50"  width="70" height="55" rx="2" />
+              <rect x="440" y="40"  width="100" height="60" rx="2" />
+
+              <rect x="60"  y="160" width="60" height="80" rx="2" />
+              <rect x="140" y="160" width="80" height="60" rx="2" />
+              <rect x="240" y="160" width="70" height="70" rx="2" />
+              <rect x="330" y="150" width="60" height="80" rx="2" />
+              <rect x="410" y="160" width="80" height="60" rx="2" />
+              <rect x="510" y="150" width="80" height="80" rx="2" />
+
+              <rect x="240" y="280" width="90" height="50" rx="2" />
+              <rect x="350" y="270" width="60" height="70" rx="2" />
+              <rect x="430" y="270" width="80" height="55" rx="2" />
+              <rect x="530" y="280" width="60" height="70" rx="2" />
+            </g>
+
+            <!-- Ulice — hlavné -->
+            <g stroke="#2c2c30" stroke-width="14" stroke-linecap="round" fill="none">
+              <!-- Hlavná horizontálna -->
+              <path d="M 0 140 L 600 140" />
+              <!-- Hlavná vertikálna -->
+              <path d="M 230 0 L 230 400" />
+              <!-- Diagonálna (príjazdová) -->
+              <path d="M 0 380 L 250 250" />
+            </g>
+
+            <!-- Ulice — vedľajšie -->
+            <g stroke="#252528" stroke-width="6" stroke-linecap="round" fill="none">
+              <path d="M 0 250 L 600 250" />
+              <path d="M 0 350 L 600 350" />
+              <path d="M 130 0 L 130 400" />
+              <path d="M 330 0 L 330 400" />
+              <path d="M 430 0 L 430 400" />
+              <path d="M 510 100 L 510 400" />
+            </g>
+
+            <!-- Ulice — najmenšie spojnice -->
+            <g stroke="#1f1f22" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7">
+              <path d="M 60 100 L 540 100" />
+              <path d="M 60 220 L 540 220" />
+              <path d="M 60 310 L 540 310" />
+              <path d="M 80 0 L 80 400" />
+              <path d="M 180 0 L 180 400" />
+              <path d="M 280 0 L 280 400" />
+              <path d="M 380 0 L 380 400" />
+              <path d="M 480 0 L 480 400" />
+            </g>
+
+            <!-- Stredové dlaždice osvetlené (centrum) -->
+            <g fill="#262629" opacity="0.85">
+              <rect x="240" y="160" width="70" height="70" rx="2" />
+              <rect x="240" y="280" width="90" height="50" rx="2" />
+            </g>
+
+            <!-- Pin glow -->
+            <circle cx="285" cy="200" r="120" fill="url(#pinGlow)" />
+
+            <!-- Pin pulzy -->
+            <circle cx="285" cy="200" r="40" fill="none" stroke="#F16434" stroke-width="1" opacity="0.55">
+              <animate attributeName="r" from="40" to="80" dur="3s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="0.55" to="0" dur="3s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="285" cy="200" r="35" fill="none" stroke="#F16434" stroke-width="1" opacity="0.7">
+              <animate attributeName="r" from="35" to="70" dur="3s" begin="1s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="0.7" to="0" dur="3s" begin="1s" repeatCount="indefinite" />
+            </circle>
+
+            <!-- Pin shadow -->
+            <ellipse cx="285" cy="218" rx="14" ry="3" fill="#000" opacity="0.4" />
+
+            <!-- Pin -->
+            <g transform="translate(285, 200)">
+              <circle r="22" fill="url(#pinGrad)" />
+              <polygon points="0,28 -6,18 6,18" fill="#E85D9C" />
+              <path d="M 0 -12 L 3.5 -3 L 13 -2 L 5.5 4.5 L 8 14 L 0 9 L -8 14 L -5.5 4.5 L -13 -2 L -3.5 -3 Z" fill="white" transform="scale(0.55)" />
+            </g>
+
+            <!-- Popisy ulíc — abstraktné (drobné monospace popisky) -->
+            <g fill="#3a3a3e" font-family="ui-monospace, monospace" font-size="8" letter-spacing="0.3">
+              <text x="40"  y="135" opacity="0.8">PODZÁMSKA ULICA</text>
+              <text x="240" y="20"  opacity="0.6">M. R. ŠTEFÁNIKA</text>
+              <text x="40"  y="245" opacity="0.6">KOMÁRŇANSKÁ</text>
+              <text x="40"  y="345" opacity="0.55">NÁBREŽNÁ</text>
+            </g>
+
+            <!-- Compass v rohu -->
+            <g transform="translate(540, 50)">
+              <circle r="20" fill="#0a0a0a" stroke="#3a3a3e" stroke-width="1" opacity="0.85" />
+              <text y="-7" font-family="ui-monospace, monospace" font-size="9" font-weight="700" fill="#999" text-anchor="middle">N</text>
+              <line x1="0" y1="-3" x2="0" y2="10" stroke="#F16434" stroke-width="2" stroke-linecap="round" />
+            </g>
+          </svg>
+
+          <!-- ADLIFY badge (HTML overlay nad SVG) -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, calc(-50% + 38px)); padding: 5px 12px; background: rgba(0,0,0,0.85); border: 1px solid rgba(241,100,52,0.4); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; white-space: nowrap; color: white; pointer-events: none; backdrop-filter: blur(4px);">
+            ADLIFY
+          </div>
+
+          <!-- GPS koordináty + label dole -->
+          <div style="position: absolute; left: 24px; right: 24px; bottom: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); pointer-events: none;">
+            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">{officeCityShort.toUpperCase()}</span>
+            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">47.9893° N · 18.1652° E</span>
           </div>
         </div>
       </div>
