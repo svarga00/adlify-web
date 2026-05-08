@@ -6,18 +6,6 @@
   publish = "dist"
   functions = "netlify/functions"
 
-# Branch deploy pre dev — preview na dev--adlifyweb.netlify.app
-[context.dev]
-  command = "npm run build"
-
-# Deploy preview pre PR
-[context.deploy-preview]
-  command = "npm run build"
-
-# Production (main) — adlifyweb.netlify.app
-[context.production]
-  command = "npm run build"
-
 [functions]
   # Node 20 runtime pre fetch() native podporu
   node_bundler = "esbuild"
