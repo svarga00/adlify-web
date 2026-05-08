@@ -19,7 +19,6 @@ const DICT: Record<string, Dict> = {
   // ============ NAVIGATION ============
   'nav.home':              { sk: 'Domov',              cs: 'Domů',                hu: 'Kezdőlap',         en: 'Home',           de: 'Startseite' },
   'nav.services':          { sk: 'Služby',             cs: 'Služby',              hu: 'Szolgáltatások',   en: 'Services',       de: 'Leistungen' },
-  'nav.industries':        { sk: 'Pre odvetvia',       cs: 'Pro odvětví',         hu: 'Iparágaknak',      en: 'For industries', de: 'Für Branchen' },
   'nav.howItWorks':        { sk: 'Ako to funguje',     cs: 'Jak to funguje',      hu: 'Hogyan működik',   en: 'How it works',   de: 'So funktioniert es' },
   'nav.cases':             { sk: 'Prípadové štúdie',   cs: 'Případové studie',    hu: 'Esettanulmányok',  en: 'Case studies',   de: 'Fallstudien' },
   'nav.pricing':           { sk: 'Cenník',             cs: 'Ceník',               hu: 'Árak',             en: 'Pricing',        de: 'Preise' },
