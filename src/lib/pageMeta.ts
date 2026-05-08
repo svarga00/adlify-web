@@ -32,15 +32,15 @@ type LangPageMeta = Record<Lang, PageMeta>;
 // ============================================================
 const home: LangPageMeta = {
   sk: { title: 'Adlify — Výkonnostný marketing pre malé a stredné firmy',
-        description: 'Online marketingu sa venujeme od roku 2014. Adlify robí výkonnostný marketing dostupný aj pre živnostníkov a malé firmy. Bez viazanosti, od 149 € mesačne.' },
+        description: 'Online marketingu sa venujeme od roku 2014. 50+ klientov, €250k+ spravovaný budget, 5× priemerný ROAS. Bez viazanosti, od 149 € mesačne.' },
   cs: { title: 'Adlify — Výkonnostní marketing pro malé a střední firmy',
-        description: 'Online marketingu se věnujeme od roku 2014. Adlify dělá výkonnostní marketing dostupný i pro živnostníky a malé firmy. Bez vázanosti, od 149 € měsíčně.' },
+        description: 'Online marketingu se věnujeme od roku 2014. 50+ klientů, €250k+ spravovaný budget, 5× průměrný ROAS. Bez vázanosti, od 149 € měsíčně.' },
   hu: { title: 'Adlify — Teljesítményalapú marketing kis- és középvállalkozásoknak',
-        description: '2014 óta foglalkozunk online marketinggel. Az Adlify a teljesítményalapú marketinget elérhetővé teszi vállalkozók és kisvállalkozások számára is. Kötöttség nélkül, havi 149 €-tól.' },
+        description: '2014 óta foglalkozunk online marketinggel. 50+ ügyfél, €250k+ kezelt költségvetés, 5× átlagos ROAS. Kötöttség nélkül, havi 149 €-tól.' },
   en: { title: 'Adlify — Performance marketing for small and mid-sized businesses',
-        description: "We've been doing online marketing since 2014. Adlify makes performance marketing accessible to solopreneurs and small businesses. No commitment, from €149/month." },
+        description: "We've been doing online marketing since 2014. 50+ clients, €250k+ managed budget, 5× average ROAS. No commitment, from €149/month." },
   de: { title: 'Adlify — Performance-Marketing für KMU',
-        description: 'Online-Marketing machen wir seit 2014. Adlify macht Performance-Marketing zugänglich auch für Selbstständige und kleine Unternehmen. Keine Bindung, ab 149 €/Monat.' },
+        description: 'Online-Marketing machen wir seit 2014. 50+ Kunden, €250k+ verwaltetes Budget, 5× durchschnittlicher ROAS. Keine Bindung, ab 149 €/Monat.' },
 };
 
 // ============================================================
