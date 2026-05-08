@@ -82,22 +82,22 @@ function flattenCase(row: Record<string, unknown>, lang: Lang): CaseStudy {
   return {
     id:               String(row.id ?? ''),
     slug:             String(row.slug ?? ''),
-    tag:              pickLang(row.tag, lang),
-    name:             pickLang(row.name, lang),
+    tag:              String(row.category ?? ''),
+    name:             pickLang(row.title ?? row.name, lang),
     category:         String(row.category ?? ''),
     summary:          pickLang(row.summary, lang),
-    metric_a_label:   pickLang(row.metric_a_label, lang),
-    metric_a_value:   pickLang(row.metric_a_value, lang),
-    metric_b_label:   pickLang(row.metric_b_label, lang),
-    metric_b_value:   pickLang(row.metric_b_value, lang),
-    cover_gradient:   String(row.cover_gradient ?? ''),
+    metric_a_label:   pickLang(row.kpi_1_label ?? row.metric_a_label, lang),
+    metric_a_value:   pickLang(row.kpi_1_value ?? row.metric_a_value, lang),
+    metric_b_label:   pickLang(row.kpi_2_label ?? row.metric_b_label, lang),
+    metric_b_value:   pickLang(row.kpi_2_value ?? row.metric_b_value, lang),
+    cover_gradient:   String(row.hero_gradient ?? row.cover_gradient ?? 'linear-gradient(135deg, #F16434, #E85D9C)'),
     hero_subtitle:    pickLang(row.hero_subtitle, lang) || undefined,
     industry:         pickLang(row.industry, lang) || undefined,
     duration:         pickLang(row.duration, lang) || undefined,
     budget:           pickLang(row.budget, lang) || undefined,
     services_used:    Array.isArray(row.services_used) ? (row.services_used as string[]) : undefined,
     challenge:        pickLang(row.challenge, lang) || undefined,
-    approach:         pickLang(row.approach, lang) || undefined,
+    approach:         pickLang(row.approach ?? row.body_md, lang) || undefined,
     results:          pickLang(row.results, lang) || undefined,
     testimonial:      pickLang(row.testimonial, lang) || undefined,
     testimonial_by:   pickLang(row.testimonial_by, lang) || undefined,
@@ -107,22 +107,34 @@ function flattenCase(row: Record<string, unknown>, lang: Lang): CaseStudy {
   };
 }
 
+// Default rotujúce gradienty pre blog posty (ak admin neukladá cover_gradient)
+const BLOG_GRADIENTS = [
+  'linear-gradient(135deg, #F16434, #E85D9C)',
+  'linear-gradient(135deg, #6366F1, #8B5CF6)',
+  'linear-gradient(135deg, #06B6D4, #3B82F6)',
+  'linear-gradient(135deg, #10B981, #34D399)',
+  'linear-gradient(135deg, #F59E0B, #EF4444)',
+];
+
 function flattenPost(row: Record<string, unknown>, lang: Lang): BlogPost {
+  const idStr = String(row.id ?? '');
+  const gradientIndex = idStr.charCodeAt(0) % BLOG_GRADIENTS.length;
+
   return {
-    id:               String(row.id ?? ''),
+    id:               idStr,
     slug:             String(row.slug ?? ''),
     category:         pickLang(row.category, lang),
     title:            pickLang(row.title, lang),
     excerpt:          pickLang(row.excerpt, lang),
-    body:             pickLang(row.body, lang),
+    body:             pickLang(row.body ?? row.body_md, lang),
     read_time_min:    Number(row.read_time_min ?? 0),
-    cover_gradient:   String(row.cover_gradient ?? ''),
+    cover_gradient:   String(row.cover_gradient ?? BLOG_GRADIENTS[gradientIndex]),
     cover_image_url:  (row.cover_image_url as string) || undefined,
     author_name:      pickLang(row.author_name, lang),
     author_initials:  String(row.author_initials ?? ''),
     author_role:      pickLang(row.author_role, lang) || undefined,
     is_featured:      Boolean(row.is_featured),
-    published_at:     String(row.published_at ?? ''),
+    published_at:     String(row.published_at ?? row.created_at ?? ''),
   };
 }
 
@@ -150,9 +162,9 @@ function flattenService(row: Record<string, unknown>, lang: Lang): Service {
 export async function fetchAllCases(lang: Lang): Promise<CaseStudy[]> {
   if (!supabase) return [];
   const { data, error } = await supabase
-    .from('web_case_studies')
+    .from('web_cases')
     .select('*')
-    .eq('published', true)
+    .eq('is_published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchAllCases error:', error.message);
@@ -166,7 +178,7 @@ export async function fetchAllPosts(lang: Lang): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('*')
-    .eq('published', true)
+    .eq('is_published', true)
     .order('published_at', { ascending: false });
   if (error) {
     console.warn('[content] fetchAllPosts error:', error.message);
@@ -180,7 +192,7 @@ export async function fetchFeaturedPost(lang: Lang): Promise<BlogPost | null> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('*')
-    .eq('published', true)
+    .eq('is_published', true)
     .eq('is_featured', true)
     .order('published_at', { ascending: false })
     .limit(1)
@@ -197,7 +209,7 @@ export async function fetchAllServices(lang: Lang): Promise<Service[]> {
   const { data, error } = await supabase
     .from('web_services')
     .select('*')
-    .eq('published', true)
+    .eq('is_published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchAllServices error:', error.message);
@@ -341,10 +353,10 @@ export async function fetchFaq(lang: Lang, limit?: number): Promise<FaqItem[]> {
 export async function fetchCaseBySlug(slug: string, lang: Lang): Promise<CaseStudy | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
-    .from('web_case_studies')
+    .from('web_cases')
     .select('*')
     .eq('slug', slug)
-    .eq('published', true)
+    .eq('is_published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenCase(data, lang);
@@ -356,7 +368,7 @@ export async function fetchPostBySlug(slug: string, lang: Lang): Promise<BlogPos
     .from('web_blog_posts')
     .select('*')
     .eq('slug', slug)
-    .eq('published', true)
+    .eq('is_published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenPost(data, lang);
@@ -368,7 +380,7 @@ export async function fetchServiceBySlug(slug: string, lang: Lang): Promise<Serv
     .from('web_services')
     .select('*')
     .eq('slug', slug)
-    .eq('published', true)
+    .eq('is_published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenService(data, lang);
@@ -557,7 +569,7 @@ export async function fetchAllCaseSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_case_studies')
     .select('slug')
-    .eq('published', true);
+    .eq('is_published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
@@ -567,7 +579,7 @@ export async function fetchAllPostSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('slug')
-    .eq('published', true);
+    .eq('is_published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
@@ -577,7 +589,7 @@ export async function fetchAllServiceSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_services')
     .select('slug')
-    .eq('published', true);
+    .eq('is_published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
