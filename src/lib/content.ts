@@ -600,3 +600,69 @@ export async function fetchAllServiceSlugs(): Promise<string[]> {
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
+
+// ============================================================
+// COMPANY INFO (fakturacne udaje pre kontakt stranku)
+// Zdroj: VIEW web_company_info nad billing_settings
+// ============================================================
+export interface CompanyInfo {
+  company_name: string;
+  ico: string;
+  dic: string;
+  ic_dph: string;
+  iban: string;
+  bank_name: string;
+  bank_swift: string;
+  company_address: string;
+  company_city: string;
+  company_zip: string;
+  company_country: string;
+  website: string;
+}
+
+const EMPTY_COMPANY: CompanyInfo = {
+  company_name: '',
+  ico: '',
+  dic: '',
+  ic_dph: '',
+  iban: '',
+  bank_name: '',
+  bank_swift: '',
+  company_address: '',
+  company_city: '',
+  company_zip: '',
+  company_country: '',
+  website: '',
+};
+
+// Hodnoty ktore admin nastavi ako placeholdery → ignorujeme
+const PLACEHOLDERS = new Set(['', 'Vaša adresa', 'vaša adresa', 'Adlify']);
+
+function clean(value: unknown): string {
+  const v = (value ?? '').toString().trim();
+  if (PLACEHOLDERS.has(v)) return '';
+  return v;
+}
+
+export async function fetchCompanyInfo(): Promise<CompanyInfo> {
+  if (!supabase) return EMPTY_COMPANY;
+  const { data, error } = await supabase
+    .from('web_company_info')
+    .select('*')
+    .maybeSingle();
+  if (error || !data) return EMPTY_COMPANY;
+  return {
+    company_name: clean(data.company_name),
+    ico: clean(data.ico),
+    dic: clean(data.dic),
+    ic_dph: clean(data.ic_dph),
+    iban: clean(data.iban),
+    bank_name: clean(data.bank_name),
+    bank_swift: clean(data.bank_swift),
+    company_address: clean(data.company_address),
+    company_city: clean(data.company_city),
+    company_zip: clean(data.company_zip),
+    company_country: clean(data.company_country),
+    website: clean(data.website),
+  };
+}
