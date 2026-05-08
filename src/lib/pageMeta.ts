@@ -152,21 +152,21 @@ const blog: LangPageMeta = {
 // FAQ
 // ============================================================
 const faq: LangPageMeta = {
-  sk: { title: 'Časté otázky (FAQ) — Adlify',
-        description: 'Všetko, čo sa pýtajú klienti o spolupráci, cenách, výsledkoch, tracking a službách. Ak nenájdete odpoveď, napíšte nám — odpovieme do 24 hodín.',
-        hero: { num: '007', kind: 'FAQ', title: 'Časté', titleAccent: 'otázky.', lead: 'Všetko, čo sa pýtajú klienti — predtým než sa začneme baviť o cenníku. Ak nenájdete odpoveď, napíšte nám. Odpovedáme do 24 hodín.' } },
-  cs: { title: 'Časté otázky (FAQ) — Adlify',
-        description: 'Vše, na co se klienti ptají ohledně spolupráce, cen, výsledků, trackingu a služeb. Pokud nenajdete odpověď, napište nám — odpovíme do 24 hodin.',
-        hero: { num: '007', kind: 'FAQ', title: 'Časté', titleAccent: 'otázky.', lead: 'Vše, na co se klienti ptají — předtím než začneme řešit ceník. Pokud nenajdete odpověď, napište nám. Odpovídáme do 24 hodin.' } },
-  hu: { title: 'Gyakori kérdések (GYIK) — Adlify',
-        description: 'Minden, amit ügyfeleink kérdeznek az együttműködésről, árakról, eredményekről, trackingről és szolgáltatásokról. Ha nem találja a választ, írjon nekünk — 24 órán belül válaszolunk.',
-        hero: { num: '007', kind: 'GYIK', title: 'Gyakori', titleAccent: 'kérdések.', lead: 'Minden, amit ügyfeleink kérdeznek — mielőtt az árakról beszélnénk. Ha nem találja a választ, írjon nekünk. 24 órán belül válaszolunk.' } },
-  en: { title: 'Frequently asked questions (FAQ) — Adlify',
-        description: 'Everything clients ask about collaboration, pricing, results, tracking, and services. If you don\'t find the answer, write to us — we reply within 24 hours.',
-        hero: { num: '007', kind: 'FAQ', title: 'Frequently', titleAccent: 'asked questions.', lead: 'Everything clients ask — before we even start talking about pricing. If you don\'t find the answer, write to us. We reply within 24 hours.' } },
-  de: { title: 'Häufige Fragen (FAQ) — Adlify',
-        description: 'Alles, was Kunden zur Zusammenarbeit, Preisen, Ergebnissen, Tracking und Leistungen fragen. Wenn Sie die Antwort nicht finden, schreiben Sie uns — wir antworten innerhalb von 24 Stunden.',
-        hero: { num: '007', kind: 'FAQ', title: 'Häufige', titleAccent: 'Fragen.', lead: 'Alles, was Kunden fragen — bevor wir über Preise sprechen. Wenn Sie die Antwort nicht finden, schreiben Sie uns. Wir antworten innerhalb von 24 Stunden.' } },
+  sk: { title: 'Časté otázky a slovník pojmov — Adlify',
+        description: 'Otázky a odpovede o spolupráci, cenách, výsledkoch a tracking. Plus slovník 60+ marketingových pojmov (ROAS, CPA, GA4...) zrozumiteľne vysvetlených.',
+        hero: { num: '007', kind: 'FAQ', title: 'Otázky a', titleAccent: 'pojmy.', lead: 'Všetko, čo sa pýtajú klienti pred rozhodnutím + slovník 60+ marketingových pojmov zrozumiteľne pre začiatočníkov.' } },
+  cs: { title: 'Časté otázky a slovník pojmů — Adlify',
+        description: 'Otázky a odpovědi o spolupráci, cenách, výsledcích a trackingu. Plus slovník 60+ marketingových pojmů (ROAS, CPA, GA4...) srozumitelně vysvětlených.',
+        hero: { num: '007', kind: 'FAQ', title: 'Otázky a', titleAccent: 'pojmy.', lead: 'Vše, na co se klienti ptají před rozhodnutím + slovník 60+ marketingových pojmů srozumitelně pro začátečníky.' } },
+  hu: { title: 'GYIK és marketing kifejezések — Adlify',
+        description: 'Kérdések és válaszok az együttműködésről, árakról, eredményekről és trackingről. Plusz 60+ marketing kifejezés (ROAS, CPA, GA4...) érthetően magyarázva.',
+        hero: { num: '007', kind: 'GYIK', title: 'Kérdések és', titleAccent: 'kifejezések.', lead: 'Minden, amit az ügyfelek a döntés előtt kérdeznek + 60+ marketing kifejezés szótára érthetően kezdőknek.' } },
+  en: { title: 'FAQ and marketing glossary — Adlify',
+        description: "Questions and answers about collaboration, pricing, results, and tracking. Plus a glossary of 60+ marketing terms (ROAS, CPA, GA4...) explained simply.",
+        hero: { num: '007', kind: 'FAQ', title: 'Questions and', titleAccent: 'terms.', lead: 'Everything clients ask before deciding + a glossary of 60+ marketing terms explained for beginners.' } },
+  de: { title: 'FAQ und Marketing-Glossar — Adlify',
+        description: 'Fragen und Antworten zu Zusammenarbeit, Preisen, Ergebnissen und Tracking. Plus ein Glossar mit 60+ Marketing-Begriffen (ROAS, CPA, GA4...) verständlich erklärt.',
+        hero: { num: '007', kind: 'FAQ', title: 'Fragen und', titleAccent: 'Begriffe.', lead: 'Alles, was Kunden vor der Entscheidung fragen + ein Glossar mit 60+ Marketing-Begriffen verständlich für Einsteiger.' } },
 };
 
 // ============================================================
