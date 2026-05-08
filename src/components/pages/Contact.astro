@@ -2,22 +2,22 @@
 /**
  * /kontakt — Kontaktná stránka
  *
- * Sekcie:
+ * Layout:
  *  1. PageHero
- *  2. Hlavné CTA + 4 kontaktné kanály (email, telefón, WhatsApp, LinkedIn)
- *  3. Kancelária (adresa, otváracie hodiny, GPS)
- *  4. 4 ľudia s priamym kontaktom
- *  5. Obchodné údaje (firma, IČO, DIČ, banka...)
- *  6. 4 trust pillars (4 hod, GDPR, NDA, 0€)
- *  7. ContactSection
+ *  2. 2-stĺpcový layout:
+ *     - Vľavo (60%): Kontaktný formulár priamo na stránke
+ *     - Vpravo (40%): Stack kontaktných boxov (e-mail, telefón, hodiny, audit)
+ *  3. "Čo dostanete v audite" — 4 bullet body
+ *  4. Trust pillars (4 boxy)
+ *  5. ContactSection (drawer trigger)
  */
 
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
+import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
-import { fetchSettings, fetchTeam } from '../../lib/content';
 
 interface Props {
   lang?: Lang;
@@ -25,87 +25,24 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.contact[lang];
 
-// Live dáta z admin (web_settings + web_team)
 const settings = await fetchSettings(lang);
-const people   = await fetchTeam(lang);
+const email = settings.contact_email || 'info@adlify.eu';
+const phone = settings.contact_phone || '';
 
-// Helpery
-function telHref(phone: string): string {
-  return 'tel:' + phone.replace(/\s+/g, '');
-}
-function whatsappHref(phone: string): string {
-  return 'https://wa.me/' + phone.replace(/[\s+]/g, '');
-}
-
-// 4 kontaktné kanály — postavené z settings, len tie ktoré sú vyplnené
-type Channel = { label: string; value: string; sub: string; href: string; icon: string };
-const channels: Channel[] = [];
-if (settings.contact_email) {
-  channels.push({
-    label: 'E-mail',
-    value: settings.contact_email,
-    sub:   'Odpoveď do ~4 hodín',
-    href:  'mailto:' + settings.contact_email,
-    icon:  '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
-  });
-}
-if (settings.contact_phone) {
-  channels.push({
-    label: 'Telefón',
-    value: settings.contact_phone,
-    sub:   'Po–Pi · 9:00–18:00',
-    href:  telHref(settings.contact_phone),
-    icon:  '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 20 20 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A20 20 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12 12 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12 12 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"></path>',
-  });
-  channels.push({
-    label: 'WhatsApp',
-    value: settings.contact_phone,
-    sub:   'Rýchla komunikácia',
-    href:  whatsappHref(settings.contact_phone),
-    icon:  '<path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>',
-  });
-}
-if (settings.social_linkedin) {
-  channels.push({
-    label: 'LinkedIn',
-    value: settings.social_linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com/, ''),
-    sub:   'Sledujte updates',
-    href:  settings.social_linkedin,
-    icon:  '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>',
-  });
-}
-
-// Obchodné údaje — len neprázdne polia
-type BizRow = { label: string; value: string; copyable: boolean };
-const businessData: BizRow[] = [];
-if (settings.company_name)    businessData.push({ label: 'Obchodný názov',    value: settings.company_name,    copyable: true });
-if (settings.contact_address) businessData.push({ label: 'Sídlo spoločnosti', value: settings.contact_address, copyable: true });
-if (settings.company_ico)     businessData.push({ label: 'IČO',               value: settings.company_ico,     copyable: true });
-if (settings.company_dic)     businessData.push({ label: 'DIČ',               value: settings.company_dic,     copyable: true });
-if (settings.company_iban)    businessData.push({ label: 'IBAN',              value: settings.company_iban,    copyable: true });
-
-// 4 trust pillars
+// Trust pillars
 const pillars = [
-  {
-    big:   '~4 hod',
-    title: 'Priemerná doba odpovede',
-    sub:   'Počas pracovných dní (Po–Pi 9–18)',
-  },
-  {
-    big:   'GDPR',
-    title: 'Dáta držíme v EÚ',
-    sub:   'Servery a databázy v EÚ regiónoch (Supabase, Netlify)',
-  },
-  {
-    big:   'NDA',
-    title: 'Podpíšeme NDA',
-    sub:   'Na požiadanie pred prvým auditom',
-  },
-  {
-    big:   '0 €',
-    title: 'Prvý audit zdarma',
-    sub:   'Bez záväzku, bez predajného tlaku',
-  },
+  { big: '~4 hod',  title: 'Priemerná doba odpovede',  sub: 'Počas pracovných dní (Po–Pi 9–18)' },
+  { big: 'GDPR',    title: 'Dáta držíme v EÚ',          sub: 'Servery a databázy v EÚ regiónoch' },
+  { big: 'NDA',     title: 'Podpíšeme NDA',             sub: 'Na požiadanie pred prvým auditom' },
+  { big: '0 €',     title: 'Prvý audit zdarma',          sub: 'Bez záväzku, bez predajného tlaku' },
+];
+
+// "Čo dostanete v audite"
+const auditItems = [
+  { title: 'Kontrolu reklamných účtov', desc: 'Pozrieme Google Ads, Meta, prípadne LinkedIn alebo TikTok účty. Hľadáme, kde sa míňa zbytočne.' },
+  { title: 'Audit merania',             desc: 'Skontrolujeme GA4, Tag Manager, Meta Pixel. Či sa konverzie merajú správne, či sa stráca dáta.' },
+  { title: 'Návrh zlepšení',            desc: 'Konkrétne kroky čo zmeniť — od najľahších quick winov po dlhodobé strategické zmeny.' },
+  { title: 'Plán ďalších 90 dní',       desc: 'Ak by ste chceli pokračovať s nami, vidíte, čo by sme robili a v akom poradí.' },
 ];
 ---
 
@@ -114,7 +51,6 @@ const pillars = [
   description={meta.description}
   lang={lang}
   pathname="/kontakt"
-  pageType="localbusiness"
 >
 
   <PageHero
@@ -127,308 +63,290 @@ const pillars = [
 
 
   <!-- ============================================
-       HLAVNÉ CTA + 4 KONTAKTNÉ KANÁLY
+       FORM + INFO STACK
        ============================================ -->
   <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <span class="pill">
-          <span class="dot"></span>
-          <span>~4 hod priemerná odozva</span>
-        </span>
-        <span style="flex: 1; height: 1px; background: var(--line);"></span>
-      </div>
+      <div class="contact-grid" style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start;">
 
-      <div class="contact-cta-grid" style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: stretch;">
-        <!-- Hlavné CTA blok -->
-        <div style="background: var(--ink); color: var(--bg); border-radius: 24px; padding: clamp(32px, 4vw, 48px); position: relative; overflow: hidden;">
-          <div aria-hidden="true" style="position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--grad-start) 40%, transparent), transparent 65%); opacity: 0.6; pointer-events: none;"></div>
-          <div style="position: relative;">
-            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">[ Začnime jednoducho ]</div>
-            <h2 style="font-size: clamp(28px, 3.6vw, 44px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 16px;">
-              Bezplatný audit. <span class="grad">Žiadny záväzok.</span>
+        <!-- ============================================
+             VĽAVO: KONTAKTNÝ FORMULÁR
+             ============================================ -->
+        <div>
+          <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 24px; padding: clamp(28px, 4vw, 44px);">
+            <div class="eyebrow" style="margin-bottom: 16px;">[ Kontaktný formulár ]</div>
+            <h2 style="font-size: clamp(26px, 3vw, 36px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 12px;">
+              Napíšte nám priamo.
             </h2>
-            <p style="font-size: 16px; opacity: 0.8; line-height: 1.55; margin-bottom: 32px; max-width: 50ch;">
-              Pozrieme sa na vaše reklamné účty (Google, Meta), web a meranie. Do 5 pracovných dní dostanete jasný report — čo funguje, čo nie a kde sú peniaze na stole. Bez predajných hovorov a bez záväzku.
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.55; margin-bottom: 32px;">
+              Odpovedáme do ~4 hodín počas pracovných dní. Bez predajného tlaku.
             </p>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <a href="#kontakt" data-pricing-cta data-plan-name="Bezplatný audit" data-plan-slug="audit" class="btn btn-grad" style="padding: 14px 22px;">
-                Otvoriť formulár
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
-              </a>
-              <a href="#kontakt" class="btn btn-outline" style="border-color: rgba(255,255,255,0.18); color: var(--bg); padding: 14px 22px;">
-                Rezervovať call
-              </a>
-            </div>
+
+            <form id="contactPageForm" data-contact-page-form style="display: flex; flex-direction: column; gap: 20px;">
+
+              <!-- Meno + Firma -->
+              <div class="cf-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div>
+                  <label class="cf-label">Meno a priezvisko *</label>
+                  <input class="cf-input" type="text" name="name" required placeholder="Ján Mrkvička" />
+                </div>
+                <div>
+                  <label class="cf-label">Firma</label>
+                  <input class="cf-input" type="text" name="company" placeholder="ABC s.r.o." />
+                </div>
+              </div>
+
+              <!-- E-mail + Telefón -->
+              <div class="cf-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div>
+                  <label class="cf-label">E-mail *</label>
+                  <input class="cf-input" type="email" name="email" required placeholder="jan@firma.sk" />
+                </div>
+                <div>
+                  <label class="cf-label">Telefón</label>
+                  <input class="cf-input" type="tel" name="phone" placeholder="+421 ___ ___ ___" />
+                </div>
+              </div>
+
+              <!-- O čom sa chcete baviť -->
+              <div>
+                <label class="cf-label">O čom sa chcete baviť?</label>
+                <select class="cf-input" name="topic">
+                  <option value="">Vyberte tému…</option>
+                  <option value="audit">Bezplatný audit účtov</option>
+                  <option value="ads">Reklamné kampane (Google, Meta)</option>
+                  <option value="seo">SEO optimalizácia</option>
+                  <option value="eshop">E-shop alebo web</option>
+                  <option value="email">E-mail marketing a automatizácie</option>
+                  <option value="grafika">Grafika a tlač</option>
+                  <option value="iné">Iné / poradenstvo</option>
+                </select>
+              </div>
+
+              <!-- Správa -->
+              <div>
+                <label class="cf-label">Správa *</label>
+                <textarea class="cf-input" name="message" rows="5" required placeholder="Stručne nám napíšte, s čím vám máme pomôcť. Čím konkrétnejšie, tým lepšie."></textarea>
+              </div>
+
+              <!-- Submit + status -->
+              <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <button type="submit" class="btn btn-grad" style="padding: 14px 28px;">
+                  Odoslať správu
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </button>
+                <span data-contact-page-status style="font-size: 13px; color: var(--muted);"></span>
+              </div>
+
+              <!-- GDPR poznámka -->
+              <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 8px;">
+                Odoslaním formulára súhlasíte so spracovaním osobných údajov pre účely odpovedania na váš dopyt. Viac v <a href="/ochrana-udajov" style="color: var(--ink); text-decoration: underline;">ochrane súkromia</a>.
+              </p>
+            </form>
           </div>
         </div>
 
-        <!-- 4 kanály -->
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          {channels.map((c) => (
-            <a href={c.href} class="contact-channel" style="display: flex; align-items: center; gap: 16px; padding: 18px 22px; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; color: var(--ink); transition: border-color 0.2s, transform 0.2s;">
-              <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={c.icon} aria-hidden="true"></svg>
+        <!-- ============================================
+             VPRAVO: KONTAKTNÉ BOXY (stack)
+             ============================================ -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+
+          <!-- E-mail -->
+          <a href={`mailto:${email}`} class="contact-box">
+            <div class="contact-box-icon" style="background: linear-gradient(135deg, rgb(241,100,52), rgb(232,93,156));">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3 7 9 6 9-6"></path>
+              </svg>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">E-MAIL</div>
+              <div style="font-size: 15px; font-weight: 600; word-break: break-all;">{email}</div>
+              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Odpoveď do ~4 hodín</div>
+            </div>
+          </a>
+
+          <!-- Telefón -->
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, '')}`} class="contact-box">
+              <div class="contact-box-icon" style="background: linear-gradient(135deg, rgb(34,197,94), rgb(16,185,129));">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
               </div>
               <div style="flex: 1; min-width: 0;">
-                <div class="eyebrow" style="margin-bottom: 4px;">{c.label}</div>
-                <div style="font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{c.value}</div>
-                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{c.sub}</div>
+                <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">TELEFÓN</div>
+                <div style="font-size: 15px; font-weight: 600;">{phone}</div>
+                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Po–Pi 9:00–18:00</div>
               </div>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.4; flex-shrink: 0;">
-                <path d="M7 17 17 7"></path>
-                <path d="M7 7h10v10"></path>
-              </svg>
             </a>
-          ))}
-        </div>
-      </div>
-    </div>
+          )}
 
-    <style>
-      .contact-channel:hover { border-color: var(--ink) !important; transform: translateX(2px); }
-      @media (max-width: 900px) {
-        .contact-cta-grid { grid-template-columns: 1fr !important; }
-      }
-    </style>
-  </section>
-
-
-  <!-- ============================================
-       KANCELÁRIA — zobrazí sa len ak settings.contact_address je vyplnené
-       ============================================ -->
-  {settings.contact_address && (
-  <section class="section" style="background: var(--bg-soft);">
-    <div class="container">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-        <span class="eyebrow">[ Kancelária ]</span>
-        <span style="flex: 1; height: 1px; background: var(--line);"></span>
-      </div>
-
-      <div class="office-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch;">
-        <!-- Info -->
-        <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: clamp(28px, 3.5vw, 40px);">
-          <h3 style="font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 32px;">
-            Nové Zámky<br>
-            <span class="grad">južné Slovensko</span>
-          </h3>
-
-          <div style="display: flex; flex-direction: column; gap: 20px;">
-            <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Adresa</div>
-              <div style="font-size: 16px; font-weight: 500;">Podzámska 4/A</div>
-              <div style="font-size: 14px; color: var(--muted);">940 01 Nové Zámky, Slovensko</div>
+          <!-- Online stretnutie -->
+          <div class="contact-box" style="cursor: default;">
+            <div class="contact-box-icon" style="background: linear-gradient(135deg, rgb(99,102,241), rgb(139,92,246));">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                <rect x="1" y="5" width="15" height="14" rx="2"></rect>
+              </svg>
             </div>
-            <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Stretnutia</div>
-              <div style="font-size: 16px; font-weight: 500;">Online cez Google Meet</div>
-              <div style="font-size: 13px; color: var(--muted);">Osobné stretnutia po dohode v Nových Zámkoch alebo u vás</div>
-            </div>
-            <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Pracovné hodiny</div>
-              <div style="font-size: 16px; font-weight: 500;">Po–Pi · 9:00–18:00</div>
-              <div style="font-size: 13px; color: var(--muted);">Rýchle správy zvyčajne aj mimo</div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">ONLINE STRETNUTIE</div>
+              <div style="font-size: 15px; font-weight: 600;">Google Meet</div>
+              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Termín dohodneme po vašej správe</div>
             </div>
           </div>
 
-          <a href="https://maps.google.com/?q=Podzámska+4/A,+940+01+Nové+Zámky" target="_blank" rel="noopener" class="btn btn-ink btn-sm" style="margin-top: 32px;">
-            Navigovať v Google Maps
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 17 17 7"></path>
-              <path d="M7 7h10v10"></path>
+          <!-- Bezplatný audit -->
+          <button data-pricing-cta data-plan-name="Bezplatný audit" data-plan-slug="audit" class="contact-box" style="border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; text-align: left; font: inherit; width: 100%;">
+            <div class="contact-box-icon" style="background: linear-gradient(135deg, rgb(241,100,52), rgb(232,93,156)); color: white;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px; opacity: 0.6; color: var(--bg);">RÝCHLY KONTAKT</div>
+              <div style="font-size: 15px; font-weight: 600;">Vyžiadať audit zdarma</div>
+              <div style="font-size: 12px; opacity: 0.7; margin-top: 2px;">Otvorí sa rýchly formulár v okne</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5; flex-shrink: 0;" aria-hidden="true">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
             </svg>
-          </a>
+          </button>
+
         </div>
 
-        <!-- Mapa-mock (gradient + pin) -->
-        <div style="background: var(--ink); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; min-height: 360px; color: var(--bg);">
-          <!-- Gradient mesh pozadie -->
-          <div aria-hidden="true" style="position: absolute; inset: -10%; background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--grad-start) 40%, transparent), transparent 50%), radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--grad-end) 30%, transparent), transparent 55%); filter: blur(40px); opacity: 0.5; pointer-events: none;"></div>
-          <!-- Mriežka -->
-          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none;"></div>
-
-          <div style="position: relative; height: 100%; display: flex; flex-direction: column;">
-            <!-- Pin uprostred -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative;">
-              <div style="position: relative;">
-                <!-- Vlna -->
-                <div aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%; border: 1px solid rgba(241,100,52,0.5); animation: pulse 3s ease-out infinite;"></div>
-                <div aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; border: 1px solid rgba(241,100,52,0.7); animation: pulse 3s ease-out infinite 1s;"></div>
-                <!-- Pin -->
-                <div style="position: relative; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 32px -10px rgba(241,100,52,0.6);">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0" aria-hidden="true">
-                    <path d="M12 2 14.5 9 22 9.5 16 14.5 18 22 12 18 6 22 8 14.5 2 9.5 9.5 9z"></path>
-                  </svg>
-                </div>
-                <div style="position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 4px 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; white-space: nowrap;">
-                  ADLIFY
-                </div>
-              </div>
-            </div>
-
-            <!-- GPS koordináty dole -->
-            <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between;">
-              <span>47.9893° N, 18.1652° E</span>
-              <span>NOVÉ ZÁMKY</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <style>
-      @media (max-width: 900px) {
-        .office-grid { grid-template-columns: 1fr !important; }
+      /* Form styles */
+      .cf-label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .cf-input {
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: inherit;
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.15s, background 0.15s;
+        font-weight: 400;
+      }
+      .cf-input:focus {
+        border-color: var(--ink);
+        background: var(--bg);
+      }
+      textarea.cf-input { resize: vertical; min-height: 100px; line-height: 1.5; }
+      select.cf-input { cursor: pointer; }
+
+      /* Contact info boxes */
+      .contact-box {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 20px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      .contact-box:hover {
+        border-color: var(--ink);
+        transform: translateY(-2px);
+      }
+      .contact-box-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* Mobile */
+      @media (max-width: 880px) {
+        .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+        .cf-row { grid-template-columns: 1fr !important; }
       }
     </style>
   </section>
-  )}
 
 
   <!-- ============================================
-       PRIAMY KONTAKT — ĽUDIA Z ADMIN (web_team)
-       Skrytá ak admin nemá pridaných žiadnych členov.
+       ČO DOSTANETE V AUDITE
        ============================================ -->
-  {people.length > 0 && (
-  <section class="section">
-    <div class="container">
-      <div class="sec-head">
-        <div>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ Priamy kontakt ]</span>
-            <span style="flex: 1; height: 1px; background: var(--line);"></span>
-          </div>
-          <h2 class="h1" style="max-width: 16ch;">
-            Ľudia, ktorým môžete <span class="grad">napísať priamo.</span>
-          </h2>
-        </div>
-        <p class="lead">
-          Bez recepcie, bez ticketov.<br>
-          Píšte rovno tomu, kto vám vie pomôcť.
-        </p>
-      </div>
-
-      <div class="people-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-        {people.map((p, i) => (
-          <a href={`mailto:${p.email}`} class="person-card" style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 28px; transition: border-color 0.2s, transform 0.2s; color: var(--ink);">
-            <!-- Avatar — fotka ak je nahraná, inak gradient s iniciálami -->
-            {p.photo_url ? (
-              <img
-                src={p.photo_url}
-                alt={p.name}
-                loading="lazy"
-                style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; background: var(--bg-soft);"
-              />
-            ) : (
-              <div style={`width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(${i * 30 + 100}deg, var(--grad-start), var(--grad-end)); color: white; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;`}>
-                {p.initials}
-              </div>
-            )}
-
-            <h3 style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 4px;">{p.name}</h3>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">{p.role}</div>
-
-            <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 16px; border-top: 1px solid var(--line);">
-              <div style="font-size: 12px; font-family: var(--mono); color: var(--muted); display: flex; align-items: center; gap: 6px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                  <path d="m3 7 9 6 9-6"></path>
-                </svg>
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{p.email}</span>
-              </div>
-              <div style="font-size: 12px; font-family: var(--mono); color: var(--muted); display: flex; align-items: center; gap: 6px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <path d="M22 16.9v3a2 2 0 0 1-2.2 2 20 20 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A20 20 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12 12 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12 12 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"></path>
-                </svg>
-                <span>{p.phone}</span>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-
-    <style>
-      .person-card:hover { border-color: var(--ink) !important; transform: translateY(-2px); }
-      @media (max-width: 1024px) { .people-grid { grid-template-columns: 1fr 1fr !important; } }
-      @media (max-width: 480px)  { .people-grid { grid-template-columns: 1fr !important; } }
-    </style>
-  </section>
-  )}
-
-
-  <!-- ============================================
-       OBCHODNÉ ÚDAJE
-       ============================================ -->
-  {businessData.length > 0 && (
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <span class="eyebrow">[ 009 ]</span>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <span class="eyebrow">[ Bezplatný audit ]</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
-
-      <h2 class="h1" style="max-width: 12ch; margin-bottom: 16px;">
-        Obchodné <span class="grad">údaje</span>
+      <h2 class="h1" style="max-width: 18ch; margin-bottom: 56px;">
+        Čo dostanete v <span class="grad">audite zdarma.</span>
       </h2>
-      <p class="lead" style="max-width: 60ch; margin-bottom: 48px;">
-        Pre fakturáciu, zmluvy a oficiálnu komunikáciu.
-      </p>
 
-      <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; max-width: 880px;">
-        {businessData.map((row, i) => (
-          <div class="biz-row" style={`display: grid; grid-template-columns: 200px 1fr auto; gap: 16px; padding: 18px 24px; align-items: center; ${i < businessData.length - 1 ? 'border-bottom: 1px solid var(--line);' : ''}`}>
-            <div class="eyebrow" style="font-size: 11px;">{row.label}</div>
-            <div style="font-size: 15px; font-weight: 500;">{row.value}</div>
-            {row.copyable ? (
-              <button class="copy-btn" data-copy={row.value} style="padding: 6px 12px; border: 1px solid var(--line); background: transparent; border-radius: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; color: var(--muted); cursor: pointer; transition: all 0.2s;">
-                COPY
-              </button>
-            ) : (
-              <span></span>
-            )}
-          </div>
+      <div class="audit-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        {auditItems.map((item, i) => (
+          <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; display: flex; gap: 18px; align-items: flex-start;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--mono); font-size: 12px; font-weight: 700;">
+              {String(i + 1).padStart(2, '0')}
+            </div>
+            <div>
+              <h3 style="font-size: 17px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 6px 0;">{item.title}</h3>
+              <p style="font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0;">{item.desc}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
 
     <style>
-      .copy-btn:hover { border-color: var(--ink); color: var(--ink); }
-      .copy-btn.copied { background: rgb(34, 197, 94); border-color: rgb(34, 197, 94); color: white; }
-      @media (max-width: 720px) {
-        .biz-row { grid-template-columns: 1fr auto !important; }
-        .biz-row > .eyebrow { grid-column: 1 / -1; }
-      }
+      @media (max-width: 768px) { .audit-grid { grid-template-columns: 1fr !important; } }
     </style>
   </section>
-  )}
 
 
   <!-- ============================================
-       4 TRUST PILLARS
+       TRUST PILLARS
        ============================================ -->
   <section class="section">
     <div class="container">
-      <div class="pillars-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;">
+      <div class="pillars-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
         {pillars.map((p) => (
-          <div style="background: var(--bg); padding: 32px;">
-            <div class="num grad" style="font-size: clamp(36px, 4vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 16px;">
+          <article style="background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 28px 24px; text-align: center;">
+            <div class="num grad" style="font-size: clamp(28px, 3vw, 38px); font-weight: 700; letter-spacing: -0.025em; line-height: 1; margin-bottom: 12px;">
               {p.big}
             </div>
-            <div style="font-size: 15px; font-weight: 600; margin-bottom: 6px;">{p.title}</div>
-            <div style="font-size: 13px; color: var(--muted); line-height: 1.45;">{p.sub}</div>
-          </div>
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: 6px;">{p.title}</div>
+            <div style="font-size: 12px; color: var(--muted); line-height: 1.4;">{p.sub}</div>
+          </article>
         ))}
       </div>
     </div>
 
     <style>
-      @media (max-width: 900px) {
-        .pillars-grid { grid-template-columns: 1fr 1fr !important; }
-      }
+      @media (max-width: 1024px) { .pillars-grid { grid-template-columns: 1fr 1fr !important; } }
+      @media (max-width: 560px)  { .pillars-grid { grid-template-columns: 1fr !important; } }
     </style>
   </section>
 
@@ -436,42 +354,71 @@ const pillars = [
   <ContactSection accent="audit" />
 
 
-  <!-- Copy-to-clipboard handler + Pricing CTA drawer trigger -->
+  <!-- =====================================
+       SCRIPTS
+       ===================================== -->
   <script>
+    // Form submission handler — posiela na rovnaky endpoint ako drawer
     (function () {
-      // Copy buttons
-      document.querySelectorAll<HTMLElement>('.copy-btn').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const text = btn.dataset.copy || '';
-          try {
-            await navigator.clipboard.writeText(text);
-            const original = btn.textContent;
-            btn.textContent = 'COPIED ✓';
-            btn.classList.add('copied');
-            setTimeout(() => {
-              btn.textContent = original;
-              btn.classList.remove('copied');
-            }, 1500);
-          } catch (e) {
-            console.warn('Clipboard zlyhal', e);
-          }
-        });
-      });
+      const form = document.getElementById('contactPageForm') as HTMLFormElement | null;
+      const status = document.querySelector<HTMLElement>('[data-contact-page-status]');
+      if (!form || !status) return;
 
-      // CTA "Otvoriť formulár" → drawer s presetom
-      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-pricing-cta]');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+        // Disable submit
+        if (submitBtn) submitBtn.disabled = true;
+        status.style.color = 'var(--muted)';
+        status.textContent = 'Odosielame…';
+
+        const fd = new FormData(form);
+        const payload = {
+          name:    String(fd.get('name')    || ''),
+          company: String(fd.get('company') || ''),
+          email:   String(fd.get('email')   || ''),
+          phone:   String(fd.get('phone')   || ''),
+          topic:   String(fd.get('topic')   || ''),
+          message: String(fd.get('message') || ''),
+          source:  'kontakt-stranka',
+        };
+
+        try {
+          const res = await fetch('/.netlify/functions/web-contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error('Odoslanie zlyhalo (HTTP ' + res.status + ')');
+          status.style.color = 'rgb(34, 197, 94)';
+          status.textContent = '✓ Správa odoslaná. Ozveme sa do ~4 hod.';
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          status.style.color = 'rgb(220, 38, 38)';
+          status.textContent = '✗ Niečo zlyhalo. Skúste to znova alebo napíšte na info@adlify.eu';
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    })();
+
+    // Drawer trigger pre [data-pricing-cta] (rezervné CTA tlačítko)
+    (function () {
+      const ctas = document.querySelectorAll<HTMLElement>('[data-pricing-cta]');
       ctas.forEach((cta) => {
         cta.addEventListener('click', (e) => {
           e.preventDefault();
-          const planName = cta.dataset.planName || '';
-          const planSlug = cta.dataset.planSlug || '';
+          const planName = (cta as HTMLElement).dataset.planName || '';
+          const planSlug = (cta as HTMLElement).dataset.planSlug || '';
           const w = window as any;
           if (typeof w.openContact === 'function') {
             w.openContact({ plan: planName, planSlug });
           } else {
-            // fallback — scroll to anchor
-            const anchor = document.getElementById('kontakt');
-            if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+            // fallback — focus form
+            const formEl = document.getElementById('contactPageForm');
+            if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
           }
         });
       });

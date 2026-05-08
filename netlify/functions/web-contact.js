@@ -44,7 +44,7 @@ export default async (req) => {
     });
   }
 
-  const { name = '', email = '', company = '', message = '', plan = '', period = '', _gotcha = '' } = body;
+  const { name = '', email = '', company = '', message = '', plan = '', period = '', topic = '', phone = '', source = '', _gotcha = '' } = body;
 
   // Honeypot: ak je vyplnený, predstierame úspech a vyhodíme
   if (_gotcha) {
@@ -102,7 +102,10 @@ export default async (req) => {
           ${planRow}
           <tr><td style="padding: 8px 0; color: #6b6b6b; width: 140px;">Meno</td><td style="padding: 8px 0; font-weight: 600;">${safeText(name)}</td></tr>
           <tr><td style="padding: 8px 0; color: #6b6b6b;">E-mail</td><td style="padding: 8px 0; font-weight: 600;"><a href="mailto:${safeText(email)}" style="color: #F16434;">${safeText(email)}</a></td></tr>
+          ${phone ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Telefón</td><td style="padding: 8px 0; font-weight: 600;"><a href="tel:${safeText(phone.replace(/\s/g, ''))}" style="color: #F16434;">${safeText(phone)}</a></td></tr>` : ''}
           ${company ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Firma / Web</td><td style="padding: 8px 0; font-weight: 600;">${safeText(company)}</td></tr>` : ''}
+          ${topic ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Téma</td><td style="padding: 8px 0; font-weight: 600;">${safeText(topic)}</td></tr>` : ''}
+          ${source ? `<tr><td style="padding: 8px 0; color: #6b6b6b;">Zdroj</td><td style="padding: 8px 0; font-size: 12px; color: #6b6b6b;">${safeText(source)}</td></tr>` : ''}
         </table>
 
         <div style="margin-top: 24px; padding: 16px; background: #f5f4f1; border-radius: 12px; border-left: 3px solid #F16434;">
