@@ -27,9 +27,10 @@ const accentText = `${accent}.`;
 
 // Fetch settings z DB (kontakty)
 const settings = await fetchSettings('sk');
-const email = settings.contact_email || 'info@adlify.eu';
-const phone = settings.contact_phone || '';
-const address = settings.contact_address || '';
+// Fallback hodnoty (ak DB nevracia, napr. chyba env vars na Netlify)
+const email   = settings.contact_email   || 'info@adlify.eu';
+const phone   = settings.contact_phone   || '+421 944 184 045';
+const address = settings.contact_address || 'Podzámska 4/A, 940 01 Nové Zámky';
 ---
 
 <section class="contact-section" id="kontakt">

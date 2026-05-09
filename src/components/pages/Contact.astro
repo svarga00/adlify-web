@@ -27,8 +27,9 @@ const meta = pageMeta.contact[lang];
 
 const settings = await fetchSettings(lang);
 const company = await fetchCompanyInfo();
+// Fallback hodnoty (ak DB nevracia, napr. chyba env vars na Netlify)
 const email = settings.contact_email || 'info@adlify.eu';
-const phone = settings.contact_phone || '';
+const phone = settings.contact_phone || '+421 944 184 045';
 
 // Adresa pre sekciu "Kancelaria" — fallback Nove Zamky ak v billing_settings nie je vyplnena
 const officeStreet = company.company_address || 'Podzámska 4/A';
