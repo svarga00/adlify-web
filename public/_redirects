@@ -1,0 +1,14 @@
+# Netlify redirects
+# Format: /from /to status
+
+# /odvetvia listing zruseny — presmeruvame na /sluzby#odvetvia (sekcia v sluzby)
+/odvetvia                /sluzby#odvetvia      301
+/odvetvia/               /sluzby#odvetvia      301
+/cs/odvetvia             /cs/sluzby#odvetvia   301
+/cs/odvetvia/            /cs/sluzby#odvetvia   301
+/hu/odvetvia             /hu/sluzby#odvetvia   301
+/hu/odvetvia/            /hu/sluzby#odvetvia   301
+/en/odvetvia             /en/sluzby#odvetvia   301
+/en/odvetvia/            /en/sluzby#odvetvia   301
+/de/odvetvia             /de/sluzby#odvetvia   301
+/de/odvetvia/            /de/sluzby#odvetvia   301
