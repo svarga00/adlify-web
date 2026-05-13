@@ -63,9 +63,8 @@ const NAV_ITEMS: Array<{ href: string; key: string }> = [
   { href: '/',                 key: 'nav.home' },
   { href: '/sluzby',           key: 'nav.services' },
   { href: '/ako-to-funguje',   key: 'nav.howItWorks' },
-  // { href: '/pripadove-studie', key: 'nav.cases' },  // TODO: zapnúť keď budú hotové
+  { href: '/pripadove-studie', key: 'nav.cases' },
   { href: '/cennik',           key: 'nav.pricing' },
-  { href: '/blog',             key: 'nav.blog' },
   { href: '/o-nas',            key: 'nav.about' },
   { href: '/kontakt',          key: 'nav.contact' },
 ];
@@ -448,6 +447,7 @@ const siteSettings = await fetchSettings(lang);
             <ul>
               <li><a href={buildUrl(lang, '/')}>{t('nav.home', lang)}</a></li>
               <li><a href={buildUrl(lang, '/sluzby')}>{t('nav.services', lang)}</a></li>
+              <li><a href={buildUrl(lang, '/pripadove-studie')}>{t('nav.cases', lang)}</a></li>
               <li><a href={buildUrl(lang, '/cennik')}>{t('nav.pricing', lang)}</a></li>
               <li><a href={buildUrl(lang, '/blog')}>{t('nav.blog', lang)}</a></li>
             </ul>
