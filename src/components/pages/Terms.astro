@@ -12,7 +12,6 @@
  */
 
 import Layout from '../../layouts/Layout.astro';
-import PageHero from '../PageHero.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
@@ -41,124 +40,162 @@ const today = new Date().toLocaleDateString('sk-SK');
   lang={lang}
   pathname="/obchodne-podmienky"
 >
-  <PageHero
-    num={meta.hero!.num}
-    kind={meta.hero!.kind}
-    title={meta.hero!.title}
-    titleAccent={meta.hero!.titleAccent}
-    lead={meta.hero!.lead}
-  />
 
-  <section class="section" style="padding-top: 0;">
-    <div class="container" style="max-width: 760px;">
-      <article class="legal-prose">
+  <!-- Subtílny hero -->
+  <section class="legal-hero">
+    <div class="container" style="max-width: 1080px;">
+      <nav class="legal-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">DOMOV</a>
+        <span class="sep">/</span>
+        <span>OBCHODNÉ PODMIENKY</span>
+      </nav>
+      <div class="legal-eyebrow">[ Právny dokument · § VOP ]</div>
+      <h1 class="legal-h1">Obchodné podmienky</h1>
+      <p class="legal-lead">
+        Tieto všeobecné obchodné podmienky upravujú zmluvný vzťah medzi {company} a jej klientmi.
+      </p>
+      <div class="legal-meta-row">
+        <span><strong>Účinnosť od:</strong> {today}</span>
+        <span class="dot">·</span>
+        <span><strong>Verzia:</strong> 1.0</span>
+        <span class="dot">·</span>
+        <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+      </div>
+    </div>
+  </section>
 
-        <p class="legal-meta">Účinnosť od: {today}</p>
+  <section style="padding-bottom: clamp(80px, 10vw, 140px);">
+    <div class="container" style="max-width: 1080px;">
+      <div class="legal-layout">
 
-        <h2>1. Všeobecné ustanovenia</h2>
-        <p>
-          Tieto všeobecné obchodné podmienky (ďalej len <strong>„VOP"</strong>) upravujú zmluvný vzťah
-          medzi spoločnosťou <strong>{company}</strong>, IČO: {ico}, DIČ: {dic}, so sídlom {address}
-          (ďalej len <strong>„poskytovateľ"</strong>) a klientom (ďalej len <strong>„objednávateľ"</strong>).
-        </p>
-        <p>
-          Predmetom zmluvy je poskytovanie marketingových služieb v oblasti online reklamy
-          (Google Ads, Meta Ads), SEO, e-mail marketingu, analytiky a súvisiacich služieb.
-        </p>
+        <!-- Obsah článku -->
+        <article class="legal-prose">
 
-        <h2>2. Uzatvorenie zmluvy</h2>
-        <p>
-          Zmluva medzi poskytovateľom a objednávateľom vzniká písomným potvrdením cenovej
-          ponuky alebo elektronicky cez e-mail z adresy {email}. Súčasťou zmluvy sú tieto VOP.
-        </p>
+          <h2 id="vseobecne">1. Všeobecné ustanovenia</h2>
+          <p>
+            Tieto všeobecné obchodné podmienky (ďalej len <strong>„VOP"</strong>) upravujú zmluvný vzťah
+            medzi spoločnosťou <strong>{company}</strong>, IČO: {ico}, DIČ: {dic}, so sídlom {address}
+            (ďalej len <strong>„poskytovateľ"</strong>) a klientom (ďalej len <strong>„objednávateľ"</strong>).
+          </p>
+          <p>
+            Predmetom zmluvy je poskytovanie marketingových služieb v oblasti online reklamy
+            (Google Ads, Meta Ads), SEO, e-mail marketingu, analytiky a súvisiacich služieb.
+          </p>
 
-        <h2>3. Cena a platobné podmienky</h2>
-        <ul>
-          <li>Cena za služby je dohodnutá individuálne a uvedená v cenovej ponuke alebo zmluve.</li>
-          <li>Mediálne náklady (Google Ads, Meta Ads atď.) si objednávateľ uhrádza priamo platforme.</li>
-          <li>Faktúry vystavujeme mesačne, splatnosť 14 dní od vystavenia.</li>
-          <li>Pri omeškaní s platbou má poskytovateľ právo prerušiť poskytovanie služieb až do úhrady.</li>
-          <li>Cena nezahŕňa náklady na licencie tretích strán (e-mail platformy, hosting atď.), ak nie je dohodnuté inak.</li>
-        </ul>
+          <h2 id="uzatvorenie">2. Uzatvorenie zmluvy</h2>
+          <p>
+            Zmluva medzi poskytovateľom a objednávateľom vzniká písomným potvrdením cenovej
+            ponuky alebo elektronicky cez e-mail z adresy {email}. Súčasťou zmluvy sú tieto VOP.
+          </p>
 
-        <h2>4. Práva a povinnosti poskytovateľa</h2>
-        <ul>
-          <li>Poskytovať služby s odbornou starostlivosťou v súlade s dohodnutým rozsahom.</li>
-          <li>Pravidelne reportovať výsledky kampaní (mesačne alebo podľa dohodnutej frekvencie).</li>
-          <li>Chrániť dôverné informácie objednávateľa (NDA podpisujeme na požiadanie).</li>
-          <li>Garantovať doby reakcie podľa zvoleného balíka služieb.</li>
-        </ul>
+          <h2 id="cena">3. Cena a platobné podmienky</h2>
+          <ul>
+            <li>Cena za služby je dohodnutá individuálne a uvedená v cenovej ponuke alebo zmluve.</li>
+            <li>Mediálne náklady (Google Ads, Meta Ads atď.) si objednávateľ uhrádza priamo platforme.</li>
+            <li>Faktúry vystavujeme mesačne, splatnosť 14 dní od vystavenia.</li>
+            <li>Pri omeškaní s platbou má poskytovateľ právo prerušiť poskytovanie služieb až do úhrady.</li>
+            <li>Cena nezahŕňa náklady na licencie tretích strán (e-mail platformy, hosting atď.), ak nie je dohodnuté inak.</li>
+          </ul>
 
-        <h2>5. Práva a povinnosti objednávateľa</h2>
-        <ul>
-          <li>Poskytnúť včas všetky podklady potrebné na realizáciu kampaní (prístupy, kreatívy, briefy).</li>
-          <li>Uhradiť faktúry v termíne splatnosti.</li>
-          <li>Schvaľovať materiály v dohodnutom termíne; pri omeškaní sa o tento čas posúva harmonogram.</li>
-          <li>Garantovať pravdivosť dodaných údajov a obsahu.</li>
-        </ul>
+          <h2 id="poskytovatel">4. Práva a povinnosti poskytovateľa</h2>
+          <ul>
+            <li>Poskytovať služby s odbornou starostlivosťou v súlade s dohodnutým rozsahom.</li>
+            <li>Pravidelne reportovať výsledky kampaní (mesačne alebo podľa dohodnutej frekvencie).</li>
+            <li>Chrániť dôverné informácie objednávateľa (NDA podpisujeme na požiadanie).</li>
+            <li>Garantovať doby reakcie podľa zvoleného balíka služieb.</li>
+          </ul>
 
-        <h2>6. Garancie a zodpovednosť</h2>
-        <p>
-          Poskytovateľ <strong>nezaručuje</strong> konkrétnu výkonnostnú metriku
-          (napr. počet objednávok, ROAS, CPC), pretože tieto výsledky závisia od mnohých
-          faktorov mimo jeho kontroly (sezónnosť, trh, cena produktu, kvalita webu).
-        </p>
-        <p>
-          Poskytovateľ však garantuje:
-        </p>
-        <ul>
-          <li>Profesionálne nastavenie kampaní a meraní.</li>
-          <li>Pravidelný reporting a komunikáciu.</li>
-          <li>Implementáciu best practice z oblasti performance marketingu.</li>
-        </ul>
-        <p>
-          V prípade nespokojnosti so službami má objednávateľ právo požiadať o nápravu
-          do 14 dní. Ak sa náprava nedosiahne, môže zmluvu vypovedať bez výpovednej lehoty
-          ku koncu prebiehajúceho fakturačného obdobia.
-        </p>
+          <h2 id="objednavatel">5. Práva a povinnosti objednávateľa</h2>
+          <ul>
+            <li>Poskytnúť včas všetky podklady potrebné na realizáciu kampaní (prístupy, kreatívy, briefy).</li>
+            <li>Uhradiť faktúry v termíne splatnosti.</li>
+            <li>Schvaľovať materiály v dohodnutom termíne; pri omeškaní sa o tento čas posúva harmonogram.</li>
+            <li>Garantovať pravdivosť dodaných údajov a obsahu.</li>
+          </ul>
 
-        <h2>7. Trvanie a ukončenie zmluvy</h2>
-        <ul>
-          <li>Zmluva sa uzatvára na dobu neurčitú alebo na dobu definovanú v cenovej ponuke (napr. 6 alebo 12 mesiacov pri zľavnenej cene).</li>
-          <li>Pri zmluve na dobu neurčitú má každá strana právo zmluvu kedykoľvek vypovedať bez udania dôvodu — výpoveď je účinná ku koncu prebiehajúceho fakturačného obdobia (mesiaca).</li>
-          <li>Pri zmluve na pevné obdobie (6 alebo 12 mesiacov) sa zľavnená cena viaže na uzatvorenie celého obdobia. V prípade predčasného ukončenia zo strany objednávateľa je objednávateľ povinný doplatiť rozdiel medzi zaplatenou zľavnenou cenou a štandardnou mesačnou cenou za obdobie využívania služieb.</li>
-          <li>Pri závažnom porušení (omeškanie s platbou viac ako 30 dní, porušenie NDA atď.) je možné odstúpiť okamžite.</li>
-          <li>Po ukončení zmluvy poskytovateľ odovzdá objednávateľovi prístupy k jeho účtom a relevantné údaje do 7 pracovných dní.</li>
-        </ul>
+          <h2 id="garancie">6. Garancie a zodpovednosť</h2>
+          <p>
+            Poskytovateľ <strong>nezaručuje</strong> konkrétnu výkonnostnú metriku
+            (napr. počet objednávok, ROAS, CPC), pretože tieto výsledky závisia od mnohých
+            faktorov mimo jeho kontroly (sezónnosť, trh, cena produktu, kvalita webu).
+          </p>
+          <p>Poskytovateľ však garantuje:</p>
+          <ul>
+            <li>Profesionálne nastavenie kampaní a meraní.</li>
+            <li>Pravidelný reporting a komunikáciu.</li>
+            <li>Implementáciu best practice z oblasti performance marketingu.</li>
+          </ul>
+          <p>
+            V prípade nespokojnosti so službami má objednávateľ právo požiadať o nápravu
+            do 14 dní. Ak sa náprava nedosiahne, môže zmluvu vypovedať bez výpovednej lehoty
+            ku koncu prebiehajúceho fakturačného obdobia.
+          </p>
 
-        <h2>8. Duševné vlastníctvo</h2>
-        <p>
-          Po úhrade všetkých faktúr prechádzajú práva k vytvoreným kreatívam, copy a kampaňovým
-          dátam na objednávateľa. Poskytovateľ má právo používať dosiahnuté výsledky
-          (anonymizovane alebo so súhlasom) ako prípadovú štúdiu.
-        </p>
+          <h2 id="trvanie">7. Trvanie a ukončenie zmluvy</h2>
+          <ul>
+            <li>Zmluva sa uzatvára na dobu neurčitú alebo na dobu definovanú v cenovej ponuke (napr. 6 alebo 12 mesiacov pri zľavnenej cene).</li>
+            <li>Pri zmluve na dobu neurčitú má každá strana právo zmluvu kedykoľvek vypovedať bez udania dôvodu — výpoveď je účinná ku koncu prebiehajúceho fakturačného obdobia (mesiaca).</li>
+            <li>Pri zmluve na pevné obdobie (6 alebo 12 mesiacov) sa zľavnená cena viaže na uzatvorenie celého obdobia. V prípade predčasného ukončenia zo strany objednávateľa je objednávateľ povinný doplatiť rozdiel medzi zaplatenou zľavnenou cenou a štandardnou mesačnou cenou za obdobie využívania služieb.</li>
+            <li>Pri závažnom porušení (omeškanie s platbou viac ako 30 dní, porušenie NDA atď.) je možné odstúpiť okamžite.</li>
+            <li>Po ukončení zmluvy poskytovateľ odovzdá objednávateľovi prístupy k jeho účtom a relevantné údaje do 7 pracovných dní.</li>
+          </ul>
 
-        <h2>9. Mlčanlivosť</h2>
-        <p>
-          Obe strany sa zaväzujú zachovávať mlčanlivosť o dôverných informáciách, ktoré získajú
-          počas spolupráce. Mlčanlivosť trvá aj po ukončení zmluvy. Na požiadanie podpisujeme
-          samostatnú zmluvu o mlčanlivosti (NDA).
-        </p>
+          <h2 id="dusevne">8. Duševné vlastníctvo</h2>
+          <p>
+            Po úhrade všetkých faktúr prechádzajú práva k vytvoreným kreatívam, copy a kampaňovým
+            dátam na objednávateľa. Poskytovateľ má právo používať dosiahnuté výsledky
+            (anonymizovane alebo so súhlasom) ako prípadovú štúdiu.
+          </p>
 
-        <h2>10. Reklamácie</h2>
-        <p>
-          Reklamácie ohľadom kvality služieb sa uplatňujú písomne na e-mail {email} do 14 dní
-          od zistenia nedostatku. Poskytovateľ na reklamáciu odpovedá do 7 pracovných dní.
-        </p>
+          <h2 id="mlcanlivost">9. Mlčanlivosť</h2>
+          <p>
+            Obe strany sa zaväzujú zachovávať mlčanlivosť o dôverných informáciách, ktoré získajú
+            počas spolupráce. Mlčanlivosť trvá aj po ukončení zmluvy. Na požiadanie podpisujeme
+            samostatnú zmluvu o mlčanlivosti (NDA).
+          </p>
 
-        <h2>11. Záverečné ustanovenia</h2>
-        <ul>
-          <li>Vzťahy neupravené týmito VOP sa riadia Obchodným zákonníkom (513/1991 Zb.) a Občianskym zákonníkom Slovenskej republiky.</li>
-          <li>Spory sa primárne riešia mimosúdne; ak sa to nepodarí, príslušné sú súdy SR.</li>
-          <li>Poskytovateľ si vyhradzuje právo VOP meniť. O zmenách informuje objednávateľa minimálne 30 dní vopred.</li>
-        </ul>
+          <h2 id="reklamacie">10. Reklamácie</h2>
+          <p>
+            Reklamácie ohľadom kvality služieb sa uplatňujú písomne na e-mail {email} do 14 dní
+            od zistenia nedostatku. Poskytovateľ na reklamáciu odpovedá do 7 pracovných dní.
+          </p>
 
-        <hr />
-        <p class="legal-meta">
-          Posledná aktualizácia: {today}<br />
-          Pri otázkach napíšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
-        </p>
-      </article>
+          <h2 id="zaverecne">11. Záverečné ustanovenia</h2>
+          <ul>
+            <li>Vzťahy neupravené týmito VOP sa riadia Obchodným zákonníkom (513/1991 Zb.) a Občianskym zákonníkom Slovenskej republiky.</li>
+            <li>Spory sa primárne riešia mimosúdne; ak sa to nepodarí, príslušné sú súdy SR.</li>
+            <li>Poskytovateľ si vyhradzuje právo VOP meniť. O zmenách informuje objednávateľa minimálne 30 dní vopred.</li>
+          </ul>
+
+          <hr />
+          <p class="legal-meta">
+            Posledná aktualizácia: {today}<br />
+            Pri otázkach napíšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+          </p>
+        </article>
+
+        <!-- Sticky ToC sidebar -->
+        <aside class="legal-sidebar">
+          <div class="legal-sidebar-sticky">
+            <div class="legal-sidebar-eyebrow">[ Obsah ]</div>
+            <nav class="legal-toc" aria-label="Obsah dokumentu">
+              <ol>
+                <li><a href="#vseobecne">Všeobecné ustanovenia</a></li>
+                <li><a href="#uzatvorenie">Uzatvorenie zmluvy</a></li>
+                <li><a href="#cena">Cena a platobné podmienky</a></li>
+                <li><a href="#poskytovatel">Práva poskytovateľa</a></li>
+                <li><a href="#objednavatel">Práva objednávateľa</a></li>
+                <li><a href="#garancie">Garancie a zodpovednosť</a></li>
+                <li><a href="#trvanie">Trvanie a ukončenie</a></li>
+                <li><a href="#dusevne">Duševné vlastníctvo</a></li>
+                <li><a href="#mlcanlivost">Mlčanlivosť</a></li>
+                <li><a href="#reklamacie">Reklamácie</a></li>
+                <li><a href="#zaverecne">Záverečné ustanovenia</a></li>
+              </ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 

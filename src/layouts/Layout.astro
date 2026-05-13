@@ -622,5 +622,49 @@ const siteSettings = await fetchSettings(lang);
         }
       })();
     </script>
+    <!-- Scroll-spy pre legal stránky ToC -->
+    <script is:inline>
+      (function () {
+        var tocLinks = document.querySelectorAll('.legal-toc a');
+        if (!tocLinks.length) return;
+
+        var ids = [];
+        var idToLink = {};
+        for (var i = 0; i < tocLinks.length; i++) {
+          var href = tocLinks[i].getAttribute('href');
+          if (href && href.charAt(0) === '#') {
+            var id = href.slice(1);
+            ids.push(id);
+            idToLink[id] = tocLinks[i];
+          }
+        }
+
+        var headings = [];
+        for (var j = 0; j < ids.length; j++) {
+          var el = document.getElementById(ids[j]);
+          if (el) headings.push(el);
+        }
+        if (!headings.length) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+          var visible = entries.filter(function (e) { return e.isIntersecting; });
+          if (visible.length > 0) {
+            visible.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+            var activeId = visible[0].target.id;
+            for (var k = 0; k < tocLinks.length; k++) {
+              tocLinks[k].classList.remove('active');
+            }
+            if (idToLink[activeId]) {
+              idToLink[activeId].classList.add('active');
+            }
+          }
+        }, { rootMargin: '-100px 0px -70% 0px', threshold: 0 });
+
+        for (var m = 0; m < headings.length; m++) {
+          observer.observe(headings[m]);
+        }
+      })();
+    </script>
+
   </body>
 </html>

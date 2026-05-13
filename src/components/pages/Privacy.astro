@@ -7,7 +7,6 @@
  */
 
 import Layout from '../../layouts/Layout.astro';
-import PageHero from '../PageHero.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
@@ -34,137 +33,169 @@ const today = new Date().toLocaleDateString('sk-SK');
   lang={lang}
   pathname="/ochrana-udajov"
 >
-  <PageHero
-    num={meta.hero!.num}
-    kind={meta.hero!.kind}
-    title={meta.hero!.title}
-    titleAccent={meta.hero!.titleAccent}
-    lead={meta.hero!.lead}
-  />
 
-  <section class="section" style="padding-top: 0;">
-    <div class="container" style="max-width: 760px;">
-      <article class="legal-prose">
+  <!-- Subtílny hero -->
+  <section class="legal-hero">
+    <div class="container" style="max-width: 1080px;">
+      <nav class="legal-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">DOMOV</a>
+        <span class="sep">/</span>
+        <span>OCHRANA ÚDAJOV</span>
+      </nav>
+      <div class="legal-eyebrow">[ Právny dokument · GDPR ]</div>
+      <h1 class="legal-h1">Ochrana osobných údajov</h1>
+      <p class="legal-lead">
+        Ako spracúvame, chránime a používame vaše osobné údaje v súlade s GDPR a slovenskou legislatívou.
+      </p>
+      <div class="legal-meta-row">
+        <span><strong>Účinnosť od:</strong> {today}</span>
+        <span class="dot">·</span>
+        <span><strong>Verzia:</strong> 1.0</span>
+        <span class="dot">·</span>
+        <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+      </div>
+    </div>
+  </section>
 
-        <p class="legal-meta">Účinnosť od: {today}</p>
+  <section style="padding-bottom: clamp(80px, 10vw, 140px);">
+    <div class="container" style="max-width: 1080px;">
+      <div class="legal-layout">
 
-        <h2>1. Prevádzkovateľ</h2>
-        <p>
-          Prevádzkovateľom v zmysle GDPR (Nariadenie EÚ 2016/679) a zákona č. 18/2018 Z. z.
-          o ochrane osobných údajov je:
-        </p>
-        <ul>
-          <li><strong>{company}</strong></li>
-          <li>IČO: {ico}</li>
-          <li>Sídlo: {address}</li>
-          <li>Kontakt: {email}</li>
-        </ul>
-        <p>
-          Vzhľadom na rozsah činnosti nemáme povinnosť vymenovať Zodpovednú osobu (DPO).
-          V prípade akýchkoľvek otázok ohľadne osobných údajov nás kontaktujte na uvedenom e-maile.
-        </p>
+        <article class="legal-prose">
 
-        <h2>2. Aké údaje spracúvame</h2>
+          <h2 id="prevadzkovatel">1. Prevádzkovateľ</h2>
+          <p>
+            Prevádzkovateľom v zmysle GDPR (Nariadenie EÚ 2016/679) a zákona č. 18/2018 Z. z.
+            o ochrane osobných údajov je:
+          </p>
+          <ul>
+            <li><strong>{company}</strong></li>
+            <li>IČO: {ico}</li>
+            <li>Sídlo: {address}</li>
+            <li>Kontakt: {email}</li>
+          </ul>
+          <p>
+            Vzhľadom na rozsah činnosti nemáme povinnosť vymenovať Zodpovednú osobu (DPO).
+            V prípade akýchkoľvek otázok ohľadne osobných údajov nás kontaktujte na uvedenom e-maile.
+          </p>
 
-        <h3>A) Údaje z kontaktného formulára</h3>
-        <ul>
-          <li>Meno a priezvisko</li>
-          <li>E-mailová adresa</li>
-          <li>Názov firmy / web (voliteľné)</li>
-          <li>Telefón (voliteľné)</li>
-          <li>Obsah správy</li>
-        </ul>
-        <p><strong>Účel:</strong> spracovanie vašej požiadavky a kontaktovanie zo strany našej agentúry.</p>
-        <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR), prípadne predzmluvný vzťah (čl. 6 ods. 1 písm. b).</p>
-        <p><strong>Doba uchovávania:</strong> 24 mesiacov od posledného kontaktu, ak nedôjde k uzavretiu zmluvy. Pri zmluvnom vzťahu po dobu jeho trvania + 10 rokov (zákonná archivácia).</p>
+          <h2 id="udaje">2. Aké údaje spracúvame</h2>
 
-        <h3>B) Údaje z newsletter prihlásenia</h3>
-        <ul>
-          <li>E-mailová adresa</li>
-          <li>Meno (voliteľné)</li>
-        </ul>
-        <p><strong>Účel:</strong> zasielanie marketingových a obchodných oznámení.</p>
-        <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR).</p>
-        <p><strong>Doba uchovávania:</strong> do odvolania súhlasu (odhlásenie cez link v každom e-maile).</p>
+          <h3>A) Údaje z kontaktného formulára</h3>
+          <ul>
+            <li>Meno a priezvisko</li>
+            <li>E-mailová adresa</li>
+            <li>Názov firmy / web (voliteľné)</li>
+            <li>Telefón (voliteľné)</li>
+            <li>Obsah správy</li>
+          </ul>
+          <p><strong>Účel:</strong> spracovanie vašej požiadavky a kontaktovanie zo strany našej agentúry.</p>
+          <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR), prípadne predzmluvný vzťah (čl. 6 ods. 1 písm. b).</p>
+          <p><strong>Doba uchovávania:</strong> 24 mesiacov od posledného kontaktu, ak nedôjde k uzavretiu zmluvy. Pri zmluvnom vzťahu po dobu jeho trvania + 10 rokov (zákonná archivácia).</p>
 
-        <h3>C) Údaje zo zmluvných vzťahov</h3>
-        <ul>
-          <li>Fakturačné údaje (názov firmy, IČO, DIČ, adresa)</li>
-          <li>Mená kontaktných osôb</li>
-          <li>Komunikácia v rámci projektu</li>
-        </ul>
-        <p><strong>Účel:</strong> plnenie zmluvy, fakturácia, právna ochrana.</p>
-        <p><strong>Právny základ:</strong> Plnenie zmluvy (čl. 6 ods. 1 písm. b GDPR), zákonná povinnosť (čl. 6 ods. 1 písm. c — daňové a účtovné zákony).</p>
-        <p><strong>Doba uchovávania:</strong> 10 rokov (zákonná povinnosť pre účtovnú dokumentáciu).</p>
+          <h3>B) Údaje z newsletter prihlásenia</h3>
+          <ul>
+            <li>E-mailová adresa</li>
+            <li>Meno (voliteľné)</li>
+          </ul>
+          <p><strong>Účel:</strong> zasielanie marketingových a obchodných oznámení.</p>
+          <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR).</p>
+          <p><strong>Doba uchovávania:</strong> do odvolania súhlasu (odhlásenie cez link v každom e-maile).</p>
 
-        <h3>D) Údaje z analytických nástrojov</h3>
-        <p>
-          Pri návšteve webu zbierame anonymizované údaje o správaní (pozri stránku <a href="/cookies">Cookies</a>).
-          Tieto údaje neidentifikujú konkrétnu osobu.
-        </p>
+          <h3>C) Údaje zo zmluvných vzťahov</h3>
+          <ul>
+            <li>Fakturačné údaje (názov firmy, IČO, DIČ, adresa)</li>
+            <li>Mená kontaktných osôb</li>
+            <li>Komunikácia v rámci projektu</li>
+          </ul>
+          <p><strong>Účel:</strong> plnenie zmluvy, fakturácia, právna ochrana.</p>
+          <p><strong>Právny základ:</strong> Plnenie zmluvy (čl. 6 ods. 1 písm. b GDPR), zákonná povinnosť (čl. 6 ods. 1 písm. c — daňové a účtovné zákony).</p>
+          <p><strong>Doba uchovávania:</strong> 10 rokov (zákonná povinnosť pre účtovnú dokumentáciu).</p>
 
-        <h2>3. Komu odovzdávame údaje (sprostredkovatelia)</h2>
-        <p>Vaše údaje môžu byť odovzdané týmto sprostredkovateľom (vždy s primeranou ochranou):</p>
-        <ul>
-          <li><strong>Resend</strong> (USA, EU dátové centrá) — odosielanie e-mailov z formulárov</li>
-          <li><strong>Netlify</strong> (USA) — hosting webu</li>
-          <li><strong>Supabase</strong> (EU dátové centrá) — databáza</li>
-          <li><strong>Google</strong> (USA / EU) — Google Ads, Analytics, Tag Manager (ak ste poskytli súhlas s cookies)</li>
-          <li><strong>Meta</strong> (USA / EU) — Facebook a Instagram pixel (ak ste poskytli súhlas s cookies)</li>
-          <li>Účtovník a daňový poradca v rozsahu zákonných povinností</li>
-        </ul>
-        <p>
-          Pri prenose údajov do USA využívame Štandardné zmluvné doložky (SCCs) alebo
-          Privacy Shield Framework. Niektorí dodávatelia sú certifikovaní pod EU-US Data Privacy Framework.
-        </p>
+          <h3>D) Údaje z analytických nástrojov</h3>
+          <p>
+            Pri návšteve webu zbierame anonymizované údaje o správaní (pozri stránku <a href="/cookies">Cookies</a>).
+            Tieto údaje neidentifikujú konkrétnu osobu.
+          </p>
 
-        <h2>4. Vaše práva</h2>
-        <p>Ako dotknutá osoba máte právo:</p>
-        <ul>
-          <li><strong>Na prístup</strong> — zistiť, aké údaje o vás spracúvame.</li>
-          <li><strong>Na opravu</strong> — požiadať o opravu nesprávnych údajov.</li>
-          <li><strong>Na vymazanie</strong> („právo byť zabudnutý") — ak už nemáme zákonný dôvod pre spracovanie.</li>
-          <li><strong>Na obmedzenie</strong> — dočasne pozastaviť spracovanie.</li>
-          <li><strong>Na prenosnosť</strong> — získať vaše údaje v štruktúrovanom formáte.</li>
-          <li><strong>Namietať</strong> — proti spracovaniu na základe oprávneného záujmu.</li>
-          <li><strong>Odvolať súhlas</strong> — kedykoľvek, bez akýchkoľvek dôsledkov.</li>
-          <li><strong>Podať sťažnosť</strong> — na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" target="_blank" rel="noopener">dataprotection.gov.sk</a>).</li>
-        </ul>
-        <p>
-          Pre uplatnenie ktoréhokoľvek z týchto práv nás kontaktujte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>.
-          Odpoveď garantujeme do 30 dní.
-        </p>
+          <h2 id="sprostredkovatelia">3. Komu odovzdávame údaje (sprostredkovatelia)</h2>
+          <p>Vaše údaje môžu byť odovzdané týmto sprostredkovateľom (vždy s primeranou ochranou):</p>
+          <ul>
+            <li><strong>Resend</strong> (USA, EU dátové centrá) — odosielanie e-mailov z formulárov</li>
+            <li><strong>Netlify</strong> (USA) — hosting webu</li>
+            <li><strong>Supabase</strong> (EU dátové centrá) — databáza</li>
+            <li><strong>Google</strong> (USA / EU) — Google Ads, Analytics, Tag Manager (ak ste poskytli súhlas s cookies)</li>
+            <li><strong>Meta</strong> (USA / EU) — Facebook a Instagram pixel (ak ste poskytli súhlas s cookies)</li>
+            <li>Účtovník a daňový poradca v rozsahu zákonných povinností</li>
+          </ul>
+          <p>
+            Pri prenose údajov do USA využívame Štandardné zmluvné doložky (SCCs) alebo
+            Privacy Shield Framework. Niektorí dodávatelia sú certifikovaní pod EU-US Data Privacy Framework.
+          </p>
 
-        <h2>5. Bezpečnosť údajov</h2>
-        <p>
-          Vaše údaje chránime primeranými technickými a organizačnými opatreniami:
-        </p>
-        <ul>
-          <li>Šifrovaná komunikácia (HTTPS/TLS) pre všetky webové formuláre</li>
-          <li>Šifrované databázy (Supabase EU)</li>
-          <li>Prístup k údajom obmedzený len na nevyhnutný personál</li>
-          <li>Pravidelné zálohy a aktualizácie zabezpečenia</li>
-          <li>Dvojfaktorová autentifikácia pre administračné účty</li>
-        </ul>
+          <h2 id="prava">4. Vaše práva</h2>
+          <p>Ako dotknutá osoba máte právo:</p>
+          <ul>
+            <li><strong>Na prístup</strong> — zistiť, aké údaje o vás spracúvame.</li>
+            <li><strong>Na opravu</strong> — požiadať o opravu nesprávnych údajov.</li>
+            <li><strong>Na vymazanie</strong> („právo byť zabudnutý") — ak už nemáme zákonný dôvod pre spracovanie.</li>
+            <li><strong>Na obmedzenie</strong> — dočasne pozastaviť spracovanie.</li>
+            <li><strong>Na prenosnosť</strong> — získať vaše údaje v štruktúrovanom formáte.</li>
+            <li><strong>Namietať</strong> — proti spracovaniu na základe oprávneného záujmu.</li>
+            <li><strong>Odvolať súhlas</strong> — kedykoľvek, bez akýchkoľvek dôsledkov.</li>
+            <li><strong>Podať sťažnosť</strong> — na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" target="_blank" rel="noopener">dataprotection.gov.sk</a>).</li>
+          </ul>
+          <p>
+            Pre uplatnenie ktoréhokoľvek z týchto práv nás kontaktujte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>.
+            Odpoveď garantujeme do 30 dní.
+          </p>
 
-        <h2>6. Cookies a sledovanie</h2>
-        <p>
-          Pravidlá ohľadom cookies sú podrobne popísané na samostatnej stránke
-          <a href="/cookies">Cookies</a>.
-        </p>
+          <h2 id="bezpecnost">5. Bezpečnosť údajov</h2>
+          <p>Vaše údaje chránime primeranými technickými a organizačnými opatreniami:</p>
+          <ul>
+            <li>Šifrovaná komunikácia (HTTPS/TLS) pre všetky webové formuláre</li>
+            <li>Šifrované databázy (Supabase EU)</li>
+            <li>Prístup k údajom obmedzený len na nevyhnutný personál</li>
+            <li>Pravidelné zálohy a aktualizácie zabezpečenia</li>
+            <li>Dvojfaktorová autentifikácia pre administračné účty</li>
+          </ul>
 
-        <h2>7. Zmeny týchto zásad</h2>
-        <p>
-          Tieto zásady môžeme aktualizovať. O podstatných zmenách informujeme e-mailom
-          (registrovaných používateľov) alebo upozornením na webe minimálne 30 dní vopred.
-        </p>
+          <h2 id="cookies">6. Cookies a sledovanie</h2>
+          <p>
+            Pravidlá ohľadom cookies sú podrobne popísané na samostatnej stránke
+            <a href="/cookies">Cookies</a>.
+          </p>
 
-        <hr />
-        <p class="legal-meta">
-          Posledná aktualizácia: {today}<br />
-          Otázky? Píšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
-        </p>
-      </article>
+          <h2 id="zmeny">7. Zmeny týchto zásad</h2>
+          <p>
+            Tieto zásady môžeme aktualizovať. O podstatných zmenách informujeme e-mailom
+            (registrovaných používateľov) alebo upozornením na webe minimálne 30 dní vopred.
+          </p>
+
+          <hr />
+          <p class="legal-meta">
+            Posledná aktualizácia: {today}<br />
+            Otázky? Píšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+          </p>
+        </article>
+
+        <aside class="legal-sidebar">
+          <div class="legal-sidebar-sticky">
+            <div class="legal-sidebar-eyebrow">[ Obsah ]</div>
+            <nav class="legal-toc" aria-label="Obsah dokumentu">
+              <ol>
+                <li><a href="#prevadzkovatel">Prevádzkovateľ</a></li>
+                <li><a href="#udaje">Aké údaje spracúvame</a></li>
+                <li><a href="#sprostredkovatelia">Komu odovzdávame údaje</a></li>
+                <li><a href="#prava">Vaše práva</a></li>
+                <li><a href="#bezpecnost">Bezpečnosť údajov</a></li>
+                <li><a href="#cookies">Cookies a sledovanie</a></li>
+                <li><a href="#zmeny">Zmeny zásad</a></li>
+              </ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 

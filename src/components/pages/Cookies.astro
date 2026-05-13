@@ -4,7 +4,6 @@
  */
 
 import Layout from '../../layouts/Layout.astro';
-import PageHero from '../PageHero.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
@@ -25,103 +24,136 @@ const today = new Date().toLocaleDateString('sk-SK');
   lang={lang}
   pathname="/cookies"
 >
-  <PageHero
-    num={meta.hero!.num}
-    kind={meta.hero!.kind}
-    title={meta.hero!.title}
-    titleAccent={meta.hero!.titleAccent}
-    lead={meta.hero!.lead}
-  />
 
-  <section class="section" style="padding-top: 0;">
-    <div class="container" style="max-width: 760px;">
-      <article class="legal-prose">
+  <!-- Subtílny hero -->
+  <section class="legal-hero">
+    <div class="container" style="max-width: 1080px;">
+      <nav class="legal-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">DOMOV</a>
+        <span class="sep">/</span>
+        <span>COOKIES</span>
+      </nav>
+      <div class="legal-eyebrow">[ Právny dokument · Cookies ]</div>
+      <h1 class="legal-h1">Cookies a sledovanie</h1>
+      <p class="legal-lead">
+        Aké cookies používame, prečo a ako môžete svoje rozhodnutie kedykoľvek zmeniť.
+      </p>
+      <div class="legal-meta-row">
+        <span><strong>Účinnosť od:</strong> {today}</span>
+        <span class="dot">·</span>
+        <span><strong>Verzia:</strong> 1.0</span>
+        <span class="dot">·</span>
+        <a href="#" data-cookie-reset>Spravovať súhlas</a>
+      </div>
+    </div>
+  </section>
 
-        <p class="legal-meta">Účinnosť od: {today}</p>
+  <section style="padding-bottom: clamp(80px, 10vw, 140px);">
+    <div class="container" style="max-width: 1080px;">
+      <div class="legal-layout">
 
-        <h2>1. Čo sú cookies</h2>
-        <p>
-          Cookies sú malé textové súbory, ktoré sa pri návšteve webu uložia do vášho
-          prehliadača. Pomáhajú webu fungovať lepšie, zapamätať si vaše preferencie
-          a v niektorých prípadoch sledovať, ako web používate (na účely analytiky alebo reklamy).
-        </p>
+        <article class="legal-prose">
 
-        <h2>2. Aké cookies používame</h2>
+          <h2 id="co-su">1. Čo sú cookies</h2>
+          <p>
+            Cookies sú malé textové súbory, ktoré sa pri návšteve webu uložia do vášho
+            prehliadača. Pomáhajú webu fungovať lepšie, zapamätať si vaše preferencie
+            a v niektorých prípadoch sledovať, ako web používate (na účely analytiky alebo reklamy).
+          </p>
 
-        <h3>A) Nevyhnutné cookies (vždy aktívne)</h3>
-        <p>Bez týchto web nemôže fungovať. Nevyžadujú váš súhlas.</p>
-        <table class="legal-table">
-          <thead>
-            <tr><th>Názov</th><th>Účel</th><th>Trvanie</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>cookie_consent</td><td>Pamätá si vaše rozhodnutie o cookies</td><td>12 mesiacov</td></tr>
-            <tr><td>language</td><td>Zvolený jazyk webu</td><td>12 mesiacov</td></tr>
-          </tbody>
-        </table>
+          <h2 id="ake-pouzivame">2. Aké cookies používame</h2>
 
-        <h3>B) Analytické cookies (vyžadujú súhlas)</h3>
-        <p>Pomáhajú nám pochopiť, ako návštevníci používajú web. Nikoho neidentifikujú osobne.</p>
-        <table class="legal-table">
-          <thead>
-            <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>Štatistika návštevnosti</td><td>2 roky</td></tr>
-            <tr><td>_gid</td><td>Google Analytics</td><td>Identifikácia relácie</td><td>24 hodín</td></tr>
-          </tbody>
-        </table>
+          <h3>A) Nevyhnutné cookies (vždy aktívne)</h3>
+          <p>Bez týchto web nemôže fungovať. Nevyžadujú váš súhlas.</p>
+          <table class="legal-table">
+            <thead>
+              <tr><th>Názov</th><th>Účel</th><th>Trvanie</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>adlify_consent</td><td>Pamätá si vaše rozhodnutie o cookies</td><td>12 mesiacov</td></tr>
+              <tr><td>language</td><td>Zvolený jazyk webu</td><td>12 mesiacov</td></tr>
+            </tbody>
+          </table>
 
-        <h3>C) Marketingové cookies (vyžadujú súhlas)</h3>
-        <p>Slúžia na zobrazovanie relevantných reklám na iných weboch a meranie ich účinnosti.</p>
-        <table class="legal-table">
-          <thead>
-            <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>_fbp</td><td>Meta (Facebook)</td><td>Identifikácia návštevníka</td><td>3 mesiace</td></tr>
-            <tr><td>_gcl_au</td><td>Google Ads</td><td>Konverzné sledovanie</td><td>3 mesiace</td></tr>
-          </tbody>
-        </table>
+          <h3>B) Analytické cookies (vyžadujú súhlas)</h3>
+          <p>Pomáhajú nám pochopiť, ako návštevníci používajú web. Nikoho neidentifikujú osobne.</p>
+          <table class="legal-table">
+            <thead>
+              <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>Štatistika návštevnosti</td><td>2 roky</td></tr>
+              <tr><td>_gid</td><td>Google Analytics</td><td>Identifikácia relácie</td><td>24 hodín</td></tr>
+              <tr><td>_clck, _clsk</td><td>Microsoft Clarity</td><td>Heatmapy a session recordings</td><td>1 rok</td></tr>
+            </tbody>
+          </table>
 
-        <h2>3. Ako spravovať svoj súhlas</h2>
-        <p>
-          Pri prvej návšteve sa zobrazuje cookie banner, kde môžete jednotlivé kategórie
-          cookies prijať alebo odmietnuť. Svoje rozhodnutie môžete kedykoľvek zmeniť:
-        </p>
-        <ul>
-          <li>Klinutím na <a href="#" data-cookie-reset>„Spravovať cookies"</a> (otvorí banner znova)</li>
-          <li>Vymazaním cookies vo vašom prehliadači</li>
-        </ul>
-        <p>
-          Cookies môžete spravovať aj priamo v nastaveniach prehliadača:
-        </p>
-        <ul>
-          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
-          <li><a href="https://support.mozilla.org/sk/kb/cookies-informacie-ktore-stranky-ukladaju-na-pocitaci" target="_blank" rel="noopener">Mozilla Firefox</a></li>
-          <li><a href="https://support.apple.com/sk-sk/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
-          <li><a href="https://support.microsoft.com/sk-sk/microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
-        </ul>
+          <h3>C) Marketingové cookies (vyžadujú súhlas)</h3>
+          <p>Slúžia na zobrazovanie relevantných reklám na iných weboch a meranie ich účinnosti.</p>
+          <table class="legal-table">
+            <thead>
+              <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>_fbp</td><td>Meta (Facebook)</td><td>Identifikácia návštevníka</td><td>3 mesiace</td></tr>
+              <tr><td>_gcl_au</td><td>Google Ads</td><td>Konverzné sledovanie</td><td>3 mesiace</td></tr>
+            </tbody>
+          </table>
 
-        <h2>4. Dôsledky odmietnutia</h2>
-        <p>
-          Ak odmietnete analytické a marketingové cookies, web bude fungovať bez problémov.
-          Strácame iba prehľad o tom, ako návštevníci web používajú, a nemôžeme zobrazovať
-          relevantné reklamy. Nevyhnutné cookies sa neukladajú vôbec, ak nesúhlasíte.
-        </p>
+          <h2 id="ako-spravovat">3. Ako spravovať svoj súhlas</h2>
+          <p>
+            Pri prvej návšteve sa zobrazuje cookie banner, kde môžete jednotlivé kategórie
+            cookies prijať alebo odmietnuť. Svoje rozhodnutie môžete kedykoľvek zmeniť:
+          </p>
+          <ul>
+            <li>Klinutím na <a href="#" data-cookie-reset>„Spravovať cookies"</a> (otvorí banner znova)</li>
+            <li>Vymazaním cookies vo vašom prehliadači</li>
+          </ul>
+          <p>
+            Cookies môžete spravovať aj priamo v nastaveniach prehliadača:
+          </p>
+          <ul>
+            <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+            <li><a href="https://support.mozilla.org/sk/kb/cookies-informacie-ktore-stranky-ukladaju-na-pocitaci" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+            <li><a href="https://support.apple.com/sk-sk/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
+            <li><a href="https://support.microsoft.com/sk-sk/microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
+          </ul>
 
-        <h2>5. Ďalšie informácie</h2>
-        <p>
-          Bližšie informácie o spracovaní osobných údajov nájdete v
-          <a href="/ochrana-udajov">Ochrane osobných údajov</a>.
-        </p>
+          <h2 id="dosledky">4. Dôsledky odmietnutia</h2>
+          <p>
+            Ak odmietnete analytické a marketingové cookies, web bude fungovať bez problémov.
+            Strácame iba prehľad o tom, ako návštevníci web používajú, a nemôžeme zobrazovať
+            relevantné reklamy. Nevyhnutné cookies sa neukladajú vôbec, ak nesúhlasíte.
+          </p>
 
-        <hr />
-        <p class="legal-meta">
-          Posledná aktualizácia: {today}<br />
-          Otázky? Píšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
-        </p>
-      </article>
+          <h2 id="dalsie">5. Ďalšie informácie</h2>
+          <p>
+            Bližšie informácie o spracovaní osobných údajov nájdete v
+            <a href="/ochrana-udajov">Ochrane osobných údajov</a>.
+          </p>
+
+          <hr />
+          <p class="legal-meta">
+            Posledná aktualizácia: {today}<br />
+            Otázky? Píšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+          </p>
+        </article>
+
+        <aside class="legal-sidebar">
+          <div class="legal-sidebar-sticky">
+            <div class="legal-sidebar-eyebrow">[ Obsah ]</div>
+            <nav class="legal-toc" aria-label="Obsah dokumentu">
+              <ol>
+                <li><a href="#co-su">Čo sú cookies</a></li>
+                <li><a href="#ake-pouzivame">Aké cookies používame</a></li>
+                <li><a href="#ako-spravovat">Ako spravovať súhlas</a></li>
+                <li><a href="#dosledky">Dôsledky odmietnutia</a></li>
+                <li><a href="#dalsie">Ďalšie informácie</a></li>
+              </ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
