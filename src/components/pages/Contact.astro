@@ -48,15 +48,18 @@ const company = {
   company_country: companyFromTable.company_country || 'Slovensko',
 };
 
-// Adresa pre mapu — kombinacia
-// Ak je v settings.contact_address full adresa "Sladkovicova 1560, 986 01 Filakovo", pouzijem ju
-const fullAddress = settings.contact_address || '';
-const officeStreet  = company.company_address || (fullAddress.split(',')[0] || 'Sládkovičova 1560/16').trim();
-const officeZipCity = company.company_city
-  ? `${company.company_zip} ${company.company_city}, ${company.company_country}`
-  : (fullAddress.split(',').slice(1).join(',').trim() || '986 01 Fiľakovo, Slovensko');
-const officeMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(fullAddress || `${officeStreet}, ${officeZipCity}`)}`;
-const officeCityShort = company.company_city || (officeZipCity.match(/\d{3}\s?\d{2}\s+([\w\u00C0-\u017F]+)/)?.[1] || 'Fiľakovo');
+// =========================================
+// KANCELÁRIA — Nové Zámky (kde sa stretáva s klientmi)
+// Toto je hardcoded — kontaktná stránka neukazuje fakturačnú
+// adresu firmy v info sekcii kancelárie. Fakturačné údaje
+// (Sídlo firmy, IČO, DIČ, IBAN) sú nižšie v samostatnej sekcii.
+// =========================================
+const officeStreet    = 'Podzámska 4/A';
+const officeZipCity   = '940 01 Nové Zámky, Slovensko';
+const officeCityShort = 'Nové Zámky';
+const officeGpsLat    = 47.9893;
+const officeGpsLng    = 18.1652;
+const officeMapsUrl   = `https://maps.google.com/?q=${encodeURIComponent(`${officeStreet}, ${officeZipCity}`)}`;
 
 // Fakturacne udaje — zobrazi sa sekcia len ak je aspon jeden field vyplneny
 const hasBilling = !!(
@@ -531,7 +534,7 @@ const auditItems = [
           <!-- GPS koordináty + label dole -->
           <div style="position: absolute; left: 24px; right: 24px; bottom: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); pointer-events: none;">
             <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">{officeCityShort.toUpperCase()}</span>
-            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">48.2678° N · 19.8261° E</span>
+            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">{officeGpsLat.toFixed(4)}° N · {officeGpsLng.toFixed(4)}° E</span>
           </div>
         </div>
       </div>
