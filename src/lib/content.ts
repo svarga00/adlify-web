@@ -434,7 +434,8 @@ export interface SiteSettings {
   // Kontakty
   contact_email: string;
   contact_phone: string;
-  contact_address: string;
+  contact_address: string;   // Fakturačná adresa (sídlo firmy)
+  office_address: string;    // Adresa kancelárie (kde sa stretáva s klientmi)
   // Firma
   company_name: string;
   company_ico: string;
@@ -460,6 +461,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   contact_email: '',
   contact_phone: '',
   contact_address: '',
+  office_address: '',
   company_name: '',
   company_ico: '',
   company_dic: '',
@@ -501,7 +503,8 @@ export async function fetchSettings(lang: Lang): Promise<SiteSettings> {
   return {
     contact_email:    String(data.contact_email   ?? ''),
     contact_phone:    String(data.contact_phone   ?? ''),
-    contact_address:  String(data.contact_address ?? data.office_address ?? ''),
+    contact_address:  String(data.contact_address ?? ''),
+    office_address:   String(data.office_address ?? ''),
     company_name:     String(data.company_name    ?? ''),
     company_ico:      String(data.company_ico     ?? ''),
     company_dic:      String(data.company_dic     ?? ''),

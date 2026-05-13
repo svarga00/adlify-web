@@ -50,16 +50,18 @@ const company = {
 
 // =========================================
 // KANCELÁRIA — Nové Zámky (kde sa stretáva s klientmi)
-// Toto je hardcoded — kontaktná stránka neukazuje fakturačnú
-// adresu firmy v info sekcii kancelárie. Fakturačné údaje
-// (Sídlo firmy, IČO, DIČ, IBAN) sú nižšie v samostatnej sekcii.
+// Cita z DB web_settings.office_address (priorita) alebo fallback NZ.
+// Fakturacne udaje (sidlo firmy) su v samostatnej sekcii nizsie.
 // =========================================
-const officeStreet    = 'Podzámska 4/A';
-const officeZipCity   = '940 01 Nové Zámky, Slovensko';
-const officeCityShort = 'Nové Zámky';
+const officeFullAddress = settings.office_address || 'Podzámska 4/A, 940 01 Nové Zámky';
+// Parsuj na ulicu a mesto: "Podzámska 4/A, 940 01 Nové Zámky"
+const _officeParts    = officeFullAddress.split(',').map(s => s.trim());
+const officeStreet    = _officeParts[0] || 'Podzámska 4/A';
+const officeZipCity   = (_officeParts.slice(1).join(', ') || '940 01 Nové Zámky') + (_officeParts.slice(1).join(',').includes('Sloven') ? '' : ', Slovensko');
+const officeCityShort = (_officeParts[1] || '').match(/\d{3}\s?\d{2}\s+([\w\u00C0-\u017F]+)/)?.[1] || 'Nové Zámky';
 const officeGpsLat    = 47.9893;
 const officeGpsLng    = 18.1652;
-const officeMapsUrl   = `https://maps.google.com/?q=${encodeURIComponent(`${officeStreet}, ${officeZipCity}`)}`;
+const officeMapsUrl   = `https://maps.google.com/?q=${encodeURIComponent(officeFullAddress)}`;
 
 // Fakturacne udaje — zobrazi sa sekcia len ak je aspon jeden field vyplneny
 const hasBilling = !!(
