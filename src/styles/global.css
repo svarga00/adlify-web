@@ -669,18 +669,16 @@ textarea.field { resize: vertical; font-family: inherit; }
   gap: 24px;
 }
 .case-card {
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
+  background: transparent;
+  border: none;
+  overflow: visible;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.3s ease;
   display: block;
   color: inherit;
 }
 .case-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
 }
 .case-card:hover .case-arrow {
   transform: rotate(0deg) scale(1);
@@ -689,6 +687,7 @@ textarea.field { resize: vertical; font-family: inherit; }
   aspect-ratio: 4 / 3;
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 .case-cover-mesh {
   position: absolute;
