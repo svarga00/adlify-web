@@ -1,0 +1,17 @@
+---
+import ServiceDetail from '../../components/pages/ServiceDetail.astro';
+import { SERVICE_DETAILS, SERVICE_DETAIL_SLUGS } from '../../data/serviceDetails';
+
+export async function getStaticPaths() {
+  return SERVICE_DETAIL_SLUGS.map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const service = SERVICE_DETAILS[slug];
+if (!service) {
+  return Astro.redirect('/sluzby');
+}
+---
+<ServiceDetail service={service} lang="sk" />

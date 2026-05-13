@@ -16,8 +16,9 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { fetchAllCases, fetchTestimonials, fetchFaq } from '../../lib/content';
 import { industries } from '../../lib/industries';
-import { pageMeta } from '../../lib/pageMeta';
+import { SERVICE_DETAIL_SLUGS } from '../../data/serviceDetails';
 import { buildUrl, type Lang } from '../../lib/i18n';
+import { pageMeta } from '../../lib/pageMeta';
 
 interface Props {
   lang?: Lang;
@@ -364,6 +365,16 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
                         ))}
                       </ul>
                     )}
+
+                    {SERVICE_DETAIL_SLUGS.includes(s.slug) && (
+                      <a href={buildUrl(lang, `/sluzby/${s.slug}`)} class="svc-card-link">
+                        Detail služby
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M7 17 17 7"></path>
+                          <path d="M7 7h10v10"></path>
+                        </svg>
+                      </a>
+                    )}
                   </article>
                 ))}
               </div>
@@ -709,6 +720,22 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
 
     .svc-card-bullets { list-style: none; padding: 0; margin: 16px 0 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; padding-left: 68px; }
     .svc-card-bullets li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+    .svc-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      margin-left: 68px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .svc-card-link:hover { transform: translateX(3px); }
 
     @media (max-width: 1024px) {
       .svc-layout-v2 { grid-template-columns: 1fr; gap: 32px; }
@@ -718,6 +745,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
       .svc-cat-text { flex-direction: row; gap: 8px; align-items: baseline; }
       .svc-cat-count { display: none; }
       .svc-card-bullets { grid-template-columns: 1fr; padding-left: 0; }
+      .svc-card-link { margin-left: 0; }
     }
     @media (max-width: 640px) {
       .svc-card-head { flex-direction: column; gap: 12px; }
