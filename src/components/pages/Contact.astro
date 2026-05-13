@@ -686,16 +686,16 @@ const auditItems = [
   <!-- =====================================
        SCRIPTS
        ===================================== -->
-  <script>
+  <script is:inline>
     // Form submission handler — posiela na rovnaky endpoint ako drawer
     (function () {
-      const form = document.getElementById('contactPageForm') as HTMLFormElement | null;
-      const status = document.querySelector<HTMLElement>('[data-contact-page-status]');
+      const form = document.getElementById('contactPageForm');
+      const status = document.querySelector('[data-contact-page-status]');
       if (!form || !status) return;
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
         // Disable submit
         if (submitBtn) submitBtn.disabled = true;
@@ -735,12 +735,12 @@ const auditItems = [
 
     // Drawer trigger pre [data-pricing-cta] (rezervné CTA tlačítko)
     (function () {
-      const ctas = document.querySelectorAll<HTMLElement>('[data-pricing-cta]');
+      const ctas = document.querySelectorAll('[data-pricing-cta]');
       ctas.forEach((cta) => {
         cta.addEventListener('click', (e) => {
           e.preventDefault();
-          const planName = (cta as HTMLElement).dataset.planName || '';
-          const planSlug = (cta as HTMLElement).dataset.planSlug || '';
+          const planName = (cta).dataset.planName || '';
+          const planSlug = (cta).dataset.planSlug || '';
           const w = window as any;
           if (typeof w.openContact === 'function') {
             w.openContact({ plan: planName, planSlug });

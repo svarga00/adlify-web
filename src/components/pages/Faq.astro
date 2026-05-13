@@ -362,10 +362,10 @@ const categories = [
 
 
   <!-- Tab switcher + Slovník search/filter -->
-  <script>
+  <script is:inline>
     (function () {
-      const tabs  = document.querySelectorAll<HTMLButtonElement>('[data-faq-tab]');
-      const panes = document.querySelectorAll<HTMLElement>('[data-faq-pane]');
+      const tabs  = document.querySelectorAll('[data-faq-tab]');
+      const panes = document.querySelectorAll('[data-faq-pane]');
       tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
           const key = tab.dataset.faqTab;
@@ -375,7 +375,7 @@ const categories = [
             t.style.background = isActive ? 'var(--ink)' : 'transparent';
             t.style.color = isActive ? 'var(--bg)' : 'var(--ink)';
             // Update count badge background
-            const badge = t.querySelector<HTMLElement>('.num');
+            const badge = t.querySelector('.num');
             if (badge) badge.style.background = isActive ? 'rgba(255,255,255,0.15)' : 'var(--bg)';
           });
           panes.forEach((p) => {
@@ -389,11 +389,11 @@ const categories = [
 
     // Slovník: search + kategória + abeceda
     (function () {
-      const searchInput = document.getElementById('glossary-search') as HTMLInputElement | null;
-      const items = document.querySelectorAll<HTMLElement>('.g-item');
+      const searchInput = document.getElementById('glossary-search');
+      const items = document.querySelectorAll('.g-item');
       const empty = document.getElementById('glossary-empty');
-      const catBtns = document.querySelectorAll<HTMLButtonElement>('.g-cat-btn');
-      const letterBtns = document.querySelectorAll<HTMLButtonElement>('.g-letter-btn');
+      const catBtns = document.querySelectorAll('.g-cat-btn');
+      const letterBtns = document.querySelectorAll('.g-letter-btn');
 
       if (!searchInput || !items.length) return;
 

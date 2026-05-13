@@ -213,9 +213,9 @@ const { pkg, lang = 'sk' } = Astro.props;
   <ContactSection accent="audit" />
 
   <!-- Drawer preset trigger pre 'Mám záujem o tento balíček' -->
-  <script>
+  <script is:inline>
     (function () {
-      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-pricing-cta]');
+      const ctas = document.querySelectorAll('[data-pricing-cta]');
       ctas.forEach((cta) => {
         cta.addEventListener('click', (e) => {
           e.preventDefault();

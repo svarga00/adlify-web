@@ -298,10 +298,10 @@ function catSlug(c: string) {
   <ContactSection accent="call" />
 
 
-  <script>
+  <script is:inline>
     (function () {
-      const chips = document.querySelectorAll<HTMLButtonElement>('.cat-chip');
-      const cards = document.querySelectorAll<HTMLElement>('.article-card');
+      const chips = document.querySelectorAll('.cat-chip');
+      const cards = document.querySelectorAll('.article-card');
       chips.forEach((chip) => {
         chip.addEventListener('click', () => {
           chips.forEach((c) => c.classList.remove('active'));
@@ -316,17 +316,17 @@ function catSlug(c: string) {
     })();
 
     (function () {
-      const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
-      const status = document.querySelector<HTMLElement>('[data-newsletter-status]');
+      const form = document.querySelector('[data-newsletter-form]');
+      const status = document.querySelector('[data-newsletter-status]');
       if (!form || !status) return;
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const fd = new FormData(form);
-        const email = fd.get('email') as string;
+        const email = fd.get('email');
         if (!email) return;
         status.style.display = 'block';
         status.style.color = 'rgb(22, 163, 74)';
-        status.textContent = `✓ Ďakujeme! Prihlásili sme ${email} do newslettra.`;
+        status.textContent = '✓ Ďakujeme! Prihlásili sme ' + email + ' do newslettra.';
         form.reset();
       });
     })();

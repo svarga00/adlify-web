@@ -433,7 +433,7 @@ const inEveryPlan = [
        Spustí sa keď sa sekcia dostane do view.
        Animuje KPI count-up + bary fill-in.
        ============================================ -->
-  <script>
+  <script is:inline>
     (function () {
       const section = document.querySelector('[data-portal-section]');
       if (!section) return;
@@ -480,7 +480,7 @@ const inEveryPlan = [
         started = true;
 
         // 1) KPI count-up (rovno spustí všetky 3 paralelne)
-        const kpis = section!.querySelectorAll<HTMLElement>('[data-portal-kpi]');
+        const kpis = section!.querySelectorAll('[data-portal-kpi]');
         kpis.forEach((el) => {
           const target = parseFloat(el.dataset.target || '0');
           const fmt = el.dataset.fmt || 'num';
@@ -489,7 +489,7 @@ const inEveryPlan = [
         });
 
         // 2) Delta count-up (s drobným delay aby šlo po KPI)
-        const deltas = section!.querySelectorAll<HTMLElement>('[data-portal-delta]');
+        const deltas = section!.querySelectorAll('[data-portal-delta]');
         setTimeout(() => {
           deltas.forEach((el) => {
             const target = parseFloat(el.dataset.target || '0');
@@ -500,7 +500,7 @@ const inEveryPlan = [
         }, 400);
 
         // 3) Bary fill-in (staggered zľava doprava)
-        const bars = section!.querySelectorAll<HTMLElement>('[data-portal-bar]');
+        const bars = section!.querySelectorAll('[data-portal-bar]');
         bars.forEach((bar, i) => {
           const finalH = parseFloat(bar.dataset.h || '0');
           setTimeout(() => {
@@ -509,7 +509,7 @@ const inEveryPlan = [
         });
 
         // 4) Cyklus "Aktualizované pred X minútami"
-        const updatedEl = section!.querySelector<HTMLElement>('[data-portal-updated]');
+        const updatedEl = section!.querySelector('[data-portal-updated]');
         if (updatedEl) {
           const phrases = [
             'Aktualizované pred 2 minútami',

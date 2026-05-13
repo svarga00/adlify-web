@@ -778,18 +778,57 @@ const manifestItems = [
         </span>
       </div>
 
-      <!-- Headline -->
-      <div style="max-width: 1000px; margin-bottom: 64px;">
-        <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
-          <span style="display: block;">Poďme si dohodnúť</span>
-          <span style="display: inline-block; position: relative;">
-            <span class="grad" style="display: inline-block;">audit.</span>
-            <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
-          </span>
-        </h2>
-        <p style="font-size: clamp(17px, 1.6vw, 21px); opacity: 0.65; max-width: 55ch; margin-top: 32px; line-height: 1.5;">
-          30 minút, bez záväzku. Prejdeme vaše účty, meranie a ukážeme, kde utekajú peniaze.
-        </p>
+      <!-- Headline + right stats panel -->
+      <div class="contact-headline-row">
+        <div style="max-width: 720px;">
+          <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
+            <span style="display: block;">Poďme si dohodnúť</span>
+            <span style="display: inline-block; position: relative;">
+              <span class="grad" style="display: inline-block;">audit.</span>
+              <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
+            </span>
+          </h2>
+          <p style="font-size: clamp(17px, 1.6vw, 21px); opacity: 0.65; max-width: 55ch; margin-top: 32px; line-height: 1.5;">
+            30 minút, bez záväzku. Prejdeme vaše účty, meranie a ukážeme, kde utekajú peniaze.
+          </p>
+        </div>
+
+        <!-- Pravá strana: stats/badge panel -->
+        <aside class="contact-stats" aria-hidden="true">
+          <div class="contact-stat-row">
+            <div class="contact-stat">
+              <div class="contact-stat-num">10+</div>
+              <div class="contact-stat-label">rokov v PPC</div>
+            </div>
+            <div class="contact-stat">
+              <div class="contact-stat-num">30+</div>
+              <div class="contact-stat-label">platforiem</div>
+            </div>
+          </div>
+          <div class="contact-stat-row">
+            <div class="contact-stat">
+              <div class="contact-stat-num">~4 h</div>
+              <div class="contact-stat-label">odpoveď</div>
+            </div>
+            <div class="contact-stat">
+              <div class="contact-stat-num">€0</div>
+              <div class="contact-stat-label">audit</div>
+            </div>
+          </div>
+
+          <!-- Decorative connection lines -->
+          <svg class="contact-stat-deco" viewBox="0 0 200 200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="connGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#F16434" stop-opacity="0.5" />
+                <stop offset="100%" stop-color="#E85D9C" stop-opacity="0.1" />
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#connGrad)" stroke-width="0.5" />
+            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#connGrad)" stroke-width="0.5" />
+            <circle cx="100" cy="100" r="40" fill="none" stroke="url(#connGrad)" stroke-width="0.5" />
+          </svg>
+        </aside>
       </div>
 
       <!-- Split: hlavné CTA vľavo + 4 ci-chan boxy vpravo -->

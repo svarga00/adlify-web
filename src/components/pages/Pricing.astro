@@ -436,13 +436,13 @@ function cellContent(v: string) {
 
 
   <!-- Pricing toggle JS + drawer preset -->
-  <script>
+  <script is:inline>
     (function () {
       // Toggle: Mesačne / 6 mes -10% / 12 mes -20%
-      const btns = document.querySelectorAll<HTMLElement>('[data-pricing-mode]');
-      const prices = document.querySelectorAll<HTMLElement>('.plan-price');
-      const originals = document.querySelectorAll<HTMLElement>('.plan-price-original');
-      const totals = document.querySelectorAll<HTMLElement>('.plan-total');
+      const btns = document.querySelectorAll('[data-pricing-mode]');
+      const prices = document.querySelectorAll('.plan-price');
+      const originals = document.querySelectorAll('.plan-price-original');
+      const totals = document.querySelectorAll('.plan-total');
 
       function applyDiscount(discount: number) {
         // discount: 0 (Mesačne), 10 (6 mes), 20 (12 mes)
@@ -475,8 +475,8 @@ function cellContent(v: string) {
           }
           const newPrice = Math.round(base * (1 - discount / 100));
           const totalAmount = newPrice * months;
-          const amountEl = t.querySelector('.plan-total-amount') as HTMLElement;
-          const periodEl = t.querySelector('.plan-total-period') as HTMLElement;
+          const amountEl = t.querySelector('.plan-total-amount');
+          const periodEl = t.querySelector('.plan-total-period');
           if (amountEl) amountEl.textContent = totalAmount.toString();
           if (periodEl) periodEl.textContent = `${months} mesiacov`;
           t.style.display = 'block';
@@ -498,7 +498,7 @@ function cellContent(v: string) {
       });
 
       // CTA tlačítko -> drawer preset
-      const ctas = document.querySelectorAll<HTMLAnchorElement>('[data-pricing-cta]');
+      const ctas = document.querySelectorAll('[data-pricing-cta]');
       ctas.forEach((cta) => {
         cta.addEventListener('click', (e) => {
           // Pre is_custom (Premium) ide na /kontakt — nechaj default behavior
@@ -511,7 +511,7 @@ function cellContent(v: string) {
             e.preventDefault();
           }
           // Ziskat aktuálne zvolený toggle
-          const activeBtn = document.querySelector<HTMLElement>('[data-pricing-mode].active');
+          const activeBtn = document.querySelector('[data-pricing-mode].active');
           const period = activeBtn?.dataset.pricingMode || 'm1';
           const periodLabel = period === 'm6' ? '6 mesiacov' : period === 'm12' ? '12 mesiacov' : 'mesačne';
 

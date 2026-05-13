@@ -169,10 +169,10 @@ const filters = ['all', ...visibleCategories].map((key) => ({ key, label: filter
   <ContactSection accent="stratégiu" />
 
 
-  <script>
+  <script is:inline>
     (function () {
-      const chips = document.querySelectorAll<HTMLButtonElement>('.cs-chip');
-      const items = document.querySelectorAll<HTMLElement>('.cs-item');
+      const chips = document.querySelectorAll('.cs-chip');
+      const items = document.querySelectorAll('.cs-item');
       chips.forEach((chip) => {
         chip.addEventListener('click', () => {
           chips.forEach((c) => c.classList.remove('active'));

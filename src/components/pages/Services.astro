@@ -754,10 +754,10 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
   </style>
 
   <!-- Scrollspy: označí aktívnu kategóriu v sidebar pri scrolle -->
-  <script>
+  <script is:inline>
     (function () {
-      const sections = document.querySelectorAll<HTMLElement>('[data-cat]');
-      const links = document.querySelectorAll<HTMLAnchorElement>('[data-cat-link]');
+      const sections = document.querySelectorAll('[data-cat]');
+      const links = document.querySelectorAll('[data-cat-link]');
       if (!sections.length || !links.length) return;
 
       function setActive(slug: string | null) {
@@ -780,7 +780,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
               }
             }
             if (topMost) {
-              const slug = (topMost.target as HTMLElement).dataset.cat;
+              const slug = (topMost.target).dataset.cat;
               if (slug) setActive(slug);
             }
           },
