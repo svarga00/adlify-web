@@ -976,12 +976,55 @@ textarea.field { resize: vertical; font-family: inherit; }
 }
 
 @media (max-width: 780px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  /* Mobile footer: kompaktnejsi 2-stlpcovy grid */
+  .footer { padding: clamp(40px, 8vw, 56px) 0 24px; }
   .footer-cta { flex-direction: column; align-items: flex-start; }
+
+  /* Logo blok ide cez celu sirku, 3 nav stlpce nizsie */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+    margin-bottom: 32px;
+  }
+  /* Prvy blok (logo + tagline + social) zaberie cely riadok */
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+    padding-bottom: 24px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .footer-grid > div:first-child p {
+    max-width: 38ch !important;
+    font-size: 13px !important;
+    margin-bottom: 16px !important;
+  }
+  /* Kompaktnejsie nadpisy a linky */
+  .footer-grid h5 {
+    font-size: 10px;
+    margin-bottom: 14px;
+  }
+  .footer-grid ul { gap: 9px; }
+  .footer-grid a { font-size: 13px; }
+
+  /* Bottom strip */
+  .footer-bottom {
+    padding-top: 20px;
+    font-size: 12px;
+    gap: 12px;
+  }
+  .footer-bottom-links { gap: 14px; }
+  .footer-bottom-links a { font-size: 12px; }
 }
 
 @media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  /* Stale 2 stlpce, len uzsie gap */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 16px;
+  }
+  .footer-grid > div:first-child {
+    padding-bottom: 20px;
+  }
 }
 
 /* ============ LEGAL PROSE (Terms, Privacy, Cookies) ============ */
