@@ -212,9 +212,66 @@ const siteSettings = await fetchSettings(lang);
         areaServed: ['SK', 'CZ', 'HU'],
       })} />
     )}
+    <!-- ============ GOOGLE CONSENT MODE v2 (must be FIRST script) ============ -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Default: deny all until consent
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
+      // Check saved consent
+      if (localStorage.getItem('adlify_consent') === 'all') {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted'
+        });
+      }
+    </script>
+
+    <!-- ============ GTM (Google Tag Manager) ============ -->
+    <!-- TODO: nahradiť GTM-XXXXXXX za reálne GTM container ID -->
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-XXXXXXX');
+    </script>
+
+    <!-- ============ GA4 (fallback ak GTM nie je nastavený) ============ -->
+    <!-- TODO: nahradiť G-XXXXXXXXXX za reálne GA4 Measurement ID -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { send_page_view: true });
+    </script>
+
+    <!-- ============ Microsoft Clarity ============ -->
+    <!-- TODO: nahradiť CLARITY_ID za reálne Clarity project ID -->
+    <script is:inline>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,"clarity","script","CLARITY_ID");
+    </script>
   </head>
 
   <body>
+    <!-- GTM noscript fallback -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
     <!-- Scroll progress bar (gradient line) -->
     <div
       aria-hidden="true"
@@ -517,38 +574,50 @@ const siteSettings = await fetchSettings(lang);
       </div>
     </div>
 
-    <script>
-      // Cookie consent — minimálna implementácia
-      // Stav v localStorage: 'all' | 'essential'
+    <script is:inline>
+      // Cookie consent + Google Consent Mode v2
       (function () {
-        const KEY = 'cookie_consent';
-        const banner = document.getElementById('cookie-banner');
+        var KEY = 'adlify_consent';
+        var banner = document.getElementById('cookie-banner');
         if (!banner) return;
 
-        const saved = localStorage.getItem(KEY);
+        var saved = localStorage.getItem(KEY);
         if (!saved) {
-          // Zobraz banner po 800ms (aby neblokoval LCP)
-          setTimeout(() => { banner.style.display = 'block'; }, 800);
+          setTimeout(function() { banner.style.display = 'block'; }, 800);
         }
 
-        document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+        function grantAll() {
+          if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+              'ad_storage': 'granted',
+              'ad_user_data': 'granted',
+              'ad_personalization': 'granted',
+              'analytics_storage': 'granted'
+            });
+          }
+        }
+
+        document.getElementById('cookie-accept-all').addEventListener('click', function() {
           localStorage.setItem(KEY, 'all');
           banner.style.display = 'none';
-          // TODO: aktivuj GA / Meta pixel scripty tu ked ich pridas
-        });
-        document.getElementById('cookie-accept-essential')?.addEventListener('click', () => {
-          localStorage.setItem(KEY, 'essential');
-          banner.style.display = 'none';
+          grantAll();
         });
 
-        // Reset z /cookies stranky
-        document.querySelectorAll('[data-cookie-reset]').forEach((el) => {
-          el.addEventListener('click', (e) => {
+        document.getElementById('cookie-accept-essential').addEventListener('click', function() {
+          localStorage.setItem(KEY, 'essential');
+          banner.style.display = 'none';
+          // consent zostáva denied (default)
+        });
+
+        // Reset z /cookies stránky
+        var resetBtns = document.querySelectorAll('[data-cookie-reset]');
+        for (var i = 0; i < resetBtns.length; i++) {
+          resetBtns[i].addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.removeItem(KEY);
             banner.style.display = 'block';
           });
-        });
+        }
       })();
     </script>
   </body>
