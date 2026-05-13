@@ -68,7 +68,7 @@ const relatedCases = service.relatedCases
             {service.lead}
           </p>
           <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;">
-            <a href={buildUrl(lang, '/kontakt')} class="btn btn-grad">
+            <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-grad">
               Začneme auditom zadarmo
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;" aria-hidden="true">
                 <path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>
@@ -208,7 +208,7 @@ const relatedCases = service.relatedCases
                 <path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>
               </svg>
             </a>
-            <a href={buildUrl(lang, '/kontakt')} style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); color: var(--bg); font-size: 14px; font-weight: 600; text-decoration: none;">
+            <a href={`${buildUrl(lang, '/kontakt')}#formular`} style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); color: var(--bg); font-size: 14px; font-weight: 600; text-decoration: none;">
               Audit zadarmo
             </a>
           </div>

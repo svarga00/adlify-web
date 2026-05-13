@@ -105,7 +105,7 @@ function catSlug(c: string) {
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </a>
-            <a href={buildUrl(lang, '/kontakt')} class="btn btn-outline">
+            <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-outline">
               Mám otázku
             </a>
           </div>
@@ -250,7 +250,7 @@ function catSlug(c: string) {
           .article-card:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -16px rgba(0,0,0,0.12); }
           .cat-chip:hover:not(.active) { background: var(--bg-soft); }
           .cat-chip.active { background: var(--ink) !important; color: var(--bg) !important; border-color: var(--ink) !important; }
-          .article-card.hidden { display: none; }
+          .article-card.hidden { display: none !important; }
           @media (max-width: 1024px) { .articles-grid { grid-template-columns: 1fr 1fr !important; } }
           @media (max-width: 600px)  { .articles-grid { grid-template-columns: 1fr !important; } }
         </style>

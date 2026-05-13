@@ -89,7 +89,7 @@ const filters = ['all', ...visibleCategories].map((key) => ({ key, label: filter
             Niekoľko klientov je v procese odsúhlasovania zverejnenia výsledkov. Medzitým vám čísla
             radi ukážeme priamo na stretnutí — anonymizované alebo so súhlasom toho-ktorého klienta.
           </p>
-          <a href="/kontakt" class="btn btn-ink">
+          <a href="/kontakt#formular" class="btn btn-ink">
             Spýtať sa na referencie
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
@@ -161,7 +161,7 @@ const filters = ['all', ...visibleCategories].map((key) => ({ key, label: filter
     <style>
       .cs-chip:hover:not(.active) { background: var(--bg-soft); }
       .cs-chip.active { background: var(--ink) !important; color: var(--bg) !important; border-color: var(--ink) !important; }
-      .cs-item.hidden { display: none; }
+      .cs-item.hidden { display: none !important; }
     </style>
   </section>
 

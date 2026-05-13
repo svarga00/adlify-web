@@ -509,7 +509,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
         <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px;">
           Nepatríte do žiadnej z týchto kategórií? Aj tak vám pravdepodobne vieme pomôcť.
         </p>
-        <a href={buildUrl(lang, '/kontakt')} class="btn btn-ink">
+        <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-ink">
           Nezáväzná konzultácia
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
