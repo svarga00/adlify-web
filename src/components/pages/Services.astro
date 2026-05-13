@@ -760,7 +760,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
       const links = document.querySelectorAll('[data-cat-link]');
       if (!sections.length || !links.length) return;
 
-      function setActive(slug: string | null) {
+      function setActive(slug) {
         links.forEach((l) => l.classList.toggle('active', l.dataset.catLink === slug));
       }
 

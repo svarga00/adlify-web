@@ -440,7 +440,7 @@ const inEveryPlan = [
       let started = false;
 
       // Helper: format number podľa typu
-      function formatVal(val: number, fmt: string): string {
+      function formatVal(val, fmt) {
         switch (fmt) {
           case 'eur':
             return '€' + Math.round(val).toLocaleString('sk-SK').replace(/,/g, ' ').replace(/\u00A0/g, ' ');
@@ -458,11 +458,12 @@ const inEveryPlan = [
       }
 
       // Easing pre count-up
-      const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+      var easeOut = function(t) { return 1 - Math.pow(1 - t, 3); };
 
-      function animateCountUp(el: HTMLElement, target: number, fmt: string, duration = 1800) {
-        const start = performance.now();
-        function tick(now: number) {
+      function animateCountUp(el, target, fmt, duration) {
+        duration = duration || 1800;
+        var start = performance.now();
+        function tick(now) {
           const elapsed = now - start;
           const t = Math.min(elapsed / duration, 1);
           const eased = easeOut(t);

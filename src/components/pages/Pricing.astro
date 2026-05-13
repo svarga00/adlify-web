@@ -439,26 +439,35 @@ function cellContent(v: string) {
   <script is:inline>
     (function () {
       // Toggle: Mesačne / 6 mes -10% / 12 mes -20%
-      const btns = document.querySelectorAll('[data-pricing-mode]');
-      const prices = document.querySelectorAll('.plan-price');
-      const originals = document.querySelectorAll('.plan-price-original');
-      const totals = document.querySelectorAll('.plan-total');
+      var btns = document.querySelectorAll('[data-pricing-mode]');
+      var prices = document.querySelectorAll('.plan-price');
+      var originals = document.querySelectorAll('.plan-price-original');
+      var totals = document.querySelectorAll('.plan-total');
 
-      function applyDiscount(discount: number) {
+      function applyDiscount(discount) {
         // discount: 0 (Mesačne), 10 (6 mes), 20 (12 mes)
-        const months = discount === 0 ? 0 : (discount === 10 ? 6 : 12);
+        var months = discount === 0 ? 0 : (discount === 10 ? 6 : 12);
 
-        prices.forEach((p) => {
-          const base = parseFloat(p.dataset.planBase || '0');
+        prices.forEach(function (p) {
+          var base = parseFloat(p.dataset.planBase || '0');
           if (!base) return;
-          const newPrice = Math.round(base * (1 - discount / 100));
+          // VIP (799) sa nemení
+          if (base >= 799) {
+            p.textContent = base + '€';
+            return;
+          }
+          var newPrice = Math.round(base * (1 - discount / 100));
           p.textContent = newPrice + '€';
         });
 
-        originals.forEach((o) => {
-          const base = parseFloat(o.dataset.planBase || '0');
+        originals.forEach(function (o) {
+          var base = parseFloat(o.dataset.planBase || '0');
           if (!base) return;
-          // Original cena = base (pôvodná) keď je discount > 0
+          // VIP nemá prečiarknutú cenu
+          if (base >= 799) {
+            o.style.display = 'none';
+            return;
+          }
           if (discount > 0) {
             o.textContent = base + '€';
             o.style.display = 'inline';
@@ -467,27 +476,28 @@ function cellContent(v: string) {
           }
         });
 
-        totals.forEach((t) => {
-          const base = parseFloat(t.dataset.planBase || '0');
-          if (!base || months === 0) {
+        totals.forEach(function (t) {
+          var base = parseFloat(t.dataset.planBase || '0');
+          // VIP nemá total
+          if (!base || months === 0 || base >= 799) {
             t.style.display = 'none';
             return;
           }
-          const newPrice = Math.round(base * (1 - discount / 100));
-          const totalAmount = newPrice * months;
-          const amountEl = t.querySelector('.plan-total-amount');
-          const periodEl = t.querySelector('.plan-total-period');
+          var newPrice = Math.round(base * (1 - discount / 100));
+          var totalAmount = newPrice * months;
+          var amountEl = t.querySelector('.plan-total-amount');
+          var periodEl = t.querySelector('.plan-total-period');
           if (amountEl) amountEl.textContent = totalAmount.toString();
-          if (periodEl) periodEl.textContent = `${months} mesiacov`;
+          if (periodEl) periodEl.textContent = months + ' mesiacov';
           t.style.display = 'block';
         });
       }
 
-      btns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const discount = parseFloat(btn.dataset.pricingDiscount || '0');
-          btns.forEach((b) => {
-            const isActive = b === btn;
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var discount = parseFloat(btn.dataset.pricingDiscount || '0');
+          btns.forEach(function (b) {
+            var isActive = b === btn;
             b.classList.toggle('active', isActive);
             b.style.background = isActive ? 'var(--bg)' : 'transparent';
             b.style.color = isActive ? 'var(--ink)' : 'var(--muted)';
@@ -497,33 +507,24 @@ function cellContent(v: string) {
         });
       });
 
-      // CTA tlačítko -> drawer preset
-      const ctas = document.querySelectorAll('[data-pricing-cta]');
-      ctas.forEach((cta) => {
-        cta.addEventListener('click', (e) => {
-          // Pre is_custom (Premium) ide na /kontakt — nechaj default behavior
-          const slug = cta.dataset.planSlug;
-          const planName = cta.dataset.planName || '';
-          if (cta.getAttribute('href') === '#') {
-            e.preventDefault();
-          } else {
-            // Aj ked ide na /kontakt, otvor drawer
-            e.preventDefault();
-          }
-          // Ziskat aktuálne zvolený toggle
-          const activeBtn = document.querySelector('[data-pricing-mode].active');
-          const period = activeBtn?.dataset.pricingMode || 'm1';
-          const periodLabel = period === 'm6' ? '6 mesiacov' : period === 'm12' ? '12 mesiacov' : 'mesačne';
+      // CTA tlačítko -> navigácia na kontakt
+      var ctas = document.querySelectorAll('[data-pricing-cta]');
+      ctas.forEach(function (cta) {
+        cta.addEventListener('click', function (e) {
+          e.preventDefault();
+          var planName = cta.dataset.planName || '';
+          var slug = cta.dataset.planSlug || '';
+          var activeBtn = document.querySelector('[data-pricing-mode].active');
+          var period = activeBtn ? activeBtn.dataset.pricingMode : 'm1';
+          var periodLabel = period === 'm6' ? '6 mesiacov' : period === 'm12' ? '12 mesiacov' : 'mesačne';
 
-          const w = window;
-          if (typeof w.openContact === 'function') {
-            w.openContact({
+          if (typeof window.openContact === 'function') {
+            window.openContact({
               plan: planName,
               planSlug: slug,
               period: periodLabel,
             });
           } else {
-            // Fallback ak drawer nie je dostupny
             window.location.href = '/kontakt#formular';
           }
         });
