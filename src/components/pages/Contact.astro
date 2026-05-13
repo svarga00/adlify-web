@@ -58,10 +58,18 @@ const officeFullAddress = settings.office_address || 'Podzámska 4/A, 940 01 Nov
 const _officeParts    = officeFullAddress.split(',').map(s => s.trim());
 const officeStreet    = _officeParts[0] || 'Podzámska 4/A';
 const officeZipCity   = (_officeParts.slice(1).join(', ') || '940 01 Nové Zámky') + (_officeParts.slice(1).join(',').includes('Sloven') ? '' : ', Slovensko');
-const officeCityShort = (_officeParts[1] || '').match(/\d{3}\s?\d{2}\s+([\w\u00C0-\u017F]+)/)?.[1] || 'Nové Zámky';
+const officeCityShort = (_officeParts[1] || '').replace(/^\d{3}\s?\d{2}\s+/, '').replace(/,.*$/, '').trim() || 'Nové Zámky';
 const officeGpsLat    = 47.9893;
 const officeGpsLng    = 18.1652;
 const officeMapsUrl   = `https://maps.google.com/?q=${encodeURIComponent(officeFullAddress)}`;
+
+// =========================================
+// FAKTURAČNÁ ADRESA (sídlo firmy)
+// Z web_settings.contact_address (Sládkovičova 1560/16, Fiľakovo)
+// alebo z web_company_info company_address polí (legacy)
+// =========================================
+const billingAddress = settings.contact_address
+  || (company.company_address ? `${company.company_address}, ${company.company_zip || ''} ${company.company_city || ''}, ${company.company_country}`.replace(/\s+,/g, ',').replace(/,\s*,/g, ',').trim() : '');
 
 // Fakturacne udaje — zobrazi sa sekcia len ak je aspon jeden field vyplneny
 const hasBilling = !!(
@@ -69,7 +77,8 @@ const hasBilling = !!(
   company.ico ||
   company.dic ||
   company.ic_dph ||
-  company.iban
+  company.iban ||
+  billingAddress
 );
 
 // Trust pillars
@@ -555,6 +564,12 @@ const auditItems = [
                 <div style="font-size: 16px; font-weight: 500;">{company.company_name}</div>
               </div>
             )}
+            {billingAddress && (
+              <div>
+                <div class="eyebrow" style="margin-bottom: 6px;">Sídlo firmy</div>
+                <div style="font-size: 16px; font-weight: 500; line-height: 1.45;">{billingAddress}</div>
+              </div>
+            )}
             {company.ico && (
               <div>
                 <div class="eyebrow" style="margin-bottom: 6px;">IČO</div>
@@ -571,6 +586,12 @@ const auditItems = [
               <div>
                 <div class="eyebrow" style="margin-bottom: 6px;">IČ DPH</div>
                 <div style="font-size: 16px; font-weight: 500; font-family: var(--mono);">{company.ic_dph}</div>
+              </div>
+            )}
+            {company.company_register && (
+              <div>
+                <div class="eyebrow" style="margin-bottom: 6px;">Zápis v OR</div>
+                <div style="font-size: 14px; font-weight: 500; line-height: 1.45;">{company.company_register}</div>
               </div>
             )}
             {company.iban && (
@@ -632,68 +653,6 @@ const auditItems = [
       @media (max-width: 768px) { .audit-grid { grid-template-columns: 1fr !important; } }
     </style>
   </section>
-
-
-  <!-- ============================================
-       FAKTURAČNÉ ÚDAJE — z billing_settings cez web_company_info view
-       Zobrazí sa LEN ak sú v admine vyplnené (názov firmy, IČO, DIČ alebo IBAN)
-       ============================================ -->
-  {hasBilling && (
-    <section class="section" style="padding-top: 0;">
-      <div class="container">
-        <div style="background: var(--bg-soft); border: 1px solid var(--line); border-radius: 20px; padding: clamp(28px, 3.5vw, 40px);">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ Fakturačné údaje ]</span>
-            <span style="flex: 1; height: 1px; background: var(--line);"></span>
-          </div>
-
-          <div class="company-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-            {company.company_name && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">NÁZOV FIRMY</div>
-                <div style="font-size: 15px; font-weight: 600;">{company.company_name}</div>
-              </div>
-            )}
-            {company.ico && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">IČO</div>
-                <div style="font-size: 15px; font-weight: 600; font-family: var(--mono);">{company.ico}</div>
-              </div>
-            )}
-            {company.dic && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">DIČ</div>
-                <div style="font-size: 15px; font-weight: 600; font-family: var(--mono);">{company.dic}</div>
-              </div>
-            )}
-            {company.ic_dph && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">IČ DPH</div>
-                <div style="font-size: 15px; font-weight: 600; font-family: var(--mono);">{company.ic_dph}</div>
-              </div>
-            )}
-            {company.iban && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">IBAN</div>
-                <div style="font-size: 14px; font-weight: 600; font-family: var(--mono); word-break: break-all;">{company.iban}</div>
-              </div>
-            )}
-            {company.bank_name && (
-              <div>
-                <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">BANKA</div>
-                <div style="font-size: 14px; font-weight: 600;">{company.bank_name}</div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <style>
-        @media (max-width: 768px) { .company-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media (max-width: 480px) { .company-grid { grid-template-columns: 1fr !important; } }
-      </style>
-    </section>
-  )}
 
 
   <!-- ============================================
