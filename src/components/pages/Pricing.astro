@@ -515,7 +515,7 @@ function cellContent(v: string) {
           const period = activeBtn?.dataset.pricingMode || 'm1';
           const periodLabel = period === 'm6' ? '6 mesiacov' : period === 'm12' ? '12 mesiacov' : 'mesačne';
 
-          const w = window as any;
+          const w = window;
           if (typeof w.openContact === 'function') {
             w.openContact({
               plan: planName,
@@ -524,7 +524,7 @@ function cellContent(v: string) {
             });
           } else {
             // Fallback ak drawer nie je dostupny
-            window.location.href = '/kontakt';
+            window.location.href = '/kontakt#formular';
           }
         });
       });

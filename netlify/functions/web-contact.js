@@ -133,6 +133,7 @@ Prijatá: ${new Date().toLocaleString('sk-SK', { timeZone: 'Europe/Bratislava' }
 
   // Posielame e-mail cez Resend
   try {
+    // 1) E-mail TEBE (notifikácia o novom kontakte)
     const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -151,11 +152,90 @@ Prijatá: ${new Date().toLocaleString('sk-SK', { timeZone: 'Europe/Bratislava' }
 
     if (!resp.ok) {
       const errText = await resp.text();
-      console.error('[web-contact] Resend API error:', resp.status, errText);
+      console.error('[web-contact] Resend API error (notification):', resp.status, errText);
       return new Response(JSON.stringify({ error: 'Nepodarilo sa odoslať e-mail.' }), {
         status: 502,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
+    }
+
+    // 2) Potvrdzovací e-mail KLIENTOVI (best-effort, nezlyhá hlavný flow)
+    try {
+      const confirmHtml = `
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: -apple-system, system-ui, sans-serif; background: #f5f4f1; padding: 32px; color: #0a0a0a;">
+          <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; border: 1px solid rgba(0,0,0,0.08);">
+            <div style="font-family: ui-monospace, monospace; font-size: 11px; color: #6b6b6b; letter-spacing: 0.05em; margin-bottom: 12px;">[ ADLIFY ]</div>
+            <h1 style="font-size: 28px; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 16px 0; line-height: 1.15;">Ďakujeme, ${safeText(name.split(' ')[0])}!</h1>
+            <p style="font-size: 16px; line-height: 1.6; color: #2a2a2a; margin: 0 0 24px 0;">
+              Vašu správu sme prijali a ozveme sa <strong>do ~4 hodín</strong> počas pracovných dní (Po–Pi 9–18).
+            </p>
+
+            <div style="margin: 24px 0; padding: 20px; background: #f5f4f1; border-radius: 12px; border-left: 3px solid #F16434;">
+              <div style="font-family: ui-monospace, monospace; font-size: 10px; color: #6b6b6b; letter-spacing: 0.05em; margin-bottom: 8px;">VAŠA SPRÁVA</div>
+              <div style="white-space: pre-wrap; line-height: 1.55; font-size: 14px; color: #2a2a2a;">${safeText(message)}</div>
+            </div>
+
+            <p style="font-size: 14px; line-height: 1.6; color: #6b6b6b; margin: 24px 0 0 0;">
+              Medzitým si môžete pozrieť:
+            </p>
+            <ul style="font-size: 14px; line-height: 1.7; color: #2a2a2a; padding-left: 20px; margin: 8px 0 0 0;">
+              <li><a href="https://adlify.eu/pripadove-studie" style="color: #F16434; text-decoration: none;">Prípadové štúdie</a> — reálne výsledky našich klientov</li>
+              <li><a href="https://adlify.eu/cennik" style="color: #F16434; text-decoration: none;">Cenník</a> — transparentné ceny bez prekvapení</li>
+              <li><a href="https://adlify.eu/blog" style="color: #F16434; text-decoration: none;">Blog</a> — praktické tipy pre Google a Meta Ads</li>
+            </ul>
+
+            <hr style="border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 32px 0 20px 0;" />
+
+            <p style="font-size: 13px; line-height: 1.55; color: #6b6b6b; margin: 0;">
+              Pekný deň,<br />
+              <strong style="color: #2a2a2a;">tím Adlify</strong>
+            </p>
+            <p style="font-size: 12px; line-height: 1.5; color: #9a9a9a; margin: 16px 0 0 0;">
+              Tento e-mail je automatické potvrdenie prijatia vašej správy.
+              Ak by ste mali otázku okamžite, píšte priamo na <a href="mailto:info@adlify.eu" style="color: #F16434;">info@adlify.eu</a>.
+            </p>
+          </div>
+        </body>
+        </html>
+      `;
+      const confirmText = `Ďakujeme, ${name.split(' ')[0]}!
+
+Vašu správu sme prijali a ozveme sa do ~4 hodín počas pracovných dní (Po–Pi 9–18).
+
+Vaša správa:
+${message}
+
+Medzitým si môžete pozrieť:
+- Prípadové štúdie: https://adlify.eu/pripadove-studie
+- Cenník: https://adlify.eu/cennik
+- Blog: https://adlify.eu/blog
+
+Pekný deň,
+tím Adlify
+
+---
+Tento e-mail je automatické potvrdenie prijatia vašej správy.
+Ak by ste mali otázku okamžite, píšte priamo na info@adlify.eu.`;
+
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: FROM,
+          to: [email],
+          subject: 'Ďakujeme — Adlify',
+          html: confirmHtml,
+          text: confirmText,
+        }),
+      });
+    } catch (confirmErr) {
+      // Best-effort: ak potvrdenie zlyhá, hlavný flow ostáva ok
+      console.error('[web-contact] confirmation email error (non-fatal):', confirmErr);
     }
 
     return new Response(JSON.stringify({ ok: true }), {

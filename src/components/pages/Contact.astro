@@ -647,6 +647,20 @@ const auditItems = [
           </article>
         ))}
       </div>
+
+      <!-- CTA -->
+      <div style="margin-top: 40px; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <a href="#formular" class="btn btn-grad" style="padding: 16px 28px; font-size: 16px;">
+          Chcem audit zadarmo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;" aria-hidden="true">
+            <path d="M7 17 17 7"></path>
+            <path d="M7 7h10v10"></path>
+          </svg>
+        </a>
+        <span style="font-family: var(--mono); font-size: 12px; color: var(--muted);">
+          Bez záväzku · Odpoveď do ~4 hod
+        </span>
+      </div>
     </div>
 
     <style>
@@ -684,14 +698,179 @@ const auditItems = [
 
 
   <!-- =====================================
+       ĎAKOVACÍ MODAL po odoslaní
+       ===================================== -->
+  <div data-thanks-modal class="thanks-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
+    <div class="thanks-backdrop" data-thanks-close></div>
+    <div class="thanks-card">
+      <button type="button" class="thanks-close" data-thanks-close aria-label="Zavrieť">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="thanks-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <div class="thanks-eyebrow">[ ODOSLANÉ ]</div>
+      <h2 class="thanks-title" id="thanksTitle">Ďakujeme!</h2>
+      <p class="thanks-text">
+        Vašu správu sme dostali. Ozveme sa <strong>do ~4 hodín</strong> počas pracovných dní (Po–Pi 9–18).
+      </p>
+      <p class="thanks-text" style="font-size: 13px; color: var(--muted); margin-top: 16px;">
+        Na váš e-mail sme poslali potvrdenie. Skontrolujte si schránku (prípadne spam).
+      </p>
+
+      <div class="thanks-actions">
+        <a href="/pripadove-studie" class="btn btn-ghost" style="flex: 1; justify-content: center;">Pozrieť prípadovky</a>
+        <button type="button" class="btn btn-grad" data-thanks-close style="flex: 1; justify-content: center;">Zavrieť</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .thanks-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .thanks-modal.is-open {
+      display: flex;
+      animation: thanksFadeIn 0.2s ease-out;
+    }
+    .thanks-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .thanks-card {
+      position: relative;
+      max-width: 460px;
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px 32px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: thanksSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .thanks-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .thanks-close:hover {
+      background: var(--bg-soft);
+      color: var(--ink);
+    }
+    .thanks-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+    }
+    .thanks-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--grad-start);
+      margin-bottom: 8px;
+    }
+    .thanks-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px 0;
+    }
+    .thanks-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      margin: 0;
+    }
+    .thanks-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    @keyframes thanksFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes thanksSlideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 480px) {
+      .thanks-card { padding: 32px 24px 24px; }
+      .thanks-title { font-size: 26px; }
+    }
+  </style>
+
+
+  <!-- =====================================
        SCRIPTS
        ===================================== -->
   <script is:inline>
+    // Modal open/close helpers
+    (function () {
+      const modal = document.querySelector('[data-thanks-modal]');
+      if (!modal) return;
+      const closeEls = document.querySelectorAll('[data-thanks-close]');
+
+      function openModal() {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      closeEls.forEach((el) => el.addEventListener('click', closeModal));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+
+      // Expose globally for form handler
+      window.openThanksModal = openModal;
+    })();
+
     // Form submission handler — posiela na rovnaky endpoint ako drawer
     (function () {
       const form = document.getElementById('contactPageForm');
       const status = document.querySelector('[data-contact-page-status]');
-      if (!form || !status) return;
+      if (!form) return;
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -699,8 +878,10 @@ const auditItems = [
 
         // Disable submit
         if (submitBtn) submitBtn.disabled = true;
-        status.style.color = 'var(--muted)';
-        status.textContent = 'Odosielame…';
+        if (status) {
+          status.style.color = 'var(--muted)';
+          status.textContent = 'Odosielame…';
+        }
 
         const fd = new FormData(form);
         const payload = {
@@ -720,13 +901,17 @@ const auditItems = [
             body: JSON.stringify(payload),
           });
           if (!res.ok) throw new Error('Odoslanie zlyhalo (HTTP ' + res.status + ')');
-          status.style.color = 'rgb(34, 197, 94)';
-          status.textContent = '✓ Správa odoslaná. Ozveme sa do ~4 hod.';
           form.reset();
+          if (status) status.textContent = '';
+          if (typeof window.openThanksModal === 'function') {
+            window.openThanksModal();
+          }
         } catch (err) {
           console.error(err);
-          status.style.color = 'rgb(220, 38, 38)';
-          status.textContent = '✗ Niečo zlyhalo. Skúste to znova alebo napíšte na info@adlify.eu';
+          if (status) {
+            status.style.color = 'rgb(220, 38, 38)';
+            status.textContent = '✗ Niečo zlyhalo. Skúste to znova alebo napíšte na info@adlify.eu';
+          }
         } finally {
           if (submitBtn) submitBtn.disabled = false;
         }
@@ -739,11 +924,10 @@ const auditItems = [
       ctas.forEach((cta) => {
         cta.addEventListener('click', (e) => {
           e.preventDefault();
-          const planName = (cta).dataset.planName || '';
-          const planSlug = (cta).dataset.planSlug || '';
-          const w = window as any;
-          if (typeof w.openContact === 'function') {
-            w.openContact({ plan: planName, planSlug });
+          const planName = cta.dataset.planName || '';
+          const planSlug = cta.dataset.planSlug || '';
+          if (typeof window.openContact === 'function') {
+            window.openContact({ plan: planName, planSlug });
           } else {
             // fallback — focus form
             const formEl = document.getElementById('contactPageForm');
