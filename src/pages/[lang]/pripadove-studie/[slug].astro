@@ -1,10 +1,10 @@
 ---
 import CaseDetail from '../../../components/pages/CaseDetail.astro';
 import { fetchAllCases } from '../../../lib/content';
-import type { Lang } from '../../../lib/i18n';
+import { EXTRA_LANGS, type Lang } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
-  const langs: Lang[] = ['cs', 'hu', 'en', 'de'];
+  const langs = EXTRA_LANGS;
   const paths = [];
   for (const lang of langs) {
     const cases = await fetchAllCases(lang);

@@ -1,10 +1,10 @@
 ---
 import ServiceDetail from '../../../components/pages/ServiceDetail.astro';
 import { SERVICE_DETAILS, SERVICE_DETAIL_SLUGS } from '../../../data/serviceDetails';
-import type { Lang } from '../../../lib/i18n';
+import { EXTRA_LANGS, type Lang } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
-  const langs: Lang[] = ['cs', 'hu', 'en', 'de'];
+  const langs = EXTRA_LANGS;
   const paths = [];
   for (const lang of langs) {
     for (const slug of SERVICE_DETAIL_SLUGS) {

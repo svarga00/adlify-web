@@ -16,7 +16,7 @@
  */
 
 import '../styles/global.css';
-import { LANGS, buildUrl, type Lang } from '../lib/i18n';
+import { LANGS, EXTRA_LANGS, buildUrl, type Lang } from '../lib/i18n';
 import { t } from '../lib/translations';
 
 interface Props {
@@ -238,39 +238,39 @@ const siteSettings = await fetchSettings(lang);
     </script>
 
     <!-- ============ GTM (Google Tag Manager) ============ -->
-    <!-- TODO: nahradiť GTM-XXXXXXX za reálne GTM container ID -->
+    <!-- TODO: nahradiť GT-WR9NW2FV za reálne GTM container ID -->
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-XXXXXXX');
+      })(window,document,'script','dataLayer','GT-WR9NW2FV');
     </script>
 
     <!-- ============ GA4 (fallback ak GTM nie je nastavený) ============ -->
-    <!-- TODO: nahradiť G-XXXXXXXXXX za reálne GA4 Measurement ID -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- TODO: nahradiť G-8XXE3MYJMN za reálne GA4 Measurement ID -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-8XXE3MYJMN"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', { send_page_view: true });
+      gtag('config', 'G-8XXE3MYJMN', { send_page_view: true });
     </script>
 
     <!-- ============ Microsoft Clarity ============ -->
-    <!-- TODO: nahradiť CLARITY_ID za reálne Clarity project ID -->
+    <!-- TODO: nahradiť 515578426 za reálne Clarity project ID -->
     <script is:inline>
       (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window,document,"clarity","script","CLARITY_ID");
+      })(window,document,"clarity","script","515578426");
     </script>
   </head>
 
   <body>
     <!-- GTM noscript fallback -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GT-WR9NW2FV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Scroll progress bar (gradient line) -->
     <div
@@ -302,7 +302,8 @@ const siteSettings = await fetchSettings(lang);
 
         <!-- Topbar actions -->
         <div class="topbar-actions">
-          <!-- Language switcher -->
+          <!-- Language switcher (skrytý keď EXTRA_LANGS je prázdny) -->
+          {EXTRA_LANGS.length > 0 && (
           <div style="position: relative;" id="lang-wrap">
             <button class="lang-btn" id="lang-btn" aria-haspopup="listbox" aria-expanded="false">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -330,6 +331,7 @@ const siteSettings = await fetchSettings(lang);
               ))}
             </div>
           </div>
+          )}
 
           <!-- CTA -->
           <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-sm btn-ink">

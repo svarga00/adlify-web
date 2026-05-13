@@ -27,6 +27,15 @@ export const LANGS = [
   { code: 'de' as const, label: 'Deutsch',    short: 'DE', locale: 'de_DE' },
 ];
 
+/**
+ * Jazyky ktoré sa AKTUÁLNE generujú.
+ * Keď bude preklad hotový, pridaj kód sem.
+ * Prázdne = len SK (default, bez prefixu).
+ */
+export const EXTRA_LANGS: Lang[] = [];
+// Keď budú preklady hotové, odkomentuj:
+// export const EXTRA_LANGS: Lang[] = ['cs', 'hu', 'en', 'de'];
+
 // ============================================================
 // JSONB picker
 // ============================================================
