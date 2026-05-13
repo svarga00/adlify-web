@@ -122,8 +122,10 @@ function catSlug(c: string) {
         <section style="padding-bottom: clamp(48px, 6vw, 80px);">
           <div class="container">
             <a href={buildUrl(lang, `/blog/${featured.slug}`)} class="featured-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; color: var(--ink); transition: transform 0.3s, box-shadow 0.3s;">
-              <div style={`position: relative; aspect-ratio: 4 / 3; background: ${featured.cover_gradient}; min-height: 360px;`}>
-                <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.25), transparent 50%);"></div>
+              <div style={`position: relative; aspect-ratio: 4 / 3; background: ${featured.cover_image_url ? `url('${featured.cover_image_url}') center/cover` : featured.cover_gradient}; min-height: 360px;`}>
+                {!featured.cover_image_url && (
+                  <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.25), transparent 50%);"></div>
+                )}
 
                 <div style="position: absolute; top: 24px; left: 24px;">
                   <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: white;">
@@ -209,8 +211,10 @@ function catSlug(c: string) {
                 data-cat={catSlug(a.category)}
                 style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; color: var(--ink); display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s;"
               >
-                <div style={`aspect-ratio: 16 / 9; background: ${a.cover_gradient}; position: relative; overflow: hidden;`}>
-                  <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.2), transparent 50%);"></div>
+                <div style={`aspect-ratio: 16 / 9; background: ${a.cover_image_url ? `url('${a.cover_image_url}') center/cover` : a.cover_gradient}; position: relative; overflow: hidden;`}>
+                  {!a.cover_image_url && (
+                    <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.2), transparent 50%);"></div>
+                  )}
                   <div style="position: absolute; top: 16px; left: 16px;">
                     <span style="display: inline-flex; padding: 4px 10px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: white;">
                       {a.category.toUpperCase()}
