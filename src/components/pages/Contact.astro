@@ -26,18 +26,37 @@ const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.contact[lang];
 
 const settings = await fetchSettings(lang);
-const company = await fetchCompanyInfo();
+const companyFromTable = await fetchCompanyInfo();
 // Fallback hodnoty (ak DB nevracia, napr. chyba env vars na Netlify)
 const email = settings.contact_email || 'info@adlify.eu';
-const phone = settings.contact_phone || '+421 944 184 045';
+const phone = settings.contact_phone || '+421944184045';
 
-// Adresa pre sekciu "Kancelaria" — fallback Nove Zamky ak v billing_settings nie je vyplnena
-const officeStreet = company.company_address || 'Podzámska 4/A';
+// Firemne udaje — kombinacia z web_settings (priorita) + web_company_info (legacy)
+const company = {
+  company_name:    settings.company_name    || companyFromTable.company_name    || '',
+  ico:             settings.company_ico     || companyFromTable.ico             || '',
+  dic:             settings.company_dic     || companyFromTable.dic             || '',
+  ic_dph:          settings.company_ic_dph  || companyFromTable.ic_dph          || '',
+  iban:            settings.company_iban    || companyFromTable.iban            || '',
+  bank_name:                                   companyFromTable.bank_name        || '',
+  bank_swift:                                  companyFromTable.bank_swift       || '',
+  company_register: settings.company_register || '',
+  // Adresa: web_settings.contact_address je full string, parsuje sa nizsie
+  company_address: companyFromTable.company_address || '',
+  company_city:    companyFromTable.company_city    || '',
+  company_zip:     companyFromTable.company_zip     || '',
+  company_country: companyFromTable.company_country || 'Slovensko',
+};
+
+// Adresa pre mapu — kombinacia
+// Ak je v settings.contact_address full adresa "Sladkovicova 1560, 986 01 Filakovo", pouzijem ju
+const fullAddress = settings.contact_address || '';
+const officeStreet  = company.company_address || (fullAddress.split(',')[0] || 'Sládkovičova 1560/16').trim();
 const officeZipCity = company.company_city
-  ? `${company.company_zip} ${company.company_city}, ${company.company_country || 'Slovensko'}`
-  : '940 01 Nové Zámky, Slovensko';
-const officeMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(`${officeStreet}, ${officeZipCity}`)}`;
-const officeCityShort = company.company_city || 'Nové Zámky';
+  ? `${company.company_zip} ${company.company_city}, ${company.company_country}`
+  : (fullAddress.split(',').slice(1).join(',').trim() || '986 01 Fiľakovo, Slovensko');
+const officeMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(fullAddress || `${officeStreet}, ${officeZipCity}`)}`;
+const officeCityShort = company.company_city || (officeZipCity.match(/\d{3}\s?\d{2}\s+([\w\u00C0-\u017F]+)/)?.[1] || 'Fiľakovo');
 
 // Fakturacne udaje — zobrazi sa sekcia len ak je aspon jeden field vyplneny
 const hasBilling = !!(
@@ -512,7 +531,7 @@ const auditItems = [
           <!-- GPS koordináty + label dole -->
           <div style="position: absolute; left: 24px; right: 24px; bottom: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); pointer-events: none;">
             <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">{officeCityShort.toUpperCase()}</span>
-            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">47.9893° N · 18.1652° E</span>
+            <span style="font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5);">48.2678° N · 19.8261° E</span>
           </div>
         </div>
       </div>

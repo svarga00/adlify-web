@@ -82,7 +82,7 @@ function flattenCase(row: Record<string, unknown>, lang: Lang): CaseStudy {
   return {
     id:               String(row.id ?? ''),
     slug:             String(row.slug ?? ''),
-    tag:              String(row.category ?? ''),
+    tag:              pickLang(row.tag ?? row.category, lang),
     name:             pickLang(row.title ?? row.name, lang),
     category:         String(row.category ?? ''),
     summary:          pickLang(row.summary, lang),
@@ -162,9 +162,9 @@ function flattenService(row: Record<string, unknown>, lang: Lang): Service {
 export async function fetchAllCases(lang: Lang): Promise<CaseStudy[]> {
   if (!supabase) return [];
   const { data, error } = await supabase
-    .from('web_cases')
+    .from('web_case_studies')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchAllCases error:', error.message);
@@ -178,7 +178,7 @@ export async function fetchAllPosts(lang: Lang): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('published_at', { ascending: false });
   if (error) {
     console.warn('[content] fetchAllPosts error:', error.message);
@@ -192,7 +192,7 @@ export async function fetchFeaturedPost(lang: Lang): Promise<BlogPost | null> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .eq('is_featured', true)
     .order('published_at', { ascending: false })
     .limit(1)
@@ -209,7 +209,7 @@ export async function fetchAllServices(lang: Lang): Promise<Service[]> {
   const { data, error } = await supabase
     .from('web_services')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchAllServices error:', error.message);
@@ -249,7 +249,7 @@ export async function fetchPricingPlans(lang: Lang): Promise<PricingPlan[]> {
   const { data, error } = await supabase
     .from('web_pricing')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchPricingPlans error:', error.message);
@@ -296,7 +296,7 @@ export async function fetchTestimonials(lang: Lang, limit?: number): Promise<Tes
   let q = supabase
     .from('web_testimonials')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (limit) q = q.limit(limit);
   const { data, error } = await q;
@@ -330,7 +330,7 @@ export async function fetchFaq(lang: Lang, limit?: number): Promise<FaqItem[]> {
   let q = supabase
     .from('web_faq')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (limit) q = q.limit(limit);
   const { data, error } = await q;
@@ -353,10 +353,10 @@ export async function fetchFaq(lang: Lang, limit?: number): Promise<FaqItem[]> {
 export async function fetchCaseBySlug(slug: string, lang: Lang): Promise<CaseStudy | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
-    .from('web_cases')
+    .from('web_case_studies')
     .select('*')
     .eq('slug', slug)
-    .eq('is_published', true)
+    .eq('published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenCase(data, lang);
@@ -368,7 +368,7 @@ export async function fetchPostBySlug(slug: string, lang: Lang): Promise<BlogPos
     .from('web_blog_posts')
     .select('*')
     .eq('slug', slug)
-    .eq('is_published', true)
+    .eq('published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenPost(data, lang);
@@ -380,7 +380,7 @@ export async function fetchServiceBySlug(slug: string, lang: Lang): Promise<Serv
     .from('web_services')
     .select('*')
     .eq('slug', slug)
-    .eq('is_published', true)
+    .eq('published', true)
     .maybeSingle();
   if (error || !data) return null;
   return flattenService(data, lang);
@@ -407,7 +407,7 @@ export async function fetchTeam(lang: Lang): Promise<TeamMember[]> {
   const { data, error } = await supabase
     .from('web_team')
     .select('*')
-    .eq('is_published', true)
+    .eq('published', true)
     .order('sort_order', { ascending: true });
   if (error) {
     console.warn('[content] fetchTeam error:', error.message);
@@ -491,40 +491,33 @@ export async function fetchSettings(lang: Lang): Promise<SiteSettings> {
   if (!supabase) return EMPTY_SETTINGS;
   const { data, error } = await supabase
     .from('web_settings')
-    .select('key, value');
+    .select('*')
+    .eq('id', 'global')
+    .maybeSingle();
   if (error || !data) {
     if (error) console.warn('[content] fetchSettings error:', error.message);
     return EMPTY_SETTINGS;
   }
-
-  // Konvertuj rows [{key, value}] → mapa { key: value }
-  const map: Record<string, string> = {};
-  for (const row of data) {
-    if (row.key && typeof row.value !== 'undefined' && row.value !== null) {
-      map[row.key] = String(row.value);
-    }
-  }
-
   return {
-    contact_email:    map.contact_email   ?? '',
-    contact_phone:    map.contact_phone   ?? '',
-    contact_address:  map.contact_address ?? map.office_address ?? '',
-    company_name:     map.company_name    ?? '',
-    company_ico:      map.company_ico     ?? '',
-    company_dic:      map.company_dic     ?? '',
-    company_ic_dph:   map.company_ic_dph  ?? '',
-    company_iban:     map.company_iban    ?? '',
-    company_register: map.company_register ?? '',
-    social_linkedin:  map.social_linkedin  ?? '',
-    social_facebook:  map.social_facebook  ?? '',
-    social_instagram: map.social_instagram ?? '',
-    social_youtube:   map.social_youtube   ?? '',
-    footer_tagline:          map.footer_tagline           ?? '',
-    footer_copyright:        map.footer_copyright         ?? '',
-    cookie_message:          map.cookie_message           ?? '',
-    default_seo_title:       map.default_seo_title        ?? '',
-    default_seo_description: map.default_seo_description  ?? '',
-    default_og_image_url:    map.default_og_image_url     ?? '',
+    contact_email:    String(data.contact_email   ?? ''),
+    contact_phone:    String(data.contact_phone   ?? ''),
+    contact_address:  String(data.contact_address ?? data.office_address ?? ''),
+    company_name:     String(data.company_name    ?? ''),
+    company_ico:      String(data.company_ico     ?? ''),
+    company_dic:      String(data.company_dic     ?? ''),
+    company_ic_dph:   String(data.company_ic_dph  ?? ''),
+    company_iban:     String(data.company_iban    ?? ''),
+    company_register: String(data.company_register ?? ''),
+    social_linkedin:  String(data.social_linkedin  ?? ''),
+    social_facebook:  String(data.social_facebook  ?? ''),
+    social_instagram: String(data.social_instagram ?? ''),
+    social_youtube:   String(data.social_youtube   ?? ''),
+    footer_tagline:           pickLang(data.footer_tagline,           lang),
+    footer_copyright:         pickLang(data.footer_copyright,         lang),
+    cookie_message:           pickLang(data.cookie_message,           lang),
+    default_seo_title:        pickLang(data.default_seo_title,        lang),
+    default_seo_description:  pickLang(data.default_seo_description,  lang),
+    default_og_image_url:     String(data.default_og_image_url ?? ''),
   };
 }
 
@@ -582,7 +575,7 @@ export async function fetchAllCaseSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_case_studies')
     .select('slug')
-    .eq('is_published', true);
+    .eq('published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
@@ -592,7 +585,7 @@ export async function fetchAllPostSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_blog_posts')
     .select('slug')
-    .eq('is_published', true);
+    .eq('published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
@@ -602,7 +595,7 @@ export async function fetchAllServiceSlugs(): Promise<string[]> {
   const { data, error } = await supabase
     .from('web_services')
     .select('slug')
-    .eq('is_published', true);
+    .eq('published', true);
   if (error || !data) return [];
   return data.map((r) => String(r.slug)).filter(Boolean);
 }
