@@ -131,6 +131,44 @@ input,textarea,select{font:inherit}
 .footer a{color:var(--muted);transition:color 0.15s}
 .footer a:hover{color:var(--ink)}
 
+/* FORM MICROCOPY (risk reversal) */
+.form-microcopy{margin-top:14px;padding:12px 16px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:12px;text-align:center}
+.microcopy-line{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);line-height:1.5;flex-wrap:wrap;justify-content:center}
+.microcopy-line strong{color:var(--ink);font-weight:600}
+
+/* ACTIVITY TICKER */
+.form-activity{margin-top:12px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-soft);border-radius:10px;border:1px solid var(--line);opacity:0;transition:opacity 0.5s}
+.form-activity.show{opacity:1}
+.activity-pulse{width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0;box-shadow:0 0 0 0 rgba(34,197,94,0.5);animation:activityPulse 2s infinite}
+.activity-text{font-size:12px;color:var(--muted);font-family:var(--mono)}
+@keyframes activityPulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,0.6)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+/* FORM CARD GLOW (priťahuje pozornosť) */
+.form-card{position:relative}
+.form-card::before{content:'';position:absolute;inset:-2px;border-radius:22px;background:linear-gradient(135deg,var(--grad-start),var(--grad-end));opacity:0;z-index:-1;filter:blur(20px);transition:opacity 0.4s;pointer-events:none}
+.form-card:focus-within::before{opacity:0.25}
+
+/* EXIT INTENT POPUP */
+.exit-overlay{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;padding:20px}
+.exit-overlay.is-open{display:flex;animation:modalFadeIn 0.25s ease-out}
+.exit-backdrop{position:absolute;inset:0;background:rgba(10,10,10,0.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.exit-card{position:relative;max-width:480px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:40px 32px 32px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;animation:modalSlideUp 0.35s cubic-bezier(0.16,1,0.3,1)}
+.exit-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s,color 0.15s}
+.exit-close:hover{background:var(--bg-soft);color:var(--ink)}
+.exit-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--grad-start);margin-bottom:8px;text-transform:uppercase}
+.exit-title{font-size:28px;font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;line-height:1.15}
+.exit-text{font-size:15px;line-height:1.55;color:var(--ink-2);margin-bottom:24px}
+.exit-form-group{margin-bottom:12px}
+.exit-form-group input{width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-size:15px;transition:border-color 0.2s}
+.exit-form-group input:focus{outline:none;border-color:var(--ink)}
+.exit-form-group input::placeholder{color:var(--muted-2)}
+.exit-btn{width:100%;padding:14px;background:linear-gradient(100deg,var(--grad-start),var(--grad-end));color:#fff;border:none;border-radius:999px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all 0.2s;letter-spacing:-0.01em}
+.exit-btn:hover{transform:translateY(-1px);box-shadow:0 14px 32px -12px rgba(241,100,52,0.5)}
+.exit-btn:disabled{opacity:0.7;cursor:default;transform:none}
+.exit-skip{display:block;margin-top:12px;font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline}
+.exit-skip:hover{color:var(--ink)}
+@keyframes modalSlideUp{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
 /* SUCCESS MODAL */
 .modal-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.is-open{display:flex;animation:modalFadeIn 0.2s ease-out}
@@ -278,8 +316,23 @@ AKTUÁLNE
 <label>Telefón <span style="color:var(--muted-2);text-transform:none">(voliteľné)</span></label>
 <input type="tel" name="phone" placeholder="+421 9XX XXX XXX">
 </div>
-<button type="submit" class="btn-submit" id="submitBtn">Chcem bezplatný audit →</button>
+<button type="submit" class="btn-submit" id="submitBtn">Áno, chcem audit zadarmo →</button>
 </form>
+
+<!-- Risk reversal microcopy pod tlačítkom -->
+<div class="form-microcopy">
+<span class="microcopy-line">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+<strong>Bez kreditky.</strong> <strong>Bez záväzku.</strong> Môžete kedykoľvek odísť.
+</span>
+</div>
+
+<!-- Activity ticker -->
+<div class="form-activity" id="formActivity">
+<div class="activity-pulse"></div>
+<span class="activity-text" id="activityText">Pred chvíľou si požiadala o audit firma z Košíc</span>
+</div>
+
 <div class="form-trust">
 <span>Bez záväzku</span>
 <span>Do 48 hodín</span>
@@ -447,6 +500,28 @@ Chcem bezplatný audit
 </div>
 </footer>
 
+<!-- EXIT INTENT POPUP -->
+<div class="exit-overlay" id="exitModal" aria-hidden="true" role="dialog" aria-modal="true">
+<div class="exit-backdrop" onclick="closeExitModal()"></div>
+<div class="exit-card">
+<button type="button" class="exit-close" onclick="closeExitModal()" aria-label="Zavrieť">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+</button>
+
+<div class="exit-eyebrow">[ POČKAJTE — JEDNA VEC ]</div>
+<h2 class="exit-title">3 najčastejšie chyby v Google Ads — <span class="grad">zadarmo</span></h2>
+<p class="exit-text">Vidíme ich u <strong>8 z 10 firiem</strong>, ktoré audujeme. Pošleme ich na váš e-mail bez záväzku.</p>
+
+<form id="exitForm">
+<div class="exit-form-group">
+<input type="email" name="exitEmail" placeholder="vas@email.sk" required>
+</div>
+<button type="submit" class="exit-btn" id="exitBtn">Pošlite mi 3 chyby zadarmo</button>
+<button type="button" class="exit-skip" onclick="closeExitModal()">Nie, ďakujem — zatvoriť</button>
+</form>
+</div>
+</div>
+
 <!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="successModal">
 <div class="modal-backdrop" onclick="closeModal()"></div>
@@ -540,9 +615,153 @@ document.getElementById('auditForm').addEventListener('submit', function(e) {
     console.error(err);
     btn.textContent = '✗ Chyba — skúste znova';
     btn.disabled = false;
-    setTimeout(function() { btn.textContent = 'Chcem bezplatný audit →'; }, 3000);
+    setTimeout(function() { btn.textContent = 'Áno, chcem audit zadarmo →'; }, 3000);
   });
 });
+
+// Update success modal handler - prevent showing exit intent after success
+window.__auditSubmitted = false;
+var origOpenModal = openModal;
+window.openModal = function() {
+  window.__auditSubmitted = true;
+  origOpenModal();
+};
+
+// ============================================
+// ACTIVITY TICKER — rotácia social proof správ
+// ============================================
+(function () {
+  var activityEl = document.getElementById('formActivity');
+  var textEl = document.getElementById('activityText');
+  if (!activityEl || !textEl) return;
+
+  var messages = [
+    'Pred chvíľou si požiadala o audit firma z Košíc',
+    'Pred 12 min sa pripojil e-shop z Bratislavy',
+    'Pred 24 min si vyžiadala audit firma z Prešova',
+    'Pred 45 min sa pridala stavebná firma z Nitry',
+    'Pred 1 hodinou požiadal audit autoservis z Banskej Bystrice',
+    'Pred 2 hodinami sa pripojil výrobca z Trnavy',
+    'Pred chvíľou si vyžiadala audit firma zo Žiliny',
+  ];
+  var idx = 0;
+
+  // Zobraziť prvý po 3 sekundách (nech to nevyzerá fake)
+  setTimeout(function () {
+    activityEl.classList.add('show');
+  }, 3000);
+
+  // Rotovať každých 6 sekúnd
+  setInterval(function () {
+    idx = (idx + 1) % messages.length;
+    activityEl.style.opacity = '0';
+    setTimeout(function () {
+      textEl.textContent = messages[idx];
+      activityEl.style.opacity = '1';
+    }, 400);
+  }, 6000);
+})();
+
+// ============================================
+// EXIT INTENT POPUP
+// ============================================
+(function () {
+  var exitModal = document.getElementById('exitModal');
+  if (!exitModal) return;
+
+  var shown = false;
+  var STORAGE_KEY = 'adlify_exit_dismissed';
+
+  function shouldShow() {
+    if (shown) return false;
+    if (window.__auditSubmitted) return false;
+    // Ak už používateľ kedysi popup zavrel, neukazuj zas v tomto session
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY)) return false;
+    } catch (e) {}
+    return true;
+  }
+
+  window.openExitModal = function () {
+    if (!shouldShow()) return;
+    shown = true;
+    exitModal.classList.add('is-open');
+    exitModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeExitModal = function () {
+    exitModal.classList.remove('is-open');
+    exitModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+  };
+
+  // Desktop: detekcia keď myš ide hore (smerom k zatvoreniu/back tlačítku)
+  var triggered = false;
+  document.addEventListener('mouseout', function (e) {
+    if (triggered) return;
+    if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) {
+      triggered = true;
+      window.openExitModal();
+    }
+  });
+
+  // Mobile: po 30s neaktivity zobraz (mobile nemá mouseout)
+  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    setTimeout(function () {
+      if (shouldShow()) window.openExitModal();
+    }, 30000);
+  }
+
+  // ESC zatvor
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && exitModal.classList.contains('is-open')) {
+      window.closeExitModal();
+    }
+  });
+
+  // Submit exit form
+  var exitForm = document.getElementById('exitForm');
+  if (exitForm) {
+    exitForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var exitBtn = document.getElementById('exitBtn');
+      var email = exitForm.querySelector('input[name="exitEmail"]').value.trim();
+      if (!email) return;
+
+      exitBtn.disabled = true;
+      exitBtn.textContent = 'Odosielam…';
+
+      var urlParams = new URLSearchParams(window.location.search);
+      var src = (urlParams.get('src') || 'landing-audit') + '-exit-popup';
+
+      fetch('https://adlify-app.netlify.app/.netlify/functions/audit-intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company_name: 'Exit popup lead',
+          email: email,
+          source: src,
+          priority: 'more_leads',
+          note: 'Lead zachytený cez exit intent popup — chce 3 chyby v Google Ads zadarmo'
+        })
+      }).then(function (res) { return res.json(); }).then(function (data) {
+        if (!data.ok) throw new Error(data.error || 'Chyba');
+        exitBtn.textContent = '✓ Hotovo — pozrite si email';
+        setTimeout(window.closeExitModal, 2000);
+      }).catch(function (err) {
+        console.error(err);
+        exitBtn.textContent = '✗ Chyba — skúste znova';
+        exitBtn.disabled = false;
+        setTimeout(function () {
+          exitBtn.textContent = 'Pošlite mi 3 chyby zadarmo';
+        }, 2500);
+      });
+    });
+  }
+})();
 </script>
 </body>
 </html>
