@@ -806,14 +806,21 @@ window.openModal = function() {
   if (!exitModal) return;
 
   var shown = false;
-  var STORAGE_KEY = 'adlify_exit_dismissed';
+  var STORAGE_KEY = 'adlify_exit_dismissed_at';
+  var COOLDOWN_MS = 30 * 60 * 1000; // 30 minút
+
+  // ?exit=1 v URL = vždy zobraz (test mode pre Štefana)
+  var urlParams = new URLSearchParams(window.location.search);
+  var forceShow = urlParams.get('exit') === '1';
 
   function shouldShow() {
     if (shown) return false;
     if (window.__auditSubmitted) return false;
-    // Ak už používateľ kedysi popup zavrel, neukazuj zas v tomto session
+    if (forceShow) return true;
+    // Po dismiss 30 min cooldown (nie celý session)
     try {
-      if (sessionStorage.getItem(STORAGE_KEY)) return false;
+      var dismissedAt = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+      if (dismissedAt && Date.now() - dismissedAt < COOLDOWN_MS) return false;
     } catch (e) {}
     return true;
   }
@@ -830,7 +837,7 @@ window.openModal = function() {
     exitModal.classList.remove('is-open');
     exitModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, Date.now().toString()); } catch (e) {}
   };
 
   // Desktop: detekcia keď myš ide hore (smerom k zatvoreniu/back tlačítku)
@@ -849,6 +856,14 @@ window.openModal = function() {
     setTimeout(function () {
       if (shouldShow()) window.openExitModal();
     }, 30000);
+  }
+
+  // Force show pre test mode (?exit=1) — zobraz po 1s
+  if (forceShow) {
+    setTimeout(function () {
+      shown = false; // reset aby sa dalo otvoriť
+      window.openExitModal();
+    }, 1000);
   }
 
   // ESC zatvor
