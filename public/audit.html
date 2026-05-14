@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bezplatný audit reklám | Adlify</title>
+<meta name="description" content="Bezplatný audit vašich Google & Meta kampaní. Konkrétne čísla, konkrétne odporúčania — do 48 hodín.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--grad-start:#F16434;--grad-mid:#F47F3F;--grad-end:#E85D9C;
+--bg:#FFFFFF;--bg-soft:#F5F4F1;--bg-mid:#EEEBE4;
+--ink:#0A0A0A;--ink-2:#1F1F1F;
+--muted:#6B6B6B;--muted-2:#A0A0A0;
+--line:rgba(0,0,0,0.09);--line-2:rgba(0,0,0,0.16);
+--font:'Figtree',-apple-system,system-ui,sans-serif;
+--mono:'JetBrains Mono',ui-monospace,monospace;
+--container:1280px;--gutter:clamp(20px,3vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.45;font-size:16px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font:inherit}
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+.grad{background:linear-gradient(100deg,var(--grad-start) 0%,var(--grad-mid) 50%,var(--grad-end) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.02em;color:var(--muted);text-transform:uppercase;font-weight:400}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;letter-spacing:-0.02em}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--muted);background:var(--bg);font-family:var(--mono)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 0 rgba(34,197,94,0.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,0.6)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:600;font-size:15px;letter-spacing:-0.01em;transition:transform 0.2s,box-shadow 0.2s;white-space:nowrap}
+.btn-grad{background:linear-gradient(100deg,var(--grad-start),var(--grad-end));color:#fff}
+.btn-grad:hover{transform:translateY(-1px);box-shadow:0 14px 32px -12px rgba(241,100,52,0.5)}
+
+/* HERO */
+.hero{padding:40px 0 80px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:start}
+.hero-top{display:flex;align-items:center;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.hero-line{flex:1;height:1px;background:var(--line);max-width:200px}
+.hero h1{font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:-0.035em;line-height:1.08;margin-bottom:20px;max-width:16ch}
+.hero .lead{font-size:clamp(16px,1.3vw,19px);max-width:50ch;margin-bottom:28px;color:var(--muted);line-height:1.55}
+.hero-ticker{display:inline-flex;gap:14px;padding:8px 16px;background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;font-size:13px;align-items:center;flex-wrap:wrap;margin-bottom:28px}
+.hero-ticker strong{color:var(--ink);font-weight:700}
+
+/* FORM CARD */
+.form-card{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:0 24px 64px -16px rgba(0,0,0,0.08)}
+.form-card-top{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.form-card-top h3{font-size:18px;font-weight:700;letter-spacing:-0.02em}
+.form-card-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.03em;font-weight:500}
+.form-group input,.form-group select{width:100%;padding:13px 15px;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-size:15px;transition:border-color 0.2s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--ink)}
+.form-group input::placeholder{color:var(--muted-2)}
+.form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236B6B6B' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-submit{width:100%;padding:16px;background:linear-gradient(100deg,var(--grad-start),var(--grad-end));color:#fff;border:none;border-radius:999px;font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all 0.2s;letter-spacing:-0.01em;margin-top:6px}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 14px 32px -12px rgba(241,100,52,0.5)}
+.btn-submit:active{transform:translateY(0)}
+.form-trust{display:flex;gap:16px;margin-top:14px;justify-content:center;flex-wrap:wrap}
+.form-trust span{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.02em}
+.form-trust span::before{content:'✓';color:#22C55E;font-size:12px;font-weight:700}
+
+/* STATS BAR */
+.stats-bar{padding:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-soft)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat-val{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-0.03em;line-height:1}
+.stat-label{font-size:12px;color:var(--muted);margin-top:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.02em}
+
+/* SECTIONS */
+.section{padding:clamp(72px,8vw,120px) 0}
+.sec-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.02em;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-size:clamp(28px,3.5vw,48px);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:12px}
+.sec-lead{font-size:clamp(16px,1.3vw,19px);color:var(--muted);line-height:1.5;max-width:520px;margin-bottom:48px}
+
+/* BENEFITS */
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.benefit-card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:28px 24px;transition:border-color 0.2s,box-shadow 0.2s}
+.benefit-card:hover{border-color:var(--line-2);box-shadow:0 12px 32px -12px rgba(0,0,0,0.08)}
+.benefit-icon{width:40px;height:40px;border-radius:12px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--ink)}
+.benefit-title{font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.benefit-desc{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* PROCESS */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.process-step{padding:28px 24px;text-align:center;border-right:1px solid var(--line);background:var(--bg);position:relative}
+.process-step:last-child{border-right:none}
+.process-num{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.05em;margin-bottom:12px;background:linear-gradient(100deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;background-clip:text;color:transparent}
+.process-label{font-size:14px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.process-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* TESTIMONIAL */
+.testimonial-card{background:var(--ink);color:#fff;border-radius:24px;padding:clamp(32px,4vw,48px);margin-top:48px;position:relative;overflow:hidden}
+.testimonial-card::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 30% 30%,var(--grad-start),transparent 45%),radial-gradient(circle at 70% 70%,var(--grad-end),transparent 50%);filter:blur(60px);opacity:0.15;pointer-events:none}
+.testimonial-quote{font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;color:rgba(255,255,255,0.5);margin-bottom:16px;position:relative}
+.testimonial-text{font-size:clamp(17px,1.5vw,22px);line-height:1.6;font-weight:400;margin-bottom:20px;position:relative;max-width:600px}
+.testimonial-author{font-size:13px;color:rgba(255,255,255,0.5);position:relative}
+.testimonial-author strong{color:rgba(255,255,255,0.8);font-weight:600}
+
+/* FAQ */
+.faq-list{max-width:700px}
+.faq-item{border-bottom:1px solid var(--line);padding:18px 0}
+.faq-q{font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;letter-spacing:-0.01em}
+.faq-toggle{width:28px;height:28px;border-radius:8px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);transition:transform 0.2s,background 0.2s;flex-shrink:0}
+.faq-item.open .faq-toggle{transform:rotate(45deg);background:var(--ink);color:var(--bg)}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.6;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+
+/* FINAL CTA */
+.final-cta{background:var(--ink);color:#fff;border-radius:24px;padding:clamp(40px,5vw,64px);text-align:center;position:relative;overflow:hidden;margin:0 var(--gutter) clamp(64px,8vw,100px)}
+.final-cta::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 30% 50%,var(--grad-start),transparent 40%),radial-gradient(circle at 70% 50%,var(--grad-end),transparent 45%);filter:blur(60px);opacity:0.18;pointer-events:none}
+.final-cta h2{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;position:relative;line-height:1.1}
+.final-cta p{font-size:clamp(15px,1.2vw,18px);color:rgba(255,255,255,0.6);margin-bottom:28px;position:relative;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.5}
+
+/* FOOTER */
+.footer{padding:28px 0;border-top:1px solid var(--line);text-align:center}
+.footer p{font-size:12px;color:var(--muted)}
+.footer a{color:var(--muted);transition:color 0.15s}
+.footer a:hover{color:var(--ink)}
+
+/* SUCCESS MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.is-open{display:flex;animation:modalFadeIn 0.2s ease-out}
+.modal-backdrop{position:absolute;inset:0;background:rgba(10,10,10,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.modal-card{position:relative;max-width:460px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:40px 32px 32px;box-shadow:0 20px 60px rgba(0,0,0,0.2);text-align:center;animation:modalSlideUp 0.3s cubic-bezier(0.16,1,0.3,1)}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s,color 0.15s}
+.modal-close:hover{background:var(--bg-soft);color:var(--ink)}
+.modal-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgb(34,197,94),rgb(22,163,74));color:white;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(34,197,94,0.25)}
+@keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalSlideUp{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ANIMATION */
+.rv{opacity:0;transform:translateY(20px);transition:all 0.7s cubic-bezier(0.2,0.8,0.2,1)}
+.rv.in{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.hero-grid{grid-template-columns:1fr;gap:32px}
+.benefits-grid{grid-template-columns:1fr}
+.process-grid{grid-template-columns:1fr 1fr}
+.process-step{border-right:none;border-bottom:1px solid var(--line)}
+.process-step:nth-child(odd){border-right:1px solid var(--line)}
+.process-step:nth-last-child(-n+2){border-bottom:none}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+.hero{padding:24px 0 48px}
+.hero h1{font-size:32px}
+.form-row{grid-template-columns:1fr}
+.process-grid{grid-template-columns:1fr}
+.process-step{border-right:none!important}
+.process-step:last-child{border-bottom:none}
+.hero-ticker{display:none}
+.final-cta{margin:0 16px 48px;padding:32px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+<div class="container topbar-row">
+<a href="https://adlify.eu" class="brand">
+<svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="url(#lg)"/><defs><linearGradient id="lg" x1="4" y1="4" x2="28" y2="28"><stop stop-color="#F16434"/><stop offset="1" stop-color="#E85D9C"/></linearGradient></defs><text x="16" y="21" text-anchor="middle" fill="white" font-family="Figtree" font-weight="700" font-size="14">a</text></svg>
+adlify
+</a>
+<div style="display:flex;align-items:center;gap:12px">
+<div class="pill"><span class="dot"></span><span>Audit zadarmo</span></div>
+</div>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+<div class="container">
+
+<div class="hero-top">
+<div class="pill"><span class="dot"></span><span>Prijímame nové firmy</span></div>
+<span class="hero-line"></span>
+<span class="eyebrow">EST. 2014 · SK / CZ / HUN</span>
+</div>
+
+<div class="hero-grid">
+<div>
+<h1 class="rv">Zistite, kde <span class="grad">strácate peniaze</span> v reklamách.</h1>
+
+<p class="lead rv" style="transition-delay:0.1s">Bezplatný audit vašich Google & Meta kampaní. Konkrétne čísla, konkrétne odporúčania — do 48 hodín.</p>
+
+<div class="hero-ticker rv" style="transition-delay:0.15s">
+<span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);color:var(--muted);font-size:12px">
+<span style="width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px #22C55E;animation:pulse 2s infinite"></span>
+AKTUÁLNE
+</span>
+<span style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+<strong>50+ klientov</strong>
+<span style="color:var(--muted)">·</span>
+<strong>€250k+ budget</strong>
+<span style="color:var(--muted)">·</span>
+<strong style="color:rgb(22,163,74)">5× ROAS</strong>
+</span>
+</div>
+
+<div class="rv" style="display:flex;gap:28px;flex-wrap:wrap;align-items:center;padding-top:24px;border-top:1px solid var(--line);transition-delay:0.2s">
+<div style="display:flex;align-items:center">
+<div style="width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);background:linear-gradient(0deg,var(--grad-start),var(--grad-end));display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700">JK</div>
+<div style="width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;background:linear-gradient(40deg,var(--grad-start),var(--grad-end));display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700">MP</div>
+<div style="width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;background:linear-gradient(80deg,var(--grad-start),var(--grad-end));display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700">SV</div>
+</div>
+<div>
+<div style="font-size:14px;font-weight:700">50+ auditov za posledných 6 mesiacov</div>
+<div style="font-size:12px;color:var(--muted)">Ø nájdeme 3 kritické chyby v každom účte</div>
+</div>
+</div>
+</div>
+
+<!-- FORM -->
+<div class="form-card rv" style="transition-delay:0.15s" id="formular">
+<div class="form-card-top">
+<span style="width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--grad-start),var(--grad-end))"></span>
+<h3>Vyplňte formulár</h3>
+</div>
+<div class="form-card-sub">Audit je 100 % bezplatný. Žiadne záväzky.</div>
+
+<form id="auditForm">
+<div class="form-group">
+<label>Názov firmy</label>
+<input type="text" name="company" placeholder="napr. StavPro s.r.o." required>
+</div>
+<div class="form-group">
+<label>Web / E-shop URL</label>
+<input type="url" name="website" placeholder="napr. https://stavpro.sk">
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Budget na reklamu</label>
+<select name="budget">
+<option value="">Vyberte...</option>
+<option>Zatiaľ nerobím reklamu</option>
+<option>Do 500 €</option>
+<option>500 – 1 500 €</option>
+<option>1 500 – 5 000 €</option>
+<option>Nad 5 000 €</option>
+</select>
+</div>
+<div class="form-group">
+<label>Segment</label>
+<select name="segment">
+<option value="">Vyberte...</option>
+<option>E-shop</option>
+<option>Stavba / Remeslo</option>
+<option>Zdravotníctvo</option>
+<option>Fotovoltika / OZE</option>
+<option>Reality</option>
+<option>Gastro / Hospitality</option>
+<option>Beauty / Wellness</option>
+<option>Iné</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Email</label>
+<input type="email" name="email" placeholder="jan@firma.sk" required>
+</div>
+<div class="form-group">
+<label>Telefón <span style="color:var(--muted-2);text-transform:none">(voliteľné)</span></label>
+<input type="tel" name="phone" placeholder="+421 9XX XXX XXX">
+</div>
+<button type="submit" class="btn-submit" id="submitBtn">Chcem bezplatný audit →</button>
+</form>
+<div class="form-trust">
+<span>Bez záväzku</span>
+<span>Do 48 hodín</span>
+<span>100 % bezplatne</span>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+<div class="container">
+<div class="stats-grid">
+<div class="rv">
+<div class="stat-val" style="color:var(--grad-start)">48h</div>
+<div class="stat-label">Výsledky auditu</div>
+</div>
+<div class="rv" style="transition-delay:0.05s">
+<div class="stat-val" style="color:var(--grad-end)">50+</div>
+<div class="stat-label">Auditovaných firiem</div>
+</div>
+<div class="rv" style="transition-delay:0.1s">
+<div class="stat-val" style="color:var(--grad-mid)">Ø 3</div>
+<div class="stat-label">Kritické chyby na účet</div>
+</div>
+<div class="rv" style="transition-delay:0.15s">
+<div class="stat-val" style="color:rgb(22,163,74)">5×</div>
+<div class="stat-label">Priemerný ROAS</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="section">
+<div class="container">
+<div class="sec-eyebrow rv">Čo dostanete</div>
+<div class="sec-title rv" style="transition-delay:0.05s">Nie všeobecné rady.<br><span class="grad">Konkrétne čísla.</span></div>
+<div class="sec-lead rv" style="transition-delay:0.1s">Každý audit robíme manuálne. Žiadny automatizovaný report — reálna analýza vášho účtu naším tímom.</div>
+
+<div class="benefits-grid">
+<div class="benefit-card rv">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg></div>
+<div class="benefit-title">Analýza štruktúry kampaní</div>
+<div class="benefit-desc">Pozrieme sa, ako sú vaše kampane usporiadané a či nezápolíte sami so sebou o rovnaké publikum.</div>
+</div>
+<div class="benefit-card rv" style="transition-delay:0.05s">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+<div class="benefit-title">Kontrola merania</div>
+<div class="benefit-desc">GA4, Meta Pixel, konverzné udalosti — overíme, či vôbec meriate to, na čom záleží.</div>
+</div>
+<div class="benefit-card rv" style="transition-delay:0.1s">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12s4.5 10 10 10"/><path d="M8 12h8"/><path d="M12 8v8"/><path d="M17 17l4 4"/><path d="M21 17l-4 4"/></svg></div>
+<div class="benefit-title">Benchmark voči odvetviu</div>
+<div class="benefit-desc">Porovnáme vaše CPC, CTR a konverzný pomer s priemerom vo vašom segmente na SK trhu.</div>
+</div>
+<div class="benefit-card rv" style="transition-delay:0.15s">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8l4-2"/><path d="M4.93 10.93a10 10 0 1 0 2.31-3.07"/><path d="M2 2l4 4"/></svg></div>
+<div class="benefit-title">3–5 konkrétnych odporúčaní</div>
+<div class="benefit-desc">Žiadne „skúste viac kľúčových slov." Presné kroky — čo zmeniť, prečo a aký dopad to bude mať.</div>
+</div>
+<div class="benefit-card rv" style="transition-delay:0.2s">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+<div class="benefit-title">15-minútový hovor</div>
+<div class="benefit-desc">Výsledky auditu vám osobne vysvetlíme. Bez predajného tlaku — rozhodnutie je vždy na vás.</div>
+</div>
+<div class="benefit-card rv" style="transition-delay:0.25s">
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div>
+<div class="benefit-title">Analýza potenciálu</div>
+<div class="benefit-desc">Koľko ľudí mesačne hľadá vaše služby na Google? Ukážeme vám reálne čísla pre váš región.</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" style="padding-top:0">
+<div class="container">
+<div class="sec-eyebrow rv">Ako to funguje</div>
+<div class="sec-title rv" style="transition-delay:0.05s">4 kroky. <span class="grad">0 minút</span> vášho času.</div>
+<div class="sec-lead rv" style="transition-delay:0.1s">Vy len vyplníte formulár. Zvyšok je na nás.</div>
+
+<div class="process-grid rv" style="transition-delay:0.15s">
+<div class="process-step">
+<div class="process-num">01</div>
+<div class="process-label">Vyplníte formulár</div>
+<div class="process-desc">30 sekúnd. Základné info o firme a kampaniach.</div>
+</div>
+<div class="process-step">
+<div class="process-num">02</div>
+<div class="process-label">Analyzujeme</div>
+<div class="process-desc">Manuálne prejdeme kampane, web a meranie.</div>
+</div>
+<div class="process-step">
+<div class="process-num">03</div>
+<div class="process-label">Pripravíme report</div>
+<div class="process-desc">Konkrétne čísla, porovnania a odporúčania.</div>
+</div>
+<div class="process-step">
+<div class="process-num">04</div>
+<div class="process-label">15-min hovor</div>
+<div class="process-desc">Vysvetlíme výsledky. Bez záväzkov.</div>
+</div>
+</div>
+
+<!-- TESTIMONIAL -->
+<div class="testimonial-card rv">
+<div class="testimonial-quote">Referencie</div>
+<div class="testimonial-text">Po 2 mesiacoch s Adlify máme 3× viac dopytových formulárov pri rovnakom rozpočte. Konečne vidíme, čo nám reklama reálne prináša.</div>
+<div class="testimonial-author"><strong>Konateľ stavebnej firmy</strong> · východné Slovensko</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="padding-top:0">
+<div class="container">
+<div class="sec-eyebrow rv">Otázky</div>
+<div class="sec-title rv" style="transition-delay:0.05s">Časté otázky</div>
+<div style="height:20px"></div>
+
+<div class="faq-list">
+<div class="faq-item rv" onclick="this.classList.toggle('open')">
+<div class="faq-q">Je audit naozaj zadarmo?<span class="faq-toggle">+</span></div>
+<div class="faq-a">Áno. Žiadne skryté poplatky, žiadne záväzky. Ak sa vám páči, čo uvidíte, ponúkneme spoluprácu. Ak nie — odchádzate s konkrétnymi dátami zadarmo.</div>
+</div>
+<div class="faq-item rv" onclick="this.classList.toggle('open')">
+<div class="faq-q">Čo ak ešte nerobím reklamu?<span class="faq-toggle">+</span></div>
+<div class="faq-a">Žiadny problém. Pripravíme analýzu potenciálu — koľko ľudí mesačne hľadá vaše služby na Google, aká je konkurencia a koľko by stálo začať.</div>
+</div>
+<div class="faq-item rv" onclick="this.classList.toggle('open')">
+<div class="faq-q">Musím dať prístup do reklamného účtu?<span class="faq-toggle">+</span></div>
+<div class="faq-a">Ideálne áno — readonly prístup umožní hlbšiu analýzu. Ale vieme pracovať aj bez neho — pozrieme sa na web, konkurenciu a potenciál zvonku.</div>
+</div>
+<div class="faq-item rv" onclick="this.classList.toggle('open')">
+<div class="faq-q">Ako dlho trvá audit?<span class="faq-toggle">+</span></div>
+<div class="faq-a">Výsledky dostanete do 48 hodín. Audit robíme manuálne — žiadne automatizované reporty.</div>
+</div>
+<div class="faq-item rv" onclick="this.classList.toggle('open')">
+<div class="faq-q">Koľko stojí spolupráca?<span class="faq-toggle">+</span></div>
+<div class="faq-a">Správa Google a Meta reklám začína od 149 €/mesiac bez viazanosti. Presná cena závisí od rozsahu — audit vás k ničomu nezaväzuje.</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<div style="max-width:var(--container);margin:0 auto;padding:0 var(--gutter)">
+<div class="final-cta rv">
+<h2 style="position:relative">Prestaňte hádať.<br>Začnite vedieť.</h2>
+<p>Bezplatný audit vám ukáže presne, kde strácate peniaze a čo zmeniť. Do 48 hodín.</p>
+<a href="#formular" class="btn btn-grad" style="position:relative;padding:18px 36px;font-size:16px">
+Chcem bezplatný audit
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+</a>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<p>© 2026 <a href="https://adlify.eu">Adlify</a> · Výkonnostný marketing pre malé a stredné firmy · <a href="mailto:info@adlify.eu">info@adlify.eu</a></p>
+</div>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+<div class="modal-backdrop" onclick="closeModal()"></div>
+<div class="modal-card">
+<button type="button" class="modal-close" onclick="closeModal()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+</button>
+<div class="modal-icon">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</div>
+<div style="font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--grad-start);margin-bottom:8px">[ ODOSLANÉ ]</div>
+<h2 style="font-size:32px;font-weight:700;letter-spacing:-0.03em;margin-bottom:12px">Ďakujeme!</h2>
+<p style="font-size:15px;line-height:1.6;color:var(--ink-2)">Vašu požiadavku sme dostali. Ozveme sa <strong>do 48 hodín</strong> s výsledkami auditu.</p>
+<p style="font-size:13px;color:var(--muted);margin-top:16px">Na váš e-mail sme poslali potvrdenie.</p>
+<div style="display:flex;gap:10px;margin-top:28px;flex-wrap:wrap">
+<a href="https://adlify.eu/pripadove-studie" style="flex:1;display:flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:999px;border:1px solid var(--line-2);font-weight:600;font-size:15px">Pozrieť prípadovky</a>
+<button type="button" onclick="closeModal()" style="flex:1;display:flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:999px;background:linear-gradient(100deg,var(--grad-start),var(--grad-end));color:#fff;font-weight:600;font-size:15px;border:none;cursor:pointer">Zavrieť</button>
+</div>
+</div>
+</div>
+
+<script>
+// Scroll reveal
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(function(el) { obs.observe(el); });
+
+// Modal
+function openModal() {
+  document.getElementById('successModal').classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('successModal').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Form submit
+document.getElementById('auditForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Odosielam...';
+
+  var fd = new FormData(this);
+  var payload = {
+    name: fd.get('company') || '',
+    company: fd.get('company') || '',
+    email: fd.get('email') || '',
+    phone: fd.get('phone') || '',
+    message: 'AUDIT LANDING PAGE\nWeb: ' + (fd.get('website') || '-') + '\nBudget: ' + (fd.get('budget') || '-') + '\nSegment: ' + (fd.get('segment') || '-'),
+    source: 'landing-audit'
+  };
+
+  fetch('/.netlify/functions/web-contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(res) {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    document.getElementById('auditForm').reset();
+    btn.textContent = 'Chcem bezplatný audit →';
+    btn.disabled = false;
+    openModal();
+  }).catch(function(err) {
+    console.error(err);
+    btn.textContent = '✗ Chyba — skúste znova';
+    btn.disabled = false;
+    setTimeout(function() { btn.textContent = 'Chcem bezplatný audit →'; }, 3000);
+  });
+});
+</script>
+</body>
+</html>
