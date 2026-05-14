@@ -497,26 +497,45 @@ document.getElementById('auditForm').addEventListener('submit', function(e) {
   btn.disabled = true;
   btn.textContent = 'Odosielam...';
 
+  // Source tracking z URL ?src=...
+  var urlParams = new URLSearchParams(window.location.search);
+  var src = urlParams.get('src') || 'landing-audit';
+
   var fd = new FormData(this);
+  var website = (fd.get('website') || '').trim();
+  var budget = (fd.get('budget') || '').trim();
+  var segment = (fd.get('segment') || '').trim();
+
+  // Note s extra info (budget + segment + web)
+  var noteParts = [];
+  if (website) noteParts.push('Web: ' + website);
+  if (budget) noteParts.push('Budget: ' + budget);
+  if (segment) noteParts.push('Segment: ' + segment);
+  var note = noteParts.join(' | ');
+
   var payload = {
-    name: fd.get('company') || '',
-    company: fd.get('company') || '',
+    company_name: fd.get('company') || '',
     email: fd.get('email') || '',
-    phone: fd.get('phone') || '',
-    message: 'AUDIT LANDING PAGE\nWeb: ' + (fd.get('website') || '-') + '\nBudget: ' + (fd.get('budget') || '-') + '\nSegment: ' + (fd.get('segment') || '-'),
-    source: 'landing-audit'
+    domain: website || null,
+    phone: fd.get('phone') || null,
+    industry: segment || null,
+    priority: 'more_leads',
+    note: note || null,
+    source: src
   };
 
-  fetch('/.netlify/functions/web-contact', {
+  fetch('https://adlify-app.netlify.app/.netlify/functions/audit-intake', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   }).then(function(res) {
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    document.getElementById('auditForm').reset();
-    btn.textContent = 'Chcem bezplatný audit →';
-    btn.disabled = false;
-    openModal();
+    return res.json().then(function(data) {
+      if (!res.ok || !data.ok) throw new Error(data.error || ('HTTP ' + res.status));
+      document.getElementById('auditForm').reset();
+      btn.textContent = 'Chcem bezplatný audit →';
+      btn.disabled = false;
+      openModal();
+    });
   }).catch(function(err) {
     console.error(err);
     btn.textContent = '✗ Chyba — skúste znova';
