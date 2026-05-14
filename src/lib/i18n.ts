@@ -32,8 +32,8 @@ export const LANGS = [
  * Keď bude preklad hotový, pridaj kód sem.
  * Prázdne = len SK (default, bez prefixu).
  */
-export const EXTRA_LANGS: Lang[] = ['cs', 'hu', 'en', 'de'];
-// Na vypnutie cudzích jazykov: export const EXTRA_LANGS: Lang[] = [];
+export const EXTRA_LANGS: Lang[] = [];
+// Na zapnutie cudzích jazykov: export const EXTRA_LANGS: Lang[] = ['cs', 'hu', 'en', 'de'];
 
 // ============================================================
 // JSONB picker
