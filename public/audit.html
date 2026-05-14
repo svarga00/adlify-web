@@ -169,6 +169,20 @@ input,textarea,select{font:inherit}
 .exit-skip:hover{color:var(--ink)}
 @keyframes modalSlideUp{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 
+/* ROTUJÚCE LÁKADLÁ (value props) */
+.value-props{margin-top:32px;padding-top:28px;border-top:1px solid var(--line);position:relative}
+.value-prop-stack{position:relative;min-height:88px}
+.value-prop{position:absolute;inset:0;display:flex;align-items:flex-start;gap:16px;opacity:0;transform:translateY(8px);transition:opacity 0.5s,transform 0.5s;pointer-events:none}
+.value-prop.active{opacity:1;transform:translateY(0);pointer-events:auto}
+.vp-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 20px -8px rgba(0,0,0,0.2)}
+.vp-content{flex:1;padding-top:2px}
+.vp-title{font-size:18px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px;color:var(--ink)}
+.vp-desc{font-size:13px;line-height:1.5;color:var(--muted)}
+.vp-dots{display:flex;gap:6px;margin-top:20px}
+.vp-dot{width:24px;height:4px;border-radius:2px;background:var(--line-2);border:none;cursor:pointer;padding:0;transition:background 0.3s,width 0.3s}
+.vp-dot:hover{background:var(--muted)}
+.vp-dot.active{background:linear-gradient(90deg,var(--grad-start),var(--grad-end));width:32px}
+
 /* SUCCESS MODAL */
 .modal-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.is-open{display:flex;animation:modalFadeIn 0.2s ease-out}
@@ -193,6 +207,8 @@ input,textarea,select{font:inherit}
 .process-step:nth-child(odd){border-right:1px solid var(--line)}
 .process-step:nth-last-child(-n+2){border-bottom:none}
 .stats-grid{grid-template-columns:repeat(2,1fr)}
+.value-props{margin-top:24px;padding-top:24px}
+.value-prop-stack{min-height:96px}
 }
 @media(max-width:600px){
 .hero{padding:24px 0 48px}
@@ -203,6 +219,10 @@ input,textarea,select{font:inherit}
 .process-step:last-child{border-bottom:none}
 .hero-ticker{display:none}
 .final-cta{margin:0 16px 48px;padding:32px 20px}
+.vp-title{font-size:16px}
+.vp-desc{font-size:12px}
+.vp-icon{width:40px;height:40px}
+.value-prop{gap:12px}
 }
 </style>
 </head>
@@ -212,8 +232,8 @@ input,textarea,select{font:inherit}
 <header class="topbar">
 <div class="container topbar-row">
 <a href="https://adlify.eu" class="brand">
-<svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="url(#lg)"/><defs><linearGradient id="lg" x1="4" y1="4" x2="28" y2="28"><stop stop-color="#F16434"/><stop offset="1" stop-color="#E85D9C"/></linearGradient></defs><text x="16" y="21" text-anchor="middle" fill="white" font-family="Figtree" font-weight="700" font-size="14">a</text></svg>
-adlify
+<img src="/favicon-192.png" alt="Adlify" width="32" height="32" style="border-radius:8px;display:block">
+<span style="font-weight:700;letter-spacing:-0.02em;font-size:18px">adlify</span>
 </a>
 <div style="display:flex;align-items:center;gap:12px">
 <div class="pill"><span class="dot"></span><span>Audit zadarmo</span></div>
@@ -260,6 +280,66 @@ AKTUÁLNE
 <div>
 <div style="font-size:14px;font-weight:700">50+ auditov za posledných 6 mesiacov</div>
 <div style="font-size:12px;color:var(--muted)">Ø nájdeme 3 kritické chyby v každom účte</div>
+</div>
+</div>
+
+<!-- ROTUJÚCE LÁKADLÁ -->
+<div class="value-props rv" style="transition-delay:0.25s">
+<div class="value-prop-stack" id="valuePropStack">
+  <div class="value-prop active" data-vp="0">
+    <div class="vp-icon" style="background:linear-gradient(135deg,#F16434,#F47F3F)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+    <div class="vp-content">
+      <div class="vp-title">€1 800 mesačne</div>
+      <div class="vp-desc">Priemerná suma, ktorú klienti ušetria po našom audite</div>
+    </div>
+  </div>
+  <div class="value-prop" data-vp="1">
+    <div class="vp-icon" style="background:linear-gradient(135deg,#F47F3F,#E85D9C)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="vp-content">
+      <div class="vp-title">12-bodová kontrola</div>
+      <div class="vp-desc">Štruktúra kampaní, meranie, kľúčové slová, kreatíva, publiká, bidding…</div>
+    </div>
+  </div>
+  <div class="value-prop" data-vp="2">
+    <div class="vp-icon" style="background:linear-gradient(135deg,#E85D9C,#F16434)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="vp-content">
+      <div class="vp-title">Vysvetlíme každý detail</div>
+      <div class="vp-desc">15-minútový hovor, kde prejdeme audit krok po kroku. Bez tlaku.</div>
+    </div>
+  </div>
+  <div class="value-prop" data-vp="3">
+    <div class="vp-icon" style="background:linear-gradient(135deg,#16A34A,#22C55E)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="vp-content">
+      <div class="vp-title">8 z 10 firiem má stratu 30%+</div>
+      <div class="vp-desc">Najčastejšie: zlé publiká, chybné meranie, prebíjanie sa s vlastnou značkou</div>
+    </div>
+  </div>
+  <div class="value-prop" data-vp="4">
+    <div class="vp-icon" style="background:linear-gradient(135deg,#3B82F6,#8B5CF6)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-6 0v4"/><rect x="3" y="9" width="18" height="12" rx="2"/></svg>
+    </div>
+    <div class="vp-content">
+      <div class="vp-title">12 rokov v PPC</div>
+      <div class="vp-desc">Od roku 2014 sme videli takmer všetko. Žiadne začiatočnícke chyby.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Indikátor pozície -->
+<div class="vp-dots" id="vpDots">
+  <button type="button" class="vp-dot active" data-vp-dot="0" aria-label="1"></button>
+  <button type="button" class="vp-dot" data-vp-dot="1" aria-label="2"></button>
+  <button type="button" class="vp-dot" data-vp-dot="2" aria-label="3"></button>
+  <button type="button" class="vp-dot" data-vp-dot="3" aria-label="4"></button>
+  <button type="button" class="vp-dot" data-vp-dot="4" aria-label="5"></button>
 </div>
 </div>
 </div>
@@ -626,6 +706,61 @@ window.openModal = function() {
   window.__auditSubmitted = true;
   origOpenModal();
 };
+
+// ============================================
+// VALUE PROPS ROTÁCIA (lákadlá vľavo)
+// ============================================
+(function () {
+  var props = document.querySelectorAll('.value-prop');
+  var dots = document.querySelectorAll('.vp-dot');
+  if (!props.length) return;
+
+  var current = 0;
+  var total = props.length;
+  var interval = null;
+
+  function show(idx) {
+    props.forEach(function (p, i) {
+      p.classList.toggle('active', i === idx);
+    });
+    dots.forEach(function (d, i) {
+      d.classList.toggle('active', i === idx);
+    });
+    current = idx;
+  }
+
+  function next() {
+    show((current + 1) % total);
+  }
+
+  function start() {
+    if (interval) clearInterval(interval);
+    interval = setInterval(next, 4500);
+  }
+
+  // Klik na dot = prepni + reštart timer
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      var idx = parseInt(d.dataset.vpDot, 10);
+      if (!isNaN(idx)) {
+        show(idx);
+        start();
+      }
+    });
+  });
+
+  // Pauznuť pri hover, pokračovať pri leave
+  var stack = document.getElementById('valuePropStack');
+  if (stack) {
+    stack.addEventListener('mouseenter', function () {
+      if (interval) clearInterval(interval);
+    });
+    stack.addEventListener('mouseleave', start);
+  }
+
+  // Štart po 2s (nech užívateľ stihne vidieť prvý)
+  setTimeout(start, 2000);
+})();
 
 // ============================================
 // ACTIVITY TICKER — rotácia social proof správ
