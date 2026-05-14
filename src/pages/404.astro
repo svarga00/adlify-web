@@ -1,0 +1,65 @@
+---
+/**
+ * 404 — Stránka nenájdená
+ * Astro automaticky použije tento súbor pre všetky 404 errors.
+ */
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 — Stránka nenájdená | Adlify"
+  description="Táto stránka neexistuje. Vráťte sa na hlavnú stránku."
+  lang="sk"
+  pathname="/404"
+>
+
+  <section style="min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: clamp(60px, 10vw, 120px) 0;">
+    <div class="container" style="max-width: 620px;">
+
+      <!-- Veľké 404 číslo -->
+      <div style="font-family: var(--mono); font-size: clamp(100px, 18vw, 200px); font-weight: 700; letter-spacing: -0.05em; line-height: 1; margin-bottom: 8px; background: linear-gradient(100deg, var(--grad-start) 0%, var(--grad-mid) 50%, var(--grad-end) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 0.25;">
+        404
+      </div>
+
+      <!-- Eyebrow -->
+      <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--grad-start); margin-bottom: 16px;">
+        [ STRÁNKA NENÁJDENÁ ]
+      </div>
+
+      <!-- Heading -->
+      <h1 style="font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px;">
+        Táto stránka neexistuje.
+      </h1>
+
+      <!-- Text -->
+      <p style="font-size: 17px; line-height: 1.6; color: var(--muted); margin-bottom: 36px; max-width: 44ch; margin-left: auto; margin-right: auto;">
+        Možno bol odkaz nesprávny, alebo bola stránka presunutá. Skúste sa vrátiť na hlavnú stránku.
+      </p>
+
+      <!-- CTA buttons -->
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn-grad" style="padding: 16px 28px; font-size: 15px;">
+          Späť na hlavnú
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+        <a href="/kontakt#formular" class="btn btn-outline" style="padding: 16px 28px; font-size: 15px;">
+          Kontaktujte nás
+        </a>
+      </div>
+
+      <!-- Navigačné linky -->
+      <div style="margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;">
+        <a href="/sluzby" style="font-size: 13px; color: var(--muted); transition: color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Služby</a>
+        <a href="/cennik" style="font-size: 13px; color: var(--muted); transition: color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Cenník</a>
+        <a href="/pripadove-studie" style="font-size: 13px; color: var(--muted); transition: color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Prípadové štúdie</a>
+        <a href="/blog" style="font-size: 13px; color: var(--muted); transition: color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Blog</a>
+        <a href="/kontakt" style="font-size: 13px; color: var(--muted); transition: color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Kontakt</a>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>

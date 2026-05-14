@@ -110,6 +110,9 @@ const siteSettings = await fetchSettings(lang);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage.startsWith('http') ? ogImage : SITE + ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Adlify" />
     <meta property="og:locale" content={currentLangObj.locale} />
     {LANGS.filter((l) => l.code !== lang).map((l) => (
       <meta property="og:locale:alternate" content={l.locale} />
@@ -120,6 +123,9 @@ const siteSettings = await fetchSettings(lang);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage.startsWith('http') ? ogImage : SITE + ogImage} />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
     <!-- Performance: preload assets, preconnect fonty -->
     <link rel="preload" href="/img/logo.webp" as="image" fetchpriority="high" />
