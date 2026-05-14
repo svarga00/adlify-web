@@ -111,13 +111,14 @@ input,textarea,select{font:inherit}
 .testimonial-author strong{color:rgba(255,255,255,0.8);font-weight:600}
 
 /* FAQ */
-.faq-list{max-width:700px}
-.faq-item{border-bottom:1px solid var(--line);padding:18px 0}
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--line);padding:14px 0}
 .faq-q{font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;letter-spacing:-0.01em}
-.faq-toggle{width:28px;height:28px;border-radius:8px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);transition:transform 0.2s,background 0.2s;flex-shrink:0}
+.faq-toggle{width:26px;height:26px;border-radius:8px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--muted);transition:transform 0.2s,background 0.2s;flex-shrink:0}
 .faq-item.open .faq-toggle{transform:rotate(45deg);background:var(--ink);color:var(--bg)}
-.faq-a{font-size:14px;color:var(--muted);line-height:1.6;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
-.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.55;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
+.faq-item.open .faq-a{max-height:240px;padding-top:10px;padding-right:42px}
+.faq-section{padding-bottom:clamp(48px,5vw,72px)}
 
 /* FINAL CTA */
 .final-cta{background:var(--ink);color:#fff;border-radius:24px;padding:clamp(40px,5vw,64px);text-align:center;position:relative;overflow:hidden;margin:0 var(--gutter) clamp(64px,8vw,100px)}
@@ -306,11 +307,11 @@ AKTUÁLNE
   </div>
   <div class="value-prop" data-vp="2">
     <div class="vp-icon" style="background:linear-gradient(135deg,#E85D9C,#F16434)">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
     </div>
     <div class="vp-content">
-      <div class="vp-title">Vysvetlíme každý detail</div>
-      <div class="vp-desc">15-minútový hovor, kde prejdeme audit krok po kroku. Bez tlaku.</div>
+      <div class="vp-title">Konkrétny PDF report</div>
+      <div class="vp-desc">Žiadne všeobecné rady. Reálne čísla, screenshoty, presné kroky čo zmeniť.</div>
     </div>
   </div>
   <div class="value-prop" data-vp="3">
@@ -477,9 +478,9 @@ AKTUÁLNE
 <div class="benefit-desc">Žiadne „skúste viac kľúčových slov." Presné kroky — čo zmeniť, prečo a aký dopad to bude mať.</div>
 </div>
 <div class="benefit-card rv" style="transition-delay:0.2s">
-<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-<div class="benefit-title">15-minútový hovor</div>
-<div class="benefit-desc">Výsledky auditu vám osobne vysvetlíme. Bez predajného tlaku — rozhodnutie je vždy na vás.</div>
+<div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+<div class="benefit-title">Prehľadný PDF report</div>
+<div class="benefit-desc">Všetky zistenia, čísla a odporúčania v jednom dokumente. Môžete sa k nemu kedykoľvek vrátiť.</div>
 </div>
 <div class="benefit-card rv" style="transition-delay:0.25s">
 <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div>
@@ -494,7 +495,7 @@ AKTUÁLNE
 <section class="section" style="padding-top:0">
 <div class="container">
 <div class="sec-eyebrow rv">Ako to funguje</div>
-<div class="sec-title rv" style="transition-delay:0.05s">4 kroky. <span class="grad">0 minút</span> vášho času.</div>
+<div class="sec-title rv" style="transition-delay:0.05s">4 kroky. <span class="grad">~1 minúta</span> vášho času.</div>
 <div class="sec-lead rv" style="transition-delay:0.1s">Vy len vyplníte formulár. Zvyšok je na nás.</div>
 
 <div class="process-grid rv" style="transition-delay:0.15s">
@@ -515,8 +516,8 @@ AKTUÁLNE
 </div>
 <div class="process-step">
 <div class="process-num">04</div>
-<div class="process-label">15-min hovor</div>
-<div class="process-desc">Vysvetlíme výsledky. Bez záväzkov.</div>
+<div class="process-label">Pošleme report</div>
+<div class="process-desc">PDF na váš email. Bez záväzkov.</div>
 </div>
 </div>
 
@@ -530,11 +531,11 @@ AKTUÁLNE
 </section>
 
 <!-- FAQ -->
-<section class="section" style="padding-top:0">
+<section class="section faq-section" style="padding-top:0">
 <div class="container">
 <div class="sec-eyebrow rv">Otázky</div>
-<div class="sec-title rv" style="transition-delay:0.05s">Časté otázky</div>
-<div style="height:20px"></div>
+<div class="sec-title rv" style="transition-delay:0.05s;margin-bottom:8px">Časté otázky</div>
+<div style="height:8px"></div>
 
 <div class="faq-list">
 <div class="faq-item rv" onclick="this.classList.toggle('open')">
