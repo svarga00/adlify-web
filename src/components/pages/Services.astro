@@ -34,75 +34,75 @@ const [cases, testimonials, faqs] = await Promise.all([
   fetchFaq(lang, 6),
 ]);
 
-// 5 KATEGÓRIÍ + 14 SLUŽIEB
+// 5 KATEGÓRIÍ + 14 SLUŽIEB (lokalizované)
 const categories = [
   {
     slug: 'online-marketing',
-    title: 'Online marketing',
-    desc: 'Kampane, ktoré reálne prinášajú klientov a tržby. Plus meranie, ktoré ukáže, čo funguje a čo nie.',
+    title: t('services.cat.online-marketing.title', lang),
+    desc: t('services.cat.online-marketing.desc', lang),
     services: [
       {
         slug: 'google-ads',
-        title: 'Google Ads',
-        desc: 'Search, Performance Max, Shopping a YouTube. Od nastavenia konverzií po bid stratégie.',
+        title: t('services.svc.google-ads.title', lang),
+        desc: t('services.svc.google-ads.desc', lang),
         bullets: [
-          'Search kampane na okamžitý dopyt',
-          'Performance Max pre e-shopy',
-          'Shopping reklama s feedom',
-          'YouTube ads pre video kampane',
-          'Konverzné meranie a remarketing',
+          t('services.svc.google-ads.b1', lang),
+          t('services.svc.google-ads.b2', lang),
+          t('services.svc.google-ads.b3', lang),
+          t('services.svc.google-ads.b4', lang),
+          t('services.svc.google-ads.b5', lang),
         ],
         icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
       },
       {
         slug: 'meta-ads',
-        title: 'Meta Ads',
-        desc: 'Facebook a Instagram reklamy s dôrazom na kreatívy, audience targeting a retargeting.',
+        title: t('services.svc.meta-ads.title', lang),
+        desc: t('services.svc.meta-ads.desc', lang),
         bullets: [
-          'Facebook + Instagram + Reels',
-          'Lookalike a custom audiences',
-          'Retargeting návštevníkov webu',
-          'CAPI server-side tracking',
-          'A/B testovanie kreatív',
+          t('services.svc.meta-ads.b1', lang),
+          t('services.svc.meta-ads.b2', lang),
+          t('services.svc.meta-ads.b3', lang),
+          t('services.svc.meta-ads.b4', lang),
+          t('services.svc.meta-ads.b5', lang),
         ],
         icon: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
       },
       {
         slug: 'seo',
-        title: 'SEO optimalizácia',
-        desc: 'Dlhodobý rast organickej návštevnosti. Audit, technické SEO, content stratégia, link building.',
+        title: t('services.svc.seo.title', lang),
+        desc: t('services.svc.seo.desc', lang),
         bullets: [
-          'Technický SEO audit',
-          'Onpage optimalizácia',
-          'Content stratégia a tvorba',
-          'Local SEO + Google Maps',
-          'Link building',
+          t('services.svc.seo.b1', lang),
+          t('services.svc.seo.b2', lang),
+          t('services.svc.seo.b3', lang),
+          t('services.svc.seo.b4', lang),
+          t('services.svc.seo.b5', lang),
         ],
         icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
       },
       {
         slug: 'email',
-        title: 'E-mail marketing a automatizácie',
-        desc: 'Newslettery, automation flows a transakčné e-maily. Existujúci zákazník je 5× lacnejší než nový.',
+        title: t('services.svc.email.title', lang),
+        desc: t('services.svc.email.desc', lang),
         bullets: [
-          'Welcome flow pre nových zákazníkov',
-          'Abandoned cart sekvencie',
-          'Newsletter kampane',
-          'Post-purchase a recenzné flows',
-          'Klaviyo, Mailchimp, Brevo',
+          t('services.svc.email.b1', lang),
+          t('services.svc.email.b2', lang),
+          t('services.svc.email.b3', lang),
+          t('services.svc.email.b4', lang),
+          t('services.svc.email.b5', lang),
         ],
         icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
       },
       {
         slug: 'meranie',
-        title: 'Meranie a analytika',
-        desc: 'GA4, Tag Manager, server-side tracking, dashboardy v Looker Studio. Bez tohto sa nedá optimalizovať.',
+        title: t('services.svc.meranie.title', lang),
+        desc: t('services.svc.meranie.desc', lang),
         bullets: [
-          'GA4 setup a konfigurácia',
-          'Google Tag Manager',
-          'Server-side tracking',
-          'Looker Studio dashboardy',
-          'Heatmapy a session recordings',
+          t('services.svc.meranie.b1', lang),
+          t('services.svc.meranie.b2', lang),
+          t('services.svc.meranie.b3', lang),
+          t('services.svc.meranie.b4', lang),
+          t('services.svc.meranie.b5', lang),
         ],
         icon: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
       },
@@ -110,58 +110,58 @@ const categories = [
   },
   {
     slug: 'web-aplikacie',
-    title: 'Web a aplikácie',
-    desc: 'Od jednoduchej landing page po komplexný e-shop alebo internú aplikáciu. Vieme dodať od dizajnu po deploy.',
+    title: t('services.cat.web-aplikacie.title', lang),
+    desc: t('services.cat.web-aplikacie.desc', lang),
     services: [
       {
         slug: 'web-stranky',
-        title: 'Tvorba webstránok',
-        desc: 'Rýchle, konverzné weby a landing pages. Od copy cez dizajn po implementáciu a A/B testy.',
+        title: t('services.svc.web-stranky.title', lang),
+        desc: t('services.svc.web-stranky.desc', lang),
         bullets: [
-          'One-page landing pages',
-          'Prezentačné firemné weby',
-          'Mikrobloggy a portfóliá',
-          'WordPress, Webflow, Astro',
-          'Optimalizácia rýchlosti a SEO',
+          t('services.svc.web-stranky.b1', lang),
+          t('services.svc.web-stranky.b2', lang),
+          t('services.svc.web-stranky.b3', lang),
+          t('services.svc.web-stranky.b4', lang),
+          t('services.svc.web-stranky.b5', lang),
         ],
         icon: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
       },
       {
         slug: 'eshopy',
-        title: 'E-shopy a online predaj',
-        desc: 'Vybudujeme vám e-shop od nuly alebo prerobíme ten existujúci. Naštartujeme aj prvé predaje.',
+        title: t('services.svc.eshopy.title', lang),
+        desc: t('services.svc.eshopy.desc', lang),
         bullets: [
-          'Shopify, WooCommerce, Upgades, Shoptet',
-          'Integrácia merania a CAPI',
-          'Feed na Google Shopping a Heuréku',
-          'Klaviyo automatizácie',
-          'Optimalizácia konverzie checkoutu',
+          t('services.svc.eshopy.b1', lang),
+          t('services.svc.eshopy.b2', lang),
+          t('services.svc.eshopy.b3', lang),
+          t('services.svc.eshopy.b4', lang),
+          t('services.svc.eshopy.b5', lang),
         ],
         icon: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path>',
       },
       {
         slug: 'aplikacie',
-        title: 'Aplikácie na mieru',
-        desc: 'Interné nástroje, klientske portály, dashboardy. Zjednodušujú každodennú prevádzku a šetria čas.',
+        title: t('services.svc.aplikacie.title', lang),
+        desc: t('services.svc.aplikacie.desc', lang),
         bullets: [
-          'Klientske portály s prihlásením',
-          'Interné CRM a nástroje',
-          'Dashboardy s real-time dátami',
-          'Integrácie cez API',
-          'Automatizované reporty',
+          t('services.svc.aplikacie.b1', lang),
+          t('services.svc.aplikacie.b2', lang),
+          t('services.svc.aplikacie.b3', lang),
+          t('services.svc.aplikacie.b4', lang),
+          t('services.svc.aplikacie.b5', lang),
         ],
         icon: '<rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>',
       },
       {
         slug: 'migracie',
-        title: 'Migrácie a redizajny',
-        desc: 'Prerod starého webu do moderných technológií bez straty SEO ani návštevnosti.',
+        title: t('services.svc.migracie.title', lang),
+        desc: t('services.svc.migracie.desc', lang),
         bullets: [
-          'Migrácie z WordPress na Shopify (a opačne)',
-          'Redizajny existujúcich webov',
-          'Zachovanie SEO pozícií a redirektov',
-          'Migrácie produktových katalógov',
-          'Prenos zákazníckych dát',
+          t('services.svc.migracie.b1', lang),
+          t('services.svc.migracie.b2', lang),
+          t('services.svc.migracie.b3', lang),
+          t('services.svc.migracie.b4', lang),
+          t('services.svc.migracie.b5', lang),
         ],
         icon: '<polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>',
       },
@@ -169,32 +169,32 @@ const categories = [
   },
   {
     slug: 'automatizacie',
-    title: 'Automatizácie a procesy',
-    desc: 'Repetitívne úlohy nech robia roboty. Vy sa venujte tomu, čo prináša hodnotu.',
+    title: t('services.cat.automatizacie.title', lang),
+    desc: t('services.cat.automatizacie.desc', lang),
     services: [
       {
         slug: 'procesy',
-        title: 'Procesné automatizácie',
-        desc: 'Prepojíme vaše nástroje, aby spolu komunikovali. Bez ručného prepisovania medzi systémami.',
+        title: t('services.svc.procesy.title', lang),
+        desc: t('services.svc.procesy.desc', lang),
         bullets: [
-          'Make.com a Zapier scenáre',
-          'Prepojenia CRM ↔ e-mail ↔ účtovníctvo',
-          'Automatické notifikácie do Slack-u',
-          'Lead routing a kvalifikácia',
-          'Pravidelné reporty bez kliknutia',
+          t('services.svc.procesy.b1', lang),
+          t('services.svc.procesy.b2', lang),
+          t('services.svc.procesy.b3', lang),
+          t('services.svc.procesy.b4', lang),
+          t('services.svc.procesy.b5', lang),
         ],
         icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>',
       },
       {
         slug: 'crm',
-        title: 'CRM a marketing automation',
-        desc: 'Klaviyo, HubSpot, Brevo. Nasadíme sequencie, lead scoring, segmentáciu — bez chaosu.',
+        title: t('services.svc.crm.title', lang),
+        desc: t('services.svc.crm.desc', lang),
         bullets: [
-          'Klaviyo flows pre e-shopy',
-          'HubSpot pre B2B sales',
-          'Brevo pre menšie firmy',
-          'Lead scoring a kvalifikácia',
-          'Segmentácia kontaktov',
+          t('services.svc.crm.b1', lang),
+          t('services.svc.crm.b2', lang),
+          t('services.svc.crm.b3', lang),
+          t('services.svc.crm.b4', lang),
+          t('services.svc.crm.b5', lang),
         ],
         icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
       },
@@ -202,32 +202,32 @@ const categories = [
   },
   {
     slug: 'grafika-brand',
-    title: 'Grafika a brand',
-    desc: 'Od dizajnu loga až po fyzickú tlač a reklamné predmety. Všetko z jedného miesta.',
+    title: t('services.cat.grafika-brand.title', lang),
+    desc: t('services.cat.grafika-brand.desc', lang),
     services: [
       {
         slug: 'grafika',
-        title: 'Grafický dizajn',
-        desc: 'Logá, vizuálna identita, social media kreatívy, prezentácie. Konzistentný brand naprieč kanálmi.',
+        title: t('services.svc.grafika.title', lang),
+        desc: t('services.svc.grafika.desc', lang),
         bullets: [
-          'Logá a vizuálna identita',
-          'Brand guidelines',
-          'Social media kreatívy',
-          'Prezentácie a pitch decky',
-          'Bannery a vizuály pre reklamu',
+          t('services.svc.grafika.b1', lang),
+          t('services.svc.grafika.b2', lang),
+          t('services.svc.grafika.b3', lang),
+          t('services.svc.grafika.b4', lang),
+          t('services.svc.grafika.b5', lang),
         ],
         icon: '<circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125 0-.94.746-1.687 1.688-1.687h1.999c3.137 0 5.687-2.55 5.687-5.687C22 6.5 17.5 2 12 2z"></path>',
       },
       {
         slug: 'tlac-a-predmety',
-        title: 'Tlač a reklamné predmety',
-        desc: 'Letáky, vizitky, polepy aut, textil, reklamné predmety. Návrh aj fyzické dodanie.',
+        title: t('services.svc.tlac.title', lang),
+        desc: t('services.svc.tlac.desc', lang),
         bullets: [
-          'Letáky, brožúry, vizitky',
-          'Polepy áut a výkladov',
-          'Potlač textilu (tričká, mikiny)',
-          'Reklamné predmety s logom',
-          'Veľkoplošná tlač a roll-upy',
+          t('services.svc.tlac.b1', lang),
+          t('services.svc.tlac.b2', lang),
+          t('services.svc.tlac.b3', lang),
+          t('services.svc.tlac.b4', lang),
+          t('services.svc.tlac.b5', lang),
         ],
         icon: '<polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect>',
       },
@@ -235,32 +235,32 @@ const categories = [
   },
   {
     slug: 'konzultacie',
-    title: 'Konzultácie a audity',
-    desc: 'Niekedy stačí pohľad zvonku. Nevyhnutne nemusíte mať s nami dlhodobú spoluprácu.',
+    title: t('services.cat.konzultacie.title', lang),
+    desc: t('services.cat.konzultacie.desc', lang),
     services: [
       {
         slug: 'konzultacie',
-        title: 'Strategické konzultácie',
-        desc: 'Hodinové alebo poldňové konzultácie. Pomôžeme vám rozhodnúť sa, kam investovať čas a peniaze.',
+        title: t('services.svc.konzultacie.title', lang),
+        desc: t('services.svc.konzultacie.desc', lang),
         bullets: [
-          'Hodinové strategické sessiony',
-          'Poldňové workshopy',
-          'Stratégia online marketingu',
-          'Výber správnych nástrojov',
-          'Plánovanie kampaní',
+          t('services.svc.konzultacie.b1', lang),
+          t('services.svc.konzultacie.b2', lang),
+          t('services.svc.konzultacie.b3', lang),
+          t('services.svc.konzultacie.b4', lang),
+          t('services.svc.konzultacie.b5', lang),
         ],
         icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
       },
       {
         slug: 'audit',
-        title: 'Audity účtov a meraní',
-        desc: 'Bezplatný úvodný audit alebo platený detailný report. Konkrétne odporúčania, čo zmeniť.',
+        title: t('services.svc.audit.title', lang),
+        desc: t('services.svc.audit.desc', lang),
         bullets: [
-          'Audit Google Ads a Meta Ads účtov',
-          'Audit GA4 a meracích bodov',
-          'Audit SEO a technického stavu webu',
-          'Konkrétne odporúčania s prioritou',
-          'Roadmap na 90 dní',
+          t('services.svc.audit.b1', lang),
+          t('services.svc.audit.b2', lang),
+          t('services.svc.audit.b3', lang),
+          t('services.svc.audit.b4', lang),
+          t('services.svc.audit.b5', lang),
         ],
         icon: '<path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>',
       },
@@ -295,9 +295,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
     <div class="container" style="max-width: 880px;">
       <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
         <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
-          <strong>Nezačíname výberom kanálu.</strong> Začíname tým, čo váš biznis potrebuje — viac
-          objednávok, viac dopytov, lepšiu cenu za zákazníka. A potom vyberáme, ktorá služba (alebo
-          ich kombinácia) na to sedí najlepšie. Nasleduje 5 oblastí, v ktorých vám vieme pomôcť.
+          <strong>{t('services.introHighlight', lang)}</strong> {t('services.introRest', lang)}
         </p>
       </div>
     </div>
@@ -313,7 +311,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
 
         <!-- LEFT: Sticky kategória menu -->
         <aside class="svc-cats-nav">
-          <div class="eyebrow" style="margin-bottom: 20px;">[ 5 oblastí ]</div>
+          <div class="eyebrow" style="margin-bottom: 20px;">{t('services.fiveAreas', lang)}</div>
           <ul class="svc-cats-list">
             {categories.map((cat, i) => (
               <li>
@@ -321,7 +319,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
                   <span class="svc-cat-num">{String(i + 1).padStart(2, '0')}</span>
                   <span class="svc-cat-text">
                     <span class="svc-cat-title">{cat.title}</span>
-                    <span class="svc-cat-count">{cat.services.length} {cat.services.length === 1 ? 'služba' : (cat.services.length < 5 ? 'služby' : 'služieb')}</span>
+                    <span class="svc-cat-count">{cat.services.length} {cat.services.length === 1 ? t('services.cnt.one', lang) : (cat.services.length < 5 ? t('services.cnt.few', lang) : t('services.cnt.many', lang))}</span>
                   </span>
                 </a>
               </li>
@@ -369,7 +367,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
 
                     {SERVICE_DETAIL_SLUGS.includes(s.slug) && (
                       <a href={buildUrl(lang, `/sluzby/${s.slug}`)} class="svc-card-link">
-                        Detail služby
+                        {t('services.detailLink', lang)}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                           <path d="M7 17 17 7"></path>
                           <path d="M7 7h10v10"></path>
@@ -394,12 +392,12 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
     <section class="section" style="background: var(--bg-soft);">
       <div class="container">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-          <span class="eyebrow">[ Výsledky ]</span>
+          <span class="eyebrow">{t('services.resultsEyebrow', lang)}</span>
           <span style="flex: 1; height: 1px; background: var(--line);"></span>
         </div>
         <div class="sec-head">
-          <h2 class="h1" style="max-width: 14ch;">Tu sú výsledky.</h2>
-          <p class="lead">Nepredávame sľuby. Predávame čísla, ktoré hovoria samé za seba.</p>
+          <h2 class="h1" style="max-width: 14ch;">{t('services.resultsTitle', lang)}</h2>
+          <p class="lead">{t('services.resultsLead', lang)}</p>
         </div>
 
         <div class="cases-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;">
@@ -431,7 +429,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
 
         <div style="text-align: center; margin-top: 48px;">
           <a href={buildUrl(lang, '/pripadove-studie')} class="btn btn-ink">
-            Všetky prípadové štúdie
+            {t('services.allCases', lang)}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
@@ -454,19 +452,18 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
   <section id="odvetvia" class="section" style="scroll-margin-top: 80px;">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Balíčky pre odvetvia ]</span>
+        <span class="eyebrow">{t('services.industriesEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
       <div class="sec-head">
-        <h2 class="h1" style="max-width: 18ch;">Pre vaše <span class="grad">odvetvie.</span></h2>
-        <p class="lead">Zostavili sme hotové balíky pre 6 najčastejších typov podnikov. Predvídate, čo dostanete a koľko zaplatíte.</p>
+        <h2 class="h1" style="max-width: 18ch;">{t('services.industriesTitlePrefix', lang)} <span class="grad">{t('services.industriesTitleAccent', lang)}</span></h2>
+        <p class="lead">{t('services.industriesLead', lang)}</p>
       </div>
 
       <!-- Intro box -->
       <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 20px 24px; border-radius: 12px; margin-top: 32px; max-width: 920px;">
         <p style="font-size: 15px; line-height: 1.65; margin: 0; color: var(--ink-2);">
-          <strong>Prečo balíky pre odvetvia?</strong> Lebo kaderníctvo, autoservis a B2B kovovýroba potrebujú úplne iné nástroje.
-          Hotový balík vám ušetrí čas — viete, čo dostanete, predtým ako sa vôbec spojíme. A balíky sú flexibilné, vždy ich prispôsobíme vašej situácii.
+          <strong>{t('services.industriesIntroH', lang)}</strong> {t('services.industriesIntroP', lang)}
         </p>
       </div>
 
@@ -476,7 +473,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
             <!-- Header row -->
             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px;">
               <div>
-                <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">[ Balíček {String(i + 1).padStart(2, '0')} ]</div>
+                <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">{t('services.industryPackBadge', lang)} {String(i + 1).padStart(2, '0')} ]</div>
                 <h3 style="font-size: clamp(20px, 2.2vw, 24px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 0;">{p.name}</h3>
               </div>
               <div class="industry-card-arrow">
@@ -495,11 +492,11 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
             <!-- Footer info: cena + počet položiek -->
             <div style="display: flex; align-items: center; gap: 16px; padding-top: 16px; border-top: 1px solid var(--line); flex-wrap: wrap;">
               <div>
-                <div style="font-size: 11px; color: var(--muted); font-family: var(--mono);">CENA OD</div>
-                <div style="font-size: 17px; font-weight: 700; letter-spacing: -0.015em;">{p.priceFrom} €/mes</div>
+                <div style="font-size: 11px; color: var(--muted); font-family: var(--mono);">{t('services.priceFrom', lang)}</div>
+                <div style="font-size: 17px; font-weight: 700; letter-spacing: -0.015em;">{p.priceFrom} {t('services.perMonth', lang)}</div>
               </div>
               <div style="flex: 1;"></div>
-              <div style="font-size: 12px; color: var(--muted); text-align: right;">{p.includes.length} položiek v balíku</div>
+              <div style="font-size: 12px; color: var(--muted); text-align: right;">{p.includes.length} {t('services.itemsInPack', lang)}</div>
             </div>
           </a>
         ))}
@@ -508,10 +505,10 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
       <!-- "Nepatrite do žiadnej kategórie?" -->
       <div style="text-align: center; margin-top: 48px;">
         <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px;">
-          Nepatríte do žiadnej z týchto kategórií? Aj tak vám pravdepodobne vieme pomôcť.
+          {t('services.noCategoryLead', lang)}
         </p>
         <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-ink">
-          Nezáväzná konzultácia
+          {t('services.noCategoryCta', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
           </svg>
@@ -562,10 +559,10 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
     <section class="section" style="background: var(--bg-soft);">
       <div class="container">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-          <span class="eyebrow">[ Klienti ]</span>
+          <span class="eyebrow">{t('services.clientsEyebrow', lang)}</span>
           <span style="flex: 1; height: 1px; background: var(--line);"></span>
         </div>
-        <h2 class="h1" style="max-width: 16ch; margin-bottom: 56px;">Čo o nás hovoria.</h2>
+        <h2 class="h1" style="max-width: 16ch; margin-bottom: 56px;">{t('services.clientsTitle', lang)}</h2>
 
         <div class="testim-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
           {testimonials.map((t) => (
@@ -611,12 +608,12 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
     <section class="section">
       <div class="container">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-          <span class="eyebrow">[ FAQ ]</span>
+          <span class="eyebrow">{t('services.faqEyebrow', lang)}</span>
           <span style="flex: 1; height: 1px; background: var(--line);"></span>
         </div>
         <div class="sec-head">
-          <h2 class="h1" style="max-width: 14ch;">Časté otázky.</h2>
-          <p class="lead">Pýtajú sa nás to najčastejšie. Ak nenájdete svoju otázku, napíšte nám.</p>
+          <h2 class="h1" style="max-width: 14ch;">{t('services.faqTitle', lang)}</h2>
+          <p class="lead">{t('services.faqLead', lang)}</p>
         </div>
 
         <div style="max-width: 880px; margin-top: 48px;">
