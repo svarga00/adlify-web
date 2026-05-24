@@ -17,6 +17,7 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -24,72 +25,42 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.howItWorks[lang];
 
-// 6-krokový timeline
+// 6-krokový timeline (lokalizované)
 const steps = [
-  {
-    day:    'Deň 0',
-    sub:    '30-min discovery call',
-    title:  'Bezplatný audit',
-    desc:   'Pošlete nám prístup do svojich účtov (alebo screenshoty). Pozrieme sa na meranie, kampane, web a do 24 h vám pošleme audit s konkrétnymi nálezmi a odhadom potenciálu.',
-  },
-  {
-    day:    'Deň 3—5',
-    sub:    'Roadmap na 90 dní',
-    title:  'Stratégia a návrh',
-    desc:   'Rozpíšeme čo robiť, prečo to robiť, akým tempom a aký výsledok očakávame. Dostanete jasný plán s míľnikmi, KPI a budgetom rozdeleným po kanáloch.',
-  },
-  {
-    day:    'Deň 7',
-    sub:    'Žiadny šuchot s papiermi',
-    title:  'Potvrdenie objednávky',
-    desc:   'Stačí jeden e-mail s potvrdením objednávky. Bez viazanosti — odísť môžete kedykoľvek.',
-  },
-  {
-    day:    'Deň 8—14',
-    sub:    'Meranie, kampane, prístupy',
-    title:  'Onboarding a setup',
-    desc:   'Nasadíme pokročilé meranie, Google Analytics, tag manager, pokročilé prepojenie s reklamnými platformami. Pripravíme kreatívu, kľúčové slová, segmenty. Vy dostanete prístup do klientskeho portálu.',
-  },
-  {
-    day:    'Deň 15',
-    sub:    'Kampane idú live',
-    title:  'Spustenie',
-    desc:   'Postupné spúšťanie po kanáloch s denným monitoringom. Prvý týždeň ladíme bidding, publiká a kreatívu na základe reálnych dát.',
-  },
-  {
-    day:    'Deň 30+',
-    sub:    'Týždenné reporty + portál 24/7',
-    title:  'Prvé výsledky a optimalizácia',
-    desc:   'Pravidelná synchronizácia, transparentné dáta v portáli, mesačná retrospektíva. Postupne škálujeme to, čo funguje.',
-  },
+  { day: t('htw.step1Day', lang), sub: t('htw.step1Sub', lang), title: t('htw.step1Title', lang), desc: t('htw.step1Desc', lang) },
+  { day: t('htw.step2Day', lang), sub: t('htw.step2Sub', lang), title: t('htw.step2Title', lang), desc: t('htw.step2Desc', lang) },
+  { day: t('htw.step3Day', lang), sub: t('htw.step3Sub', lang), title: t('htw.step3Title', lang), desc: t('htw.step3Desc', lang) },
+  { day: t('htw.step4Day', lang), sub: t('htw.step4Sub', lang), title: t('htw.step4Title', lang), desc: t('htw.step4Desc', lang) },
+  { day: t('htw.step5Day', lang), sub: t('htw.step5Sub', lang), title: t('htw.step5Title', lang), desc: t('htw.step5Desc', lang) },
+  { day: t('htw.step6Day', lang), sub: t('htw.step6Sub', lang), title: t('htw.step6Title', lang), desc: t('htw.step6Desc', lang) },
 ];
 
-// 9 benefitov
+// 9 benefitov (lokalizované)
 const benefits = [
-  { title: 'Bez viazanosti',                desc: 'Žiadne 3-, 6- ani 12-mesačné záväzky. Odísť môžete kedykoľvek bez výpovednej lehoty.' },
-  { title: 'Reálne dáta v portáli 24/7',    desc: 'Vidíte presne to, čo vidím ja. Tržby, ROAS, CPA, kampane, kreatívu — bez prikrašľovania.' },
-  { title: 'Pokročilé meranie',             desc: 'Nasadíme správne meranie od dňa jedna. Žiadne stratené konverzie, žiadne odhady.' },
-  { title: 'Priamo s človekom čo robí kampane', desc: 'Žiadny account manager, žiadny ticket systém. Píšete priamo mne. Skúsenosti od roku 2014.' },
-  { title: 'Týždenné optimalizácie',        desc: 'Nečakáme na koniec mesiaca. Každý týždeň ladíme bidding, publiká a kreatívu.' },
-  { title: 'Dáta v EÚ',                     desc: 'Servery aj nástroje v EÚ. Bez prenosu mimo Európy.' },
-  { title: 'WhatsApp / Slack / e-mail',     desc: 'Komunikujeme tam, kde vyhovuje vám. Rýchle veci cez WhatsApp, dôležité cez e-mail.' },
-  { title: 'Mesačná retrospektíva',         desc: 'Čo fungovalo, čo nie, čo plánujeme. 60 minút raz za mesiac, transparentne.' },
-  { title: 'Úprimnosť',                     desc: 'Ak vám neviem priniesť výsledok, poviem to ako prvý. Aj keď to znamená, že vás budem posielať preč.' },
+  { title: t('htw.b1Title', lang), desc: t('htw.b1Desc', lang) },
+  { title: t('htw.b2Title', lang), desc: t('htw.b2Desc', lang) },
+  { title: t('htw.b3Title', lang), desc: t('htw.b3Desc', lang) },
+  { title: t('htw.b4Title', lang), desc: t('htw.b4Desc', lang) },
+  { title: t('htw.b5Title', lang), desc: t('htw.b5Desc', lang) },
+  { title: t('htw.b6Title', lang), desc: t('htw.b6Desc', lang) },
+  { title: t('htw.b7Title', lang), desc: t('htw.b7Desc', lang) },
+  { title: t('htw.b8Title', lang), desc: t('htw.b8Desc', lang) },
+  { title: t('htw.b9Title', lang), desc: t('htw.b9Desc', lang) },
 ];
 
-// Čo dostanete v každom pláne
+// Čo dostanete v každom pláne (lokalizované)
 const inEveryPlan = [
-  'Onboarding workshop a stratégia',
-  'Setup pokročilého merania (Google Analytics + tag manager)',
-  'Pokročilé prepojenie s reklamnými platformami pre Meta a Google',
-  'Klientsky portál s real-time dátami',
-  'Týždenné automatické reporty na e-mail',
-  'Slack / Teams kanál s tímom',
-  'Mesačná retrospektíva (60 min call)',
-  'Konzultácia s analytikom',
-  'Audit reklamy a vstupnej stránky',
-  'Notifikácie na anomálie v kampaniach',
-  'Mesačné review s odporúčaniami',
+  t('htw.iep1', lang),
+  t('htw.iep2', lang),
+  t('htw.iep3', lang),
+  t('htw.iep4', lang),
+  t('htw.iep5', lang),
+  t('htw.iep6', lang),
+  t('htw.iep7', lang),
+  t('htw.iep8', lang),
+  t('htw.iep9', lang),
+  t('htw.iep10', lang),
+  t('htw.iep11', lang),
 ];
 ---
 
@@ -115,11 +86,11 @@ const inEveryPlan = [
   <section class="section" style="background: var(--bg-soft); padding-top: 0;">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 56px;">
-        <span class="eyebrow">[ 01 — TIMELINE ]</span>
+        <span class="eyebrow">{t('htw.timelineEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
         <span class="pill" style="background: var(--bg);">
           <span class="dot"></span>
-          <span>6 KROKOV · ~30 DNÍ</span>
+          <span>{t('htw.timelinePill', lang)}</span>
         </span>
       </div>
 
@@ -168,19 +139,18 @@ const inEveryPlan = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
-            <span class="eyebrow">[ 02 — KLIENTSKY PORTÁL ]</span>
+            <span class="eyebrow">{t('htw.portalEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line); min-width: 40px;"></span>
             <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
-              SÚČASŤ KAŽDÉHO BALÍKA
+              {t('htw.portalBadge', lang)}
             </span>
           </div>
           <h2 class="h1" style="max-width: 18ch;">
-            Plný prehľad o všetkom. <span class="grad">24/7. Bez čakania.</span>
+            {t('htw.portalTitlePrefix', lang)} <span class="grad">{t('htw.portalTitleAccent', lang)}</span>
           </h2>
         </div>
         <p class="lead">
-          Vlastný klientsky portál — pridaná hodnota, ktorú dostávate <strong style="color: var(--ink);">v cene každého balíka</strong>.
-          Iné agentúry vám pošlú PDF report raz za mesiac. U nás vidíte všetko v reálnom čase, kedykoľvek sa prihlásite.
+          {t('htw.portalLead1', lang)} <strong style="color: var(--ink);">{t('htw.portalLead2', lang)}</strong>{t('htw.portalLead3', lang)}
         </p>
       </div>
 
@@ -188,12 +158,12 @@ const inEveryPlan = [
         <!-- LEFT: Bullet list -->
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px;">
           {[
-            { title: 'Live čísla z reklám', desc: 'Náklady, tržby, ROAS, CPA — všetko za dnes, tento týždeň, mesiac.' },
-            { title: 'Aktuálne kampane', desc: 'Ktoré bežia, ktoré pauzované, ktoré sa optimalizujú práve teraz.' },
-            { title: 'Audit log',          desc: 'Vidíte, kto a kedy v účtoch niečo zmenil. Žiadne tajomstvá.' },
-            { title: 'Týždenné a mesačné reporty', desc: 'PDF reporty na stiahnutie, archív všetkých minulých mesiacov.' },
-            { title: 'Notifikácie',        desc: 'E-mailom alebo na mobil keď sa stane niečo dôležité — anomália alebo milník.' },
-            { title: 'Prístup pre tím',    desc: 'Pozvete kolegov (read-only). Manažér, účtovník, externý poradca.' },
+            { title: t('htw.portalBullet1Title', lang), desc: t('htw.portalBullet1Desc', lang) },
+            { title: t('htw.portalBullet2Title', lang), desc: t('htw.portalBullet2Desc', lang) },
+            { title: t('htw.portalBullet3Title', lang), desc: t('htw.portalBullet3Desc', lang) },
+            { title: t('htw.portalBullet4Title', lang), desc: t('htw.portalBullet4Desc', lang) },
+            { title: t('htw.portalBullet5Title', lang), desc: t('htw.portalBullet5Desc', lang) },
+            { title: t('htw.portalBullet6Title', lang), desc: t('htw.portalBullet6Desc', lang) },
           ].map((b) => (
             <li style="display: flex; align-items: flex-start; gap: 14px;">
               <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
@@ -231,15 +201,15 @@ const inEveryPlan = [
           <div style="display: grid; grid-template-columns: 200px 1fr; min-height: 460px;">
             <!-- Sidebar -->
             <div style="border-right: 1px solid rgba(255,255,255,0.08); padding: 24px 16px; display: flex; flex-direction: column; gap: 4px;">
-              <div style="font-family: var(--mono); font-size: 10px; opacity: 0.4; padding: 6px 12px; letter-spacing: 0.05em;">NAVIGÁCIA</div>
-              <div style="padding: 10px 12px; border-radius: 8px; background: rgba(255,255,255,0.08); font-size: 13px; font-weight: 600;">Prehľad</div>
-              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">Kampane</div>
-              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">Reporty</div>
-              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">Tím</div>
+              <div style="font-family: var(--mono); font-size: 10px; opacity: 0.4; padding: 6px 12px; letter-spacing: 0.05em;">{t('htw.dashNav', lang)}</div>
+              <div style="padding: 10px 12px; border-radius: 8px; background: rgba(255,255,255,0.08); font-size: 13px; font-weight: 600;">{t('htw.dashOverview', lang)}</div>
+              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">{t('htw.dashCampaigns', lang)}</div>
+              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">{t('htw.dashReports', lang)}</div>
+              <div style="padding: 10px 12px; border-radius: 8px; font-size: 13px; opacity: 0.6;">{t('htw.dashTeam', lang)}</div>
 
               <div style="margin-top: auto; padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px;">
-                <div style="font-weight: 600;">NovaShop a.s.</div>
-                <div style="opacity: 0.55; margin-top: 2px;">Plán: Growth</div>
+                <div style="font-weight: 600;">{t('htw.dashCompany', lang)}</div>
+                <div style="opacity: 0.55; margin-top: 2px;">{t('htw.dashPlan', lang)}</div>
               </div>
             </div>
 
@@ -248,8 +218,8 @@ const inEveryPlan = [
               <!-- Header -->
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
                 <div>
-                  <div style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">Prehľad · Október 2026</div>
-                  <div data-portal-updated style="font-size: 12px; opacity: 0.55; margin-top: 4px;">Aktualizované pred 2 minútami</div>
+                  <div style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">{t('htw.dashHeader', lang)}</div>
+                  <div data-portal-updated style="font-size: 12px; opacity: 0.55; margin-top: 4px;">{t('htw.dashUpdated', lang)}</div>
                 </div>
                 <div class="pill" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.85);">
                   <span class="dot"></span>
@@ -260,9 +230,9 @@ const inEveryPlan = [
               <!-- 3 KPI -->
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px;">
                 {[
-                  { label: 'TRŽBY',     val: '€87 412', delta: '+24%', target: 87412, fmt: 'eur',  deltaTarget: 24 },
-                  { label: 'ROAS',       val: '5.42×',   delta: '+0.8', target: 5.42,  fmt: 'roas', deltaTarget: 0.8 },
-                  { label: 'KONVERZIE', val: '1 284',   delta: '+18%', target: 1284,  fmt: 'num',  deltaTarget: 18 },
+                  { label: t('htw.dashKpi1', lang), val: '€87 412', delta: '+24%', target: 87412, fmt: 'eur',  deltaTarget: 24 },
+                  { label: t('htw.dashKpi2', lang), val: '5.42×',   delta: '+0.8', target: 5.42,  fmt: 'roas', deltaTarget: 0.8 },
+                  { label: t('htw.dashKpi3', lang), val: '1 284',   delta: '+18%', target: 1284,  fmt: 'num',  deltaTarget: 18 },
                 ].map((kpi) => (
                   <div style="padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
                     <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.05em; margin-bottom: 6px;">{kpi.label}</div>
@@ -275,8 +245,8 @@ const inEveryPlan = [
               <!-- Mini graf (gradient bary) -->
               <div style="margin-bottom: 24px;">
                 <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; margin-bottom: 10px; display: flex; justify-content: space-between;">
-                  <span>Tržby vs. náklady · 30 dní</span>
-                  <span>Mediánny ROAS 5.4×</span>
+                  <span>{t('htw.dashChartTitle', lang)}</span>
+                  <span>{t('htw.dashChartMedian', lang)}</span>
                 </div>
                 <div data-portal-chart style="display: flex; gap: 3px; align-items: flex-end; height: 80px;">
                   {Array.from({ length: 30 }).map((_, i) => {
@@ -289,7 +259,7 @@ const inEveryPlan = [
               <!-- Footer: 2 mini boxy -->
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div style="padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; font-size: 11px;">
-                  <div style="font-family: var(--mono); opacity: 0.5; margin-bottom: 8px; letter-spacing: 0.05em;">TOP KANÁLY</div>
+                  <div style="font-family: var(--mono); opacity: 0.5; margin-bottom: 8px; letter-spacing: 0.05em;">{t('htw.dashTopChannels', lang)}</div>
                   <div style="display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between;"><span>Google Ads</span><span style="opacity: 0.7;">42%</span></div>
                     <div style="display: flex; justify-content: space-between;"><span>Meta Ads</span><span style="opacity: 0.7;">31%</span></div>
@@ -298,11 +268,11 @@ const inEveryPlan = [
                   </div>
                 </div>
                 <div style="padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; font-size: 11px;">
-                  <div style="font-family: var(--mono); opacity: 0.5; margin-bottom: 8px; letter-spacing: 0.05em;">NEDÁVNE OPTIMALIZÁCIE</div>
+                  <div style="font-family: var(--mono); opacity: 0.5; margin-bottom: 8px; letter-spacing: 0.05em;">{t('htw.dashRecentOpt', lang)}</div>
                   <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <div style="opacity: 0.85;">Bidding +12% · Search</div>
-                    <div style="opacity: 0.85;">Nová kreatíva · Meta</div>
-                    <div style="opacity: 0.85;">Pauza · 3 ad sety</div>
+                    <div style="opacity: 0.85;">{t('htw.dashOpt1', lang)}</div>
+                    <div style="opacity: 0.85;">{t('htw.dashOpt2', lang)}</div>
+                    <div style="opacity: 0.85;">{t('htw.dashOpt3', lang)}</div>
                   </div>
                 </div>
               </div>
@@ -328,15 +298,15 @@ const inEveryPlan = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 03 — BENEFITY ]</span>
+            <span class="eyebrow">{t('htw.benefitsEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
           <h2 class="h1" style="max-width: 14ch;">
-            Prečo si vyberajú <span class="grad">nás.</span>
+            {t('htw.benefitsTitlePrefix', lang)} <span class="grad">{t('htw.benefitsTitleAccent', lang)}</span>
           </h2>
         </div>
         <p class="lead">
-          9 dôvodov, prečo s nami spolupracujú e-shopy a remeselníci po celej strednej Európe.
+          {t('htw.benefitsLead', lang)}
         </p>
       </div>
 
@@ -366,15 +336,15 @@ const inEveryPlan = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 04 — V CENE ]</span>
+            <span class="eyebrow">{t('htw.inclEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
           <h2 class="h1" style="max-width: 14ch;">
-            Čo dostanete v <span class="grad">každom pláne.</span>
+            {t('htw.inclTitlePrefix', lang)} <span class="grad">{t('htw.inclTitleAccent', lang)}</span>
           </h2>
         </div>
         <p class="lead">
-          Bez ohľadu na to, či ste Starter alebo Scale, toto patrí ku každej spolupráci.
+          {t('htw.inclLead', lang)}
         </p>
       </div>
 
@@ -388,7 +358,7 @@ const inEveryPlan = [
               <span style="font-size: 14px; font-weight: 500;">{item}</span>
             </div>
             <span style="padding: 4px 10px; background: rgb(34,197,94); color: white; border-radius: 999px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0;">
-              V CENE
+              {t('htw.inclBadge', lang)}
             </span>
           </div>
         ))}
@@ -409,13 +379,13 @@ const inEveryPlan = [
 
     <div class="container" style="position: relative; text-align: center;">
       <h2 style="font-size: clamp(32px, 5vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; max-width: 18ch; margin: 0 auto 24px;">
-        Chcete vidieť, čo sa dá s <span class="grad">vaším účtom?</span>
+        {t('htw.midCtaTitlePrefix', lang)} <span class="grad">{t('htw.midCtaTitleAccent', lang)}</span>
       </h2>
       <p style="font-size: clamp(15px, 1.4vw, 18px); opacity: 0.7; max-width: 50ch; margin: 0 auto 36px; line-height: 1.55;">
-        Pošleme audit do 24 hodín. Bez záväzku, bez predajného tlaku, bez prezentácií plných buzzwordov.
+        {t('htw.midCtaLead', lang)}
       </p>
       <a href="/kontakt#formular" class="btn btn-grad" style="padding: 18px 32px; font-size: 16px;">
-        Získať bezplatný audit
+        {t('htw.midCtaButton', lang)}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 12h14"></path>
           <path d="m12 5 7 7-7 7"></path>
