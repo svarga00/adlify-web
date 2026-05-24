@@ -16,6 +16,7 @@ import Layout from '../../layouts/Layout.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import { buildUrl, type Lang } from '../../lib/i18n';
 import { fetchPageSections } from '../../lib/content';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -28,26 +29,26 @@ const sections = await fetchPageSections('homepage', lang);
 const hero = sections.hero || {};
 
 // Fallback texty ak admin ešte nezaseedoval / Supabase nedostupný
-const heroEyebrow = hero.eyebrow || 'Výkonnostný marketing pre malé a stredné firmy';
-const heroLead = hero.lead || 'Spravujeme Google a Meta reklamy pre e-shopy a remeselníkov tak, aby ste videli, kam každé euro ide.';
-const heroCtaPrimary = hero.cta_primary || 'Získať audit zadarmo';
-const heroCtaSecondary = hero.cta_secondary || 'Ako pracujeme';
+const heroEyebrow = hero.eyebrow || t('home.heroEyebrow', lang);
+const heroLead = hero.lead || t('home.heroLead', lang);
+const heroCtaPrimary = hero.cta_primary || t('home.heroCtaPrimary', lang);
+const heroCtaSecondary = hero.cta_secondary || t('home.heroCtaSecondary', lang);
 // TODO (next iteration): napojiť aj manifest sekciu, vyžaduje refactor 3-span layoutu
 // const manifestTitle = manifest.title || '...';
 // const manifestLead = manifest.lead || '...';
 
 const stats = [
-  { label: 'Skúsenosti od',         value: '2014',    color: 'rgb(241, 100, 52)' },
-  { label: 'Klientov od 2014',      value: '50+',     color: 'rgb(232, 93, 156)' },
-  { label: 'Spravovaný budget',     value: '€250k+',  color: 'rgb(244, 127, 63)' },
-  { label: 'Priemerný ROAS',        value: '5×',      color: 'rgb(34, 197, 94)' },
+  { label: t('home.statExpFrom', lang),  value: '2014',    color: 'rgb(241, 100, 52)' },
+  { label: t('home.statClients', lang),  value: '50+',     color: 'rgb(232, 93, 156)' },
+  { label: t('home.statBudget', lang),   value: '€250k+',  color: 'rgb(244, 127, 63)' },
+  { label: t('home.statRoas', lang),     value: '5×',      color: 'rgb(34, 197, 94)' },
 ];
 
 const manifestItems = [
-  { num: '2014',    label: 'Online marketingu sa venujeme od' },
-  { num: '50+',     label: 'Klientov za roky' },
-  { num: '€250k+',  label: 'Spravovaný reklamný rozpočet' },
-  { num: '5×',      label: 'Priemerný ROAS klientov' },
+  { num: '2014',    label: t('home.mfYears', lang) },
+  { num: '50+',     label: t('home.mfClients', lang) },
+  { num: '€250k+',  label: t('home.mfBudget', lang) },
+  { num: '5×',      label: t('home.mfRoas', lang) },
 ];
 ---
 
@@ -77,7 +78,7 @@ const manifestItems = [
         <!-- LEFT: text -->
         <div>
           <h1 class="hero-h1" style="font-size: clamp(44px, 5.5vw, 80px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin-bottom: 24px; max-width: 14ch; padding-top: 0.12em;">
-            Marketing, ktorý <span class="grad" data-rotator-target style="display: inline-block; padding: 0 0.04em; line-height: 1.08;">prináša&nbsp;čísla</span>.
+            {t('home.heroH1Prefix', lang)} <span class="grad" data-rotator-target style="display: inline-block; padding: 0 0.04em; line-height: 1.08;">{t('home.heroH1Highlight', lang).replace(/ /g, '\u00a0')}</span>.
           </h1>
 
           <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); max-width: 50ch; margin-bottom: 28px; color: var(--muted); line-height: 1.5;">
@@ -88,14 +89,14 @@ const manifestItems = [
           <div class="hero-ticker" style="display: inline-flex; gap: 18px; padding: 10px 18px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 32px; font-size: 13px; align-items: center; flex-wrap: wrap;">
             <span style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); color: var(--muted);">
               <span style="width: 8px; height: 8px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 12px rgb(34,197,94); animation: heroPulse 2s ease infinite;"></span>
-              AKTUÁLNE
+              {t('home.tickerLabel', lang)}
             </span>
             <span style="display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <strong style="color: var(--ink); font-weight: 700;">50+ klientov</strong>
+              <strong style="color: var(--ink); font-weight: 700;">{t('home.tickerClients', lang)}</strong>
               <span style="color: var(--muted);">·</span>
-              <strong style="color: var(--ink); font-weight: 700;">€250k+ budget</strong>
+              <strong style="color: var(--ink); font-weight: 700;">{t('home.tickerBudget', lang)}</strong>
               <span style="color: var(--muted);">·</span>
-              <strong style="color: rgb(22, 163, 74); font-weight: 700;">5× priemerný ROAS</strong>
+              <strong style="color: rgb(22, 163, 74); font-weight: 700;">{t('home.tickerRoas', lang)}</strong>
             </span>
           </div>
 
@@ -129,13 +130,13 @@ const manifestItems = [
                 ))}
               </div>
               <div style="font-size: 13px; color: var(--muted);">
-                <span style="font-weight: 700; color: var(--ink);">4.9</span> · 50+ klientov
+                <span style="font-weight: 700; color: var(--ink);">4.9</span> · {t('home.tickerClients', lang)}
               </div>
             </div>
             <!-- Bez výpovednej lehoty -->
             <div style="display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted);">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: rgb(34,197,94);"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              Bez výpovednej lehoty
+              {t('home.socialNoLock', lang)}
             </div>
           </div>
         </div>
@@ -154,8 +155,8 @@ const manifestItems = [
               <!-- Header -->
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
                 <div>
-                  <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">UKÁŽKA · KLIENTSKY PORTÁL</div>
-                  <div style="font-size: 16px; font-weight: 500; opacity: 0.92; margin-bottom: 14px;">Tržby z reklamy / mesiac</div>
+                  <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">{t('home.chartCaption', lang)}</div>
+                  <div style="font-size: 16px; font-weight: 500; opacity: 0.92; margin-bottom: 14px;">{t('home.chartRevenue', lang)}</div>
                   <div style="display: flex; align-items: baseline; gap: 10px;">
                     <div style="font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em;">€42&nbsp;380</div>
                     <div style="font-size: 13px; font-weight: 700; color: rgb(134,239,172); font-family: var(--mono);">+87%</div>
@@ -242,15 +243,15 @@ const manifestItems = [
 
       <!-- Eyebrow -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-        <span style="font-family: var(--mono); font-size: 12px; opacity: 0.6;">[ 01 — MANIFEST ]</span>
+        <span style="font-family: var(--mono); font-size: 12px; opacity: 0.6;">{t('home.manifestEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.15);"></span>
       </div>
 
       <!-- Hlavný headline -->
       <div class="rv" style="font-size: clamp(32px, 4.5vw, 68px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; max-width: 22ch;">
-        Výkonnostný marketing
-        <span style="opacity: 0.4;">bez zbytočných prezentácií, prázdnych mítingov a magických čísel.</span>
-        <span class="grad">Len to, čo prináša tržby.</span>
+        {t('home.manifestH1', lang)}
+        <span style="opacity: 0.4;">{t('home.manifestMuted', lang)}</span>
+        <span class="grad">{t('home.manifestHighlight', lang)}</span>
       </div>
 
       <!-- 4-card grid -->
@@ -283,7 +284,7 @@ const manifestItems = [
     <div class="container" style="position: relative;">
       <!-- Eyebrow -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <span class="eyebrow">[ INTERAKTÍVNA UKÁŽKA — PORTÁL ]</span>
+        <span class="eyebrow">{t('home.baEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
         <span class="pill" style="background: var(--bg); border: 1px solid var(--line);">
           <span class="dot" style="background: rgb(34, 197, 94);"></span>
@@ -295,31 +296,31 @@ const manifestItems = [
         <!-- LEFT: text + metriky + timeline -->
         <div>
           <h2 class="h1" style="max-width: 11ch; margin-bottom: 20px;">
-            Pred a <span class="grad">po.</span>
+            {t('home.baH1Prefix', lang)} <span class="grad">{t('home.baH1Highlight', lang)}</span>
           </h2>
           <p class="lead" style="color: var(--muted); max-width: 38ch; margin-bottom: 32px;">
-            Ukážka, ako vyzerá klientsky portál pri typickom 6-mesačnom rozbehu e-shopu. <strong style="color: var(--ink);">Pretiahni posuvník</strong> a sleduj, ako sa menia metriky.
+            {t('home.baLead1', lang)} <strong style="color: var(--ink);">{t('home.baLead2', lang)}</strong> {t('home.baLead3', lang)}
           </p>
 
           <!-- 4 metriky (zhodne updatovane s dashboardom napravo) -->
           <div class="ba-metrics-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
             <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">MESAČNÉ TRŽBY</div>
+              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">{t('home.baMetricRevenue', lang)}</div>
               <div class="num" data-ba-metric="revenue" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">€34&nbsp;939</div>
               <div data-ba-delta="revenue" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+27%</div>
             </div>
             <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">ROAS</div>
+              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">{t('home.baMetricRoas', lang)}</div>
               <div class="num" data-ba-metric="roas" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">2.52×</div>
               <div data-ba-delta="roas" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+20%</div>
             </div>
             <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">KONVERZIE</div>
+              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">{t('home.baMetricConv', lang)}</div>
               <div class="num" data-ba-metric="conv" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">380</div>
               <div data-ba-delta="conv" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">+51%</div>
             </div>
             <div class="ba-metric">
-              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">CPA</div>
+              <div class="eyebrow" style="margin-bottom: 6px; font-size: 10px;">{t('home.baMetricCpa', lang)}</div>
               <div class="num" data-ba-metric="cpa" style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">€17.0</div>
               <div data-ba-delta="cpa" style="font-size: 11px; font-family: var(--mono); font-weight: 600; color: rgb(22, 163, 74); margin-top: 4px;">−7%</div>
             </div>
@@ -327,7 +328,7 @@ const manifestItems = [
 
           <!-- Timeline -->
           <div>
-            <div class="eyebrow" style="margin-bottom: 10px;">Časová os</div>
+            <div class="eyebrow" style="margin-bottom: 10px;">{t('home.baTimeline', lang)}</div>
             <div class="ba-timeline" style="display: flex; gap: 4px; margin-bottom: 6px;">
               {['AUG', 'SEP', 'OKT', 'NOV', 'DEC', 'JAN'].map((m, i) => (
                 <button
@@ -339,7 +340,7 @@ const manifestItems = [
                 </button>
               ))}
             </div>
-            <div data-ba-month-label style="font-size: 12px; color: var(--muted); font-family: var(--mono);">Mesiac 2/6</div>
+            <div data-ba-month-label style="font-size: 12px; color: var(--muted); font-family: var(--mono);">{t('home.baMonthLabel', lang)}</div>
           </div>
         </div>
 
@@ -357,8 +358,8 @@ const manifestItems = [
             <!-- Dashboard header -->
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
               <div>
-                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">UKÁŽKA · DASHBOARD E-SHOPU</div>
-                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92;">August 2025</div>
+                <div style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.05em; margin-bottom: 6px;">{t('home.baDashCaption', lang)}</div>
+                <div data-ba-dash-month style="font-size: 18px; font-weight: 600; opacity: 0.92;">{lang === 'sk' ? 'August 2025' : lang === 'cs' ? 'Srpen 2025' : lang === 'hu' ? '2025. augusztus' : lang === 'de' ? 'August 2025' : 'August 2025'}</div>
               </div>
               <div style="padding: 5px 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
                 <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
@@ -369,22 +370,22 @@ const manifestItems = [
             <!-- KPI dlaždice (4 ks) priamo v dashboarde -->
             <div class="ba-dash-kpis" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px;">
               <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">TRŽBY</div>
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">{t('home.baDashKpiRev', lang)}</div>
                 <div data-ba-metric="revenue" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">€34&nbsp;939</div>
                 <div data-ba-delta="revenue" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+27%</div>
               </div>
               <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">ROAS</div>
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">{t('home.baDashKpiRoas', lang)}</div>
                 <div data-ba-metric="roas" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">2.52×</div>
                 <div data-ba-delta="roas" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+20%</div>
               </div>
               <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">KONV.</div>
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">{t('home.baDashKpiConv', lang)}</div>
                 <div data-ba-metric="conv" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">380</div>
                 <div data-ba-delta="conv" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(34,197,94);">+51%</div>
               </div>
               <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">CPA</div>
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.5; letter-spacing: 0.06em; margin-bottom: 4px;">{t('home.baDashKpiCpa', lang)}</div>
                 <div data-ba-metric="cpa" style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px;">€17.0</div>
                 <div data-ba-delta="cpa" style="font-size: 10px; font-family: var(--mono); font-weight: 600; color: rgb(220,38,38);">−7%</div>
               </div>
@@ -394,7 +395,7 @@ const manifestItems = [
             <div style="margin-top: auto;">
               <div style="font-family: var(--mono); font-size: 10px; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between;">
                 <span>WEEKLY REVENUE</span>
-                <span>26 týždňov · plochý</span>
+                <span>{t('home.baBarsLabel', lang)}</span>
               </div>
               <div style="display: flex; gap: 3px; align-items: flex-end; height: 110px;">
                 {Array.from({ length: 26 }).map((_, i) => {
@@ -442,7 +443,7 @@ const manifestItems = [
             </div>
             <!-- "← potiahni →" pillsa pod handlom -->
             <div style="position: absolute; top: calc(50% + 36px); left: 50%; transform: translateX(-50%); padding: 5px 12px; background: rgba(255,255,255,0.95); color: rgb(10,10,10); border-radius: 999px; font-family: var(--mono); font-size: 10px; font-weight: 600; white-space: nowrap; pointer-events: none;">
-              ← potiahni →
+              {t('home.baDragHint', lang)}
             </div>
           </div>
         </div>
@@ -458,12 +459,12 @@ const manifestItems = [
     <div class="mstrip-track">
       {(() => {
         const phrases = [
-          { text: 'Merané výsledky',  italic: false },
-          { text: 'Bez záväzku',       italic: true  },
-          { text: 'Transparentné',     italic: false },
-          { text: 'Výkonnostné',       italic: true  },
-          { text: 'Bez výhovoriek',    italic: false },
-          { text: 'Data driven',       italic: true  },
+          { text: t('home.mstripMeasured', lang),    italic: false },
+          { text: t('home.mstripNoCommit', lang),    italic: true  },
+          { text: t('home.mstripTransparent', lang), italic: false },
+          { text: t('home.mstripPerformance', lang), italic: true  },
+          { text: t('home.mstripNoExcuses', lang),   italic: false },
+          { text: t('home.mstripDataDriven', lang),  italic: true  },
         ];
         // 3× pre seamless animáciu (animation translateX(-100% / 3))
         const tripled = [...phrases, ...phrases, ...phrases];
@@ -489,13 +490,13 @@ const manifestItems = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 02 — SERVICES ]</span>
+            <span class="eyebrow">{t('home.svcEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h1" style="max-width: 14ch;">Čo pre vás vieme zariadiť</h2>
+          <h2 class="h1" style="max-width: 14ch;">{t('home.svcTitle', lang)}</h2>
         </div>
         <p class="lead">
-          Postaráme sa o všetko, čo vám prinesie zákazníkov. Vy len sledujete čísla — my dolaďujeme detaily.
+          {t('home.svcLead', lang)}
         </p>
       </div>
 
@@ -504,74 +505,74 @@ const manifestItems = [
         const services = [
           {
             slug: 'google-ads',
-            title: 'Google Ads',
-            desc: 'Search, Performance Max, Shopping a YouTube. Od nastavenia konverzií po bid stratégie.',
+            title: t('home.svc1Title', lang),
+            desc: t('home.svc1Desc', lang),
             icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
             specs: [
-              { label: 'Setup',         value: '10 dní' },
-              { label: 'Prvé výsledky', value: '4 týždne' },
-              { label: 'Reporting',     value: 'Týždenne' },
-              { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+              { label: t('home.svcSpecSetup', lang),         value: t('home.svcVal10Days', lang) },
+              { label: t('home.svcSpecFirstResults', lang),  value: t('home.svcVal4Weeks', lang) },
+              { label: t('home.svcSpecReporting', lang),     value: t('home.svcValWeekly', lang) },
+              { label: t('home.svcSpecIncluded', lang),      value: t('home.svcValAllPlans', lang) },
             ],
           },
           {
             slug: 'meta-ads',
-            title: 'Meta Ads',
-            desc: 'Facebook a Instagram reklamy s dôrazom na kreatívy, audience targeting a retargeting.',
+            title: t('home.svc2Title', lang),
+            desc: t('home.svc2Desc', lang),
             icon: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
             specs: [
-              { label: 'Setup',         value: '7 dní' },
-              { label: 'Prvé výsledky', value: '2 týždne' },
-              { label: 'Reporting',     value: 'Týždenne' },
-              { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+              { label: t('home.svcSpecSetup', lang),         value: t('home.svcVal7Days', lang) },
+              { label: t('home.svcSpecFirstResults', lang),  value: t('home.svcVal2Weeks', lang) },
+              { label: t('home.svcSpecReporting', lang),     value: t('home.svcValWeekly', lang) },
+              { label: t('home.svcSpecIncluded', lang),      value: t('home.svcValAllPlans', lang) },
             ],
           },
           {
             slug: 'seo',
-            title: 'SEO optimalizácia',
-            desc: 'Audit, technické SEO, content stratégia a link building. Dlhodobý rast organickej návštevnosti.',
+            title: t('home.svc3Title', lang),
+            desc: t('home.svc3Desc', lang),
             icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
             specs: [
-              { label: 'Audit',         value: '14 dní' },
-              { label: 'Prvé výsledky', value: '3 mesiace' },
-              { label: 'Reporting',     value: 'Mesačne' },
-              { label: 'Zahrnuté',      value: 'Plán Pro+' },
+              { label: t('home.svcSpecAudit', lang),         value: t('home.svcVal14Days', lang) },
+              { label: t('home.svcSpecFirstResults', lang),  value: t('home.svcVal3Months', lang) },
+              { label: t('home.svcSpecReporting', lang),     value: t('home.svcValMonthly', lang) },
+              { label: t('home.svcSpecIncluded', lang),      value: t('home.svcValProPlus', lang) },
             ],
           },
           {
             slug: 'email',
-            title: 'E-mailové kampane',
-            desc: 'Newslettery, automation flows a transakčné e-maily. Od dizajnu po dodanie.',
+            title: t('home.svc4Title', lang),
+            desc: t('home.svc4Desc', lang),
             icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
             specs: [
-              { label: 'Setup',     value: '7 dní' },
-              { label: 'Frekvencia',value: '1–4× / mes.' },
-              { label: 'Reporting', value: 'Po každej kampani' },
-              { label: 'Zahrnuté',  value: 'Plán Pro+' },
+              { label: t('home.svcSpecSetup', lang),     value: t('home.svcVal7Days', lang) },
+              { label: t('home.svcSpecFrequency', lang), value: t('home.svcValFreq14', lang) },
+              { label: t('home.svcSpecReporting', lang), value: t('home.svcValPerCampaign', lang) },
+              { label: t('home.svcSpecIncluded', lang),  value: t('home.svcValProPlus', lang) },
             ],
           },
           {
             slug: 'meranie',
-            title: 'Meranie a vyhodnocovanie',
-            desc: 'GA4, Google Tag Manager, server-side tracking, dashboard v Looker Studio. Bez tohto sa nedá optimalizovať.',
+            title: t('home.svc5Title', lang),
+            desc: t('home.svc5Desc', lang),
             icon: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
             specs: [
-              { label: 'Setup',         value: '5–10 dní' },
-              { label: 'Prvé reporty',  value: '2 týždne' },
-              { label: 'Reporting',     value: 'Týždenne' },
-              { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+              { label: t('home.svcSpecSetup', lang),         value: t('home.svcVal5to10Days', lang) },
+              { label: t('home.svcSpecFirstReports', lang),  value: t('home.svcVal2Weeks', lang) },
+              { label: t('home.svcSpecReporting', lang),     value: t('home.svcValWeekly', lang) },
+              { label: t('home.svcSpecIncluded', lang),      value: t('home.svcValAllPlans', lang) },
             ],
           },
           {
             slug: 'web',
-            title: 'Web a vstupné stránky',
-            desc: 'Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po implementáciu a A/B testy.',
+            title: t('home.svc6Title', lang),
+            desc: t('home.svc6Desc', lang),
             icon: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
             specs: [
-              { label: 'Setup',         value: '14–21 dní' },
-              { label: 'Prvé výsledky', value: '4 týždne' },
-              { label: 'Reporting',     value: 'Týždenne' },
-              { label: 'Zahrnuté',      value: 'Doplnková služba' },
+              { label: t('home.svcSpecSetup', lang),         value: t('home.svcVal14to21Days', lang) },
+              { label: t('home.svcSpecFirstResults', lang),  value: t('home.svcVal4Weeks', lang) },
+              { label: t('home.svcSpecReporting', lang),     value: t('home.svcValWeekly', lang) },
+              { label: t('home.svcSpecIncluded', lang),      value: t('home.svcValAddon', lang) },
             ],
           },
         ];
@@ -589,7 +590,7 @@ const manifestItems = [
                   <span class="svc-num">{String(i + 1).padStart(2, '0')}</span>
                   <span class="svc-title">{s.title}</span>
                   <span class="svc-cta">
-                    <span class="svc-cta-text">OTVORIŤ</span>
+                    <span class="svc-cta-text">{t('home.svcOpen', lang)}</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M7 17 17 7"></path>
                       <path d="M7 7h10v10"></path>
@@ -611,7 +612,7 @@ const manifestItems = [
                   <h3 class="h2" style="margin-bottom: 20px;">{s.title}</h3>
                   <p class="body" style="font-size: 16px; margin-bottom: 24px; max-width: 50ch;">{s.desc}</p>
                   <a href={buildUrl(lang, "/sluzby")} class="btn btn-sm btn-ink" style="margin-bottom: 28px;">
-                    Zobraziť celý detail
+                    {t('home.svcShowDetail', lang)}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M5 12h14"></path>
                       <path d="m12 5 7 7-7 7"></path>
@@ -644,22 +645,22 @@ const manifestItems = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 03 — PROCESS ]</span>
+            <span class="eyebrow">{t('home.procEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h1" style="max-width: 14ch;">Ako s nami spolupracujete</h2>
+          <h2 class="h1" style="max-width: 14ch;">{t('home.procTitle', lang)}</h2>
         </div>
         <p class="lead">
-          Transparentný proces bez skrytých krokov. Viete, čo sa deje, každý týždeň.
+          {t('home.procLead', lang)}
         </p>
       </div>
 
       <div class="proc-grid">
         {[
-          { title: 'Audit a stratégia',  desc: 'Prejdeme si váš biznis, čísla a konkurenciu. Dostanete plán s jasnými cieľmi.' },
-          { title: 'Setup a spustenie',  desc: 'Nastavíme meranie, kampane a kreatívy. Do 14 dní beží prvá kampaň.' },
-          { title: 'Optimalizácia',      desc: 'Týždenné reporty, A/B testy, škálovanie toho, čo funguje.' },
-          { title: 'Rast',                desc: 'Mesačné review, nové kanály, scaling budgetu podľa reálneho ROI.' },
+          { title: t('home.proc1Title', lang),  desc: t('home.proc1Desc', lang) },
+          { title: t('home.proc2Title', lang),  desc: t('home.proc2Desc', lang) },
+          { title: t('home.proc3Title', lang),  desc: t('home.proc3Desc', lang) },
+          { title: t('home.proc4Title', lang),  desc: t('home.proc4Desc', lang) },
         ].map((step, i) => (
           <div class="rv proc-item">
             <div class="proc-meta">
@@ -684,13 +685,13 @@ const manifestItems = [
       <div class="sec-head">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ 04 — CALCULATOR ]</span>
+            <span class="eyebrow">{t('home.calcEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h1" style="max-width: 14ch;">Koľko môžete získať?</h2>
+          <h2 class="h1" style="max-width: 14ch;">{t('home.calcTitle', lang)}</h2>
         </div>
         <p class="lead">
-          Rýchly odhad na základe reálnych dát našich klientov. Nie záruka — odrazový mostík.
+          {t('home.calcLead', lang)}
         </p>
       </div>
 
@@ -699,7 +700,7 @@ const manifestItems = [
         <div class="calc-in">
           <div class="calc-row">
             <div class="calc-row-head">
-              <label>Mesačný budget na reklamu</label>
+              <label>{t('home.calcBudget', lang)}</label>
               <span class="val" data-calc-budget-val>€2&nbsp;000</span>
             </div>
             <input type="range" class="calc-range" id="calc-budget" min="500" max="20000" step="100" value="2000" />
@@ -707,7 +708,7 @@ const manifestItems = [
 
           <div class="calc-row">
             <div class="calc-row-head">
-              <label>Priemerná hodnota objednávky</label>
+              <label>{t('home.calcAov', lang)}</label>
               <span class="val" data-calc-aov-val>€65</span>
             </div>
             <input type="range" class="calc-range" id="calc-aov" min="20" max="500" step="5" value="65" />
@@ -715,37 +716,37 @@ const manifestItems = [
 
           <div class="calc-row">
             <div class="calc-row-head">
-              <label>Koľko návštevníkov u vás kupuje</label>
+              <label>{t('home.calcCr', lang)}</label>
               <span class="val" data-calc-cr-val>1.5%</span>
             </div>
             <input type="range" class="calc-range" id="calc-cr" min="0.5" max="5" step="0.1" value="1.5" />
           </div>
 
           <p style="font-size: 11px; color: var(--muted); margin-top: 24px; font-family: var(--mono);">
-            Odhad podľa benchmarkov z odvetvia. Predpokladáme bežnú cenu za klik €0,55. Skutočné výsledky závisia od konkurencie a kvality kampane.
+            {t('home.calcNote', lang)}
           </p>
         </div>
 
         <!-- RIGHT: outputs -->
         <div class="calc-out">
-          <div class="eyebrow" style="margin-bottom: 12px;">Odhadované mesačné tržby</div>
+          <div class="eyebrow" style="margin-bottom: 12px;">{t('home.calcRevenueLabel', lang)}</div>
           <div class="grad num" data-calc-revenue style="font-size: clamp(52px, 7vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 1;">
             €9&nbsp;400
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; margin-bottom: 32px;">
             <div>
-              <div class="eyebrow" style="margin-bottom: 4px;">Potenciálny nárast</div>
+              <div class="eyebrow" style="margin-bottom: 4px;">{t('home.calcUpliftLabel', lang)}</div>
               <div class="num" data-calc-uplift style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">+88%</div>
             </div>
             <div>
-              <div class="eyebrow" style="margin-bottom: 4px;">Objednávok / mesiac</div>
+              <div class="eyebrow" style="margin-bottom: 4px;">{t('home.calcOrdersLabel', lang)}</div>
               <div class="num" data-calc-orders style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">145</div>
             </div>
           </div>
 
           <a href={`${buildUrl(lang, "/kontakt")}#formular`} class="btn btn-ink">
-            Chcem presný plán
+            {t('home.calcCta', lang)}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
@@ -770,11 +771,11 @@ const manifestItems = [
     <div class="container" style="position: relative;">
       <!-- Eyebrow -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-        <span style="font-family: var(--mono); font-size: 12px; opacity: 0.5; letter-spacing: 0.05em;">[ 07 — CONTACT ]</span>
+        <span style="font-family: var(--mono); font-size: 12px; opacity: 0.5; letter-spacing: 0.05em;">{t('home.contactEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.12);"></span>
         <span class="pill" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75);">
           <span class="dot"></span>
-          <span>Priemerná odpoveď · 4 hod</span>
+          <span>{t('home.contactResponsePill', lang)}</span>
         </span>
       </div>
 
@@ -782,14 +783,14 @@ const manifestItems = [
       <div class="contact-headline-row">
         <div style="max-width: 720px;">
           <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
-            <span style="display: block;">Poďme si dohodnúť</span>
+            <span style="display: block;">{t('home.contactH1Prefix', lang)}</span>
             <span style="display: inline-block; position: relative;">
-              <span class="grad" style="display: inline-block;">audit.</span>
+              <span class="grad" style="display: inline-block;">{t('home.contactH1Highlight', lang)}</span>
               <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
             </span>
           </h2>
           <p style="font-size: clamp(17px, 1.6vw, 21px); opacity: 0.65; max-width: 55ch; margin-top: 32px; line-height: 1.5;">
-            30 minút, bez záväzku. Prejdeme vaše účty, meranie a ukážeme, kde utekajú peniaze.
+            {t('home.contactLead', lang)}
           </p>
         </div>
 
@@ -798,21 +799,21 @@ const manifestItems = [
           <div class="contact-stat-row">
             <div class="contact-stat">
               <div class="contact-stat-num">10+</div>
-              <div class="contact-stat-label">rokov v PPC</div>
+              <div class="contact-stat-label">{t('home.statYearsLabel', lang)}</div>
             </div>
             <div class="contact-stat">
               <div class="contact-stat-num">30+</div>
-              <div class="contact-stat-label">platforiem</div>
+              <div class="contact-stat-label">{t('home.statPlatforms', lang)}</div>
             </div>
           </div>
           <div class="contact-stat-row">
             <div class="contact-stat">
               <div class="contact-stat-num">~4 h</div>
-              <div class="contact-stat-label">odpoveď</div>
+              <div class="contact-stat-label">{t('home.statResponse', lang)}</div>
             </div>
             <div class="contact-stat">
               <div class="contact-stat-num">€0</div>
-              <div class="contact-stat-label">audit</div>
+              <div class="contact-stat-label">{t('home.statAudit', lang)}</div>
             </div>
           </div>
 
@@ -837,15 +838,15 @@ const manifestItems = [
         <a href={`${buildUrl(lang, "/kontakt")}#formular`} class="contact-cta">
           <div aria-hidden="true" class="contact-cta-orb"></div>
           <div style="position: relative;">
-            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">[ Hlavné CTA ]</div>
+            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">{t('home.ctaEyebrow', lang)}</div>
             <div style="font-size: clamp(26px, 3vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 24px; max-width: 16ch;">
-              Otvoriť formulár<br>a napísať nám za 60 sekúnd
+              {t('home.ctaMainTitle', lang)}
             </div>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 32px;">
               <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: 0.7;">
                 <span style="width: 8px; height: 8px; border-radius: 50%; background: rgb(34, 197, 94); box-shadow: 0 0 12px rgb(34, 197, 94);"></span>
                 <span>
-                  <span class="num" style="font-weight: 600; color: var(--bg);">1</span> voľná konzultácia tento týždeň
+                  <span class="num" style="font-weight: 600; color: var(--bg);">1</span> {t('home.ctaSlotsLeft', lang)}
                 </span>
               </div>
               <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center;">
@@ -868,7 +869,7 @@ const manifestItems = [
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">E-mail</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('home.contactEmail', lang)}</div>
               <div style="font-weight: 500; font-size: 15px;">info@adlify.eu</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
@@ -884,7 +885,7 @@ const manifestItems = [
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Telefón</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('home.contactPhone', lang)}</div>
               <div style="font-weight: 500; font-size: 15px;">+421 944 184 045</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
@@ -903,8 +904,8 @@ const manifestItems = [
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Rezervovať</div>
-              <div style="font-weight: 500; font-size: 15px;">30-min discovery call</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('home.contactReserve', lang)}</div>
+              <div style="font-weight: 500; font-size: 15px;">{t('home.contactReserveValue', lang)}</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
               <path d="M7 17 17 7"></path>
@@ -920,8 +921,8 @@ const manifestItems = [
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Kancelária</div>
-              <div style="font-weight: 500; font-size: 15px;">Podzámska 4/A, Nové Zámky</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('home.contactOffice', lang)}</div>
+              <div style="font-weight: 500; font-size: 15px;">{t('home.contactOfficeValue', lang)}</div>
             </div>
           </div>
         </div>
