@@ -17,6 +17,7 @@ import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
 import { fetchPageSections } from '../../lib/content';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -34,23 +35,23 @@ const cmsMissionBody  = cmsMission.body  || '';
 // 4 segmenty zákazníkov "Pre koho sme tu"
 const segments = [
   {
-    title: 'Živnostníci a remeselníci',
-    desc: 'Kaderníčky, autoservisy, klampiarske firmy, sklenári. Lokálne podnikanie potrebuje lokálnu reklamu — a tu vám dokážeme pomôcť aj s rozpočtom 200 € mesačne.',
+    title: t('about.segment1Title', lang),
+    desc: t('about.segment1Desc', lang),
     icon: '<path d="M12 2 2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>',
   },
   {
-    title: 'Malé e-shopy',
-    desc: 'Začínate predávať online a chcete získať prvých zákazníkov. Nastavíme meranie, rozbehneme prvé kampane a ukážeme vám, čo funguje a čo nie.',
+    title: t('about.segment2Title', lang),
+    desc: t('about.segment2Desc', lang),
     icon: '<rect x="2" y="6" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path><path d="M7 14h2"></path><path d="M11 14h2"></path>',
   },
   {
-    title: 'Služby a freelanceri',
-    desc: 'Konzultanti, kouči, terapeuti, fotografi, dizajnéri. Pomáhame vám priviesť klientov, ktorí majú o vás reálny záujem — nie len kliky.',
+    title: t('about.segment3Title', lang),
+    desc: t('about.segment3Desc', lang),
     icon: '<circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a8.5 8.5 0 0 1 13 0"></path>',
   },
   {
-    title: 'Výrobné a B2B firmy',
-    desc: 'Kovovýroba, plastikárstvo, stavebné firmy, technologické služby. B2B reklama nie je o impresiách — je o správnych rozhodovacích osobách. To vieme.',
+    title: t('about.segment4Title', lang),
+    desc: t('about.segment4Desc', lang),
     icon: '<path d="M2 20h20"></path><path d="M5 20V8l5-3 5 3v12"></path><path d="M11 20V4l5-2v18"></path>',
   },
 ];
@@ -58,36 +59,36 @@ const segments = [
 // 4 hodnoty — prepísané aby zodpovedali "dostupnosť pre všetkých"
 const values = [
   {
-    title: 'Dáta nad dojmy',
-    desc:  'Rozhodujeme podľa čísel, nie pocitov. Aj malá kampaň má merať to čo veľká.',
+    title: t('about.value1Title', lang),
+    desc:  t('about.value1Desc', lang),
     icon:  '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
   },
   {
-    title: 'Bez viazanosti',
-    desc:  'Žiadne 3-, 6- ani 12-mesačné kontrakty. Ak vám to nesedí, odídete kedykoľvek bez výpovede.',
+    title: t('about.value2Title', lang),
+    desc:  t('about.value2Desc', lang),
     icon:  '<path d="M9 12l2 2 4-4"></path><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1"></path><path d="M3 12v7c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-7"></path>',
   },
   {
-    title: 'Transparentná cena',
-    desc:  'Vidíte každé euro. Žiadne skryté marže, žiadne prekvapenia na faktúre, žiadne provízie z budgetu.',
+    title: t('about.value3Title', lang),
+    desc:  t('about.value3Desc', lang),
     icon:  '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
   },
   {
-    title: 'Reálna dostupnosť',
-    desc:  'Píšete priamo človeku, ktorý kampane nastavuje. Žiadny ticket systém, žiadne 5 úrovní eskalácie.',
+    title: t('about.value4Title', lang),
+    desc:  t('about.value4Desc', lang),
     icon:  '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
   },
 ];
 
 // "Ako sa líšime" — porovnanie agentúra vs. Adlify
 const compareRows = [
-  { label: 'Minimálny mesačný rozpočet na reklamu', them: 'Často 3 000 €+',                us: 'Od 200 €' },
-  { label: 'Minimálna doba spolupráce',             them: '6 alebo 12 mesiacov',            us: 'Bez viazanosti' },
-  { label: 'Cenotvorba',                            them: '15 % provízia z reklamy',        us: 'Fixný paušál' },
-  { label: 'Komunikácia',                           them: 'Account manager + ticket',       us: 'Priamo s človekom čo robí kampane' },
-  { label: 'Reporting',                             them: 'Mesačný PDF report',             us: 'Real-time dashboard 24/7' },
-  { label: 'Vlastníctvo účtov',                     them: 'Účty na agentúru',               us: 'Účty vždy na vašu firmu' },
-  { label: 'Pre koho je vhodný',                    them: 'Stredné a veľké firmy',          us: 'Aj živnostníci a malé firmy' },
+  { label: t('about.compareLabel1', lang), them: t('about.compareThem1', lang), us: t('about.compareUs1', lang) },
+  { label: t('about.compareLabel2', lang), them: t('about.compareThem2', lang), us: t('about.compareUs2', lang) },
+  { label: t('about.compareLabel3', lang), them: t('about.compareThem3', lang), us: t('about.compareUs3', lang) },
+  { label: t('about.compareLabel4', lang), them: t('about.compareThem4', lang), us: t('about.compareUs4', lang) },
+  { label: t('about.compareLabel5', lang), them: t('about.compareThem5', lang), us: t('about.compareUs5', lang) },
+  { label: t('about.compareLabel6', lang), them: t('about.compareThem6', lang), us: t('about.compareUs6', lang) },
+  { label: t('about.compareLabel7', lang), them: t('about.compareThem7', lang), us: t('about.compareUs7', lang) },
 ];
 ---
 
@@ -113,7 +114,7 @@ const compareRows = [
   <section class="section">
     <div class="container" style="max-width: 920px;">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-        <span class="eyebrow">[ Manifest ]</span>
+        <span class="eyebrow">{t('about.manifestEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
@@ -129,32 +130,26 @@ const compareRows = [
       ) : (
         <>
           <h2 class="h2" style="margin-bottom: 32px; max-width: 22ch; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.03em;">
-            Výkonnostný marketing nemá byť privilégium <span class="grad">veľkých.</span>
+            {t('about.manifestTitlePrefix', lang)} <span class="grad">{t('about.manifestTitleAccent', lang)}</span>
           </h2>
 
           <div style="display: flex; flex-direction: column; gap: 22px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.7; color: var(--ink-2); max-width: 70ch;">
             <p>
-              Väčšina agentúr vás ani nezdvihne, ak nemáte rozpočet aspoň 3 000 € mesačne.
-              Pýtajú minimálne 6-mesačné zmluvy, účtujú províziu z budgetu a komunikujú
-              cez tri vrstvy account managerov.
+              {t('about.manifestPara1', lang)}
             </p>
 
             <p>
-              <strong>To nie je marketing pre malých.</strong>
-              A pritom práve malí — kaderníčky, mäsiari, výrobné firmy z regiónu — potrebujú
-              kvalitnú reklamu rovnako ako veľké e-shopy. Možno ešte viac, lebo bojujú o každého zákazníka.
+              <strong>{t('about.manifestPara2Bold', lang)}</strong>
+              {' '}{t('about.manifestPara2', lang)}
             </p>
 
             <p>
-              Adlify sme založili, aby sme to zmenili. <strong>Bez viazanosti, od 149 € mesačne,
-              priamo s človekom čo kampane robí.</strong> Nie s tímom, ktorý vám pridelí
-              juniora a fakturuje senior sadzbu.
+              {t('about.manifestPara3a', lang)} <strong>{t('about.manifestPara3Bold', lang)}</strong>{' '}
+              {t('about.manifestPara3b', lang)}
             </p>
 
             <p>
-              Online marketingu sa venujeme od <strong>roku 2014</strong>. Začínali sme s Google Ads,
-              prešli cez Meta, TikTok, e-mail automatizácie aj server-side meranie. Vieme, čo funguje
-              v rôznych odvetviach — a čo je len zbytočne drahá hra.
+              {t('about.manifestPara4a', lang)} <strong>{t('about.manifestPara4Bold', lang)}</strong>{t('about.manifestPara4b', lang)}
             </p>
           </div>
         </>
@@ -169,12 +164,12 @@ const compareRows = [
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Pre koho sme tu ]</span>
+        <span class="eyebrow">{t('about.segmentsEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
       <h2 class="h1" style="max-width: 18ch; margin-bottom: 56px;">
-        Pomáhame tým, ktorých <span class="grad">veľké agentúry odmietli.</span>
+        {t('about.segmentsTitlePrefix', lang)} <span class="grad">{t('about.segmentsTitleAccent', lang)}</span>
       </h2>
 
       <div class="segments-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
@@ -205,12 +200,12 @@ const compareRows = [
   <section class="section">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Ako pracujeme ]</span>
+        <span class="eyebrow">{t('about.valuesEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
       <h2 class="h1" style="max-width: 16ch; margin-bottom: 56px;">
-        Štyri princípy, na ktorých <span class="grad">stojíme.</span>
+        {t('about.valuesTitlePrefix', lang)} <span class="grad">{t('about.valuesTitleAccent', lang)}</span>
       </h2>
 
       <div class="values-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
@@ -245,19 +240,19 @@ const compareRows = [
   <section class="section" style="background: var(--ink); color: var(--bg);">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow" style="opacity: 0.55; color: var(--bg);">[ Porovnanie ]</span>
+        <span class="eyebrow" style="opacity: 0.55; color: var(--bg);">{t('about.compareEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></span>
       </div>
 
       <h2 class="h1" style="max-width: 20ch; margin-bottom: 56px;">
-        V čom sa líšime od <span class="grad">bežnej agentúry.</span>
+        {t('about.compareTitlePrefix', lang)} <span class="grad">{t('about.compareTitleAccent', lang)}</span>
       </h2>
 
       <div class="compare-wrap" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden;">
         <!-- Header -->
         <div class="compare-row compare-head" style="display: grid; grid-template-columns: 1.4fr 1fr 1fr; padding: 20px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.55;">
-          <div>FAKTOR</div>
-          <div style="text-align: center;">BEŽNÁ AGENTÚRA</div>
+          <div>{t('about.compareHeadFactor', lang)}</div>
+          <div style="text-align: center;">{t('about.compareHeadThem', lang)}</div>
           <div style="text-align: center; color: var(--grad-start); opacity: 1;">ADLIFY</div>
         </div>
 
@@ -287,7 +282,7 @@ const compareRows = [
       </div>
 
       <p style="text-align: center; margin-top: 32px; font-size: 13px; opacity: 0.5; max-width: 600px; margin-left: auto; margin-right: auto;">
-        To, ako pracujú iné agentúry, je výsledkom histórie a klientely, ktorú obsluhujú. Nie sú to zlí ľudia — len ich biznis model nesedí na malé a stredné firmy. Adlify je iný.
+        {t('about.compareNote', lang)}
       </p>
     </div>
 
@@ -303,6 +298,6 @@ const compareRows = [
   </section>
 
 
-  <ContactSection accent="stratégiu" />
+  <ContactSection accent="stratégiu" lang={lang} />
 
 </Layout>

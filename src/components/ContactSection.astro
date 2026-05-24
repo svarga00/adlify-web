@@ -12,18 +12,31 @@
  */
 
 import { fetchSettings } from '../lib/content';
+import { t } from '../lib/translations';
+import type { Lang } from '../lib/i18n';
 
 interface Props {
   accent?: 'audit' | 'stratégiu' | 'plán' | 'call';
   lead?: string;
+  lang?: Lang;
 }
 
 const {
   accent = 'audit',
-  lead = '30 minút, bez záväzku. Prejdeme vaše účty, meranie a ukážeme, kde utekajú peniaze.',
+  lead,
+  lang = 'sk',
 } = Astro.props;
 
-const accentText = `${accent}.`;
+// Map accent SK keyword -> translated word
+const accentMap: Record<string, string> = {
+  'audit':      t('contactSection.accentAudit', lang),
+  'stratégiu': t('contactSection.accentStrategy', lang),
+  'plán':      t('contactSection.accentPlan', lang),
+  'call':       t('contactSection.accentCall', lang),
+};
+const accentText = `${accentMap[accent] || accent}.`;
+
+const finalLead = lead || t('contactSection.lead', lang);
 
 // Fetch settings z DB (kontakty)
 const settings = await fetchSettings('sk');
@@ -43,25 +56,25 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
   <div class="container" style="position: relative;">
     <!-- Eyebrow -->
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-      <span style="font-family: var(--mono); font-size: 12px; opacity: 0.5; letter-spacing: 0.05em;">[ 07 — CONTACT ]</span>
+      <span style="font-family: var(--mono); font-size: 12px; opacity: 0.5; letter-spacing: 0.05em;">{t('contactSection.eyebrow', lang)}</span>
       <span style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.12);"></span>
       <span class="pill" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.75);">
         <span class="dot"></span>
-        <span>Priemerná odpoveď · 4 hod</span>
+        <span>{t('contactSection.responsePill', lang)}</span>
       </span>
     </div>
 
     <!-- Headline -->
     <div style="max-width: 1000px; margin-bottom: 64px;">
       <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
-        <span style="display: block;">Poďme si dohodnúť</span>
+        <span style="display: block;">{t('contactSection.titlePrefix', lang)}</span>
         <span style="display: inline-block; position: relative;">
           <span class="grad" style="display: inline-block;">{accentText}</span>
           <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
         </span>
       </h2>
       <p style="font-size: clamp(17px, 1.6vw, 21px); opacity: 0.65; max-width: 55ch; margin-top: 32px; line-height: 1.5;">
-        {lead}
+        {finalLead}
       </p>
     </div>
 
@@ -71,14 +84,14 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
       <a href="/kontakt#formular" class="contact-cta">
         <div aria-hidden="true" class="contact-cta-orb"></div>
         <div style="position: relative;">
-          <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">[ Začnime jednoducho ]</div>
+          <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">{t('contactSection.ctaEyebrow', lang)}</div>
           <div style="font-size: clamp(26px, 3vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 24px; max-width: 16ch;">
-            Otvoriť formulár<br>a napísať nám za 60 sekúnd
+            {t('contactSection.ctaTitle', lang)}
           </div>
           <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 32px;">
             <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: 0.7;">
               <span style="width: 8px; height: 8px; border-radius: 50%; background: rgb(34, 197, 94); box-shadow: 0 0 12px rgb(34, 197, 94);"></span>
-              <span>Bezplatný audit · bez záväzku</span>
+              <span>{t('contactSection.ctaNote', lang)}</span>
             </div>
             <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); display: flex; align-items: center; justify-content: center;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -100,7 +113,7 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
             </svg>
           </div>
           <div style="flex: 1;">
-            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">E-mail</div>
+            <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('contactSection.channelEmail', lang)}</div>
             <div style="font-weight: 500; font-size: 15px;">{email}</div>
           </div>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
@@ -117,7 +130,7 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Telefón</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('contactSection.channelPhone', lang)}</div>
               <div style="font-weight: 500; font-size: 15px;">{phone}</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
@@ -135,7 +148,7 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">WhatsApp</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('contactSection.channelWhatsapp', lang)}</div>
               <div style="font-weight: 500; font-size: 15px;">{phone}</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.5;">
@@ -154,7 +167,7 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
               </svg>
             </div>
             <div style="flex: 1;">
-              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">Kancelária</div>
+              <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 4px;">{t('contactSection.channelOffice', lang)}</div>
               <div style="font-weight: 500; font-size: 15px;">{address}</div>
             </div>
           </div>

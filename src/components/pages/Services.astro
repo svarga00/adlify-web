@@ -19,6 +19,7 @@ import { industries } from '../../lib/industries';
 import { SERVICE_DETAIL_SLUGS } from '../../data/serviceDetails';
 import { buildUrl, type Lang } from '../../lib/i18n';
 import { pageMeta } from '../../lib/pageMeta';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -644,7 +645,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
   )}
 
 
-  <ContactSection accent="audit" />
+  <ContactSection accent="audit" lang={lang} />
 
   <!-- Sticky scrollspy + sidebar layout styles -->
   <style is:global>
