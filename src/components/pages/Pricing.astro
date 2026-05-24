@@ -18,6 +18,7 @@ import ContactSection from '../ContactSection.astro';
 import { fetchPricingPlans, type PricingPlan } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -138,23 +139,18 @@ const compareRows = [
 
 // Jednorazové projekty
 const oneOffs = [
-  { title: 'Audit účtu',                       desc: 'Detailný audit Google/Meta Ads s konkrétnymi odporúčaniami. 7–10 dní.', price: 290 },
-  { title: 'Google Analytics + tag manager setup', desc: 'Kompletný setup analytiky vrátane pokročilého sledovania e-shopu a pokročilého GTM.', price: 490 },
-  { title: 'Optimalizácia konverzií',          desc: '4-týždňový sprint zameraný na konverzie. UX audit, A/B testy, implementácia.', price: 990 },
+  { title: t('pricing.oneoff1Title', lang), desc: t('pricing.oneoff1Desc', lang), price: 290 },
+  { title: t('pricing.oneoff2Title', lang), desc: t('pricing.oneoff2Desc', lang), price: 490 },
+  { title: t('pricing.oneoff3Title', lang), desc: t('pricing.oneoff3Desc', lang), price: 990 },
 ];
 
 // FAQ
 const faqs = [
-  { q: 'Musím platiť vopred?',
-    a: 'Prvá platba je vopred. Ďalšie faktúry majú splatnosť podľa individuálnej dohody. Pri 6-mesačnej alebo 12-mesačnej spolupráci je možná aj jednorazová platba so zľavou.' },
-  { q: 'Sú v cene aj reklamné rozpočty?',
-    a: 'Nie. Cena je za našu prácu (správa kampaní, kreatívy, optimalizácia, reporting). Reklamný rozpočet (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
-  { q: 'Môžem zmeniť balík počas spolupráce?',
-    a: 'Samozrejme. Môžete kedykoľvek upgradovať na vyšší balík (zmena platná od ďalšieho mesiaca). Downgrade je možný po dovŕšení dohodnutého obdobia.' },
-  { q: 'Ako funguje Premium balík?',
-    a: 'Premium je určený pre väčšie projekty s individuálnymi potrebami. Cena sa stanovuje podľa rozsahu — počet kanálov, veľkosti rozpočtu, frekvencia stretnutí. Napíšte nám, dohodneme sa.' },
-  { q: 'Sú v cene aj náklady na grafiku a copy?',
-    a: 'Áno. Všetky reklamné vizuály a texty sú zahrnuté v cene podľa balíka. Nepriplácate za štandardné kreatívy.' },
+  { q: t('pricing.faq1q', lang), a: t('pricing.faq1a', lang) },
+  { q: t('pricing.faq2q', lang), a: t('pricing.faq2a', lang) },
+  { q: t('pricing.faq3q', lang), a: t('pricing.faq3a', lang) },
+  { q: t('pricing.faq4q', lang), a: t('pricing.faq4a', lang) },
+  { q: t('pricing.faq5q', lang), a: t('pricing.faq5a', lang) },
 ];
 
 // Helper na renderovanie buniek tabuľky
@@ -175,13 +171,13 @@ function cellContent(v: string) {
   <PageHero
     num="004"
     kind="PRICING"
-    title="Jednoduchý cenník."
-    titleAccent="Bez prekvapení."
-    lead="Fixný mesačný paušál. Žiadne skryté poplatky. Bez viazanosti — odísť môžete kedykoľvek."
+    title={t('pricing.heroTitle', lang)}
+    titleAccent={t('pricing.heroTitleAccent', lang)}
+    lead={t('pricing.heroLead', lang)}
   >
     <!-- Benefit chips pod lead -->
     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;">
-      {['Bez viazanosti', 'Vlastníte všetky účty', 'Transparentná cena', 'Dáta v EÚ'].map((b) => (
+      {[t('pricing.chip1', lang), t('pricing.chip2', lang), t('pricing.chip3', lang), t('pricing.chip4', lang)].map((b) => (
         <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--ink);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgb(34,197,94)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"></polyline>
@@ -202,15 +198,15 @@ function cellContent(v: string) {
       <!-- Toggle: Mesačne / 6 mesiacov / 12 mesiacov -->
       <div style="display: flex; justify-content: center; margin-bottom: 56px;">
         <div data-pricing-toggle style="display: inline-flex; padding: 4px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; flex-wrap: wrap;">
-          <button class="pricing-toggle-btn active" data-pricing-mode="m1" data-pricing-discount="0" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--bg); color: var(--ink); border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
-            Mesačne
+          <button class="pricing-toggle-btn active" data-pricing-mode="m1" data-pricing-discount="0" data-i18n-period={t('pricing.toggleMonthly', lang)} type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--bg); color: var(--ink); border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+            {t('pricing.toggleMonthly', lang)}
           </button>
-          <button class="pricing-toggle-btn" data-pricing-mode="m6" data-pricing-discount="10" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-            6 mesiacov
+          <button class="pricing-toggle-btn" data-pricing-mode="m6" data-pricing-discount="10" data-i18n-period={t('pricing.toggle6m', lang)} type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+            {t('pricing.toggle6m', lang)}
             <span style="background: rgb(34,197,94); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.02em;">−10%</span>
           </button>
-          <button class="pricing-toggle-btn" data-pricing-mode="m12" data-pricing-discount="20" type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-            12 mesiacov
+          <button class="pricing-toggle-btn" data-pricing-mode="m12" data-pricing-discount="20" data-i18n-period={t('pricing.toggle12m', lang)} type="button" style="padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+            {t('pricing.toggle12m', lang)}
             <span style="background: rgb(34,197,94); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.02em;">−20%</span>
           </button>
         </div>
@@ -244,9 +240,9 @@ function cellContent(v: string) {
               {plan.is_custom ? (
                 <div style="margin-bottom: 16px;">
                   <div style="display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
-                    <span style="font-size: 22px; font-weight: 600; opacity: 0.85;">od</span>
+                    <span style="font-size: 22px; font-weight: 600; opacity: 0.85;">{t('pricing.priceFrom', lang)}</span>
                     <span class="num plan-price" data-plan-base={plan.price_monthly} style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.price_monthly}€</span>
-                    <span style="font-size: 14px; opacity: 0.65;">/mes</span>
+                    <span style="font-size: 14px; opacity: 0.65;">{t('pricing.perMonth', lang)}</span>
                   </div>
                 </div>
               ) : (
@@ -254,11 +250,11 @@ function cellContent(v: string) {
                   <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
                     <span class="plan-price-original" data-plan-base={plan.price_monthly} style={`font-size: 18px; font-weight: 500; text-decoration: line-through; opacity: 0.45; display: none;`}>{Math.round(plan.price_monthly / 0.8)}€</span>
                     <span class="num plan-price" data-plan-base={plan.price_monthly} style="font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1;">{plan.price_monthly}€</span>
-                    <span style="font-size: 14px; opacity: 0.65;">/mes</span>
+                    <span style="font-size: 14px; opacity: 0.65;">{t('pricing.perMonth', lang)}</span>
                   </div>
                   <!-- Total za obdobie (zobrazí sa pri 6m alebo 12m toggle) -->
                   <div class="plan-total" data-plan-base={plan.price_monthly} style={`font-size: 13px; opacity: 0.7; margin-top: 6px; display: none;`}>
-                    <span class="plan-total-amount" style="font-weight: 600;">{plan.price_monthly * 12}</span>€ za <span class="plan-total-period">12 mesiacov</span> <span style="opacity: 0.7;">celkom</span>
+                    <span class="plan-total-amount" style="font-weight: 600;">{plan.price_monthly * 12}</span>€ {t('pricing.totalFor', lang)} <span class="plan-total-period">{t('pricing.totalMonths12', lang)}</span> <span style="opacity: 0.7;">{t('pricing.totalSuffix', lang)}</span>
                   </div>
                 </div>
               )}
@@ -292,7 +288,7 @@ function cellContent(v: string) {
                 class={plan.is_popular ? 'btn btn-pricing-popular' : (plan.is_custom ? 'btn btn-pricing-custom' : 'btn btn-pricing-default')}
                 style="width: 100%; justify-content: center;"
               >
-                {plan.cta_label || `Vybrať ${plan.name}`}
+                {plan.cta_label || `${t('pricing.choosePrefix', lang)} ${plan.name}`}
               </a>
             </article>
           );
@@ -301,7 +297,7 @@ function cellContent(v: string) {
 
       <!-- Disclaimer pod kartami -->
       <p style="text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-        * Ceny sú bez DPH. <strong style="color: var(--ink-2);">Reklamný rozpočet</strong> (budget na reklamy v Google/Meta) <strong style="color: var(--ink-2);">nie je zahrnutý</strong> — platíte ho priamo platformám zo svojej karty.
+        {t('pricing.disclaimerStart', lang)} <strong style="color: var(--ink-2);">{t('pricing.disclaimerBudget', lang)}</strong> <strong style="color: var(--ink-2);">{t('pricing.disclaimerNotIncl', lang)}</strong> {t('pricing.disclaimerEnd', lang)}
       </p>
     </div>
   </section>
@@ -313,13 +309,13 @@ function cellContent(v: string) {
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Dôležité ]</span>
+        <span class="eyebrow">{t('pricing.budgetEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
       <div class="sec-head">
-        <h2 class="h1" style="max-width: 16ch;">Čo je reklamný rozpočet?</h2>
+        <h2 class="h1" style="max-width: 16ch;">{t('pricing.budgetTitle', lang)}</h2>
         <p class="lead">
-          Okrem našej ceny za správu kampaní potrebujete aj <strong>reklamný rozpočet (budget)</strong> — peniaze, ktoré platíte priamo Facebooku alebo Google za zobrazovanie vašich reklám. Tento rozpočet si nastavujete vy podľa svojich možností. Čím viac investujete, tým viac ľudí oslovíte.
+          {t('pricing.budgetLead1', lang)} <strong>{t('pricing.budgetLead2', lang)}</strong> {t('pricing.budgetLead3', lang)}
         </p>
       </div>
 
@@ -327,30 +323,30 @@ function cellContent(v: string) {
         <!-- 150-300€ -->
         <div style="padding: 40px 28px; text-align: center; display: flex; flex-direction: column; border-right: 1px solid var(--line);">
           <div class="num grad" style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px;">150–300 €</div>
-          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">/MESIAC</div>
-          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Starter / Pro</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">{t('pricing.budgetMonth', lang)}</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{t('pricing.budget1Plan', lang)}</div>
           <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
-            Pre živnostníkov a malé firmy. Test kampaní, prvé výsledky, overenie potenciálu.
+            {t('pricing.budget1Desc', lang)}
           </p>
         </div>
 
         <!-- 300-700€ -->
         <div style="padding: 40px 28px; text-align: center; display: flex; flex-direction: column; border-right: 1px solid var(--line);">
           <div class="num grad" style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px;">300–700 €</div>
-          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">/MESIAC</div>
-          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Pro / Enterprise</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">{t('pricing.budgetMonth', lang)}</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{t('pricing.budget2Plan', lang)}</div>
           <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
-            Pre stabilnejšie výsledky. Viacero kampaní paralelne, lepšie testovanie, väčší dosah.
+            {t('pricing.budget2Desc', lang)}
           </p>
         </div>
 
         <!-- 1500€+ -->
         <div style="padding: 40px 28px; text-align: center; display: flex; flex-direction: column;">
           <div class="num grad" style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px;">1 500 €+</div>
-          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">/MESIAC</div>
-          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Premium</div>
+          <div style="font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 20px;">{t('pricing.budgetMonth', lang)}</div>
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{t('pricing.budget3Plan', lang)}</div>
           <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">
-            Pre veľké projekty s maximálnym dosahom. Plný škálovaný marketing s remarketingom.
+            {t('pricing.budget3Desc', lang)}
           </p>
         </div>
       </div>
@@ -377,7 +373,7 @@ function cellContent(v: string) {
   <section class="section">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-        <span class="eyebrow">[ Jednorazové projekty ]</span>
+        <span class="eyebrow">{t('pricing.oneoffEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
@@ -389,7 +385,7 @@ function cellContent(v: string) {
             <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px;">
               <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em;">€{o.price}</div>
               <a href="/kontakt#formular" class="btn btn-sm btn-outline">
-                Objednať
+                {t('pricing.orderCta', lang)}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M7 17 17 7"></path>
                   <path d="M7 7h10v10"></path>
@@ -409,7 +405,7 @@ function cellContent(v: string) {
   <section class="section" style="background: var(--bg-soft); padding-top: clamp(56px, 6vw, 96px);">
     <div class="container" style="max-width: 880px;">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-        <span class="eyebrow">[ Otázky o cenníku ]</span>
+        <span class="eyebrow">{t('pricing.faqEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
@@ -447,6 +443,9 @@ function cellContent(v: string) {
       function applyDiscount(discount) {
         // discount: 0 (Mesačne), 10 (6 mes), 20 (12 mes)
         var months = discount === 0 ? 0 : (discount === 10 ? 6 : 12);
+        // i18n: získaj lokalizovaný label z aktívneho buttonu
+        var activeBtnForLabel = document.querySelector('[data-pricing-mode][data-pricing-discount="' + discount + '"]');
+        var periodLabel = activeBtnForLabel ? activeBtnForLabel.dataset.i18nPeriod : (months + ' mesiacov');
 
         prices.forEach(function (p) {
           var base = parseFloat(p.dataset.planBase || '0');
@@ -488,7 +487,7 @@ function cellContent(v: string) {
           var amountEl = t.querySelector('.plan-total-amount');
           var periodEl = t.querySelector('.plan-total-period');
           if (amountEl) amountEl.textContent = totalAmount.toString();
-          if (periodEl) periodEl.textContent = months + ' mesiacov';
+          if (periodEl) periodEl.textContent = periodLabel;
           t.style.display = 'block';
         });
       }
