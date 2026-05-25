@@ -864,6 +864,20 @@ const DICT: Record<string, Dict> = {
   'blogDetail.btnCopyLink':          { sk: "Kopírovať odkaz", cs: "Kopírovat odkaz", hu: "Link másolása", en: "Copy link", de: "Link kopieren" },
   'blogDetail.copiedIG':             { sk: "✓ Skopírované - vložte do IG Story", cs: "✓ Zkopírováno - vložte do IG Story", hu: "✓ Másolva - illessze be az IG Story-ba", en: "✓ Copied - paste into IG Story", de: "✓ Kopiert - in IG Story einfügen" },
   'blogDetail.copiedLink':           { sk: "✓ Skopírované!", cs: "✓ Zkopírováno!", hu: "✓ Másolva!", en: "✓ Copied!", de: "✓ Kopiert!" },
+
+  // ============ CASE DETAIL PAGE ============
+  'caseDetail.backToAll':            { sk: "Všetky prípadové štúdie", cs: "Všechny případové studie", hu: "Összes esettanulmány", en: "All case studies", de: "Alle Fallstudien" },
+  'caseDetail.lblIndustry':          { sk: "Odvetvie", cs: "Odvětví", hu: "Ágazat", en: "Industry", de: "Branche" },
+  'caseDetail.lblDuration':          { sk: "Trvanie", cs: "Trvání", hu: "Időtartam", en: "Duration", de: "Dauer" },
+  'caseDetail.lblBudget':            { sk: "Reklamný budget", cs: "Reklamní rozpočet", hu: "Reklámköltségvetés", en: "Advertising budget", de: "Werbebudget" },
+  'caseDetail.lblServices':          { sk: "Použité služby", cs: "Použité služby", hu: "Használt szolgáltatások", en: "Services used", de: "Verwendete Services" },
+  'caseDetail.kpisEyebrow':          { sk: "[ Výsledky · pred / po ]", cs: "[ Výsledky · před / po ]", hu: "[ Eredmények · előtte / utána ]", en: "[ Results · before / after ]", de: "[ Ergebnisse · vorher / nachher ]" },
+  'caseDetail.s1Eyebrow':            { sk: "[ 01 - VÝZVA ]", cs: "[ 01 - VÝZVA ]", hu: "[ 01 - KIHÍVÁS ]", en: "[ 01 - CHALLENGE ]", de: "[ 01 - HERAUSFORDERUNG ]" },
+  'caseDetail.s1Title':              { sk: "Stav pred spoluprácou", cs: "Stav před spoluprací", hu: "Helyzet az együttműködés előtt", en: "State before cooperation", de: "Ausgangslage vor der Zusammenarbeit" },
+  'caseDetail.s2Eyebrow':            { sk: "[ 02 - PRÍSTUP ]", cs: "[ 02 - PŘÍSTUP ]", hu: "[ 02 - MEGKÖZELÍTÉS ]", en: "[ 02 - APPROACH ]", de: "[ 02 - ANSATZ ]" },
+  'caseDetail.s2Title':              { sk: "Čo sme zmenili", cs: "Co jsme změnili", hu: "Mit változtattunk meg", en: "What we changed", de: "Was wir verändert haben" },
+  'caseDetail.s3Eyebrow':            { sk: "[ 03 - VÝSLEDKY ]", cs: "[ 03 - VÝSLEDKY ]", hu: "[ 03 - EREDMÉNYEK ]", en: "[ 03 - RESULTS ]", de: "[ 03 - ERGEBNISSE ]" },
+  'caseDetail.s3Title':              { sk: "Výsledky po spolupráci", cs: "Výsledky po spolupráci", hu: "Eredmények az együttműködés után", en: "Results after cooperation", de: "Resultate nach der Zusammenarbeit" },
 };
 
 /**

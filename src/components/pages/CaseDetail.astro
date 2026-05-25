@@ -44,7 +44,7 @@ function paragraphs(text: string | undefined) {
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m15 18-6-6 6-6"></path>
         </svg>
-        Všetky prípadové štúdie
+        {t('caseDetail.backToAll', lang)}
       </a>
 
       <!-- Tag -->
@@ -66,25 +66,25 @@ function paragraphs(text: string | undefined) {
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.18);">
         {cs.industry && (
           <div>
-            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">Odvetvie</div>
+            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">{t('caseDetail.lblIndustry', lang)}</div>
             <div style="font-size: 15px; font-weight: 600;">{cs.industry}</div>
           </div>
         )}
         {cs.duration && (
           <div>
-            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">Trvanie</div>
+            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">{t('caseDetail.lblDuration', lang)}</div>
             <div style="font-size: 15px; font-weight: 600;">{cs.duration}</div>
           </div>
         )}
         {cs.budget && (
           <div>
-            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">Reklamný budget</div>
+            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">{t('caseDetail.lblBudget', lang)}</div>
             <div style="font-size: 15px; font-weight: 600;">{cs.budget}</div>
           </div>
         )}
         {cs.services_used && cs.services_used.length > 0 && (
           <div>
-            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">Použité služby</div>
+            <div class="eyebrow" style="opacity: 0.65; color: white; margin-bottom: 6px;">{t('caseDetail.lblServices', lang)}</div>
             <div style="font-size: 15px; font-weight: 600;">{cs.services_used.join(', ')}</div>
           </div>
         )}
@@ -100,7 +100,7 @@ function paragraphs(text: string | undefined) {
     <section class="section" style="background: var(--bg-soft); padding-top: clamp(48px, 6vw, 80px);">
       <div class="container">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-          <span class="eyebrow">[ Výsledky · pred / po ]</span>
+          <span class="eyebrow">{t('caseDetail.kpisEyebrow', lang)}</span>
           <span style="flex: 1; height: 1px; background: var(--line);"></span>
         </div>
 
@@ -143,10 +143,10 @@ function paragraphs(text: string | undefined) {
       {cs.challenge && (
         <article style="margin-bottom: 64px;">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-            <span class="eyebrow">[ 01 — VÝZVA ]</span>
+            <span class="eyebrow">{t('caseDetail.s1Eyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h2" style="margin-bottom: 24px;">Stav pred spoluprácou</h2>
+          <h2 class="h2" style="margin-bottom: 24px;">{t('caseDetail.s1Title', lang)}</h2>
           {paragraphs(cs.challenge).map((p) => (
             <p class="body" style="font-size: 16px; line-height: 1.7; margin-bottom: 18px;">{p}</p>
           ))}
@@ -156,10 +156,10 @@ function paragraphs(text: string | undefined) {
       {cs.approach && (
         <article style="margin-bottom: 64px;">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-            <span class="eyebrow">[ 02 — PRÍSTUP ]</span>
+            <span class="eyebrow">{t('caseDetail.s2Eyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h2" style="margin-bottom: 24px;">Čo sme zmenili</h2>
+          <h2 class="h2" style="margin-bottom: 24px;">{t('caseDetail.s2Title', lang)}</h2>
           {paragraphs(cs.approach).map((p) => (
             <p class="body" style="font-size: 16px; line-height: 1.7; margin-bottom: 18px;">{p}</p>
           ))}
@@ -169,10 +169,10 @@ function paragraphs(text: string | undefined) {
       {cs.results && (
         <article style="margin-bottom: 64px;">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-            <span class="eyebrow">[ 03 — VÝSLEDKY ]</span>
+            <span class="eyebrow">{t('caseDetail.s3Eyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h2" style="margin-bottom: 24px;">Výsledky po spolupráci</h2>
+          <h2 class="h2" style="margin-bottom: 24px;">{t('caseDetail.s3Title', lang)}</h2>
           {paragraphs(cs.results).map((p) => (
             <p class="body" style="font-size: 16px; line-height: 1.7; margin-bottom: 18px;">{p}</p>
           ))}
