@@ -899,6 +899,30 @@ const DICT: Record<string, Dict> = {
   'serviceDetail.faqTitlePrefix':    { sk: "Otázky o", cs: "Otázky o", hu: "Kérdések a", en: "Questions about", de: "Fragen zu" },
   'serviceDetail.relatedEyebrow':    { sk: "[ Výsledky tejto služby ]", cs: "[ Výsledky této služby ]", hu: "[ Ennek a szolgáltatásnak az eredményei ]", en: "[ Results of this service ]", de: "[ Ergebnisse dieser Leistung ]" },
   'serviceDetail.relatedTitle':      { sk: "Ako to vyzerá v praxi.", cs: "Jak to vypadá v praxi.", hu: "Hogyan néz ki a gyakorlatban.", en: "How it looks in practice.", de: "Wie es in der Praxis aussieht." },
+
+  // ============ INDUSTRY DETAIL PAGE ============
+  'industryDetail.crumbServices':    { sk: "SLUŽBY", cs: "SLUŽBY", hu: "SZOLGÁLTATÁSOK", en: "SERVICES", de: "DIENSTLEISTUNGEN" },
+  'industryDetail.crumbIndustryPacks': { sk: "BALÍČKY PRE ODVETVIA", cs: "BALÍČKY PRO ODVĚTVÍ", hu: "ÁGAZATI CSOMAGOK", en: "INDUSTRY PACKAGES", de: "BRANCHENPAKETE" },
+  'industryDetail.heroEyebrow':      { sk: "[ Balíček pre odvetvie ]", cs: "[ Balíček pro odvětví ]", hu: "[ Ágazati csomag ]", en: "[ Industry Package ]", de: "[ Branchenpaket ]" },
+  'industryDetail.heroCtaPrimary':   { sk: "Pozrieť čo zahŕňa", cs: "Podívat se, co zahrnuje", hu: "Megnézem mit tartalmaz", en: "See what's included", de: "Sehen Sie, was enthalten ist" },
+  'industryDetail.heroCtaSecondary': { sk: "Mám záujem", cs: "Mám zájem", hu: "Érdekel", en: "I'm interested", de: "Ich habe Interesse" },
+  'industryDetail.painsEyebrow':     { sk: "[ Bolesti ]", cs: "[ Bolesti ]", hu: "[ Fájdalompontok ]", en: "[ Pain Points ]", de: "[ Herausforderungen ]" },
+  'industryDetail.painsTitle':       { sk: "Poznáte tieto problémy?", cs: "Znáte tyto problémy?", hu: "Ismerik ezeket a problémákat?", en: "Do you recognize these problems?", de: "Kennen Sie diese Probleme?" },
+  'industryDetail.includesEyebrow':  { sk: "[ Čo dostanete ]", cs: "[ Co dostanete ]", hu: "[ Mit kapnak ]", en: "[ What you get ]", de: "[ Was Sie erhalten ]" },
+  'industryDetail.includesTitle':    { sk: "Balíček obsahuje:", cs: "Balíček obsahuje:", hu: "A csomag tartalmazza:", en: "The package includes:", de: "Das Paket enthält:" },
+  'industryDetail.includesLead':     { sk: "Všetko od stratégie cez implementáciu po pravidelnú optimalizáciu. Bez prekvapení v cenníku.", cs: "Vše od strategie přes implementaci po pravidelnou optimalizaci. Bez překvapení v ceníku.", hu: "Mindent a stratégiától a megvalósításon át a rendszeres optimalizálásig. Meglepetések nélkül az árlistában.", en: "Everything from strategy through implementation to regular optimization. No surprises in pricing.", de: "Alles von der Strategie über die Implementierung bis zur regelmäßigen Optimierung. Ohne Überraschungen in der Preisliste." },
+  'industryDetail.resultsEyebrow':   { sk: "[ Orientačné výsledky ]", cs: "[ Orientační výsledky ]", hu: "[ Tájékoztató eredmények ]", en: "[ Expected Results ]", de: "[ Orientierungsergebnisse ]" },
+  'industryDetail.resultsTitle':     { sk: "Čo môžete očakávať.", cs: "Co můžete očekávat.", hu: "Mit várhatnak.", en: "What you can expect.", de: "Was Sie erwarten können." },
+  'industryDetail.resultsLeadHighlight': { sk: "orientačné odhady", cs: "orientační odhady", hu: "becsült eredmények", en: "approximate estimates", de: "Orientierungsschätzungen" },
+  'industryDetail.resultsLeadRest':  { sk: "založené na typických výsledkoch v odvetví. Reálne čísla závisia od trhu, konkurencie, kvality služby a dostatočného reklamného rozpočtu. Pred začiatkom spolupráce nasimulujeme váš konkrétny prípad.", cs: "založené na typických výsledcích v odvětví. Skutečná čísla závisí na trhu, konkurenci, kvalitě služby a dostatečném reklamním rozpočtu. Před začátkem spolupráce nasimulujeme váš konkrétní případ.", hu: "az iparágban szokásos eredményeken alapulva. A valós számok a piactól, versenytől, szolgáltatás minőségétől és megfelelő hirdetési költségvetéstől függenek. Az együttműködés kezdete előtt szimulálunk az Önök konkrét esetére.", en: "based on typical industry results. Real numbers depend on the market, competition, service quality, and sufficient advertising budget. Before starting cooperation, we will simulate your specific case.", de: "basierend auf typischen Branchenergebnissen. Die tatsächlichen Zahlen hängen vom Markt, der Konkurrenz, der Servicequalität und einem ausreichenden Werbebudget ab. Vor Beginn der Zusammenarbeit simulieren wir Ihren konkreten Fall." },
+  'industryDetail.resultsLeadPrefix': { sk: "Toto sú", cs: "Toto jsou", hu: "Ezek", en: "These are", de: "Dies sind" },
+  'industryDetail.lblPrice':         { sk: "CENA", cs: "CENA", hu: "ÁR", en: "PRICE", de: "PREIS" },
+  'industryDetail.priceSuffix':      { sk: "/ mes", cs: "/ měs", hu: "/ hó", en: "/month", de: "/ Monat" },
+  'industryDetail.priceNote':        { sk: "+ reklamný rozpočet", cs: "+ reklamní rozpočet", hu: "+ hirdetési költségvetés", en: "+ advertising budget", de: "+ Werbebudget" },
+  'industryDetail.lblTimeline':      { sk: "TIMELINE", cs: "TIMELINE", hu: "IDŐKERET", en: "TIMELINE", de: "TIMELINE" },
+  'industryDetail.lblIdealFor':      { sk: "IDEÁLNE PRE", cs: "IDEÁLNÍ PRO", hu: "IDEÁLIS SZÁMUKRA", en: "IDEAL FOR", de: "IDEAL FÜR" },
+  'industryDetail.finalCta':         { sk: "Mám záujem o tento balíček", cs: "Mám zájem o tento balíček", hu: "Érdekel ez a csomag", en: "I'm interested in this package", de: "Ich habe Interesse an diesem Paket" },
+  'industryDetail.periodLabel':      { sk: "mesačne", cs: "měsíčně", hu: "havonta", en: "monthly", de: "monatlich" },
 };
 
 /**
