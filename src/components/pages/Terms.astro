@@ -15,6 +15,7 @@ import Layout from '../../layouts/Layout.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -31,7 +32,8 @@ const dic        = ph(settings.company_dic,     'DIČ');
 const address    = ph(settings.contact_address, 'sídlo');
 const email      = ph(settings.contact_email,   'e-mail');
 
-const today = new Date().toLocaleDateString('sk-SK');
+const dateLocale = ({ sk: 'sk-SK', cs: 'cs-CZ', hu: 'hu-HU', en: 'en-GB', de: 'de-DE' } as const)[lang];
+const today = new Date().toLocaleDateString(dateLocale);
 ---
 
 <Layout
@@ -45,19 +47,19 @@ const today = new Date().toLocaleDateString('sk-SK');
   <section class="legal-hero">
     <div class="container" style="max-width: 1080px;">
       <nav class="legal-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">DOMOV</a>
+        <a href="/">{t('legal.crumbHome', lang)}</a>
         <span class="sep">/</span>
-        <span>OBCHODNÉ PODMIENKY</span>
+        <span>{t('legal.crumbTerms', lang)}</span>
       </nav>
-      <div class="legal-eyebrow">[ Právny dokument · § VOP ]</div>
-      <h1 class="legal-h1">Obchodné podmienky</h1>
+      <div class="legal-eyebrow">{t('terms.docEyebrow', lang)}</div>
+      <h1 class="legal-h1">{t('terms.h1', lang)}</h1>
       <p class="legal-lead">
         Tieto všeobecné obchodné podmienky upravujú zmluvný vzťah medzi {company} a jej klientmi.
       </p>
       <div class="legal-meta-row">
-        <span><strong>Účinnosť od:</strong> {today}</span>
+        <span><strong>{t('legal.effectiveFrom', lang)}:</strong> {today}</span>
         <span class="dot">·</span>
-        <span><strong>Verzia:</strong> 1.0</span>
+        <span><strong>{t('legal.version', lang)}:</strong> 1.0</span>
         <span class="dot">·</span>
         <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
       </div>
@@ -169,16 +171,16 @@ const today = new Date().toLocaleDateString('sk-SK');
 
           <hr />
           <p class="legal-meta">
-            Posledná aktualizácia: {today}<br />
-            Pri otázkach napíšte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
+            {t('legal.lastUpdate', lang)}: {today}<br />
+            {t('legal.questionsAt', lang)}: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
           </p>
         </article>
 
         <!-- Sticky ToC sidebar -->
         <aside class="legal-sidebar">
           <div class="legal-sidebar-sticky">
-            <div class="legal-sidebar-eyebrow">[ Obsah ]</div>
-            <nav class="legal-toc" aria-label="Obsah dokumentu">
+            <div class="legal-sidebar-eyebrow">{t('legal.tocEyebrow', lang)}</div>
+            <nav class="legal-toc" aria-label={t('legal.tocAria', lang)}>
               <ol>
                 <li><a href="#vseobecne">Všeobecné ustanovenia</a></li>
                 <li><a href="#uzatvorenie">Uzatvorenie zmluvy</a></li>
