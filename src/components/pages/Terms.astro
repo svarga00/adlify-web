@@ -54,7 +54,7 @@ const today = new Date().toLocaleDateString(dateLocale);
       <div class="legal-eyebrow">{t('terms.docEyebrow', lang)}</div>
       <h1 class="legal-h1">{t('terms.h1', lang)}</h1>
       <p class="legal-lead">
-        Tieto všeobecné obchodné podmienky upravujú zmluvný vzťah medzi {company} a jej klientmi.
+        {t('terms.lead', lang).replace('{company}', company)}
       </p>
       <div class="legal-meta-row">
         <span><strong>{t('legal.effectiveFrom', lang)}:</strong> {today}</span>
@@ -73,100 +73,76 @@ const today = new Date().toLocaleDateString(dateLocale);
         <!-- Obsah článku -->
         <article class="legal-prose">
 
-          <h2 id="vseobecne">1. Všeobecné ustanovenia</h2>
+          <h2 id="vseobecne">{t('terms.s1Title', lang)}</h2>
           <p>
-            Tieto všeobecné obchodné podmienky (ďalej len <strong>„VOP"</strong>) upravujú zmluvný vzťah
-            medzi spoločnosťou <strong>{company}</strong>, IČO: {ico}, DIČ: {dic}, so sídlom {address}
-            (ďalej len <strong>„poskytovateľ"</strong>) a klientom (ďalej len <strong>„objednávateľ"</strong>).
+            {t('terms.s1p1Prefix', lang)} <strong>„{t('terms.s1p1VopAbbr', lang)}"</strong>{t('terms.s1p1Middle', lang)} <strong>{company}</strong>, {t('terms.s1p1IcoLabel', lang)}: {ico}, {t('terms.s1p1DicLabel', lang)}: {dic}, {t('terms.s1p1AddressLabel', lang)} {address}
+            (<strong>„{t('terms.s1p1ProviderLabel', lang)}"</strong>) {t('terms.s1p1Suffix', lang)} (<strong>„{t('terms.s1p1ClientLabel', lang)}"</strong>).
           </p>
-          <p>
-            Predmetom zmluvy je poskytovanie marketingových služieb v oblasti online reklamy
-            (Google Ads, Meta Ads), SEO, e-mail marketingu, analytiky a súvisiacich služieb.
-          </p>
+          <p>{t('terms.s1p2', lang)}</p>
 
-          <h2 id="uzatvorenie">2. Uzatvorenie zmluvy</h2>
-          <p>
-            Zmluva medzi poskytovateľom a objednávateľom vzniká písomným potvrdením cenovej
-            ponuky alebo elektronicky cez e-mail z adresy {email}. Súčasťou zmluvy sú tieto VOP.
-          </p>
+          <h2 id="uzatvorenie">{t('terms.s2Title', lang)}</h2>
+          <p>{t('terms.s2Body', lang).replace('{email}', email)}</p>
 
-          <h2 id="cena">3. Cena a platobné podmienky</h2>
+          <h2 id="cena">{t('terms.s3Title', lang)}</h2>
           <ul>
-            <li>Cena za služby je dohodnutá individuálne a uvedená v cenovej ponuke alebo zmluve.</li>
-            <li>Mediálne náklady (Google Ads, Meta Ads atď.) si objednávateľ uhrádza priamo platforme.</li>
-            <li>Prvá faktúra je splatná vopred pred začiatkom poskytovania služieb. Ďalšie faktúry vystavujeme mesačne so splatnosťou podľa individuálnej dohody.</li>
-            <li>Pri omeškaní s platbou má poskytovateľ právo prerušiť poskytovanie služieb až do úhrady.</li>
-            <li>Cena nezahŕňa náklady na licencie tretích strán (e-mail platformy, hosting atď.), ak nie je dohodnuté inak.</li>
+            <li>{t('terms.s3item1', lang)}</li>
+            <li>{t('terms.s3item2', lang)}</li>
+            <li>{t('terms.s3item3', lang)}</li>
+            <li>{t('terms.s3item4', lang)}</li>
+            <li>{t('terms.s3item5', lang)}</li>
           </ul>
 
-          <h2 id="poskytovatel">4. Práva a povinnosti poskytovateľa</h2>
+          <h2 id="poskytovatel">{t('terms.s4Title', lang)}</h2>
           <ul>
-            <li>Poskytovať služby s odbornou starostlivosťou v súlade s dohodnutým rozsahom.</li>
-            <li>Pravidelne reportovať výsledky kampaní (mesačne alebo podľa dohodnutej frekvencie).</li>
-            <li>Chrániť dôverné informácie objednávateľa (NDA podpisujeme na požiadanie).</li>
-            <li>Garantovať doby reakcie podľa zvoleného balíka služieb.</li>
+            <li>{t('terms.s4item1', lang)}</li>
+            <li>{t('terms.s4item2', lang)}</li>
+            <li>{t('terms.s4item3', lang)}</li>
+            <li>{t('terms.s4item4', lang)}</li>
           </ul>
 
-          <h2 id="objednavatel">5. Práva a povinnosti objednávateľa</h2>
+          <h2 id="objednavatel">{t('terms.s5Title', lang)}</h2>
           <ul>
-            <li>Poskytnúť včas všetky podklady potrebné na realizáciu kampaní (prístupy, kreatívy, briefy).</li>
-            <li>Uhradiť faktúry v termíne splatnosti.</li>
-            <li>Schvaľovať materiály v dohodnutom termíne; pri omeškaní sa o tento čas posúva harmonogram.</li>
-            <li>Garantovať pravdivosť dodaných údajov a obsahu.</li>
+            <li>{t('terms.s5item1', lang)}</li>
+            <li>{t('terms.s5item2', lang)}</li>
+            <li>{t('terms.s5item3', lang)}</li>
+            <li>{t('terms.s5item4', lang)}</li>
           </ul>
 
-          <h2 id="garancie">6. Garancie a zodpovednosť</h2>
+          <h2 id="garancie">{t('terms.s6Title', lang)}</h2>
           <p>
-            Poskytovateľ <strong>nezaručuje</strong> konkrétnu výkonnostnú metriku
-            (napr. počet objednávok, ROAS, CPC), pretože tieto výsledky závisia od mnohých
-            faktorov mimo jeho kontroly (sezónnosť, trh, cena produktu, kvalita webu).
+            {t('terms.s6p1Prefix', lang)} <strong>{t('terms.s6p1Bold', lang)}</strong> {t('terms.s6p1Rest', lang)}
           </p>
-          <p>Poskytovateľ však garantuje:</p>
+          <p>{t('terms.s6p2', lang)}</p>
           <ul>
-            <li>Profesionálne nastavenie kampaní a meraní.</li>
-            <li>Pravidelný reporting a komunikáciu.</li>
-            <li>Implementáciu best practice z oblasti performance marketingu.</li>
+            <li>{t('terms.s6item1', lang)}</li>
+            <li>{t('terms.s6item2', lang)}</li>
+            <li>{t('terms.s6item3', lang)}</li>
           </ul>
-          <p>
-            V prípade nespokojnosti so službami má objednávateľ právo požiadať o nápravu
-            do 14 dní. Ak sa náprava nedosiahne, môže zmluvu vypovedať bez výpovednej lehoty
-            ku koncu prebiehajúceho fakturačného obdobia.
-          </p>
+          <p>{t('terms.s6p3', lang)}</p>
 
-          <h2 id="trvanie">7. Trvanie a ukončenie zmluvy</h2>
+          <h2 id="trvanie">{t('terms.s7Title', lang)}</h2>
           <ul>
-            <li>Zmluva sa uzatvára na dobu neurčitú alebo na dobu definovanú v cenovej ponuke (napr. 6 alebo 12 mesiacov pri zľavnenej cene).</li>
-            <li>Pri zmluve na dobu neurčitú má každá strana právo zmluvu kedykoľvek vypovedať bez udania dôvodu — výpoveď je účinná ku koncu prebiehajúceho fakturačného obdobia (mesiaca).</li>
-            <li>Pri zmluve na pevné obdobie (6 alebo 12 mesiacov) sa zľavnená cena viaže na uzatvorenie celého obdobia. V prípade predčasného ukončenia zo strany objednávateľa je objednávateľ povinný doplatiť rozdiel medzi zaplatenou zľavnenou cenou a štandardnou mesačnou cenou za obdobie využívania služieb.</li>
-            <li>Pri závažnom porušení (omeškanie s platbou viac ako 30 dní, porušenie NDA atď.) je možné odstúpiť okamžite.</li>
-            <li>Po ukončení zmluvy poskytovateľ odovzdá objednávateľovi prístupy k jeho účtom a relevantné údaje do 7 pracovných dní.</li>
+            <li>{t('terms.s7item1', lang)}</li>
+            <li>{t('terms.s7item2', lang)}</li>
+            <li>{t('terms.s7item3', lang)}</li>
+            <li>{t('terms.s7item4', lang)}</li>
+            <li>{t('terms.s7item5', lang)}</li>
           </ul>
 
-          <h2 id="dusevne">8. Duševné vlastníctvo</h2>
-          <p>
-            Po úhrade všetkých faktúr prechádzajú práva k vytvoreným kreatívam, copy a kampaňovým
-            dátam na objednávateľa. Poskytovateľ má právo používať dosiahnuté výsledky
-            (anonymizovane alebo so súhlasom) ako prípadovú štúdiu.
-          </p>
+          <h2 id="dusevne">{t('terms.s8Title', lang)}</h2>
+          <p>{t('terms.s8Body', lang)}</p>
 
-          <h2 id="mlcanlivost">9. Mlčanlivosť</h2>
-          <p>
-            Obe strany sa zaväzujú zachovávať mlčanlivosť o dôverných informáciách, ktoré získajú
-            počas spolupráce. Mlčanlivosť trvá aj po ukončení zmluvy. Na požiadanie podpisujeme
-            samostatnú zmluvu o mlčanlivosti (NDA).
-          </p>
+          <h2 id="mlcanlivost">{t('terms.s9Title', lang)}</h2>
+          <p>{t('terms.s9Body', lang)}</p>
 
-          <h2 id="reklamacie">10. Reklamácie</h2>
-          <p>
-            Reklamácie ohľadom kvality služieb sa uplatňujú písomne na e-mail {email} do 14 dní
-            od zistenia nedostatku. Poskytovateľ na reklamáciu odpovedá do 7 pracovných dní.
-          </p>
+          <h2 id="reklamacie">{t('terms.s10Title', lang)}</h2>
+          <p>{t('terms.s10Body', lang).replace('{email}', email)}</p>
 
-          <h2 id="zaverecne">11. Záverečné ustanovenia</h2>
+          <h2 id="zaverecne">{t('terms.s11Title', lang)}</h2>
           <ul>
-            <li>Vzťahy neupravené týmito VOP sa riadia Obchodným zákonníkom (513/1991 Zb.) a Občianskym zákonníkom Slovenskej republiky.</li>
-            <li>Spory sa primárne riešia mimosúdne; ak sa to nepodarí, príslušné sú súdy SR.</li>
-            <li>Poskytovateľ si vyhradzuje právo VOP meniť. O zmenách informuje objednávateľa minimálne 30 dní vopred.</li>
+            <li>{t('terms.s11item1', lang)}</li>
+            <li>{t('terms.s11item2', lang)}</li>
+            <li>{t('terms.s11item3', lang)}</li>
           </ul>
 
           <hr />
@@ -182,17 +158,17 @@ const today = new Date().toLocaleDateString(dateLocale);
             <div class="legal-sidebar-eyebrow">{t('legal.tocEyebrow', lang)}</div>
             <nav class="legal-toc" aria-label={t('legal.tocAria', lang)}>
               <ol>
-                <li><a href="#vseobecne">Všeobecné ustanovenia</a></li>
-                <li><a href="#uzatvorenie">Uzatvorenie zmluvy</a></li>
-                <li><a href="#cena">Cena a platobné podmienky</a></li>
-                <li><a href="#poskytovatel">Práva poskytovateľa</a></li>
-                <li><a href="#objednavatel">Práva objednávateľa</a></li>
-                <li><a href="#garancie">Garancie a zodpovednosť</a></li>
-                <li><a href="#trvanie">Trvanie a ukončenie</a></li>
-                <li><a href="#dusevne">Duševné vlastníctvo</a></li>
-                <li><a href="#mlcanlivost">Mlčanlivosť</a></li>
-                <li><a href="#reklamacie">Reklamácie</a></li>
-                <li><a href="#zaverecne">Záverečné ustanovenia</a></li>
+                <li><a href="#vseobecne">{t('terms.toc1', lang)}</a></li>
+                <li><a href="#uzatvorenie">{t('terms.toc2', lang)}</a></li>
+                <li><a href="#cena">{t('terms.toc3', lang)}</a></li>
+                <li><a href="#poskytovatel">{t('terms.toc4', lang)}</a></li>
+                <li><a href="#objednavatel">{t('terms.toc5', lang)}</a></li>
+                <li><a href="#garancie">{t('terms.toc6', lang)}</a></li>
+                <li><a href="#trvanie">{t('terms.toc7', lang)}</a></li>
+                <li><a href="#dusevne">{t('terms.toc8', lang)}</a></li>
+                <li><a href="#mlcanlivost">{t('terms.toc9', lang)}</a></li>
+                <li><a href="#reklamacie">{t('terms.toc10', lang)}</a></li>
+                <li><a href="#zaverecne">{t('terms.toc11', lang)}</a></li>
               </ol>
             </nav>
           </div>
