@@ -18,6 +18,7 @@ import ContactSection from '../ContactSection.astro';
 import { fetchSettings, fetchCompanyInfo } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import type { Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -81,20 +82,20 @@ const hasBilling = !!(
   billingAddress
 );
 
-// Trust pillars
+// Trust pillars (lokalizované)
 const pillars = [
-  { big: '~4 hod',  title: 'Priemerná doba odpovede',  sub: 'Počas pracovných dní (Po–Pi 9–18)' },
-  { big: 'GDPR',    title: 'Dáta držíme v EÚ',          sub: 'Servery a databázy v EÚ regiónoch' },
-  { big: '10+',     title: 'Rokov v PPC',               sub: 'Skúsenosti s Google a Meta od 2014' },
-  { big: '0 €',     title: 'Prvý audit zadarmo',          sub: 'Bez záväzku, bez predajného tlaku' },
+  { big: t('contact.pillar1Big', lang), title: t('contact.pillar1Title', lang), sub: t('contact.pillar1Sub', lang) },
+  { big: t('contact.pillar2Big', lang), title: t('contact.pillar2Title', lang), sub: t('contact.pillar2Sub', lang) },
+  { big: t('contact.pillar3Big', lang), title: t('contact.pillar3Title', lang), sub: t('contact.pillar3Sub', lang) },
+  { big: t('contact.pillar4Big', lang), title: t('contact.pillar4Title', lang), sub: t('contact.pillar4Sub', lang) },
 ];
 
-// "Čo dostanete v audite"
+// "Čo dostanete v audite" (lokalizované)
 const auditItems = [
-  { title: 'Kontrolu reklamných účtov', desc: 'Pozrieme Google Ads, Meta, prípadne LinkedIn alebo TikTok účty. Hľadáme, kde sa míňa zbytočne.' },
-  { title: 'Audit merania',             desc: 'Skontrolujeme GA4, Tag Manager, Meta Pixel. Či sa konverzie merajú správne, či sa stráca dáta.' },
-  { title: 'Návrh zlepšení',            desc: 'Konkrétne kroky čo zmeniť — od najľahších quick winov po dlhodobé strategické zmeny.' },
-  { title: 'Plán ďalších 90 dní',       desc: 'Ak by ste chceli pokračovať s nami, vidíte, čo by sme robili a v akom poradí.' },
+  { title: t('contact.audit1Title', lang), desc: t('contact.audit1Desc', lang) },
+  { title: t('contact.audit2Title', lang), desc: t('contact.audit2Desc', lang) },
+  { title: t('contact.audit3Title', lang), desc: t('contact.audit3Desc', lang) },
+  { title: t('contact.audit4Title', lang), desc: t('contact.audit4Desc', lang) },
 ];
 ---
 
@@ -126,12 +127,12 @@ const auditItems = [
              ============================================ -->
         <div>
           <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 24px; padding: clamp(28px, 4vw, 44px);">
-            <div class="eyebrow" style="margin-bottom: 16px;">[ Kontaktný formulár ]</div>
+            <div class="eyebrow" style="margin-bottom: 16px;">{t('contact.formEyebrow', lang)}</div>
             <h2 style="font-size: clamp(26px, 3vw, 36px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 12px;">
-              Napíšte nám priamo.
+              {t('contact.formTitle', lang)}
             </h2>
             <p style="font-size: 14px; color: var(--muted); line-height: 1.55; margin-bottom: 32px;">
-              Odpovedáme do ~4 hodín počas pracovných dní. Bez predajného tlaku.
+              {t('contact.formLead', lang)}
             </p>
 
             <form id="contactPageForm" data-contact-page-form style="display: flex; flex-direction: column; gap: 20px;">
@@ -139,52 +140,52 @@ const auditItems = [
               <!-- Meno + Firma -->
               <div class="cf-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div>
-                  <label class="cf-label">Meno a priezvisko *</label>
-                  <input class="cf-input" type="text" name="name" required placeholder="Ján Mrkvička" />
+                  <label class="cf-label">{t('contact.lblName', lang)}</label>
+                  <input class="cf-input" type="text" name="name" required placeholder={t('contact.phName', lang)} />
                 </div>
                 <div>
-                  <label class="cf-label">Firma</label>
-                  <input class="cf-input" type="text" name="company" placeholder="ABC s.r.o." />
+                  <label class="cf-label">{t('contact.lblCompany', lang)}</label>
+                  <input class="cf-input" type="text" name="company" placeholder={t('contact.phCompany', lang)} />
                 </div>
               </div>
 
               <!-- E-mail + Telefón -->
               <div class="cf-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div>
-                  <label class="cf-label">E-mail *</label>
-                  <input class="cf-input" type="email" name="email" required placeholder="jan@firma.sk" />
+                  <label class="cf-label">{t('contact.lblEmail', lang)}</label>
+                  <input class="cf-input" type="email" name="email" required placeholder={t('contact.phEmail', lang)} />
                 </div>
                 <div>
-                  <label class="cf-label">Telefón</label>
+                  <label class="cf-label">{t('contact.lblPhone', lang)}</label>
                   <input class="cf-input" type="tel" name="phone" placeholder="+421 ___ ___ ___" />
                 </div>
               </div>
 
               <!-- O čom sa chcete baviť -->
               <div>
-                <label class="cf-label">O čom sa chcete baviť?</label>
+                <label class="cf-label">{t('contact.lblTopic', lang)}</label>
                 <select class="cf-input" name="topic">
-                  <option value="">Vyberte tému…</option>
-                  <option value="audit">Bezplatný audit účtov</option>
-                  <option value="ads">Reklamné kampane (Google, Meta)</option>
-                  <option value="seo">SEO optimalizácia</option>
-                  <option value="eshop">E-shop alebo web</option>
-                  <option value="email">E-mail marketing a automatizácie</option>
-                  <option value="grafika">Grafika a tlač</option>
-                  <option value="iné">Iné / poradenstvo</option>
+                  <option value="">{t('contact.optDefault', lang)}</option>
+                  <option value="audit">{t('contact.optAudit', lang)}</option>
+                  <option value="ads">{t('contact.optAds', lang)}</option>
+                  <option value="seo">{t('contact.optSeo', lang)}</option>
+                  <option value="eshop">{t('contact.optEshop', lang)}</option>
+                  <option value="email">{t('contact.optEmail', lang)}</option>
+                  <option value="grafika">{t('contact.optGrafika', lang)}</option>
+                  <option value="iné">{t('contact.optIne', lang)}</option>
                 </select>
               </div>
 
               <!-- Správa -->
               <div>
-                <label class="cf-label">Správa *</label>
-                <textarea class="cf-input" name="message" rows="5" required placeholder="Stručne nám napíšte, s čím vám máme pomôcť. Čím konkrétnejšie, tým lepšie."></textarea>
+                <label class="cf-label">{t('contact.lblMessage', lang)}</label>
+                <textarea class="cf-input" name="message" rows="5" required placeholder={t('contact.phMessage', lang)}></textarea>
               </div>
 
               <!-- Submit + status -->
               <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
                 <button type="submit" class="btn btn-grad" style="padding: 14px 28px;">
-                  Odoslať správu
+                  {t('contact.btnSubmit', lang)}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M5 12h14"></path>
                     <path d="m12 5 7 7-7 7"></path>
@@ -195,7 +196,7 @@ const auditItems = [
 
               <!-- GDPR poznámka -->
               <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 8px;">
-                Odoslaním formulára súhlasíte so spracovaním osobných údajov pre účely odpovedania na váš dopyt. Viac v <a href="/ochrana-udajov" style="color: var(--ink); text-decoration: underline;">ochrane súkromia</a>.
+                {t('contact.gdprNote', lang)} <a href="/ochrana-udajov" style="color: var(--ink); text-decoration: underline;">{t('contact.gdprLink', lang)}</a>.
               </p>
             </form>
           </div>
@@ -215,9 +216,9 @@ const auditItems = [
               </svg>
             </div>
             <div style="flex: 1; min-width: 0;">
-              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">E-MAIL</div>
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">{t('contact.boxEmail', lang)}</div>
               <div style="font-size: 15px; font-weight: 600; word-break: break-all;">{email}</div>
-              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Odpoveď do ~4 hodín</div>
+              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{t('contact.boxEmailSub', lang)}</div>
             </div>
           </a>
 
@@ -230,9 +231,9 @@ const auditItems = [
                 </svg>
               </div>
               <div style="flex: 1; min-width: 0;">
-                <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">TELEFÓN</div>
+                <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">{t('contact.boxPhone', lang)}</div>
                 <div style="font-size: 15px; font-weight: 600;">{phone}</div>
-                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Po–Pi 9:00–18:00</div>
+                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{t('contact.boxPhoneSub', lang)}</div>
               </div>
             </a>
           )}
@@ -246,9 +247,9 @@ const auditItems = [
                 </svg>
               </div>
               <div style="flex: 1; min-width: 0;">
-                <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">WHATSAPP</div>
+                <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">{t('contact.boxWa', lang)}</div>
                 <div style="font-size: 15px; font-weight: 600;">{phone}</div>
-                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Najrýchlejšia odpoveď</div>
+                <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{t('contact.boxWaSub', lang)}</div>
               </div>
             </a>
           )}
@@ -262,9 +263,9 @@ const auditItems = [
               </svg>
             </div>
             <div style="flex: 1; min-width: 0;">
-              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">ONLINE STRETNUTIE</div>
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px;">{t('contact.boxMeet', lang)}</div>
               <div style="font-size: 15px; font-weight: 600;">Google Meet</div>
-              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Termín dohodneme po vašej správe</div>
+              <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{t('contact.boxMeetSub', lang)}</div>
             </div>
           </div>
 
@@ -276,9 +277,9 @@ const auditItems = [
               </svg>
             </div>
             <div style="flex: 1; min-width: 0;">
-              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px; opacity: 0.6; color: var(--bg);">RÝCHLY KONTAKT</div>
-              <div style="font-size: 15px; font-weight: 600;">Vyžiadať audit zadarmo</div>
-              <div style="font-size: 12px; opacity: 0.7; margin-top: 2px;">Otvorí sa rýchly formulár v okne</div>
+              <div class="eyebrow" style="margin-bottom: 4px; font-size: 10px; opacity: 0.6; color: var(--bg);">{t('contact.boxAudit', lang)}</div>
+              <div style="font-size: 15px; font-weight: 600;">{t('contact.boxAuditTitle', lang)}</div>
+              <div style="font-size: 12px; opacity: 0.7; margin-top: 2px;">{t('contact.boxAuditSub', lang)}</div>
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5; flex-shrink: 0;" aria-hidden="true">
               <path d="M5 12h14"></path>
@@ -366,7 +367,7 @@ const auditItems = [
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-        <span class="eyebrow">[ Kancelária ]</span>
+        <span class="eyebrow">{t('contact.officeEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
 
@@ -375,29 +376,29 @@ const auditItems = [
         <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: clamp(28px, 3.5vw, 40px);">
           <h3 style="font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 32px;">
             {officeCityShort}<br>
-            <span class="grad">južné Slovensko</span>
+            <span class="grad">{t('contact.officeRegion', lang)}</span>
           </h3>
 
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Adresa</div>
+              <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblAddress', lang)}</div>
               <div style="font-size: 16px; font-weight: 500;">{officeStreet}</div>
               <div style="font-size: 14px; color: var(--muted);">{officeZipCity}</div>
             </div>
             <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Stretnutia</div>
-              <div style="font-size: 16px; font-weight: 500;">Online cez Google Meet</div>
-              <div style="font-size: 13px; color: var(--muted);">Osobné stretnutia po dohode v {officeCityShort} alebo u vás</div>
+              <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblMeetings', lang)}</div>
+              <div style="font-size: 16px; font-weight: 500;">{t('contact.meetingsValue', lang)}</div>
+              <div style="font-size: 13px; color: var(--muted);">{t('contact.meetingsSubPrefix', lang)} {officeCityShort} {t('contact.meetingsSubSuffix', lang)}</div>
             </div>
             <div>
-              <div class="eyebrow" style="margin-bottom: 6px;">Pracovné hodiny</div>
-              <div style="font-size: 16px; font-weight: 500;">Po–Pi · 9:00–18:00</div>
-              <div style="font-size: 13px; color: var(--muted);">Rýchle správy zvyčajne aj mimo</div>
+              <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblHours', lang)}</div>
+              <div style="font-size: 16px; font-weight: 500;">{t('contact.hoursValue', lang)}</div>
+              <div style="font-size: 13px; color: var(--muted);">{t('contact.hoursSub', lang)}</div>
             </div>
           </div>
 
           <a href={officeMapsUrl} target="_blank" rel="noopener" class="btn btn-ink btn-sm" style="margin-top: 32px;">
-            Navigovať v Google Maps
+            {t('contact.mapsCta', lang)}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 17 17 7"></path>
               <path d="M7 7h10v10"></path>
@@ -553,44 +554,44 @@ const auditItems = [
       {hasBilling && (
         <div style="margin-top: 48px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: clamp(24px, 3vw, 36px);">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ Fakturačné údaje ]</span>
+            <span class="eyebrow">{t('contact.billingEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
 
           <div class="billing-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 48px;">
             {company.company_name && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">Názov firmy</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblCompanyName', lang)}</div>
                 <div style="font-size: 16px; font-weight: 500;">{company.company_name}</div>
               </div>
             )}
             {billingAddress && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">Sídlo firmy</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblBillingAddress', lang)}</div>
                 <div style="font-size: 16px; font-weight: 500; line-height: 1.45;">{billingAddress}</div>
               </div>
             )}
             {company.ico && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">IČO</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblIco', lang)}</div>
                 <div style="font-size: 16px; font-weight: 500; font-family: var(--mono);">{company.ico}</div>
               </div>
             )}
             {company.dic && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">DIČ</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblDic', lang)}</div>
                 <div style="font-size: 16px; font-weight: 500; font-family: var(--mono);">{company.dic}</div>
               </div>
             )}
             {company.ic_dph && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">IČ DPH</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblIcDph', lang)}</div>
                 <div style="font-size: 16px; font-weight: 500; font-family: var(--mono);">{company.ic_dph}</div>
               </div>
             )}
             {company.company_register && (
               <div>
-                <div class="eyebrow" style="margin-bottom: 6px;">Zápis v OR</div>
+                <div class="eyebrow" style="margin-bottom: 6px;">{t('contact.lblRegister', lang)}</div>
                 <div style="font-size: 14px; font-weight: 500; line-height: 1.45;">{company.company_register}</div>
               </div>
             )}
@@ -627,11 +628,11 @@ const auditItems = [
   <section class="section" style="background: var(--bg-soft);">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Bezplatný audit ]</span>
+        <span class="eyebrow">{t('contact.auditSectionEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
       <h2 class="h1" style="max-width: 18ch; margin-bottom: 56px;">
-        Čo dostanete v <span class="grad">audite zadarmo.</span>
+        {t('contact.auditSectionTitlePrefix', lang)} <span class="grad">{t('contact.auditSectionTitleAccent', lang)}</span>
       </h2>
 
       <div class="audit-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
@@ -651,14 +652,14 @@ const auditItems = [
       <!-- CTA -->
       <div style="margin-top: 40px; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
         <a href="#formular" class="btn btn-grad" style="padding: 16px 28px; font-size: 16px;">
-          Chcem audit zadarmo
+          {t('contact.auditCta', lang)}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;" aria-hidden="true">
             <path d="M7 17 17 7"></path>
             <path d="M7 7h10v10"></path>
           </svg>
         </a>
         <span style="font-family: var(--mono); font-size: 12px; color: var(--muted);">
-          Bez záväzku · Odpoveď do ~4 hod
+          {t('contact.auditCtaNote', lang)}
         </span>
       </div>
     </div>
@@ -703,7 +704,7 @@ const auditItems = [
   <div data-thanks-modal class="thanks-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
     <div class="thanks-backdrop" data-thanks-close></div>
     <div class="thanks-card">
-      <button type="button" class="thanks-close" data-thanks-close aria-label="Zavrieť">
+      <button type="button" class="thanks-close" data-thanks-close aria-label={t('contact.thanksClose', lang)}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -716,18 +717,18 @@ const auditItems = [
         </svg>
       </div>
 
-      <div class="thanks-eyebrow">[ ODOSLANÉ ]</div>
-      <h2 class="thanks-title" id="thanksTitle">Ďakujeme!</h2>
+      <div class="thanks-eyebrow">{t('contact.thanksEyebrow', lang)}</div>
+      <h2 class="thanks-title" id="thanksTitle">{t('contact.thanksTitle', lang)}</h2>
       <p class="thanks-text">
-        Vašu správu sme dostali. Ozveme sa <strong>do ~4 hodín</strong> počas pracovných dní (Po–Pi 9–18).
+        {t('contact.thanksText1Prefix', lang)} <strong>{t('contact.thanksText1Bold', lang)}</strong> {t('contact.thanksText1Suffix', lang)}
       </p>
       <p class="thanks-text" style="font-size: 13px; color: var(--muted); margin-top: 16px;">
-        Na váš e-mail sme poslali potvrdenie. Skontrolujte si schránku (prípadne spam).
+        {t('contact.thanksText2', lang)}
       </p>
 
       <div class="thanks-actions">
-        <a href="/pripadove-studie" class="btn btn-ghost" style="flex: 1; justify-content: center;">Pozrieť prípadovky</a>
-        <button type="button" class="btn btn-grad" data-thanks-close style="flex: 1; justify-content: center;">Zavrieť</button>
+        <a href="/pripadove-studie" class="btn btn-ghost" style="flex: 1; justify-content: center;">{t('contact.thanksBtnCases', lang)}</a>
+        <button type="button" class="btn btn-grad" data-thanks-close style="flex: 1; justify-content: center;">{t('contact.thanksBtnClose', lang)}</button>
       </div>
     </div>
   </div>
