@@ -13,6 +13,7 @@ import ContactSection from '../ContactSection.astro';
 import { fetchAllPosts, fetchFeaturedPost } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
 import { buildUrl, type Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -39,7 +40,7 @@ function formatDate(iso: string): string {
 }
 
 function readTime(min: number) {
-  return `${min} min`;
+  return `${min} ${t('blog.minSuffix', lang)}`;
 }
 
 function catSlug(c: string) {
@@ -70,9 +71,7 @@ function catSlug(c: string) {
     <div class="container" style="max-width: 880px;">
       <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
         <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
-          <strong>Žiadne marketingové fluffy posty.</strong> Píšeme len o tom, čo robíme každý deň —
-          konkrétne kampane, presné čísla, návody, ktoré niekomu reálne pomohli. Bez clickbait nadpisov
-          a bez generic "10 tipov".
+          <strong>{t('blog.introHighlight', lang)}</strong> {t('blog.introRest', lang)}
         </p>
       </div>
     </div>
@@ -92,21 +91,20 @@ function catSlug(c: string) {
             </svg>
           </div>
           <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px;">
-            Pripravujeme prvé články.
+            {t('blog.emptyTitle', lang)}
           </h3>
           <p style="font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 50ch; margin: 0 auto 24px;">
-            Pracujeme na sérii praktických článkov — od Google Ads cez meranie po automatizácie.
-            Medzitým si môžete prejsť naše služby alebo nás kontaktovať s konkrétnou otázkou.
+            {t('blog.emptyLead', lang)}
           </p>
           <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
             <a href={buildUrl(lang, '/sluzby')} class="btn btn-ink">
-              Pozrieť služby
+              {t('blog.emptyServices', lang)}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </a>
             <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-outline">
-              Mám otázku
+              {t('blog.emptyContact', lang)}
             </a>
           </div>
         </div>
@@ -162,11 +160,11 @@ function catSlug(c: string) {
                     </div>
                     <div>
                       <div style="font-size: 14px; font-weight: 600;">{featured.author_name}</div>
-                      <div style="font-size: 12px; color: var(--muted);">{featured.author_role || 'Autor článku'}</div>
+                      <div style="font-size: 12px; color: var(--muted);">{featured.author_role || t('blog.authorRole', lang)}</div>
                     </div>
                   </div>
                   <span class="btn btn-sm btn-ink">
-                    Čítať
+                    {t('blog.read', lang)}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M5 12h14"></path>
                       <path d="m12 5 7 7-7 7"></path>
@@ -195,7 +193,7 @@ function catSlug(c: string) {
             {categoryFilters.map((cat, i) => (
               <button
                 class={`cat-chip ${i === 0 ? 'active' : ''}`}
-                data-cat-filter={catSlug(cat)}
+                data-cat-filter={i === 0 ? 'all' : catSlug(cat)}
                 style={`padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 1px solid var(--line); background: ${i === 0 ? 'var(--ink)' : 'transparent'}; color: ${i === 0 ? 'var(--bg)' : 'var(--ink)'}; cursor: pointer; transition: all 0.2s;`}
               >
                 {cat}
@@ -263,23 +261,23 @@ function catSlug(c: string) {
       <section style="padding: clamp(56px, 7vw, 96px) 0; background: var(--bg-soft);">
         <div class="container" style="max-width: 720px; text-align: center;">
           <h2 style="font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; max-width: 22ch; margin-left: auto; margin-right: auto;">
-            Nový článok raz za 2 týždne. <span class="grad">Bez spamu.</span>
+            {t('blog.newsletterTitle', lang)} <span class="grad">{t('blog.newsletterAccent', lang)}</span>
           </h2>
           <p class="lead" style="margin-bottom: 32px;">
-            Pracovné nálezy, mini case studies a veci, ktoré nás prekvapili. Odhlásiť sa dá jedným klikom.
+            {t('blog.newsletterLead', lang)}
           </p>
 
-          <form data-newsletter-form style="display: flex; gap: 8px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
+          <form data-newsletter-form data-success-msg={t('blog.newsletterSuccess', lang)} style="display: flex; gap: 8px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
             <input
               type="email"
               name="email"
               required
-              placeholder="meno@firma.sk"
+              placeholder={t('blog.newsletterPlaceholder', lang)}
               class="field"
               style="flex: 1; min-width: 240px;"
             >
             <button type="submit" class="btn btn-grad">
-              Prihlásiť
+              {t('blog.newsletterButton', lang)}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M5 12h14"></path>
                 <path d="m12 5 7 7-7 7"></path>
@@ -308,7 +306,7 @@ function catSlug(c: string) {
           chip.classList.add('active');
           const filter = chip.dataset.catFilter;
           cards.forEach((card) => {
-            const isMatch = filter === 'všetko' || card.dataset.cat === filter;
+            const isMatch = filter === 'all' || card.dataset.cat === filter;
             card.classList.toggle('hidden', !isMatch);
           });
         });
@@ -319,6 +317,7 @@ function catSlug(c: string) {
       const form = document.querySelector('[data-newsletter-form]');
       const status = document.querySelector('[data-newsletter-status]');
       if (!form || !status) return;
+      const tpl = form.getAttribute('data-success-msg') || '✓ {email}';
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const fd = new FormData(form);
@@ -326,7 +325,7 @@ function catSlug(c: string) {
         if (!email) return;
         status.style.display = 'block';
         status.style.color = 'rgb(22, 163, 74)';
-        status.textContent = '✓ Ďakujeme! Prihlásili sme ' + email + ' do newslettra.';
+        status.textContent = tpl.replace('{email}', email);
         form.reset();
       });
     })();
