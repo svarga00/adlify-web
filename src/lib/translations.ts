@@ -1198,6 +1198,8 @@ const DICT: Record<string, Dict> = {
   'pc.48h':                          { sk: "48 hod", cs: "48 hod", hu: "48 óra", en: "48 hrs", de: "48 Std" },
   'pc.24h':                          { sk: "24 hod", cs: "24 hod", hu: "24 óra", en: "24 hrs", de: "24 Std" },
   'pc.4h':                           { sk: "4 hod", cs: "4 hod", hu: "4 óra", en: "4 hrs", de: "4 Std" },
+  'nav.closeMenu':                   { sk: "Zavrieť menu", cs: "Zavřít menu", hu: "Menü bezárása", en: "Close menu", de: "Menü schließen" },
+  'meta.orgDescription':             { sk: "Výkonnostná marketingová agentúra. Spravujeme Google a Meta Ads pre e-shopy a remeselníkov.", cs: "Výkonnostní marketingová agentura. Spravujeme Google a Meta Ads pro e-shopy a řemeslníky.", hu: "Teljesítmény marketing ügynökség. Google és Meta Ads kezelés e-shopoknak és kézműveseknek.", en: "Performance marketing agency. We manage Google and Meta Ads for e-shops and SMBs.", de: "Performance-Marketing-Agentur. Wir verwalten Google und Meta Ads für E-Shops und KMU." },
 };
 
 /**
