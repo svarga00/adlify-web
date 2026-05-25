@@ -842,6 +842,28 @@ const DICT: Record<string, Dict> = {
   'privacy.h1':                      { sk: "Ochrana osobných údajov", cs: "Ochrana osobních údajů", hu: "Adatvédelem", en: "Privacy Protection", de: "Datenschutz" },
   'terms.docEyebrow':                { sk: "[ Právny dokument · Podmienky ]", cs: "[ Právní dokument · Podmínky ]", hu: "[ Jogi dokumentum · Feltételek ]", en: "[ Legal Document · Terms ]", de: "[ Rechtsdokument · Bedingungen ]" },
   'terms.h1':                        { sk: "Obchodné podmienky", cs: "Obchodní podmínky", hu: "Általános Szerződési Feltételek", en: "Terms and Conditions", de: "Allgemeine Geschäftsbedingungen" },
+
+  // ============ BLOG DETAIL PAGE ============
+  'blogDetail.backToBlog':           { sk: "Späť na blog", cs: "Zpět na blog", hu: "Vissza a bloghoz", en: "Back to blog", de: "Zurück zum Blog" },
+  'blogDetail.minReading':           { sk: "min čítania", cs: "min čtení", hu: "perc olvasás", en: "min reading", de: "Min. Lesezeit" },
+  'blogDetail.tocEyebrow':           { sk: "[ Obsah ]", cs: "[ Obsah ]", hu: "[ Tartalom ]", en: "[ Contents ]", de: "[ Inhalt ]" },
+  'blogDetail.ctaEyebrow':           { sk: "[ Audit zadarmo ]", cs: "[ Audit zdarma ]", hu: "[ Ingyenes audit ]", en: "[ Free audit ]", de: "[ Kostenloses Audit ]" },
+  'blogDetail.ctaTitlePrefix':       { sk: "Chcete, aby", cs: "Chcete, aby", hu: "Szeretnék, ha", en: "Want", de: "Möchten Sie, dass" },
+  'blogDetail.ctaTitleAccent':       { sk: "my", cs: "my", hu: "mi", en: "us", de: "wir" },
+  'blogDetail.ctaTitleSuffix':       { sk: "sa pozreli na váš účet?", cs: "se podívali na váš účet?", hu: "megnéznék az Önök fiókját?", en: "to take a look at your account?", de: "uns Ihr Konto ansehen?" },
+  'blogDetail.ctaLead':              { sk: "30-minútový audit Google Ads / Meta Ads / merania. Zadarmo, bez záväzku.", cs: "30minutový audit Google Ads / Meta Ads / měření. Zdarma, bez závazku.", hu: "30 perces Google Ads / Meta Ads / mérési audit. Ingyenes, kötelezettségvállalás nélkül.", en: "30-minute Google Ads / Meta Ads / measurement audit. Free, no obligation.", de: "30-minütiges Google Ads / Meta Ads / Tracking Audit. Kostenlos, unverbindlich." },
+  'blogDetail.ctaButton':            { sk: "Vyžiadať audit", cs: "Vyžádat audit", hu: "Audit kérése", en: "Request audit", de: "Audit anfordern" },
+  'blogDetail.relatedEyebrow':       { sk: "[ Ďalšie články ]", cs: "[ Další články ]", hu: "[ További cikkek ]", en: "[ More articles ]", de: "[ Weitere Artikel ]" },
+  'blogDetail.shareEyebrow':         { sk: "[ Zdieľať ]", cs: "[ Sdílet ]", hu: "[ Megosztás ]", en: "[ Share ]", de: "[ Teilen ]" },
+  'blogDetail.shareLinkedin':        { sk: "Zdieľať na LinkedIn", cs: "Sdílet na LinkedIn", hu: "Megosztás LinkedIn-en", en: "Share on LinkedIn", de: "Auf LinkedIn teilen" },
+  'blogDetail.shareFacebook':        { sk: "Zdieľať na Facebooku", cs: "Sdílet na Facebooku", hu: "Megosztás Facebookon", en: "Share on Facebook", de: "Auf Facebook teilen" },
+  'blogDetail.shareX':               { sk: "Zdieľať na X", cs: "Sdílet na X", hu: "Megosztás X-en", en: "Share on X", de: "Auf X teilen" },
+  'blogDetail.shareCopyIG':          { sk: "Kopírovať pre Instagram Stories", cs: "Kopírovat pro Instagram Stories", hu: "Másolás Instagram Stories-hoz", en: "Copy for Instagram Stories", de: "Für Instagram Stories kopieren" },
+  'blogDetail.shareCopyLink':        { sk: "Kopírovať odkaz", cs: "Kopírovat odkaz", hu: "Link másolása", en: "Copy link", de: "Link kopieren" },
+  'blogDetail.btnCopyIG':            { sk: "Kopírovať pre IG Stories", cs: "Kopírovat pro IG Stories", hu: "Másolás IG Stories-hoz", en: "Copy for IG Stories", de: "Für IG Stories kopieren" },
+  'blogDetail.btnCopyLink':          { sk: "Kopírovať odkaz", cs: "Kopírovat odkaz", hu: "Link másolása", en: "Copy link", de: "Link kopieren" },
+  'blogDetail.copiedIG':             { sk: "✓ Skopírované - vložte do IG Story", cs: "✓ Zkopírováno - vložte do IG Story", hu: "✓ Másolva - illessze be az IG Story-ba", en: "✓ Copied - paste into IG Story", de: "✓ Kopiert - in IG Story einfügen" },
+  'blogDetail.copiedLink':           { sk: "✓ Skopírované!", cs: "✓ Zkopírováno!", hu: "✓ Másolva!", en: "✓ Copied!", de: "✓ Kopiert!" },
 };
 
 /**
