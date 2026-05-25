@@ -62,15 +62,28 @@
    * 2) WORD ROTATOR — striedanie textov v hero / contact headline
    * ============================================================ */
   function initWordRotator() {
-    // Hero rotator: nájde span s [data-rotator-target] a strieda 5 fráz
+    // Hero rotator: nájde span s [data-rotator-target] a strieda frázy z data-rotator-words
     document.querySelectorAll('[data-rotator-target]').forEach((span) => {
-      const heroSequence = [
+      // Default sequence (SK fallback)
+      let heroSequence = [
         'prináša čísla',
         'dvíha tržby',
         'škáluje e-shop',
         'mení návštevy',
         'zarába reálne',
       ];
+
+      // Read localized sequence from data-rotator-words attribute (JSON array)
+      const customWords = span.getAttribute('data-rotator-words');
+      if (customWords) {
+        try {
+          const parsed = JSON.parse(customWords);
+          if (Array.isArray(parsed) && parsed.length > 1) {
+            heroSequence = parsed;
+          }
+        } catch (e) { /* keep default */ }
+      }
+
       let i = 0;
       span.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
       span.style.minWidth = span.offsetWidth + 'px'; // prevent layout jump
@@ -88,11 +101,11 @@
       }, 2200);
     });
 
-    // Contact rotator: každý h1/h2/h3 s .grad span obsahujúcim "audit." sa rotuje
+    // Contact rotator: každý h1/h2/h3 s .grad span (legacy fallback pre stránky bez data-rotator-words)
     document.querySelectorAll('h1, h2, h3').forEach((h) => {
       const gradSpan = h.querySelector('.grad');
       if (!gradSpan) return;
-      if (gradSpan.hasAttribute('data-rotator-target')) return;
+      if (gradSpan.hasAttribute('data-rotator-target')) return; // už spracovaný hore
       const txt = (gradSpan.textContent || '').trim();
       const targets = ['audit.', 'stratégiu.', 'plán.', 'call.'];
       if (!targets.includes(txt)) return;

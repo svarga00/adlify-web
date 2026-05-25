@@ -15,7 +15,7 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import { glossary } from '../../lib/glossary';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -320,7 +320,7 @@ const categories = [
             info@adlify.eu
           </a>
         </div>
-        <a href="/kontakt#formular" class="btn btn-grad" style="white-space: nowrap;">
+        <a href={`${buildUrl(lang, "/kontakt")}#formular`} class="btn btn-grad" style="white-space: nowrap;">
           {t('faq.ctaButton', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"></path>

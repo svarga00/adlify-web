@@ -13,7 +13,7 @@
 
 import { fetchSettings } from '../lib/content';
 import { t } from '../lib/translations';
-import type { Lang } from '../lib/i18n';
+import { buildUrl, type Lang } from '../lib/i18n';
 
 interface Props {
   accent?: 'audit' | 'stratégiu' | 'plán' | 'call';
@@ -69,7 +69,13 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
       <h2 style="font-size: clamp(48px, 8vw, 128px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95;">
         <span style="display: block;">{t('contactSection.titlePrefix', lang)}</span>
         <span style="display: inline-block; position: relative;">
-          <span class="grad" style="display: inline-block;">{accentText}</span>
+          <span class="grad" data-rotator-target data-rotator-words={JSON.stringify([
+          accentText,
+          t('rotator.contact1', lang),
+          t('rotator.contact2', lang),
+          t('rotator.contact3', lang),
+          t('rotator.contact4', lang),
+        ].filter((v, i, a) => a.indexOf(v) === i))} style="display: inline-block;">{accentText}</span>
           <span style="display: inline-block; width: 0.5ch; height: 0.9em; background: var(--grad-start); margin-left: 8px; vertical-align: -0.1em; animation: blink 1s steps(1) infinite;"></span>
         </span>
       </h2>
@@ -81,7 +87,7 @@ const address = settings.office_address || settings.contact_address || 'Podzáms
     <!-- Split: hlavné CTA vľavo + 4 ci-chan boxy vpravo -->
     <div class="contact-split">
       <!-- Hlavné CTA -->
-      <a href="/kontakt#formular" class="contact-cta">
+      <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="contact-cta">
         <div aria-hidden="true" class="contact-cta-orb"></div>
         <div style="position: relative;">
           <div class="eyebrow" style="opacity: 0.55; color: var(--bg); margin-bottom: 20px;">{t('contactSection.ctaEyebrow', lang)}</div>

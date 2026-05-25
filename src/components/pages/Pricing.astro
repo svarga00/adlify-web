@@ -17,7 +17,7 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { fetchPricingPlans, type PricingPlan } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -384,7 +384,7 @@ function cellContent(v: string) {
             <p class="body" style="font-size: 14px; flex: 1; margin-bottom: 24px;">{o.desc}</p>
             <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px;">
               <div class="num grad" style="font-size: 36px; font-weight: 700; letter-spacing: -0.02em;">€{o.price}</div>
-              <a href="/kontakt#formular" class="btn btn-sm btn-outline">
+              <a href={`${buildUrl(lang, "/kontakt")}#formular`} class="btn btn-sm btn-outline">
                 {t('pricing.orderCta', lang)}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M7 17 17 7"></path>

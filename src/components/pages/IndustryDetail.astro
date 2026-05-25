@@ -59,7 +59,7 @@ const { pkg, lang = 'sk' } = Astro.props;
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </a>
-            <a href="/kontakt#formular" data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad">{t('industryDetail.heroCtaSecondary', lang)}</a>
+            <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad">{t('industryDetail.heroCtaSecondary', lang)}</a>
           </div>
         </div>
       </div>
@@ -196,7 +196,7 @@ const { pkg, lang = 'sk' } = Astro.props;
       </div>
 
       <div style="text-align: center; margin-top: 40px;">
-        <a href="/kontakt#formular" data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad" style="font-size: 15px; padding: 16px 32px;">
+        <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad" style="font-size: 15px; padding: 16px 32px;">
           {t('industryDetail.finalCta', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>

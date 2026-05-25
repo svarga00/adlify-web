@@ -9,7 +9,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -110,7 +110,7 @@ const today = new Date().toLocaleDateString(dateLocale);
 
           <h3>{t('privacy.s2dTitle', lang)}</h3>
           <p>
-            {t('privacy.s2dBodyPrefix', lang)} <a href="/cookies">{t('privacy.s2dBodyLink', lang)}</a>{t('privacy.s2dBodySuffix', lang)}
+            {t('privacy.s2dBodyPrefix', lang)} <a href={buildUrl(lang, "/cookies")}>{t('privacy.s2dBodyLink', lang)}</a>{t('privacy.s2dBodySuffix', lang)}
           </p>
 
           <h2 id="sprostredkovatelia">{t('privacy.s3Title', lang)}</h2>
@@ -153,7 +153,7 @@ const today = new Date().toLocaleDateString(dateLocale);
 
           <h2 id="cookies">{t('privacy.s6Title', lang)}</h2>
           <p>
-            {t('privacy.s6BodyPrefix', lang)} <a href="/cookies">{t('privacy.s6BodyLink', lang)}</a>.
+            {t('privacy.s6BodyPrefix', lang)} <a href={buildUrl(lang, "/cookies")}>{t('privacy.s6BodyLink', lang)}</a>.
           </p>
 
           <h2 id="zmeny">{t('privacy.s7Title', lang)}</h2>

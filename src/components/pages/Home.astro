@@ -78,7 +78,19 @@ const manifestItems = [
         <!-- LEFT: text -->
         <div>
           <h1 class="hero-h1" style="font-size: clamp(44px, 5.5vw, 80px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin-bottom: 24px; max-width: 14ch; padding-top: 0.12em;">
-            {t('home.heroH1Prefix', lang)} <span class="grad" data-rotator-target style="display: inline-block; padding: 0 0.04em; line-height: 1.08;">{t('home.heroH1Highlight', lang).replace(/ /g, '\u00a0')}</span>.
+            {t('home.heroH1Prefix', lang)} <span
+              class="grad"
+              data-rotator-target
+              data-rotator-words={JSON.stringify([
+                t('home.heroH1Highlight', lang),
+                t('rotator.hero1', lang),
+                t('rotator.hero2', lang),
+                t('rotator.hero3', lang),
+                t('rotator.hero4', lang),
+                t('rotator.hero5', lang),
+              ])}
+              style="display: inline-block; padding: 0 0.04em; line-height: 1.08;"
+            >{t('home.heroH1Highlight', lang).replace(/ /g, '\u00a0')}</span>.
           </h1>
 
           <p class="lead" style="font-size: clamp(17px, 1.4vw, 21px); max-width: 50ch; margin-bottom: 28px; color: var(--muted); line-height: 1.5;">
@@ -585,7 +597,7 @@ const manifestItems = [
                 <a
                   class={`svc-row ${i === 0 ? 'active' : ''}`}
                   data-svc-toggle={i}
-                  href="/sluzby"
+                  href={buildUrl(lang, "/sluzby")}
                 >
                   <span class="svc-num">{String(i + 1).padStart(2, '0')}</span>
                   <span class="svc-title">{s.title}</span>

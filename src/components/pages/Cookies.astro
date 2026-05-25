@@ -6,7 +6,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { fetchSettings } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -117,7 +117,7 @@ const today = new Date().toLocaleDateString(dateLocale);
 
           <h2 id="dalsie">{t('cookies.s5Title', lang)}</h2>
           <p>
-            {t('cookies.s5BodyPrefix', lang)} <a href="/ochrana-udajov">{t('cookies.s5BodyLink', lang)}</a>.
+            {t('cookies.s5BodyPrefix', lang)} <a href={buildUrl(lang, "/ochrana-udajov")}>{t('cookies.s5BodyLink', lang)}</a>.
           </p>
 
           <hr />

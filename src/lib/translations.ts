@@ -1123,6 +1123,18 @@ const DICT: Record<string, Dict> = {
   'terms.toc9':                      { sk: "Mlčanlivosť", cs: "Mlčenlivost", hu: "Titoktartás", en: "Confidentiality", de: "Vertraulichkeit" },
   'terms.toc10':                     { sk: "Reklamácie", cs: "Reklamace", hu: "Reklamációk", en: "Complaints", de: "Beschwerden" },
   'terms.toc11':                     { sk: "Záverečné ustanovenia", cs: "Závěrečná ustanovení", hu: "Záró rendelkezések", en: "Final Provisions", de: "Schlussbestimmungen" },
+
+  // ============ ROTATOR WORDS ============
+  'rotator.hero1':                   { sk: "prináša čísla", cs: "přináší čísla", hu: "számokat hoz", en: "delivers results", de: "liefert Zahlen" },
+  'rotator.hero2':                   { sk: "dvíha tržby", cs: "zvyšuje tržby", hu: "növeli a bevételt", en: "grows revenue", de: "steigert Umsätze" },
+  'rotator.hero3':                   { sk: "škáluje e-shop", cs: "škáluje e-shop", hu: "skálázza a webshopot", en: "scales your shop", de: "skaliert Ihren Shop" },
+  'rotator.hero4':                   { sk: "mení návštevy", cs: "mění návštěvy", hu: "konverziót hoz", en: "converts visitors", de: "wandelt Besucher" },
+  'rotator.hero5':                   { sk: "zarába reálne", cs: "vydělává reálně", hu: "valódi pénzt hoz", en: "actually earns", de: "verdient wirklich" },
+  'rotator.contact1':                { sk: "audit.", cs: "audit.", hu: "auditot.", en: "audit.", de: "Audit." },
+  'rotator.contact2':                { sk: "stratégiu.", cs: "strategii.", hu: "stratégiát.", en: "strategy.", de: "Strategie." },
+  'rotator.contact3':                { sk: "plán.", cs: "plán.", hu: "tervet.", en: "plan.", de: "Plan." },
+  'rotator.contact4':                { sk: "call.", cs: "call.", hu: "hívást.", en: "call.", de: "Call." },
+
 };
 
 /**

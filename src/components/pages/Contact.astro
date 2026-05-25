@@ -17,7 +17,7 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { fetchSettings, fetchCompanyInfo } from '../../lib/content';
 import { pageMeta } from '../../lib/pageMeta';
-import type { Lang } from '../../lib/i18n';
+import { buildUrl, type Lang } from '../../lib/i18n';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -196,7 +196,7 @@ const auditItems = [
 
               <!-- GDPR poznámka -->
               <p style="font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 8px;">
-                {t('contact.gdprNote', lang)} <a href="/ochrana-udajov" style="color: var(--ink); text-decoration: underline;">{t('contact.gdprLink', lang)}</a>.
+                {t('contact.gdprNote', lang)} <a href={buildUrl(lang, "/ochrana-udajov")} style="color: var(--ink); text-decoration: underline;">{t('contact.gdprLink', lang)}</a>.
               </p>
             </form>
           </div>
@@ -727,7 +727,7 @@ const auditItems = [
       </p>
 
       <div class="thanks-actions">
-        <a href="/pripadove-studie" class="btn btn-ghost" style="flex: 1; justify-content: center;">{t('contact.thanksBtnCases', lang)}</a>
+        <a href={buildUrl(lang, "/pripadove-studie")} class="btn btn-ghost" style="flex: 1; justify-content: center;">{t('contact.thanksBtnCases', lang)}</a>
         <button type="button" class="btn btn-grad" data-thanks-close style="flex: 1; justify-content: center;">{t('contact.thanksBtnClose', lang)}</button>
       </div>
     </div>
