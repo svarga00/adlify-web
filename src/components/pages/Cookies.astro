@@ -56,64 +56,55 @@ const today = new Date().toLocaleDateString(dateLocale);
 
         <article class="legal-prose">
 
-          <h2 id="co-su">1. Čo sú cookies</h2>
-          <p>
-            Cookies sú malé textové súbory, ktoré sa pri návšteve webu uložia do vášho
-            prehliadača. Pomáhajú webu fungovať lepšie, zapamätať si vaše preferencie
-            a v niektorých prípadoch sledovať, ako web používate (na účely analytiky alebo reklamy).
-          </p>
+          <h2 id="co-su">{t('cookies.s1Title', lang)}</h2>
+          <p>{t('cookies.s1Body', lang)}</p>
 
-          <h2 id="ake-pouzivame">2. Aké cookies používame</h2>
+          <h2 id="ake-pouzivame">{t('cookies.s2Title', lang)}</h2>
 
-          <h3>A) Nevyhnutné cookies (vždy aktívne)</h3>
-          <p>Bez týchto web nemôže fungovať. Nevyžadujú váš súhlas.</p>
+          <h3>{t('cookies.s2aHeading', lang)}</h3>
+          <p>{t('cookies.s2aBody', lang)}</p>
           <table class="legal-table">
             <thead>
-              <tr><th>Názov</th><th>Účel</th><th>Trvanie</th></tr>
+              <tr><th>{t('cookies.tblName', lang)}</th><th>{t('cookies.tblPurpose', lang)}</th><th>{t('cookies.tblDuration', lang)}</th></tr>
             </thead>
             <tbody>
-              <tr><td>adlify_consent</td><td>Pamätá si vaše rozhodnutie o cookies</td><td>12 mesiacov</td></tr>
-              <tr><td>language</td><td>Zvolený jazyk webu</td><td>12 mesiacov</td></tr>
+              <tr><td>adlify_consent</td><td>{t('cookies.row1Purpose', lang)}</td><td>{t('cookies.row1Dur', lang)}</td></tr>
+              <tr><td>language</td><td>{t('cookies.row2Purpose', lang)}</td><td>{t('cookies.row2Dur', lang)}</td></tr>
             </tbody>
           </table>
 
-          <h3>B) Analytické cookies (vyžadujú súhlas)</h3>
-          <p>Pomáhajú nám pochopiť, ako návštevníci používajú web. Nikoho neidentifikujú osobne.</p>
+          <h3>{t('cookies.s2bHeading', lang)}</h3>
+          <p>{t('cookies.s2bBody', lang)}</p>
           <table class="legal-table">
             <thead>
-              <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
+              <tr><th>{t('cookies.tblName', lang)}</th><th>{t('cookies.tblProvider', lang)}</th><th>{t('cookies.tblPurpose', lang)}</th><th>{t('cookies.tblDuration', lang)}</th></tr>
             </thead>
             <tbody>
-              <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>Štatistika návštevnosti</td><td>2 roky</td></tr>
-              <tr><td>_gid</td><td>Google Analytics</td><td>Identifikácia relácie</td><td>24 hodín</td></tr>
-              <tr><td>_clck, _clsk</td><td>Microsoft Clarity</td><td>Heatmapy a session recordings</td><td>1 rok</td></tr>
+              <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>{t('cookies.row3Purpose', lang)}</td><td>{t('cookies.row3Dur', lang)}</td></tr>
+              <tr><td>_gid</td><td>Google Analytics</td><td>{t('cookies.row4Purpose', lang)}</td><td>{t('cookies.row4Dur', lang)}</td></tr>
+              <tr><td>_clck, _clsk</td><td>Microsoft Clarity</td><td>{t('cookies.row5Purpose', lang)}</td><td>{t('cookies.row5Dur', lang)}</td></tr>
             </tbody>
           </table>
 
-          <h3>C) Marketingové cookies (vyžadujú súhlas)</h3>
-          <p>Slúžia na zobrazovanie relevantných reklám na iných weboch a meranie ich účinnosti.</p>
+          <h3>{t('cookies.s2cHeading', lang)}</h3>
+          <p>{t('cookies.s2cBody', lang)}</p>
           <table class="legal-table">
             <thead>
-              <tr><th>Názov</th><th>Poskytovateľ</th><th>Účel</th><th>Trvanie</th></tr>
+              <tr><th>{t('cookies.tblName', lang)}</th><th>{t('cookies.tblProvider', lang)}</th><th>{t('cookies.tblPurpose', lang)}</th><th>{t('cookies.tblDuration', lang)}</th></tr>
             </thead>
             <tbody>
-              <tr><td>_fbp</td><td>Meta (Facebook)</td><td>Identifikácia návštevníka</td><td>3 mesiace</td></tr>
-              <tr><td>_gcl_au</td><td>Google Ads</td><td>Konverzné sledovanie</td><td>3 mesiace</td></tr>
+              <tr><td>_fbp</td><td>Meta (Facebook)</td><td>{t('cookies.row6Purpose', lang)}</td><td>{t('cookies.row6Dur', lang)}</td></tr>
+              <tr><td>_gcl_au</td><td>Google Ads</td><td>{t('cookies.row7Purpose', lang)}</td><td>{t('cookies.row7Dur', lang)}</td></tr>
             </tbody>
           </table>
 
-          <h2 id="ako-spravovat">3. Ako spravovať svoj súhlas</h2>
-          <p>
-            Pri prvej návšteve sa zobrazuje cookie banner, kde môžete jednotlivé kategórie
-            cookies prijať alebo odmietnuť. Svoje rozhodnutie môžete kedykoľvek zmeniť:
-          </p>
+          <h2 id="ako-spravovat">{t('cookies.s3Title', lang)}</h2>
+          <p>{t('cookies.s3Body1', lang)}</p>
           <ul>
-            <li>Klinutím na <a href="#" data-cookie-reset>„Spravovať cookies"</a> (otvorí banner znova)</li>
-            <li>Vymazaním cookies vo vašom prehliadači</li>
+            <li>{t('cookies.s3Bullet1', lang)} <a href="#" data-cookie-reset>„{t('cookies.s3BulletLink', lang)}"</a> {t('cookies.s3Bullet1End', lang)}</li>
+            <li>{t('cookies.s3Bullet2', lang)}</li>
           </ul>
-          <p>
-            Cookies môžete spravovať aj priamo v nastaveniach prehliadača:
-          </p>
+          <p>{t('cookies.s3Body2', lang)}</p>
           <ul>
             <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
             <li><a href="https://support.mozilla.org/sk/kb/cookies-informacie-ktore-stranky-ukladaju-na-pocitaci" target="_blank" rel="noopener">Mozilla Firefox</a></li>
@@ -121,17 +112,12 @@ const today = new Date().toLocaleDateString(dateLocale);
             <li><a href="https://support.microsoft.com/sk-sk/microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
           </ul>
 
-          <h2 id="dosledky">4. Dôsledky odmietnutia</h2>
-          <p>
-            Ak odmietnete analytické a marketingové cookies, web bude fungovať bez problémov.
-            Strácame iba prehľad o tom, ako návštevníci web používajú, a nemôžeme zobrazovať
-            relevantné reklamy. Nevyhnutné cookies sa neukladajú vôbec, ak nesúhlasíte.
-          </p>
+          <h2 id="dosledky">{t('cookies.s4Title', lang)}</h2>
+          <p>{t('cookies.s4Body', lang)}</p>
 
-          <h2 id="dalsie">5. Ďalšie informácie</h2>
+          <h2 id="dalsie">{t('cookies.s5Title', lang)}</h2>
           <p>
-            Bližšie informácie o spracovaní osobných údajov nájdete v
-            <a href="/ochrana-udajov">Ochrane osobných údajov</a>.
+            {t('cookies.s5BodyPrefix', lang)} <a href="/ochrana-udajov">{t('cookies.s5BodyLink', lang)}</a>.
           </p>
 
           <hr />
@@ -146,11 +132,11 @@ const today = new Date().toLocaleDateString(dateLocale);
             <div class="legal-sidebar-eyebrow">{t('legal.tocEyebrow', lang)}</div>
             <nav class="legal-toc" aria-label={t('legal.tocAria', lang)}>
               <ol>
-                <li><a href="#co-su">Čo sú cookies</a></li>
-                <li><a href="#ake-pouzivame">Aké cookies používame</a></li>
-                <li><a href="#ako-spravovat">Ako spravovať súhlas</a></li>
-                <li><a href="#dosledky">Dôsledky odmietnutia</a></li>
-                <li><a href="#dalsie">Ďalšie informácie</a></li>
+                <li><a href="#co-su">{t('cookies.toc1', lang)}</a></li>
+                <li><a href="#ake-pouzivame">{t('cookies.toc2', lang)}</a></li>
+                <li><a href="#ako-spravovat">{t('cookies.toc3', lang)}</a></li>
+                <li><a href="#dosledky">{t('cookies.toc4', lang)}</a></li>
+                <li><a href="#dalsie">{t('cookies.toc5', lang)}</a></li>
               </ol>
             </nav>
           </div>
