@@ -11,6 +11,7 @@ import ContactSection from '../ContactSection.astro';
 import { buildUrl, type Lang } from '../../lib/i18n';
 import { fetchAllCases } from '../../lib/content';
 import type { ServiceDetail } from '../../data/serviceDetails';
+import { t } from '../../lib/translations';
 
 interface Props {
   service: ServiceDetail;
@@ -39,7 +40,7 @@ const relatedCases = service.relatedCases
     <div class="container">
       <!-- Breadcrumb -->
       <nav style="display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 32px;" aria-label="Breadcrumb">
-        <a href={buildUrl(lang, '/sluzby')} style="color: var(--muted); text-decoration: none;">SLUŽBY</a>
+        <a href={buildUrl(lang, '/sluzby')} style="color: var(--muted); text-decoration: none;">{t('serviceDetail.crumbServices', lang)}</a>
         <span style="opacity: 0.4;">/</span>
         <a href={buildUrl(lang, `/sluzby#${service.categorySlug}`)} style="color: var(--muted); text-decoration: none;">{service.category.toUpperCase()}</a>
         <span style="opacity: 0.4;">/</span>
@@ -52,7 +53,7 @@ const relatedCases = service.relatedCases
             <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={service.icon} aria-hidden="true"></svg>
             </div>
-            <div class="eyebrow">[ Služba · {service.category} ]</div>
+            <div class="eyebrow">{t('serviceDetail.eyebrowPrefix', lang)} · {service.category} ]</div>
           </div>
 
           <h1 style="font-size: clamp(40px, 6vw, 84px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; margin-bottom: 20px;">
@@ -69,12 +70,12 @@ const relatedCases = service.relatedCases
           </p>
           <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;">
             <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-grad">
-              Začneme auditom zadarmo
+              {t('serviceDetail.heroCta', lang)}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;" aria-hidden="true">
                 <path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>
               </svg>
             </a>
-            <a href={buildUrl(lang, '/cennik')} class="btn btn-outline">Pozrieť cenník</a>
+            <a href={buildUrl(lang, '/cennik')} class="btn btn-outline">{t('serviceDetail.heroCtaSecondary', lang)}</a>
           </div>
         </div>
       </div>
@@ -105,12 +106,12 @@ const relatedCases = service.relatedCases
   <section class="section" style="padding-top: 0;">
     <div class="container">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 40px;">
-        <span class="eyebrow">[ Postup ]</span>
+        <span class="eyebrow">{t('serviceDetail.processEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
       <div class="sec-head" style="margin-bottom: 48px;">
-        <h2 class="h2" style="max-width: 18ch;">Ako pracujeme.</h2>
-        <p class="lead">Transparentne, krok za krokom. Žiadne tajné procesy.</p>
+        <h2 class="h2" style="max-width: 18ch;">{t('serviceDetail.processTitle', lang)}</h2>
+        <p class="lead">{t('serviceDetail.processLead', lang)}</p>
       </div>
 
       <div class="svc-process-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;">
@@ -139,12 +140,12 @@ const relatedCases = service.relatedCases
       <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px;" class="svc-what-grid">
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ Čo je v cene ]</span>
+            <span class="eyebrow">{t('serviceDetail.whatEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h2 class="h2" style="max-width: 18ch; margin-bottom: 20px;">Konkrétne výstupy.</h2>
+          <h2 class="h2" style="max-width: 18ch; margin-bottom: 20px;">{t('serviceDetail.whatTitle', lang)}</h2>
           <p class="body" style="font-size: 16px; line-height: 1.65; max-width: 38ch;">
-            Žiadne „strategické konzultácie" za hodinovku. Každý mesiac dostávate konkrétne odovzdané práce, dáta, reporty.
+            {t('serviceDetail.whatLead', lang)}
           </p>
         </div>
 
@@ -173,10 +174,10 @@ const relatedCases = service.relatedCases
         <!-- Pre koho -->
         <div>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <span class="eyebrow">[ Pre koho ]</span>
+            <span class="eyebrow">{t('serviceDetail.forWhomEyebrow', lang)}</span>
             <span style="flex: 1; height: 1px; background: var(--line);"></span>
           </div>
-          <h3 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 24px;">Komu sa to oplatí.</h3>
+          <h3 style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 24px;">{t('serviceDetail.forWhomTitle', lang)}</h3>
           <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
             {service.forWhom.map((item) => (
               <li style="display: flex; align-items: flex-start; gap: 14px;">
@@ -191,7 +192,7 @@ const relatedCases = service.relatedCases
         <div style="background: var(--ink); color: var(--bg); border-radius: 24px; padding: 36px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
           <div aria-hidden="true" style="position: absolute; inset: -20%; background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--grad-start) 28%, transparent), transparent 50%); pointer-events: none;"></div>
           <div style="position: relative;">
-            <div class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 16px;">[ Cena ]</div>
+            <div class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 16px;">{t('serviceDetail.priceEyebrow', lang)}</div>
             <div style="font-size: 36px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin-bottom: 12px;" class="grad">
               {service.priceFrom}
             </div>
@@ -203,13 +204,13 @@ const relatedCases = service.relatedCases
           </div>
           <div style="position: relative; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; gap: 12px; flex-wrap: wrap;">
             <a href={buildUrl(lang, '/cennik')} style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; background: var(--bg); color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none;">
-              Plné cenníky
+              {t('serviceDetail.priceCtaPrimary', lang)}
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>
               </svg>
             </a>
             <a href={`${buildUrl(lang, '/kontakt')}#formular`} style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); color: var(--bg); font-size: 14px; font-weight: 600; text-decoration: none;">
-              Audit zadarmo
+              {t('serviceDetail.priceCtaSecondary', lang)}
             </a>
           </div>
         </div>
@@ -224,10 +225,10 @@ const relatedCases = service.relatedCases
   <section class="section" style="background: var(--bg-soft);">
     <div class="container" style="max-width: 860px;">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <span class="eyebrow">[ Časté otázky ]</span>
+        <span class="eyebrow">{t('serviceDetail.faqEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
-      <h2 class="h2" style="max-width: 18ch; margin-bottom: 40px;">Otázky o {service.title}.</h2>
+      <h2 class="h2" style="max-width: 18ch; margin-bottom: 40px;">{t('serviceDetail.faqTitlePrefix', lang)} {service.title}.</h2>
 
       <div style="display: flex; flex-direction: column; border-top: 1px solid var(--line);">
         {service.faq.map((item, i) => (
@@ -255,10 +256,10 @@ const relatedCases = service.relatedCases
     <section class="section">
       <div class="container">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-          <span class="eyebrow">[ Výsledky tejto služby ]</span>
+          <span class="eyebrow">{t('serviceDetail.relatedEyebrow', lang)}</span>
           <span style="flex: 1; height: 1px; background: var(--line);"></span>
         </div>
-        <h2 class="h2" style="max-width: 22ch; margin-bottom: 40px;">Ako to vyzerá v praxi.</h2>
+        <h2 class="h2" style="max-width: 22ch; margin-bottom: 40px;">{t('serviceDetail.relatedTitle', lang)}</h2>
 
         <div class="svc-cases-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
           {relatedCases.map((c) => (

@@ -878,6 +878,27 @@ const DICT: Record<string, Dict> = {
   'caseDetail.s2Title':              { sk: "Čo sme zmenili", cs: "Co jsme změnili", hu: "Mit változtattunk meg", en: "What we changed", de: "Was wir verändert haben" },
   'caseDetail.s3Eyebrow':            { sk: "[ 03 - VÝSLEDKY ]", cs: "[ 03 - VÝSLEDKY ]", hu: "[ 03 - EREDMÉNYEK ]", en: "[ 03 - RESULTS ]", de: "[ 03 - ERGEBNISSE ]" },
   'caseDetail.s3Title':              { sk: "Výsledky po spolupráci", cs: "Výsledky po spolupráci", hu: "Eredmények az együttműködés után", en: "Results after cooperation", de: "Resultate nach der Zusammenarbeit" },
+
+  // ============ SERVICE DETAIL PAGE ============
+  'serviceDetail.crumbServices':     { sk: "SLUŽBY", cs: "SLUŽBY", hu: "SZOLGÁLTATÁSOK", en: "SERVICES", de: "LEISTUNGEN" },
+  'serviceDetail.eyebrowPrefix':     { sk: "[ Služba", cs: "[ Služba", hu: "[ Szolgáltatás", en: "[ Service", de: "[ Leistung" },
+  'serviceDetail.heroCta':           { sk: "Začneme auditom zadarmo", cs: "Začneme auditem zdarma", hu: "Kezdjük ingyenes audittal", en: "We'll start with a free audit", de: "Wir beginnen mit einem kostenlosen Audit" },
+  'serviceDetail.heroCtaSecondary':  { sk: "Pozrieť cenník", cs: "Zobrazit ceník", hu: "Árlista megtekintése", en: "View pricing", de: "Preisliste ansehen" },
+  'serviceDetail.processEyebrow':    { sk: "[ Postup ]", cs: "[ Postup ]", hu: "[ Folyamat ]", en: "[ Process ]", de: "[ Vorgehen ]" },
+  'serviceDetail.processTitle':      { sk: "Ako pracujeme.", cs: "Jak pracujeme.", hu: "Hogyan dolgozunk.", en: "How we work.", de: "Wie wir arbeiten." },
+  'serviceDetail.processLead':       { sk: "Transparentne, krok za krokom. Žiadne tajné procesy.", cs: "Transparentně, krok za krokem. Žádné tajné procesy.", hu: "Átláthatóan, lépésről lépésre. Nincsenek titkos folyamatok.", en: "Transparently, step by step. No secret processes.", de: "Transparent, Schritt für Schritt. Keine geheimen Prozesse." },
+  'serviceDetail.whatEyebrow':       { sk: "[ Čo je v cene ]", cs: "[ Co je v ceně ]", hu: "[ Mit tartalmaz az ár ]", en: "[ What's included ]", de: "[ Was im Preis enthalten ist ]" },
+  'serviceDetail.whatTitle':         { sk: "Konkrétne výstupy.", cs: "Konkrétní výstupy.", hu: "Konkrét eredmények.", en: "Concrete deliverables.", de: "Konkrete Ergebnisse." },
+  'serviceDetail.whatLead':          { sk: "Žiadne strategické konzultácie za hodinovku. Každý mesiac dostávate konkrétne odovzdané práce, dáta, reporty.", cs: "Žádné strategické konzultace za hodinku. Každý měsíc dostáváte konkrétní odevzdané práce, data, reporty.", hu: "Nincsenek stratégiai konzultációk óradíjért. Minden hónapban konkrét leadott munkákat, adatokat, reportokat kap.", en: "No strategic consultations by the hour. Every month you receive specific delivered work, data, reports.", de: "Keine strategischen Beratungen auf Stundenbasis. Jeden Monat erhalten Sie konkrete Arbeitsergebnisse, Daten und Reports." },
+  'serviceDetail.forWhomEyebrow':    { sk: "[ Pre koho ]", cs: "[ Pro koho ]", hu: "[ Kinek ]", en: "[ For whom ]", de: "[ Für wen ]" },
+  'serviceDetail.forWhomTitle':      { sk: "Komu sa to oplatí.", cs: "Komu se to vyplatí.", hu: "Kinek éri meg.", en: "Who will benefit.", de: "Für wen es sich lohnt." },
+  'serviceDetail.priceEyebrow':      { sk: "[ Cena ]", cs: "[ Cena ]", hu: "[ Ár ]", en: "[ Price ]", de: "[ Preis ]" },
+  'serviceDetail.priceCtaPrimary':   { sk: "Plné cenníky", cs: "Plné ceníky", hu: "Teljes árlisták", en: "Full pricing", de: "Komplette Preislisten" },
+  'serviceDetail.priceCtaSecondary': { sk: "Audit zadarmo", cs: "Audit zdarma", hu: "Ingyenes audit", en: "Free audit", de: "Kostenloses Audit" },
+  'serviceDetail.faqEyebrow':        { sk: "[ Časté otázky ]", cs: "[ Časté otázky ]", hu: "[ Gyakori kérdések ]", en: "[ Frequently asked questions ]", de: "[ Häufige Fragen ]" },
+  'serviceDetail.faqTitlePrefix':    { sk: "Otázky o", cs: "Otázky o", hu: "Kérdések a", en: "Questions about", de: "Fragen zu" },
+  'serviceDetail.relatedEyebrow':    { sk: "[ Výsledky tejto služby ]", cs: "[ Výsledky této služby ]", hu: "[ Ennek a szolgáltatásnak az eredményei ]", en: "[ Results of this service ]", de: "[ Ergebnisse dieser Leistung ]" },
+  'serviceDetail.relatedTitle':      { sk: "Ako to vyzerá v praxi.", cs: "Jak to vypadá v praxi.", hu: "Hogyan néz ki a gyakorlatban.", en: "How it looks in practice.", de: "Wie es in der Praxis aussieht." },
 };
 
 /**
