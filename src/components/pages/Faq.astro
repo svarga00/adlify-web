@@ -16,6 +16,7 @@ import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import { glossary } from '../../lib/glossary';
 import type { Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -23,14 +24,14 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.faq[lang];
 
-// Slovník — kategórie + abecedné indexy
+// Slovník — kategórie + abecedné indexy (lokalizované labely)
 const glossaryCategories: Array<{ key: GlossaryTerm['category']; label: string }> = [
-  { key: 'reklama',    label: 'Reklama' },
-  { key: 'meranie',    label: 'Meranie' },
-  { key: 'seo',        label: 'SEO' },
-  { key: 'email',      label: 'E-mail' },
-  { key: 'eshop',      label: 'E-shop' },
-  { key: 'vseobecne',  label: 'Všeobecné' },
+  { key: 'reklama',    label: t('faq.glCat.reklama', lang) },
+  { key: 'meranie',    label: t('faq.glCat.meranie', lang) },
+  { key: 'seo',        label: t('faq.glCat.seo', lang) },
+  { key: 'email',      label: t('faq.glCat.email', lang) },
+  { key: 'eshop',      label: t('faq.glCat.eshop', lang) },
+  { key: 'vseobecne',  label: t('faq.glCat.vseobecne', lang) },
 ];
 
 // Helper: normalize diakritiku
@@ -54,76 +55,56 @@ const usedLetters = Array.from(new Set(
 
 import type { GlossaryTerm } from '../../lib/glossary';
 
-// 5 kategórií, každá s vlastnými otázkami
+// 5 kategórií, každá s vlastnými otázkami (lokalizované)
 const categories = [
   {
     key: 'spolupraca',
-    label: 'Spolupráca',
+    label: t('faq.cat.spolupraca', lang),
     questions: [
-      { q: 'Mám nejakú viazanosť?',
-        a: 'Nie. Žiadna minimálna doba ani výpovedná lehota — odísť môžete kedykoľvek. Iba upozorňujeme, že výkonnostný marketing potrebuje čas (typicky 2–3 mesiace) aby kampane získali dáta a ukázali plný potenciál.' },
-      { q: 'Pracujete s konkurenciou v rovnakom odvetví?',
-        a: 'V malých nikách (napr. lokálni floristi v Bratislave) máme exkluzivitu. Pri väčších kategóriách (e-commerce fashion) striktne oddeľujeme tímy aj komunikačné kanály a chránime všetky dôverné informácie.' },
-      { q: 'Komunikujete cez Slack alebo e-mail?',
-        a: 'Oboje. Slack alebo Teams pre rýchle veci, e-mail pre dôležité rozhodnutia. Týždenné reporty chodia automaticky e-mailom.' },
-      { q: 'Vlastním reklamné účty?',
-        a: 'Áno, všetky účty (Google Ads, Meta, GA4) sú na vašu firmu. My máme prístup ako agentúra. Keď spolupráca skončí, prístupy odoberieme — vy si všetko ponecháte.' },
-      { q: 'Koľko trvá onboarding?',
-        a: '7–10 pracovných dní. Najprv discovery call, potom audit, stratégia, podpis a setup. Prvá kampaň beží do 14 dní od podpisu.' },
+      { q: t('faq.sp.q1', lang), a: t('faq.sp.a1', lang) },
+      { q: t('faq.sp.q2', lang), a: t('faq.sp.a2', lang) },
+      { q: t('faq.sp.q3', lang), a: t('faq.sp.a3', lang) },
+      { q: t('faq.sp.q4', lang), a: t('faq.sp.a4', lang) },
+      { q: t('faq.sp.q5', lang), a: t('faq.sp.a5', lang) },
     ],
   },
   {
     key: 'cena',
-    label: 'Cena a fakturácia',
+    label: t('faq.cat.cena', lang),
     questions: [
-      { q: 'Sú v cene aj reklamné rozpočty?',
-        a: 'Nie. Mesačný paušál pokrýva našu prácu (správa kampaní, kreatívy, optimalizácia, reporting). Reklamné rozpočty (Google, Meta, atď.) si platíte priamo platformám zo svojej karty.' },
-      { q: 'Koľko musím minimálne minúť na reklamu?',
-        a: 'Neexistuje tvrdý minimálny budget, ale reálne odporúčame aspoň 500–1 000 € mesačne na jeden kanál. Pod túto sumu kampane nevedia získať dosť dát na efektívne učenie.' },
-      { q: 'Aké sú platobné podmienky?',
-        a: 'Prvá platba je vopred. Ďalšie faktúry majú splatnosť podľa dohody. Akceptujeme bankový prevod aj kartu. Pri 6-mesačnej platbe vopred dostávate 10 % zľavu, pri 12-mesačnej 20 %.' },
-      { q: 'Môžete robiť aj jednorazové projekty?',
-        a: 'Áno — audit účtu (€290), Nastavenie GA + tag manager (€490), Optimalizácia konverzií (€990). Pre kontinuálne riadenie kampaní však dlhodobá spolupráca dáva oveľa väčší zmysel.' },
+      { q: t('faq.cn.q1', lang), a: t('faq.cn.a1', lang) },
+      { q: t('faq.cn.q2', lang), a: t('faq.cn.a2', lang) },
+      { q: t('faq.cn.q3', lang), a: t('faq.cn.a3', lang) },
+      { q: t('faq.cn.q4', lang), a: t('faq.cn.a4', lang) },
     ],
   },
   {
     key: 'vysledky',
-    label: 'Výsledky',
+    label: t('faq.cat.vysledky', lang),
     questions: [
-      { q: 'Garantujete výsledky?',
-        a: 'Negarantujeme konkrétne čísla — to nikto seriózny nemôže. Garantujeme ale prácu na výsledku, transparentné dáta a otvorenú komunikáciu. Ak vám nevieme priniesť hodnotu, povieme vám to ako prví.' },
-      { q: 'Kedy uvidím prvé výsledky?',
-        a: 'Search kampane (Google Ads) prinášajú prvé konverzie už v prvom týždni. Display a Meta kampane potrebujú 2–4 týždne na učenie. Pokročilé optimalizácie sú merateľné po 2–3 mesiacoch.' },
-      { q: 'Aký ROAS je realistický?',
-        a: 'Závisí od kategórie. E-commerce (jednorazový nákup): 3–5×. Subscription / repeat purchase: 4–8×. Lead gen: meriame skôr CPA. Pri starte vás vždy upozorníme, kde sú benchmarky vašej kategórie.' },
-      { q: 'Čo robíte, keď kampaň nefunguje?',
-        a: 'Najprv hľadáme, či je problém v kampani (bidding, kreatíva, audience) alebo mimo nej (web, ponuka, ceny). Pri dlhšom probléme zvolávame ad-hoc retrospektívu, kde si rovno povieme, čo skúsime ďalej.' },
+      { q: t('faq.vy.q1', lang), a: t('faq.vy.a1', lang) },
+      { q: t('faq.vy.q2', lang), a: t('faq.vy.a2', lang) },
+      { q: t('faq.vy.q3', lang), a: t('faq.vy.a3', lang) },
+      { q: t('faq.vy.q4', lang), a: t('faq.vy.a4', lang) },
     ],
   },
   {
     key: 'tracking',
-    label: 'Tracking a dáta',
+    label: t('faq.cat.tracking', lang),
     questions: [
-      { q: 'Riešite GDPR a cookie compliance?',
-        a: 'Áno. Pri onboarde nasadíme cookie consent (Cookiebot alebo Iubenda), nastavíme Google Analytics 4 v EÚ móde, použijeme server-side tracking pre Meta a Google, a všetko zdokumentujeme do GDPR DPA, ktorú s vami podpíšeme.' },
-      { q: 'Čo je server-side tracking?',
-        a: 'Klasický tracking funguje cez prehliadač, ktorý môže byť blokovaný (iOS, ad blockery). Server-side tracking posiela dáta z vášho servera priamo do reklamných platforiem — nezávisle od prehliadača. Výsledok: 20–40 % viac zachytených konverzií.' },
-      { q: 'Komu patria dáta?',
-        a: 'Vám. Všetky účty sú na vašu firmu, dáta sa ukladajú vo vašich Google a Meta účtoch. Naše dashboardy v Looker Studio sú postavené nad vašimi dátami — keď spolupráca skončí, máte ich naďalej.' },
+      { q: t('faq.tr.q1', lang), a: t('faq.tr.a1', lang) },
+      { q: t('faq.tr.q2', lang), a: t('faq.tr.a2', lang) },
+      { q: t('faq.tr.q3', lang), a: t('faq.tr.a3', lang) },
     ],
   },
   {
     key: 'sluzby',
-    label: 'Služby',
+    label: t('faq.cat.sluzby', lang),
     questions: [
-      { q: 'Robíte aj SEO?',
-        a: 'Áno, ale pristupujeme k tomu inak ako klasické SEO agentúry. Náš fokus je na technickom SEO (rýchlosť, indexácia, štruktúrované dáta), keyword research orientovaný na komerčný úmysel a kvalitný content. Linkbuilding robíme len cestou cez digital PR alebo guest posty na overených weboch.' },
-      { q: 'Robíte e-mail marketing?',
-        a: 'Áno. Najmä cez Klaviyo (e-commerce) alebo Mailchimp / ActiveCampaign (B2B). Pripravujeme welcome flows, abandoned cart automatizácie, segmentáciu, A/B testy subject lines.' },
-      { q: 'Vyrábate kreatívu (videá, bannery, copy)?',
-        a: 'Áno, in-house designer pripraví prvý balík static a video kreatív (zvyčajne 12 variantov pre Meta). Pre rozsiahlejšie produkcie spolupracujeme s overenými partnermi.' },
-      { q: 'Robíte aj lokalizáciu kampaní (CZ, HU, DE)?',
-        a: 'Áno, vrátane native copy. V tíme máme natívnych Slovákov a Čechov, pre HU a DE spolupracujeme s native špecialistami. Lokalizácia nie je len preklad — adaptujeme aj kreatívu, ponuku a CTA.' },
+      { q: t('faq.sl.q1', lang), a: t('faq.sl.a1', lang) },
+      { q: t('faq.sl.q2', lang), a: t('faq.sl.a2', lang) },
+      { q: t('faq.sl.q3', lang), a: t('faq.sl.a3', lang) },
+      { q: t('faq.sl.q4', lang), a: t('faq.sl.a4', lang) },
     ],
   },
 ];
@@ -173,7 +154,7 @@ const categories = [
           type="button"
           style="flex: 1; min-width: 120px; padding: 14px 16px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; background: transparent; color: var(--ink); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;"
         >
-          <span>Pojmy</span>
+          <span>{t('faq.uiPojmyTab', lang)}</span>
           <span class="num" style="font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--bg); opacity: 0.85;">
             {sortedGlossary.length}
           </span>
@@ -219,7 +200,7 @@ const categories = [
           <input
             type="search"
             id="glossary-search"
-            placeholder="Hľadať pojem… (napr. ROAS, CPA, GA4)"
+            placeholder={t('faq.uiSearchPlaceholder', lang)}
             style="width: 100%; padding: 16px 18px 16px 50px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; font-size: 15px; color: var(--ink); outline: none; transition: border-color 0.15s;"
           />
         </div>
@@ -227,14 +208,14 @@ const categories = [
         <!-- Filtre: Kategórie -->
         <div style="display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;">
           <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <span class="eyebrow" style="font-size: 10px; margin-right: 6px;">KATEGÓRIA</span>
+            <span class="eyebrow" style="font-size: 10px; margin-right: 6px;">{t('faq.uiCatLabel', lang)}</span>
             <button
               class="g-cat-btn active"
               data-g-cat="all"
               type="button"
               style="padding: 6px 14px; border-radius: 999px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;"
             >
-              Všetko
+              {t('faq.uiCatAll', lang)}
             </button>
             {glossaryCategories.map((cat) => (
               <button
@@ -251,14 +232,14 @@ const categories = [
 
         <!-- Abeceda -->
         <div style="display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; align-items: center;">
-          <span class="eyebrow" style="font-size: 10px; margin-right: 6px;">PÍSMENO</span>
+          <span class="eyebrow" style="font-size: 10px; margin-right: 6px;">{t('faq.uiLetterLabel', lang)}</span>
           <button
             class="g-letter-btn active"
             data-g-letter="all"
             type="button"
             style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; min-width: 32px;"
           >
-            Všetky
+            {t('faq.uiLetterAll', lang)}
           </button>
           {usedLetters.map((letter) => (
             <button
@@ -312,7 +293,7 @@ const categories = [
         <!-- Empty state pre filter -->
         <div id="glossary-empty" style="display: none; padding: 48px 24px; text-align: center; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 16px; margin-top: 16px;">
           <p style="font-size: 15px; color: var(--muted); margin: 0;">
-            Žiadny pojem nezodpovedá tomuto filtru. Skúste iné slovo alebo kategóriu.
+            {t('faq.uiEmpty', lang)}
           </p>
         </div>
 
@@ -321,19 +302,19 @@ const categories = [
       <!-- CTA box "Nenašli ste odpoveď?" -->
       <div style="margin-top: 56px; padding: clamp(28px, 4vw, 44px); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 20px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;" class="faq-cta">
         <div>
-          <div class="eyebrow" style="margin-bottom: 12px;">Nenašli ste odpoveď?</div>
+          <div class="eyebrow" style="margin-bottom: 12px;">{t('faq.ctaEyebrow', lang)}</div>
           <h3 class="h3" style="font-size: clamp(22px, 2.4vw, 30px); margin-bottom: 8px;">
-            Napíšte nám priamo.
+            {t('faq.ctaTitle', lang)}
           </h3>
           <p class="body" style="font-size: 14px; max-width: 50ch; margin-bottom: 8px;">
-            Konkrétne otázky o vašom prípade vždy odpovieme do 24 hodín. Bez predajného tlaku.
+            {t('faq.ctaLead', lang)}
           </p>
           <a href="mailto:info@adlify.eu" class="num" style="font-family: var(--mono); font-size: 13px; color: var(--ink); font-weight: 600; text-decoration: underline;">
             info@adlify.eu
           </a>
         </div>
         <a href="/kontakt#formular" class="btn btn-grad" style="white-space: nowrap;">
-          Otvoriť formulár
+          {t('faq.ctaButton', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"></path>
             <path d="m12 5 7 7-7 7"></path>
