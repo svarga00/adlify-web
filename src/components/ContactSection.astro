@@ -42,7 +42,7 @@ const finalLead = lead || t('contactSection.lead', lang);
 const settings = await fetchSettings('sk');
 // Fallback hodnoty (ak DB nevracia, napr. chyba env vars na Netlify)
 const email   = settings.contact_email   || 'info@adlify.eu';
-const phone   = settings.contact_phone   || '+421944184045';
+const phone   = lang === 'de' ? '+4306601795000' : (settings.contact_phone || '+421944184045');
 // Adresa kancelárie (priorita), fallback na fakturačnú alebo hardcoded NZ
 const address = settings.office_address || settings.contact_address || 'Podzámska 4/A, 940 01 Nové Zámky';
 ---
