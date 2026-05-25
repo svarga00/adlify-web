@@ -13,6 +13,7 @@ import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { pageMeta } from '../../lib/pageMeta';
 import { buildUrl, type Lang } from '../../lib/i18n';
+import { t } from '../../lib/translations';
 
 interface Props {
   lang?: Lang;
@@ -20,69 +21,69 @@ interface Props {
 const { lang = 'sk' } = Astro.props;
 const meta = pageMeta.tools[lang];
 
-// Kategorie nastrojov — kazda kategoria ma 3-5 nastrojov, kazdy s 'kedy/naco'
+// Kategorie nastrojov (lokalizovane)
 const categories = [
   {
-    title: 'Reklama a kampane',
-    desc: 'Platformy, na ktorých kupujeme reklamný priestor a spravujeme kampane.',
+    title: t('tools.cat1Title', lang),
+    desc: t('tools.cat1Desc', lang),
     tools: [
-      { name: 'Google Ads',          when: 'Pre väčšinu klientov.',                  what: 'Search, Performance Max, Shopping, YouTube. Vyhľadávacia reklama je #1 kanál pre okamžitý dopyt.' },
-      { name: 'Meta Ads',            when: 'Pri B2C, e-shopoch, službách.',          what: 'Facebook + Instagram. Silné pre brand building, vizuálne produkty a impulzné nákupy.' },
-      { name: 'TikTok Ads',          when: 'Pre značky cieliace na <35-ročných.',    what: 'Krátke video kampane, často nižší CPC než Meta. Funguje aj pre B2B v IT a HR.' },
-      { name: 'LinkedIn Ads',        when: 'Pre B2B s vyššou hodnotou klienta.',     what: 'Drahší kanál, ale presné cielenie podľa pozície, firmy, veľkosti.' },
-      { name: 'Microsoft Ads (Bing)',when: 'Pri B2B a 40+ cieľovkách.',              what: 'Často 30-50 % nižší CPC než Google. Často podceňované, ale stojí za test.' },
+      { name: 'Google Ads',           when: t('tools.t1.1when', lang), what: t('tools.t1.1what', lang) },
+      { name: 'Meta Ads',             when: t('tools.t1.2when', lang), what: t('tools.t1.2what', lang) },
+      { name: 'TikTok Ads',           when: t('tools.t1.3when', lang), what: t('tools.t1.3what', lang) },
+      { name: 'LinkedIn Ads',         when: t('tools.t1.4when', lang), what: t('tools.t1.4what', lang) },
+      { name: 'Microsoft Ads (Bing)', when: t('tools.t1.5when', lang), what: t('tools.t1.5what', lang) },
     ],
   },
   {
-    title: 'Meranie a analytika',
-    desc: 'Bez merania nie je optimalizácie. Toto je kritická základná vrstva.',
+    title: t('tools.cat2Title', lang),
+    desc: t('tools.cat2Desc', lang),
     tools: [
-      { name: 'Google Analytics 4',     when: 'Vždy, povinný základ.',              what: 'Sledovanie návštev, konverzií, atribúcie. Konfigurujeme udalosti vrátane custom eventov.' },
-      { name: 'Google Tag Manager',     when: 'Pri každom novom klientovi.',        what: 'Centrálny manažment všetkých trackingových kódov. Žiadne ručné editovanie webu.' },
-      { name: 'Server-side tracking',   when: 'Pri väčších rozpočtoch (€2k+/mes).', what: 'Obísť iOS 14.5+ a ad-blockery. Dáta idú cez náš server priamo platformám.' },
-      { name: 'Meta CAPI',              when: 'Vždy, ak používame Meta Ads.',       what: 'Conversion API doplňuje pixel. Bez nej strácate ~30 % konverzií v atribúcii.' },
-      { name: 'Looker Studio',          when: 'Pre Pro+ klientov.',                 what: 'Vizuálne dashboardy s dátami z všetkých zdrojov (Ads, GA4, Shopify, CRM).' },
-      { name: 'Hotjar / Microsoft Clarity', when: 'Pri webe s nízkou konverziou.',  what: 'Heatmapy a nahrávky relácií — vidíme, čo robia návštevníci a kde "padajú".' },
+      { name: 'Google Analytics 4',         when: t('tools.t2.1when', lang), what: t('tools.t2.1what', lang) },
+      { name: 'Google Tag Manager',         when: t('tools.t2.2when', lang), what: t('tools.t2.2what', lang) },
+      { name: 'Server-side tracking',       when: t('tools.t2.3when', lang), what: t('tools.t2.3what', lang) },
+      { name: 'Meta CAPI',                  when: t('tools.t2.4when', lang), what: t('tools.t2.4what', lang) },
+      { name: 'Looker Studio',              when: t('tools.t2.5when', lang), what: t('tools.t2.5what', lang) },
+      { name: 'Hotjar / Microsoft Clarity', when: t('tools.t2.6when', lang), what: t('tools.t2.6what', lang) },
     ],
   },
   {
-    title: 'E-mail a automatizácie',
-    desc: 'Existujúci zákazník je 5× lacnejší než nový. E-mail to využíva.',
+    title: t('tools.cat3Title', lang),
+    desc: t('tools.cat3Desc', lang),
     tools: [
-      { name: 'Mailchimp',     when: 'Pre menších klientov a začiatočníkov.', what: 'Jednoduchý newsletter + základné automatizácie. Lacné a rýchle nasadenie.' },
-      { name: 'Klaviyo',       when: 'Pre rastúce e-shopy.',                  what: 'Najlepšia integrácia so Shopify/WooCommerce. Welcome flow, abandoned cart, post-purchase.' },
-      { name: 'Brevo (Sendinblue)', when: 'Pre B2B a transakčné e-maily.',    what: 'Lacný transakčný e-mail + WhatsApp + SMS v jednom. Dobrá deliverabilita v EÚ.' },
-      { name: 'Make.com',      when: 'Keď treba prepojiť 3+ nástroje.',       what: 'Visual automation builder. Napr.: nový lead → CRM → Slack notifikácia → e-mail.' },
+      { name: 'Mailchimp',          when: t('tools.t3.1when', lang), what: t('tools.t3.1what', lang) },
+      { name: 'Klaviyo',            when: t('tools.t3.2when', lang), what: t('tools.t3.2what', lang) },
+      { name: 'Brevo (Sendinblue)', when: t('tools.t3.3when', lang), what: t('tools.t3.3what', lang) },
+      { name: 'Make.com',           when: t('tools.t3.4when', lang), what: t('tools.t3.4what', lang) },
     ],
   },
   {
-    title: 'E-commerce platformy',
-    desc: 'Vieme nasadiť reklamu a meranie na všetky bežné e-shop platformy.',
+    title: t('tools.cat4Title', lang),
+    desc: t('tools.cat4Desc', lang),
     tools: [
-      { name: 'Shopify',     when: 'Odporúčame pre nové e-shopy.',         what: 'Najjednoduchšia integrácia s Meta CAPI, Klaviyo, GA4. Najmenej technických problémov.' },
-      { name: 'WooCommerce', when: 'Ak už klient má WordPress.',           what: 'Flexibilné, ale vyžaduje viac údržby. Vieme nasadiť tracking aj cez GTM.' },
-      { name: 'Upgates',     when: 'SK/CZ trh, lokálni klienti.',          what: 'Slovenská platforma s dobrým support-om. Vieme nasadiť GA4, Meta pixel, Google Merchant.' },
-      { name: 'Shoptet',     when: 'CZ/SK e-shopy.',                       what: 'Veľmi populárna v ČR. Máme overené postupy pre nastavenie konverzií a feed na Google Shopping.' },
+      { name: 'Shopify',     when: t('tools.t4.1when', lang), what: t('tools.t4.1what', lang) },
+      { name: 'WooCommerce', when: t('tools.t4.2when', lang), what: t('tools.t4.2what', lang) },
+      { name: 'Upgates',     when: t('tools.t4.3when', lang), what: t('tools.t4.3what', lang) },
+      { name: 'Shoptet',     when: t('tools.t4.4when', lang), what: t('tools.t4.4what', lang) },
     ],
   },
   {
-    title: 'AI a kreatíva',
-    desc: 'Šetríme čas pri tvorbe vizuálov, copy a brainstorm-e — ale finálnu kvalitu vždy kontrolujeme my.',
+    title: t('tools.cat5Title', lang),
+    desc: t('tools.cat5Desc', lang),
     tools: [
-      { name: 'ChatGPT / Claude', when: 'Pri brainstorm-e copy a stratégie.',          what: 'Použijeme na rýchle nápady. Finálne ad copy vždy editujeme manuálne.' },
-      { name: 'Midjourney / Ideogram', when: 'Pri tvorbe ad creatives a moodboard-ov.', what: 'Generujeme rýchlo viacero variácií. Hodnotíme čo funguje cez A/B testy.' },
-      { name: 'Canva',           when: 'Pre rýchle úpravy a šablóny.',                  what: 'Bannerová grafika, social media posty, jednoduché videá. Spolupracujeme s klientom.' },
-      { name: 'Figma',           when: 'Pri tvorbe landing pages a UI mockup-ov.',      what: 'Návrh stránok pred implementáciou. Klient vidí finál pred coding-om.' },
+      { name: 'ChatGPT / Claude',      when: t('tools.t5.1when', lang), what: t('tools.t5.1what', lang) },
+      { name: 'Midjourney / Ideogram', when: t('tools.t5.2when', lang), what: t('tools.t5.2what', lang) },
+      { name: 'Canva',                 when: t('tools.t5.3when', lang), what: t('tools.t5.3what', lang) },
+      { name: 'Figma',                 when: t('tools.t5.4when', lang), what: t('tools.t5.4what', lang) },
     ],
   },
   {
-    title: 'Web a hosting',
-    desc: 'Nezáleží na technológii — vieme reklamu nasadiť kdekoľvek.',
+    title: t('tools.cat6Title', lang),
+    desc: t('tools.cat6Desc', lang),
     tools: [
-      { name: 'WordPress',   when: 'Najčastejší prípad u SK/CZ klientov.', what: 'Inštalujeme GTM, GA4, schema markup. Vieme aj rýchle landing pages cez Elementor.' },
-      { name: 'Webflow',     when: 'Pre custom prezentačné weby.',         what: 'Bez kódu, ale profesionálne výsledky. Dobré CMS pre malé tímy.' },
-      { name: 'Astro',       when: 'Pri kritickej rýchlosti webu.',        what: 'Statický generátor — najrýchlejšie weby na trhu. (Mimochodom, na ňom beží aj tento web.)' },
-      { name: 'Netlify / Vercel', when: 'Hosting pre moderné weby.',       what: 'CDN, automatické deploy z GitHub-u, bezplatné SSL. Bez headache.' },
+      { name: 'WordPress',        when: t('tools.t6.1when', lang), what: t('tools.t6.1what', lang) },
+      { name: 'Webflow',          when: t('tools.t6.2when', lang), what: t('tools.t6.2what', lang) },
+      { name: 'Astro',            when: t('tools.t6.3when', lang), what: t('tools.t6.3what', lang) },
+      { name: 'Netlify / Vercel', when: t('tools.t6.4when', lang), what: t('tools.t6.4what', lang) },
     ],
   },
 ];
@@ -111,13 +112,10 @@ const categories = [
     <div class="container" style="max-width: 880px;">
       <div style="background: var(--bg-soft); border-left: 3px solid var(--grad-start); padding: 24px 28px; border-radius: 12px;">
         <p style="font-size: 16px; line-height: 1.7; margin: 0; color: var(--ink-2);">
-          <strong>Čo sa naučíme od nového klienta najprv?</strong> Akú technológiu už používa.
-          Lebo dobrý marketing nezačína kampaňou — začína na meraní, e-shopovej platforme a CRM-e.
-          Ak je to už hotové, ideme rýchlejšie. Ak nie je, nasadíme to my.
+          <strong>{t('tools.intro1', lang)}</strong> {t('tools.intro1Rest', lang)}
         </p>
         <p style="font-size: 14px; line-height: 1.6; margin: 16px 0 0 0; color: var(--muted);">
-          Toto nie sú „certifikácie" ani marketingové tituly. Toto je honest list nástrojov, s ktorými
-          reálne pracujeme každý deň. Kde dáva zmysel sa do nich zaučiť hlbšie, kde stačí povrch.
+          {t('tools.intro2', lang)}
         </p>
       </div>
     </div>
@@ -188,17 +186,17 @@ const categories = [
           <div>
             <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: rgba(255,255,255,0.7); margin-bottom: 24px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: rgb(34,197,94); box-shadow: 0 0 10px rgb(34,197,94);"></span>
-              <span>30+ platforiem za 10+ rokov</span>
+              <span>{t('tools.ctaPill', lang)}</span>
             </div>
 
             <h3 style="font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 20px; max-width: 16ch;">
-              Používate niečo <span class="grad">iné?</span>
+              {t('tools.ctaTitle', lang)} <span class="grad">{t('tools.ctaTitleAccent', lang)}</span>
             </h3>
             <p style="font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.7); margin-bottom: 32px; max-width: 50ch;">
-              Tento list nie je vyčerpávajúci. Ak používate niečo, čo tu nevidíte, skoro určite to vieme alebo sa rýchlo doučíme. Napíšte nám a poradíme ako to najlepšie napojiť.
+              {t('tools.ctaLead', lang)}
             </p>
             <a href={`${buildUrl(lang, '/kontakt')}#formular`} class="btn btn-grad" style="background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white;">
-              Spýtať sa o váš nástroj
+              {t('tools.ctaButton', lang)}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;" aria-hidden="true">
                 <path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>
               </svg>
@@ -214,7 +212,7 @@ const categories = [
             <div class="tools-float-tag" style="top: 56%; right: 6%; opacity: 0.85;">Shopify</div>
             <div class="tools-float-tag" style="bottom: 16%; left: 6%;">GA4</div>
             <div class="tools-float-tag" style="bottom: 8%; right: 22%; opacity: 0.65;">Brevo</div>
-            <div class="tools-float-tag" style="top: 38%; right: 32%; opacity: 0.55;">+24 ďalších</div>
+            <div class="tools-float-tag" style="top: 38%; right: 32%; opacity: 0.55;">{t('tools.floatMore', lang)}</div>
 
             <!-- Decorative grid lines -->
             <svg viewBox="0 0 300 280" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.25;">
