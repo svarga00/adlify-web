@@ -39,14 +39,21 @@ function normalizeLetter(ch: string): string {
   return ch.toUpperCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 }
 
-// Zoradiť pojmy abecedne (pre konzistentné poradie)
-const sortedGlossary = [...glossary].sort((a, b) =>
-  a.term.localeCompare(b.term, 'sk', { sensitivity: 'base' })
-).map((t) => ({
-  ...t,
-  letter: normalizeLetter(t.term.charAt(0)),
-  searchText: `${t.term.toLowerCase()} ${(t.shortcut || '').toLowerCase()} ${t.description.toLowerCase()}`,
-}));
+// Zoradiť pojmy abecedne podla lokalizovaného terminu (pre konzistentné poradie v danom jazyku)
+const sortedGlossary = [...glossary]
+  .map((t) => ({
+    ...t,
+    localTerm: t.term[lang] || t.term.sk,
+    localDesc: t.description[lang] || t.description.sk,
+  }))
+  .sort((a, b) =>
+    a.localTerm.localeCompare(b.localTerm, lang, { sensitivity: 'base' })
+  )
+  .map((t) => ({
+    ...t,
+    letter: normalizeLetter(t.localTerm.charAt(0)),
+    searchText: `${t.localTerm.toLowerCase()} ${(t.shortcut || '').toLowerCase()} ${t.localDesc.toLowerCase()}`,
+  }));
 
 // Abeceda (písmená kde mám aspoň 1 termín)
 const usedLetters = Array.from(new Set(
@@ -271,10 +278,10 @@ const categories = [
                     </span>
                   ) : (
                     <span style="font-family: var(--mono); font-size: 10px; padding: 4px 10px; border-radius: 6px; background: var(--bg-soft); color: var(--muted); flex-shrink: 0;">
-                      {t.term.charAt(0).toUpperCase()}
+                      {t.localTerm.charAt(0).toUpperCase()}
                     </span>
                   )}
-                  <span style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em;">{t.term}</span>
+                  <span style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em;">{t.localTerm}</span>
                   <span class="g-cat-tag" style="font-size: 10px; color: var(--muted); font-family: var(--mono); margin-left: auto; margin-right: 8px;">
                     {glossaryCategories.find(c => c.key === t.category)?.label.toUpperCase()}
                   </span>
@@ -284,7 +291,7 @@ const categories = [
                 </svg>
               </summary>
               <div style="padding: 0 4px 22px 44px; font-size: 14px; line-height: 1.65; color: var(--muted); margin-top: -4px;">
-                {t.description}
+                {t.localDesc}
               </div>
             </details>
           ))}
