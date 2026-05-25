@@ -224,6 +224,31 @@
    * ============================================================ */
   let drawerInstance = null;
 
+  // Drawer i18n - detect language from URL prefix
+  const drawerLang = (() => {
+    const m = window.location.pathname.match(/^\/(cs|hu|en|de)\//);
+    return m ? m[1] : 'sk';
+  })();
+  const drawerI18n = {
+    eyebrow:    { sk: '[ KONTAKT ]',   cs: '[ KONTAKT ]',   hu: '[ KAPCSOLAT ]', en: '[ CONTACT ]', de: '[ KONTAKT ]' },
+    heading:    { sk: 'Audit zadarmo do 24 hodín', cs: 'Audit zdarma do 24 hodin', hu: 'Ingyenes audit 24 órán belül', en: 'Free audit within 24 hours', de: 'Kostenloser Audit innerhalb 24 Stunden' },
+    lead:       { sk: 'Napíšte nám pár viet o tom, čo riešite. Pozrieme sa na vaše účty, meranie, a dáme konkrétne odporúčania. Bez záväzku.', cs: 'Napište nám pár vět o tom, co řešíte. Podíváme se na vaše účty, měření a dáme konkrétní doporučení. Bez závazku.', hu: 'Írjon nekünk pár mondatot arról, amit megold. Megnézzük fiókjait, méréseit, és konkrét ajánlásokat adunk. Kötelezettség nélkül.', en: 'Write us a few sentences about your situation. We will review your accounts, tracking, and provide concrete recommendations. No obligation.', de: 'Schreiben Sie uns ein paar Sätze über Ihre Situation. Wir prüfen Ihre Konten, Messung und geben konkrete Empfehlungen. Ohne Bindung.' },
+    lblName:    { sk: 'MENO *',        cs: 'JMÉNO *',       hu: 'NÉV *',         en: 'NAME *',       de: 'NAME *' },
+    lblEmail:   { sk: 'E-MAIL *',      cs: 'E-MAIL *',      hu: 'E-MAIL *',      en: 'E-MAIL *',     de: 'E-MAIL *' },
+    lblCompany: { sk: 'FIRMA / WEB',   cs: 'FIRMA / WEB',   hu: 'CÉG / WEB',     en: 'COMPANY / WEB',de: 'FIRMA / WEB' },
+    lblMessage: { sk: 'SPRÁVA *',      cs: 'ZPRÁVA *',      hu: 'ÜZENET *',       en: 'MESSAGE *',    de: 'NACHRICHT *' },
+    btnSubmit:  { sk: 'Odoslať správu', cs: 'Odeslat zprávu', hu: 'Üzenet küldése', en: 'Send message', de: 'Nachricht senden' },
+    sending:    { sk: 'Odosielame…',   cs: 'Odesíláme…',    hu: 'Küldés…',        en: 'Sending…',     de: 'Wird gesendet…' },
+    success:    { sk: '✓ Ďakujeme! Ozveme sa do 24 hodín.', cs: '✓ Děkujeme! Ozveme se do 24 hodin.', hu: '✓ Köszönjük! 24 órán belül jelentkezünk.', en: '✓ Thank you! We will get back to you within 24 hours.', de: '✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden.' },
+    error:      { sk: 'Nepodarilo sa odoslať. Napíšte priamo na info@adlify.eu.', cs: 'Nepodařilo se odeslat. Napište přímo na info@adlify.eu.', hu: 'A küldés nem sikerült. Írjon közvetlenül az info@adlify.eu címre.', en: 'Failed to send. Please write directly to info@adlify.eu.', de: 'Senden fehlgeschlagen. Schreiben Sie direkt an info@adlify.eu.' },
+    footer:     { sk: 'Odpovieme do 24 hodín. Bez predajného tlaku.', cs: 'Odpovíme do 24 hodin. Bez prodejního tlaku.', hu: 'Válaszolunk 24 órán belül. Értékesítési nyomás nélkül.', en: 'We respond within 24 hours. No sales pressure.', de: 'Wir antworten innerhalb von 24 Stunden. Ohne Verkaufsdruck.' },
+    close:      { sk: 'Zavrieť',       cs: 'Zavřít',         hu: 'Bezárás',        en: 'Close',        de: 'Schließen' },
+    planPrefix: { sk: 'Záujem o plán',  cs: 'Zájem o plán',   hu: 'Érdeklődés a csomagról:', en: 'Interest in plan', de: 'Interesse an Paket' },
+    planChip:   { sk: 'Plán:',          cs: 'Plán:',          hu: 'Csomag:',        en: 'Plan:',        de: 'Paket:' },
+    planMsg:    { sk: 'Mám záujem o plán', cs: 'Mám zájem o plán', hu: 'Érdeklődöm a csomag iránt:', en: 'I am interested in plan', de: 'Ich interessiere mich für das Paket' },
+  };
+  const dt = (key) => (drawerI18n[key] || {})[drawerLang] || (drawerI18n[key] || {}).sk || '';
+
   function ensureDrawer() {
     if (drawerInstance) return drawerInstance;
 
@@ -252,19 +277,19 @@
     drawer.innerHTML = `
       <div style="padding: 22px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between;">
         <div>
-          <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; letter-spacing: 0.05em;">[ CONTACT ]</div>
-          <div data-drawer-heading style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">Audit zadarmo do 24 hodín</div>
+          <div style="font-family: var(--mono); font-size: 11px; opacity: 0.55; letter-spacing: 0.05em;">${dt('eyebrow')}</div>
+          <div data-drawer-heading style="font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 2px;">${dt('heading')}</div>
           <div data-drawer-chip style="display: none; margin-top: 8px; padding: 4px 10px; background: linear-gradient(100deg, var(--grad-start), var(--grad-end)); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; align-items: center;">
           </div>
         </div>
-        <button data-drawer-close aria-label="Zavrieť" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <button data-drawer-close aria-label="${dt('close')}" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
 
       <div style="flex: 1; padding: 28px;">
         <p style="font-size: 14px; line-height: 1.55; opacity: 0.7; margin-bottom: 24px;">
-          Napíšte nám pár viet o tom, čo riešite. Pozrieme sa na vaše účty, meranie, a dáme konkrétne odporúčania. Bez záväzku.
+          ${dt('lead')}
         </p>
 
         <form data-drawer-form>
@@ -273,38 +298,38 @@
           <input type="hidden" name="period" value="">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
             <div>
-              <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">MENO *</label>
+              <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">${dt('lblName')}</label>
               <input required name="name"
                      style="width:100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: var(--bg); font: inherit;">
             </div>
             <div>
-              <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">E-MAIL *</label>
+              <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">${dt('lblEmail')}</label>
               <input required type="email" name="email"
                      style="width:100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: var(--bg); font: inherit;">
             </div>
           </div>
 
           <div style="margin-bottom: 14px;">
-            <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">FIRMA / WEB</label>
+            <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">${dt('lblCompany')}</label>
             <input name="company"
                    style="width:100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: var(--bg); font: inherit;">
           </div>
 
           <div style="margin-bottom: 14px;">
-            <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">SPRÁVA *</label>
+            <label style="font-size: 11px; font-family: var(--mono); opacity: 0.55; display: block; margin-bottom: 8px; letter-spacing: 0.04em;">${dt('lblMessage')}</label>
             <textarea required name="message" rows="4"
                       style="width:100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: var(--bg); font: inherit; resize: vertical;"></textarea>
           </div>
 
           <button type="submit" class="btn btn-grad" style="width:100%; justify-content: center; padding: 14px;">
-            Odoslať správu
+            ${dt('btnSubmit')}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
 
           <div data-drawer-status style="margin-top: 12px; padding: 10px; border-radius: 8px; font-size: 13px; display: none;"></div>
 
           <p style="margin-top: 14px; font-size: 12px; opacity: 0.55; line-height: 1.5;">
-            Odpovieme do 24 hodín. Bez predajného tlaku.
+            ${dt('footer')}
           </p>
         </form>
       </div>
@@ -333,7 +358,7 @@
       const chipEl = drawer.querySelector('[data-drawer-chip]');
       const planInput = drawer.querySelector('input[name="plan"]');
       const periodInput = drawer.querySelector('input[name="period"]');
-      if (headingEl) headingEl.textContent = 'Audit zadarmo do 24 hodín';
+      if (headingEl) headingEl.textContent = dt('heading');
       if (chipEl) chipEl.style.display = 'none';
       if (planInput) planInput.value = '';
       if (periodInput) periodInput.value = '';
@@ -341,11 +366,11 @@
       // Aplikuj preset (z cenníka: openContact({ plan: 'Pro', period: '12 mesiacov' }))
       if (preset.plan) {
         // Custom heading
-        if (headingEl) headingEl.textContent = `Záujem o plán ${preset.plan}`;
+        if (headingEl) headingEl.textContent = `${dt('planPrefix')} ${preset.plan}`;
 
         // Chip pod headingom (vizuálny indikátor)
         if (chipEl) {
-          let chipText = `Plán: ${preset.plan}`;
+          let chipText = `${dt('planChip')} ${preset.plan}`;
           if (preset.period) chipText += ` · ${preset.period}`;
           chipEl.textContent = chipText;
           chipEl.style.display = 'inline-flex';
@@ -355,8 +380,8 @@
         const msg = drawer.querySelector('textarea[name="message"]');
         if (msg && !msg.value) {
           msg.value = preset.period
-            ? `Mám záujem o plán ${preset.plan} (${preset.period}).`
-            : `Mám záujem o plán ${preset.plan}.`;
+            ? `${dt('planMsg')} ${preset.plan} (${preset.period}).`
+            : `${dt('planMsg')} ${preset.plan}.`;
         }
 
         // Hidden polia pre submit
@@ -389,7 +414,7 @@
       const originalLabel = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.style.opacity = '0.6';
-      submitBtn.innerHTML = 'Odosielame…';
+      submitBtn.innerHTML = dt('sending');
 
       try {
         const resp = await fetch('/.netlify/functions/web-contact', {
@@ -401,7 +426,7 @@
           status.style.display = 'block';
           status.style.background = 'rgba(34,197,94,0.15)';
           status.style.color = '#86efac';
-          status.textContent = '✓ Ďakujeme! Ozveme sa do 24 hodín.';
+          status.textContent = dt('success');
           form.reset();
         } else {
           throw new Error('failed');
@@ -410,7 +435,7 @@
         status.style.display = 'block';
         status.style.background = 'rgba(244,80,80,0.15)';
         status.style.color = '#fca5a5';
-        status.textContent = 'Nepodarilo sa odoslať. Napíšte priamo na info@adlify.eu.';
+        status.textContent = dt('error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
@@ -431,14 +456,17 @@
     $$('button, a').forEach((el) => {
       const txt = (el.textContent || '').trim().toLowerCase();
       const triggers = [
-        'bezplatná konzultácia',
-        'získať audit',
-        'napísať nám',
-        'otvoriť formulár',
-        'audit zadarmo',
-        'chcem poradiť',
-        'rezervovať',
-        'chcem presný plán',
+        // SK
+        'bezplatná konzultácia', 'získať audit', 'napísať nám', 'otvoriť formulár',
+        'audit zadarmo', 'chcem poradiť', 'rezervovať', 'chcem presný plán',
+        // CS
+        'bezplatná konzultace', 'audit zdarma', 'napište nám',
+        // HU
+        'ingyenes konzultáció', 'ingyenes audit',
+        // EN
+        'free consultation', 'get audit', 'free audit', 'book a call',
+        // DE
+        'kostenlose beratung', 'kostenlosen audit', 'audit anfordern',
       ];
       if (!triggers.some((t) => txt.includes(t))) return;
 
