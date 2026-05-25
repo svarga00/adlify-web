@@ -47,7 +47,7 @@ const today = new Date().toLocaleDateString(dateLocale);
       <div class="legal-eyebrow">{t('privacy.docEyebrow', lang)}</div>
       <h1 class="legal-h1">{t('privacy.h1', lang)}</h1>
       <p class="legal-lead">
-        Ako spracúvame, chránime a používame vaše osobné údaje v súlade s GDPR a slovenskou legislatívou.
+        {t('privacy.lead', lang)}
       </p>
       <div class="legal-meta-row">
         <span><strong>{t('legal.effectiveFrom', lang)}:</strong> {today}</span>
@@ -65,114 +65,99 @@ const today = new Date().toLocaleDateString(dateLocale);
 
         <article class="legal-prose">
 
-          <h2 id="prevadzkovatel">1. Prevádzkovateľ</h2>
-          <p>
-            Prevádzkovateľom v zmysle GDPR (Nariadenie EÚ 2016/679) a zákona č. 18/2018 Z. z.
-            o ochrane osobných údajov je:
-          </p>
+          <h2 id="prevadzkovatel">{t('privacy.s1Title', lang)}</h2>
+          <p>{t('privacy.s1Intro', lang)}</p>
           <ul>
             <li><strong>{company}</strong></li>
-            <li>IČO: {ico}</li>
-            <li>Sídlo: {address}</li>
-            <li>Kontakt: {email}</li>
+            <li>{t('privacy.s1IcoLabel', lang)}: {ico}</li>
+            <li>{t('privacy.s1AddressLabel', lang)}: {address}</li>
+            <li>{t('privacy.s1ContactLabel', lang)}: {email}</li>
           </ul>
+          <p>{t('privacy.s1DpoNote', lang)}</p>
+
+          <h2 id="udaje">{t('privacy.s2Title', lang)}</h2>
+
+          <h3>{t('privacy.s2aTitle', lang)}</h3>
+          <ul>
+            <li>{t('privacy.s2aItem1', lang)}</li>
+            <li>{t('privacy.s2aItem2', lang)}</li>
+            <li>{t('privacy.s2aItem3', lang)}</li>
+            <li>{t('privacy.s2aItem4', lang)}</li>
+            <li>{t('privacy.s2aItem5', lang)}</li>
+          </ul>
+          <p><strong>{t('privacy.lblPurpose', lang)}:</strong> {t('privacy.s2aPurpose', lang)}</p>
+          <p><strong>{t('privacy.lblLegal', lang)}:</strong> {t('privacy.s2aLegal', lang)}</p>
+          <p><strong>{t('privacy.lblRetention', lang)}:</strong> {t('privacy.s2aRetention', lang)}</p>
+
+          <h3>{t('privacy.s2bTitle', lang)}</h3>
+          <ul>
+            <li>{t('privacy.s2bItem1', lang)}</li>
+            <li>{t('privacy.s2bItem2', lang)}</li>
+          </ul>
+          <p><strong>{t('privacy.lblPurpose', lang)}:</strong> {t('privacy.s2bPurpose', lang)}</p>
+          <p><strong>{t('privacy.lblLegal', lang)}:</strong> {t('privacy.s2bLegal', lang)}</p>
+          <p><strong>{t('privacy.lblRetention', lang)}:</strong> {t('privacy.s2bRetention', lang)}</p>
+
+          <h3>{t('privacy.s2cTitle', lang)}</h3>
+          <ul>
+            <li>{t('privacy.s2cItem1', lang)}</li>
+            <li>{t('privacy.s2cItem2', lang)}</li>
+            <li>{t('privacy.s2cItem3', lang)}</li>
+          </ul>
+          <p><strong>{t('privacy.lblPurpose', lang)}:</strong> {t('privacy.s2cPurpose', lang)}</p>
+          <p><strong>{t('privacy.lblLegal', lang)}:</strong> {t('privacy.s2cLegal', lang)}</p>
+          <p><strong>{t('privacy.lblRetention', lang)}:</strong> {t('privacy.s2cRetention', lang)}</p>
+
+          <h3>{t('privacy.s2dTitle', lang)}</h3>
           <p>
-            Vzhľadom na rozsah činnosti nemáme povinnosť vymenovať Zodpovednú osobu (DPO).
-            V prípade akýchkoľvek otázok ohľadne osobných údajov nás kontaktujte na uvedenom e-maile.
+            {t('privacy.s2dBodyPrefix', lang)} <a href="/cookies">{t('privacy.s2dBodyLink', lang)}</a>{t('privacy.s2dBodySuffix', lang)}
           </p>
 
-          <h2 id="udaje">2. Aké údaje spracúvame</h2>
-
-          <h3>A) Údaje z kontaktného formulára</h3>
+          <h2 id="sprostredkovatelia">{t('privacy.s3Title', lang)}</h2>
+          <p>{t('privacy.s3Intro', lang)}</p>
           <ul>
-            <li>Meno a priezvisko</li>
-            <li>E-mailová adresa</li>
-            <li>Názov firmy / web (voliteľné)</li>
-            <li>Telefón (voliteľné)</li>
-            <li>Obsah správy</li>
+            <li><strong>Resend</strong> {t('privacy.s3Resend', lang)}</li>
+            <li><strong>Netlify</strong> {t('privacy.s3Netlify', lang)}</li>
+            <li><strong>Supabase</strong> {t('privacy.s3Supabase', lang)}</li>
+            <li><strong>Google</strong> {t('privacy.s3Google', lang)}</li>
+            <li><strong>Meta</strong> {t('privacy.s3Meta', lang)}</li>
+            <li>{t('privacy.s3Accountant', lang)}</li>
           </ul>
-          <p><strong>Účel:</strong> spracovanie vašej požiadavky a kontaktovanie zo strany našej agentúry.</p>
-          <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR), prípadne predzmluvný vzťah (čl. 6 ods. 1 písm. b).</p>
-          <p><strong>Doba uchovávania:</strong> 24 mesiacov od posledného kontaktu, ak nedôjde k uzavretiu zmluvy. Pri zmluvnom vzťahu po dobu jeho trvania + 10 rokov (zákonná archivácia).</p>
+          <p>{t('privacy.s3UsTransfer', lang)}</p>
 
-          <h3>B) Údaje z newsletter prihlásenia</h3>
+          <h2 id="prava">{t('privacy.s4Title', lang)}</h2>
+          <p>{t('privacy.s4Intro', lang)}</p>
           <ul>
-            <li>E-mailová adresa</li>
-            <li>Meno (voliteľné)</li>
-          </ul>
-          <p><strong>Účel:</strong> zasielanie marketingových a obchodných oznámení.</p>
-          <p><strong>Právny základ:</strong> Váš súhlas (čl. 6 ods. 1 písm. a GDPR).</p>
-          <p><strong>Doba uchovávania:</strong> do odvolania súhlasu (odhlásenie cez link v každom e-maile).</p>
-
-          <h3>C) Údaje zo zmluvných vzťahov</h3>
-          <ul>
-            <li>Fakturačné údaje (názov firmy, IČO, DIČ, adresa)</li>
-            <li>Mená kontaktných osôb</li>
-            <li>Komunikácia v rámci projektu</li>
-          </ul>
-          <p><strong>Účel:</strong> plnenie zmluvy, fakturácia, právna ochrana.</p>
-          <p><strong>Právny základ:</strong> Plnenie zmluvy (čl. 6 ods. 1 písm. b GDPR), zákonná povinnosť (čl. 6 ods. 1 písm. c — daňové a účtovné zákony).</p>
-          <p><strong>Doba uchovávania:</strong> 10 rokov (zákonná povinnosť pre účtovnú dokumentáciu).</p>
-
-          <h3>D) Údaje z analytických nástrojov</h3>
-          <p>
-            Pri návšteve webu zbierame anonymizované údaje o správaní (pozri stránku <a href="/cookies">Cookies</a>).
-            Tieto údaje neidentifikujú konkrétnu osobu.
-          </p>
-
-          <h2 id="sprostredkovatelia">3. Komu odovzdávame údaje (sprostredkovatelia)</h2>
-          <p>Vaše údaje môžu byť odovzdané týmto sprostredkovateľom (vždy s primeranou ochranou):</p>
-          <ul>
-            <li><strong>Resend</strong> (USA, EU dátové centrá) — odosielanie e-mailov z formulárov</li>
-            <li><strong>Netlify</strong> (USA) — hosting webu</li>
-            <li><strong>Supabase</strong> (EU dátové centrá) — databáza</li>
-            <li><strong>Google</strong> (USA / EU) — Google Ads, Analytics, Tag Manager (ak ste poskytli súhlas s cookies)</li>
-            <li><strong>Meta</strong> (USA / EU) — Facebook a Instagram pixel (ak ste poskytli súhlas s cookies)</li>
-            <li>Účtovník a daňový poradca v rozsahu zákonných povinností</li>
+            <li><strong>{t('privacy.s4r1Label', lang)}</strong> — {t('privacy.s4r1Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r2Label', lang)}</strong> — {t('privacy.s4r2Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r3Label', lang)}</strong> — {t('privacy.s4r3Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r4Label', lang)}</strong> — {t('privacy.s4r4Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r5Label', lang)}</strong> — {t('privacy.s4r5Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r6Label', lang)}</strong> — {t('privacy.s4r6Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r7Label', lang)}</strong> — {t('privacy.s4r7Desc', lang)}</li>
+            <li><strong>{t('privacy.s4r8Label', lang)}</strong> — {t('privacy.s4r8Desc', lang)} (<a href="https://dataprotection.gov.sk" target="_blank" rel="noopener">dataprotection.gov.sk</a>).</li>
           </ul>
           <p>
-            Pri prenose údajov do USA využívame Štandardné zmluvné doložky (SCCs) alebo
-            Privacy Shield Framework. Niektorí dodávatelia sú certifikovaní pod EU-US Data Privacy Framework.
+            {t('privacy.s4outro', lang)} <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>
           </p>
 
-          <h2 id="prava">4. Vaše práva</h2>
-          <p>Ako dotknutá osoba máte právo:</p>
+          <h2 id="bezpecnost">{t('privacy.s5Title', lang)}</h2>
+          <p>{t('privacy.s5Intro', lang)}</p>
           <ul>
-            <li><strong>Na prístup</strong> — zistiť, aké údaje o vás spracúvame.</li>
-            <li><strong>Na opravu</strong> — požiadať o opravu nesprávnych údajov.</li>
-            <li><strong>Na vymazanie</strong> („právo byť zabudnutý") — ak už nemáme zákonný dôvod pre spracovanie.</li>
-            <li><strong>Na obmedzenie</strong> — dočasne pozastaviť spracovanie.</li>
-            <li><strong>Na prenosnosť</strong> — získať vaše údaje v štruktúrovanom formáte.</li>
-            <li><strong>Namietať</strong> — proti spracovaniu na základe oprávneného záujmu.</li>
-            <li><strong>Odvolať súhlas</strong> — kedykoľvek, bez akýchkoľvek dôsledkov.</li>
-            <li><strong>Podať sťažnosť</strong> — na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" target="_blank" rel="noopener">dataprotection.gov.sk</a>).</li>
-          </ul>
-          <p>
-            Pre uplatnenie ktoréhokoľvek z týchto práv nás kontaktujte na: <a href={`mailto:${settings.contact_email || 'info@adlify.eu'}`}>{settings.contact_email || 'info@adlify.eu'}</a>.
-            Odpoveď garantujeme do 30 dní.
-          </p>
-
-          <h2 id="bezpecnost">5. Bezpečnosť údajov</h2>
-          <p>Vaše údaje chránime primeranými technickými a organizačnými opatreniami:</p>
-          <ul>
-            <li>Šifrovaná komunikácia (HTTPS/TLS) pre všetky webové formuláre</li>
-            <li>Šifrované databázy (Supabase EU)</li>
-            <li>Prístup k údajom obmedzený len na nevyhnutný personál</li>
-            <li>Pravidelné zálohy a aktualizácie zabezpečenia</li>
-            <li>Dvojfaktorová autentifikácia pre administračné účty</li>
+            <li>{t('privacy.s5item1', lang)}</li>
+            <li>{t('privacy.s5item2', lang)}</li>
+            <li>{t('privacy.s5item3', lang)}</li>
+            <li>{t('privacy.s5item4', lang)}</li>
+            <li>{t('privacy.s5item5', lang)}</li>
           </ul>
 
-          <h2 id="cookies">6. Cookies a sledovanie</h2>
+          <h2 id="cookies">{t('privacy.s6Title', lang)}</h2>
           <p>
-            Pravidlá ohľadom cookies sú podrobne popísané na samostatnej stránke
-            <a href="/cookies">Cookies</a>.
+            {t('privacy.s6BodyPrefix', lang)} <a href="/cookies">{t('privacy.s6BodyLink', lang)}</a>.
           </p>
 
-          <h2 id="zmeny">7. Zmeny týchto zásad</h2>
-          <p>
-            Tieto zásady môžeme aktualizovať. O podstatných zmenách informujeme e-mailom
-            (registrovaných používateľov) alebo upozornením na webe minimálne 30 dní vopred.
-          </p>
+          <h2 id="zmeny">{t('privacy.s7Title', lang)}</h2>
+          <p>{t('privacy.s7Body', lang)}</p>
 
           <hr />
           <p class="legal-meta">
@@ -186,13 +171,13 @@ const today = new Date().toLocaleDateString(dateLocale);
             <div class="legal-sidebar-eyebrow">{t('legal.tocEyebrow', lang)}</div>
             <nav class="legal-toc" aria-label={t('legal.tocAria', lang)}>
               <ol>
-                <li><a href="#prevadzkovatel">Prevádzkovateľ</a></li>
-                <li><a href="#udaje">Aké údaje spracúvame</a></li>
-                <li><a href="#sprostredkovatelia">Komu odovzdávame údaje</a></li>
-                <li><a href="#prava">Vaše práva</a></li>
-                <li><a href="#bezpecnost">Bezpečnosť údajov</a></li>
-                <li><a href="#cookies">Cookies a sledovanie</a></li>
-                <li><a href="#zmeny">Zmeny zásad</a></li>
+                <li><a href="#prevadzkovatel">{t('privacy.toc1', lang)}</a></li>
+                <li><a href="#udaje">{t('privacy.toc2', lang)}</a></li>
+                <li><a href="#sprostredkovatelia">{t('privacy.toc3', lang)}</a></li>
+                <li><a href="#prava">{t('privacy.toc4', lang)}</a></li>
+                <li><a href="#bezpecnost">{t('privacy.toc5', lang)}</a></li>
+                <li><a href="#cookies">{t('privacy.toc6', lang)}</a></li>
+                <li><a href="#zmeny">{t('privacy.toc7', lang)}</a></li>
               </ol>
             </nav>
           </div>
