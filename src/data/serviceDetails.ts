@@ -1,486 +1,332 @@
 /**
- * Detail dáta pre hlavné služby (zobrazené na homepage)
- * Použité na /sluzby/<slug> dynamic stránkach.
- *
- * Slugy zhodné s Home.astro a Services.astro 'online-marketing' kategoriou:
- *  google-ads, meta-ads, seo, email, meranie, web
+ * Detail dáta pre hlavné služby - MULTILANG
+ * Každé textové pole je MultiLang objekt { sk, cs, hu, en, de }
  */
+
+import type { Lang } from '../lib/i18n';
+
+type ML = Record<Lang, string>;
 
 export interface ServiceProcess {
   num: number;
-  title: string;
-  desc: string;
+  title: ML;
+  desc: ML;
 }
 
 export interface ServiceFAQ {
-  q: string;
-  a: string;
+  q: ML;
+  a: ML;
 }
 
 export interface ServiceSpec {
-  label: string;
-  value: string;
+  label: ML;
+  value: ML;
 }
 
 export interface ServiceDetail {
   slug: string;
-  category: string;          // pre breadcrumb
+  category: ML;
   categorySlug: string;
-  title: string;             // názov
-  tagline: string;           // krátky podtitul (1 veta)
-  lead: string;              // úvodný odstavec (3-4 vety)
-  icon: string;              // SVG path content
-
-  // Špecifikácie (timing) — z Home.astro
+  title: string;             // názov služby (Google Ads, Meta Ads...) - rovnaký vo všetkých jazykoch
+  tagline: ML;
+  lead: ML;
+  icon: string;
   specs: ServiceSpec[];
-
-  // Cena
-  priceFrom: string;         // '149 € / mesiac' alebo 'Od 590 €'
-  priceNote?: string;        // 'Súčasť plánov Pro+'
-
-  // Postup — ako pracujeme
+  priceFrom: ML;
+  priceNote?: ML;
   process: ServiceProcess[];
-
-  // Čo dostaneš — rozšírené bullets
-  whatYouGet: string[];
-
-  // Pre koho je to vhodné
-  forWhom: string[];
-
-  // Mini FAQ pre túto službu
+  whatYouGet: ML[];
+  forWhom: ML[];
   faq: ServiceFAQ[];
-
-  // Related case study slugs (z DB)
   relatedCases?: string[];
-
-  // SEO
-  seoTitle?: string;
-  seoDescription?: string;
+  seoTitle?: ML;
+  seoDescription?: ML;
 }
 
-export const SERVICE_DETAILS: Record<string, ServiceDetail> = {
+// Helper na získanie lokalizovaného textu
+export function svcT(field: ML | string | undefined, lang: Lang): string {
+  if (!field) return '';
+  if (typeof field === 'string') return field;
+  return field[lang] || field.sk || '';
+}
 
-  // ============================================
-  // GOOGLE ADS
-  // ============================================
-  'google-ads': {
+export const serviceDetails: ServiceDetail[] = [
+  {
     slug: 'google-ads',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'online-marketing',
     title: 'Google Ads',
-    tagline: 'Reklama s okamžitým dopytom. Search, Performance Max, Shopping, YouTube.',
-    lead: 'Google Ads sú najrýchlejší spôsob, ako získať zákazníka, ktorý už hľadá to, čo predávate. Nastavíme kampane podľa vašej cieľovej skupiny, optimalizujeme bid stratégie a sledujeme každý kliknutý cent. Bez „odpaľovania peňazí na branding" — len konverzie, ktoré vidno.',
-    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
-
+    tagline: {"sk":"Reklama s okamžitým dopytom. Search, Performance Max, Shopping, YouTube.","cs":"Reklama s okamžitou poptávkou. Search, Performance Max, Shopping, YouTube.","hu":"Azonnali kereslet alapú reklám. Search, Performance Max, Shopping, YouTube.","en":"Advertising with immediate demand. Search, Performance Max, Shopping, YouTube.","de":"Werbung mit sofortiger Nachfrage. Search, Performance Max, Shopping, YouTube."},
+    lead: {"sk":"Google Ads sú najrýchlejší spôsob, ako získať zákazníka, ktorý už hľadá to, čo predávate. Nastavíme kampane podľa vašej cieľovej skupiny, optimalizujeme bid stratégie a sledujeme každý kliknutý cent. Bez „odpaľovania peňazí na branding","cs":"Google Ads jsou nejrychlejší způsob, jak získat zákazníka, který už hledá to, co prodáváte. Nastavíme kampaně podle vaší cílové skupiny, optimalizujeme bid strategie a sledujeme každý kliknutý cent. Bez „vyhazování peněz na branding","hu":"A Google Ads a leggyorsabb módja annak, hogy olyan ügyfeleket szerezzen, akik már keresik azt, amit Ön árul. Beállítjuk a kampányokat a célcsoportja szerint, optimalizáljuk a licitálási stratégiákat és minden egyes kattintott centet nyomon követünk. Brandingre való \"pénzszórás\" nélkül","en":"Google Ads are the fastest way to acquire customers who are already searching for what you sell. We set up campaigns according to your target audience, optimize bid strategies and track every clicked cent. No \"burning money on branding\".","de":"Google Ads sind der schnellste Weg, um Kunden zu gewinnen, die bereits nach dem suchen, was Sie verkaufen. Wir richten Kampagnen nach Ihrer Zielgruppe ein, optimieren Bid-Strategien und verfolgen jeden angeklickten Cent. Ohne \"Geld für Branding zu verpulvern\"."},
+    icon: ``,
     specs: [
-      { label: 'Setup',         value: '10 dní' },
-      { label: 'Prvé výsledky', value: '4 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+      { label: {"sk":"Setup","cs":"Setup","hu":"Setup","en":"Setup","de":"Setup"}, value: {"sk":"10 dní","cs":"10 dní","hu":"10 nap","en":"10 days","de":"10 Tage"} },
+      { label: {"sk":"Prvé výsledky","cs":"První výsledky","hu":"Első eredmények","en":"First results","de":"Erste Ergebnisse"}, value: {"sk":"4 týždne","cs":"4 týdny","hu":"4 hét","en":"4 weeks","de":"4 Wochen"} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Jelentés","en":"Reporting","de":"Reporting"}, value: {"sk":"Týždenne","cs":"Týdně","hu":"Hetente","en":"Weekly","de":"Wöchentlich"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuto","hu":"Tartalmazza","en":"Included","de":"Enthalten"}, value: {"sk":"Vo všetkých plánoch","cs":"Ve všech plánech","hu":"Minden csomagban","en":"In all plans","de":"In allen Plänen"} },
     ],
-
-    priceFrom: 'Súčasť mesačného plánu',
-    priceNote: 'Od 149 € / mesiac (Starter plán) — viď cenník',
-
+    priceFrom: {"sk":"Súčasť mesačného plánu","cs":"Součást měsíčního plánu","hu":"Havi csomag része","en":"Part of monthly plan","de":"Bestandteil des Monatsplans"},
+    priceNote: {"sk":"Od 149 € / mesiac (Starter plán) — viď cenník","cs":"Od 149 € / měsíc (Starter plán) — viz ceník","hu":"149 € / hónaptól (Starter csomag) — lásd árlista","en":"From €149 / month (Starter plan) — see pricing","de":"Ab 149 € / Monat (Starter-Plan) - siehe Preisliste"},
     process: [
-      { num: 1, title: 'Audit a stratégia', desc: 'Pozrieme si váš účet (alebo postavíme nový), analyzujeme konkurenciu a vyberáme typy kampaní podľa cieľov.' },
-      { num: 2, title: 'Setup a meranie',   desc: 'Nastavíme konverzie cez GA4 a Google Tag Manager, vrátane Enhanced Conversions a server-side trackingu.' },
-      { num: 3, title: 'Spustenie kampaní', desc: 'Search, Performance Max, Shopping, YouTube — podľa toho čo predávate. Začíname konzervatívne, škálujeme po prvých výsledkoch.' },
-      { num: 4, title: 'Optimalizácia',      desc: 'Týždenné úpravy bidov, keywords, kreatív. Mesačný report s odporúčaniami a A/B testami.' },
+      { num: 1, title: {"sk":"Audit a stratégia","cs":"Audit a strategie","hu":"Audit és stratégia","en":"Audit and strategy","de":"Audit und Strategie"}, desc: {"sk":"Pozrieme si váš účet (alebo postavíme nový), analyzujeme konkurenciu a vyberáme typy kampaní podľa cieľov.","cs":"Podíváme se na váš účet (nebo postavíme nový), analyzujeme konkurenci a vybíráme typy kampaní podle cílů.","hu":"Átnézzük az Ön fiókját (vagy újat építünk fel), elemezzük a versenytársakat és kiválasztjuk a kampánytípusokat a célok szerint.","en":"We review your account (or build a new one), analyze competition and select campaign types based on goals.","de":"Wir schauen uns Ihr Konto an (oder bauen ein neues auf), analysieren die Konkurrenz und wählen Kampagnentypen entsprechend den Zielen aus."} },
+      { num: 2, title: {"sk":"Setup a meranie","cs":"Setup a měření","hu":"Setup és mérés","en":"Setup and measurement","de":"Setup und Messung"}, desc: {"sk":"Nastavíme konverzie cez GA4 a Google Tag Manager, vrátane Enhanced Conversions a server-side trackingu.","cs":"Nastavíme konverze přes GA4 a Google Tag Manager, včetně Enhanced Conversions a server-side trackingu.","hu":"Beállítjuk a konverziókat GA4-en és Google Tag Manager-en keresztül, beleértve az Enhanced Conversions-t és a server-side trackinget.","en":"We set up conversions via GA4 and Google Tag Manager, including Enhanced Conversions and server-side tracking.","de":"Wir richten Conversions über GA4 und Google Tag Manager ein, einschließlich Enhanced Conversions und server-side Tracking."} },
+      { num: 3, title: {"sk":"Spustenie kampaní","cs":"Spuštění kampaní","hu":"Kampányok indítása","en":"Campaign launch","de":"Kampagnen-Start"}, desc: {"sk":"Search, Performance Max, Shopping, YouTube — podľa toho čo predávate. Začíname konzervatívne, škálujeme po prvých výsledkoch.","cs":"Search, Performance Max, Shopping, YouTube — podle toho co prodáváte. Začínáme konzervativně, škálujeme po prvních výsledcích.","hu":"Search, Performance Max, Shopping, YouTube — aszerint, hogy mit árul. Konzervatívan kezdjük, az első eredmények után skálázzuk.","en":"Search, Performance Max, Shopping, YouTube — depending on what you sell. We start conservatively, scale after first results.","de":"Search, Performance Max, Shopping, YouTube - je nachdem was Sie verkaufen. Wir beginnen konservativ, skalieren nach den ersten Ergebnissen."} },
+      { num: 4, title: {"sk":"Optimalizácia","cs":"Optimalizace","hu":"Optimalizálás","en":"Optimization","de":"Optimierung"}, desc: {"sk":"Týždenné úpravy bidov, keywords, kreatív. Mesačný report s odporúčaniami a A/B testami.","cs":"Týdenní úpravy bidů, keywords, kreativ. Měsíční report s doporučeními a A/B testy.","hu":"Heti bid-, kulcsszó- és kreatív módosítások. Havi jelentés javaslatokkal és A/B tesztekkel.","en":"Weekly bid, keyword, and creative adjustments. Monthly report with recommendations and A/B tests.","de":"Wöchentliche Anpassungen von Geboten, Keywords, Creatives. Monatlicher Report mit Empfehlungen und A/B-Tests."} },
     ],
-
     whatYouGet: [
-      'Search kampane — zachytenie okamžitého dopytu (CPC + CPA stratégie)',
-      'Performance Max kampane — pre e-shopy s produktovým feedom',
-      'Shopping reklama — Google Merchant Center setup + feed optimalizácia',
-      'YouTube ads — video kampane s targeting na zámer',
-      'Konverzné meranie + remarketing publiká (do 540 dní)',
-      'Týždenný reporting + mesačné optimalizačné stretnutie',
+      {"sk":"Search kampane — zachytenie okamžitého dopytu (CPC + CPA stratégie)","cs":"Search kampaně — zachycení okamžité poptávky (CPC + CPA strategie)","hu":"Search kampányok — azonnali kereslet elkapása (CPC + CPA stratégiák)","en":"Search campaigns — capturing immediate demand (CPC + CPA strategies)","de":"Search-Kampagnen - Erfassung unmittelbarer Nachfrage (CPC + CPA Strategien)"},
+      {"sk":"Performance Max kampane — pre e-shopy s produktovým feedom","cs":"Performance Max kampaně — pro e-shopy s produktovým feedem","hu":"Performance Max kampányok — webáruházak számára termék feedekkel","en":"Performance Max campaigns — for e-shops with product feed","de":"Performance Max Kampagnen - für E-Shops mit Produktfeed"},
+      {"sk":"Shopping reklama — Google Merchant Center setup + feed optimalizácia","cs":"Shopping reklama — Google Merchant Center setup + feed optimalizace","hu":"Shopping reklám — Google Merchant Center setup + feed optimalizálás","en":"Shopping ads — Google Merchant Center setup + feed optimization","de":"Shopping-Werbung - Google Merchant Center Setup + Feed-Optimierung"},
+      {"sk":"YouTube ads — video kampane s targeting na zámer","cs":"YouTube ads — video kampaně s targetingem na záměr","hu":"YouTube hirdetések — videó kampányok szándék alapú targetinggel","en":"YouTube ads — video campaigns with intent targeting","de":"YouTube Ads - Video-Kampagnen mit Intent-Targeting"},
+      {"sk":"Konverzné meranie + remarketing publiká (do 540 dní)","cs":"Konverzní měření + remarketing publika (do 540 dní)","hu":"Konverziós mérés + remarketing közönség (540 napig)","en":"Conversion measurement + remarketing audiences (up to 540 days)","de":"Conversion-Tracking + Remarketing-Zielgruppen (bis zu 540 Tage)"},
+      {"sk":"Týždenný reporting + mesačné optimalizačné stretnutie","cs":"Týdenní reporting + měsíční optimalizační schůzka","hu":"Heti jelentés + havi optimalizálási megbeszélés","en":"Weekly reporting + monthly optimization meeting","de":"Wöchentliches Reporting + monatliches Optimierungsmeeting"},
     ],
-
     forWhom: [
-      'E-shopy s minimálne 30+ produktmi v katalógu',
-      'Lokálni poskytovatelia služieb (renovácie, HVAC, kaderníctva, autoservisy)',
-      'B2B firmy s konkrétnymi službami a dopytmi cez formulár',
+      {"sk":"E-shopy s minimálne 30+ produktmi v katalógu","cs":"E-shopy s minimálně 30+ produkty v katalogu","hu":"Webáruházak minimum 30+ termékkel a katalógusban","en":"E-shops with at least 30+ products in catalog","de":"E-Shops mit mindestens 30+ Produkten im Katalog"},
+      {"sk":"Lokálni poskytovatelia služieb (renovácie, HVAC, kaderníctva, autoservisy)","cs":"Lokální poskytovatelé služeb (renovace, HVAC, kadeřnictví, autoservisy)","hu":"Helyi szolgáltatók (felújítás, HVAC, fodrászat, autószerviz)","en":"Local service providers (renovations, HVAC, salons, auto repair)","de":"Lokale Dienstleister (Renovierungen, HVAC, Friseure, Autowerkstätten)"},
+      {"sk":"B2B firmy s konkrétnymi službami a dopytmi cez formulár","cs":"B2B firmy s konkrétními službami a poptávkami přes formulář","hu":"B2B cégek konkrét szolgáltatásokkal és űrlapos megkeresésekkel","en":"B2B companies with specific services and form-based inquiries","de":"B2B-Unternehmen mit konkreten Dienstleistungen und Anfragen über Formulare"},
     ],
-
     faq: [
-      {
-        q: 'Akú minimálnu mediálnu investíciu odporúčate?',
-        a: 'Pre testovanie odporúčame minimálne 300 € / mesiac na médiá (mimo našich služieb). Nižšie rozpočty nestačia na zber dát potrebných pre algoritmus Google Ads.',
-      },
-      {
-        q: 'Môžete spravovať aj môj existujúci účet?',
-        a: 'Áno — najprv urobíme audit (zadarmo, do 14 dní) a navrhneme čo zlepšiť. Potom prevezmeme správu alebo necháme váš tím s našimi odporúčaniami.',
-      },
-      {
-        q: 'Kedy uvidím prvé výsledky?',
-        a: 'Search kampane môžu generovať konverzie už v prvom týždni. Performance Max potrebuje 2-4 týždne na "naučenie sa". SEO efekty z brand search trvajú 6-12 týždňov.',
-      },
-      {
-        q: 'Aké platformy a nástroje používate?',
-        a: 'Google Ads + Google Tag Manager + GA4 + Looker Studio. Pre e-shopy aj Merchant Center, Channable / DataFeedWatch (feed management) a server-side tracking cez Stape.io.',
-      },
+      { q: {"sk":"Akú minimálnu mediálnu investíciu odporúčate?","cs":"Jakou minimální mediální investici doporučujete?","hu":"Mekkora minimális média befektetést javasolnak?","en":"What minimum media investment do you recommend?","de":"Welche minimale Medieninvestition empfehlen Sie?"}, a: {"sk":"Pre testovanie odporúčame minimálne 300 € / mesiac na médiá (mimo našich služieb). Nižšie rozpočty nestačia na zber dát potrebných pre algoritmus Google Ads.","cs":"Pro testování doporučujeme minimálně 300 € / měsíc na média (mimo naše služby). Nižší rozpočty nestačí na sběr dat potřebných pro algoritmus Google Ads.","hu":"Teszteléshez minimum 300 € / hónapot javasolunk médiára (szolgáltatásunkon kívül). Az alacsonyabb költségvetések nem elegendőek a Google Ads algoritmus számára szükséges adatgyűjtéshez.","en":"For testing we recommend at least €300 / month for media (excluding our services). Lower budgets are insufficient for collecting data needed for Google Ads algorithm.","de":"Für Tests empfehlen wir mindestens 300 € / Monat für Medien (außerhalb unserer Dienstleistungen). Niedrigere Budgets reichen nicht für die Datensammlung aus, die der Google Ads Algorithmus benötigt."} },
+      { q: {"sk":"Môžete spravovať aj môj existujúci účet?","cs":"Můžete spravovat i můj existující účet?","hu":"Kezelhetik a meglévő fiókomat is?","en":"Can you manage my existing account?","de":"Können Sie auch mein bestehendes Konto verwalten?"}, a: {"sk":"Áno — najprv urobíme audit (zadarmo, do 14 dní) a navrhneme čo zlepšiť. Potom prevezmeme správu alebo necháme váš tím s našimi odporúčaniami.","cs":"Ano — nejprve uděláme audit (zdarma, do 14 dní) a navrhneme co zlepšit. Poté převezmeme správu nebo necháme váš tým s našimi doporučeními.","hu":"Igen — először auditot végzünk (ingyenesen, 14 napon belül) és javasoljuk, mit lehet javítani. Ezután átvesszük a kezelést vagy hagyjuk az Ön csapatát a javaslatainknál.","en":"Yes — we first conduct an audit (free, within 14 days) and propose improvements. Then we take over management or leave your team with our recommendations.","de":"Ja - zunächst führen wir ein Audit durch (kostenlos, innerhalb von 14 Tagen) und schlagen vor, was verbessert werden kann. Dann übernehmen wir die Verwaltung oder lassen Ihr Team mit unseren Empfehlungen arbeiten."} },
+      { q: {"sk":"Kedy uvidím prvé výsledky?","cs":"Kdy uvidím první výsledky?","hu":"Mikor látom az első eredményeket?","en":"When will I see first results?","de":"Wann sehe ich die ersten Ergebnisse?"}, a: {"sk":"Search kampane môžu generovať konverzie už v prvom týždni. Performance Max potrebuje 2-4 týždne na \"naučenie sa\". SEO efekty z brand search trvajú 6-12 týždňov.","cs":"Search kampaně mohou generovat konverze už v prvním týdnu. Performance Max potřebuje 2-4 týdny na \"naučení se\". SEO efekty z brand search trvají 6-12 týdnů.","hu":"A Search kampányok már az első héten generálhatnak konverziókat. A Performance Max-nak 2-4 hétre van szüksége a \"tanuláshoz\". A brand search SEO hatásai 6-12 hetet vesznek igénybe.","en":"Search campaigns can generate conversions in the first week. Performance Max needs 2-4 weeks to \"learn\". SEO effects from brand search take 6-12 weeks.","de":"Search-Kampagnen können bereits in der ersten Woche Conversions generieren. Performance Max benötigt 2-4 Wochen zum \"Lernen\". SEO-Effekte aus der Brand-Suche dauern 6-12 Wochen."} },
+      { q: {"sk":"Aké platformy a nástroje používate?","cs":"Jaké platformy a nástroje používáte?","hu":"Milyen platformokat és eszközöket használnak?","en":"What platforms and tools do you use?","de":"Welche Plattformen und Tools verwenden Sie?"}, a: {"sk":"Google Ads + Google Tag Manager + GA4 + Looker Studio. Pre e-shopy aj Merchant Center, Channable / DataFeedWatch (feed management) a server-side tracking cez Stape.io.","cs":"Google Ads + Google Tag Manager + GA4 + Looker Studio. Pro e-shopy i Merchant Center, Channable / DataFeedWatch (feed management) a server-side tracking přes Stape.io.","hu":"Google Ads + Google Tag Manager + GA4 + Looker Studio. Webáruházak esetén Merchant Center, Channable / DataFeedWatch (feed kezelés) és server-side tracking Stape.io-n keresztül.","en":"Google Ads + Google Tag Manager + GA4 + Looker Studio. For e-shops also Merchant Center, Channable / DataFeedWatch (feed management) and server-side tracking via Stape.io.","de":"Google Ads + Google Tag Manager + GA4 + Looker Studio. Für E-Shops auch Merchant Center, Channable / DataFeedWatch (Feed-Management) und Server-Side-Tracking über Stape.io."} },
     ],
-
     relatedCases: ['novashop', 'zlatka'],
-
-    seoTitle: 'Google Ads agentúra Slovensko · Search, Performance Max, Shopping',
-    seoDescription: 'Spravujeme Google Ads kampane pre slovenské a české e-shopy a SMB. Search, Performance Max, Shopping, YouTube. Audit zadarmo.',
+    seoTitle: {"sk":"Google Ads agentúra Slovensko · Search, Performance Max, Shopping","cs":"Google Ads agentura Česko · Search, Performance Max, Shopping","hu":"Google Ads ügynökség Szlovákia · Search, Performance Max, Shopping","en":"Google Ads agency Slovakia · Search, Performance Max, Shopping","de":"Google Ads Agentur Slowakei · Search, Performance Max, Shopping"},
+    seoDescription: {"sk":"Spravujeme Google Ads kampane pre slovenské a české e-shopy a SMB. Search, Performance Max, Shopping, YouTube. Audit zadarmo.","cs":"Spravujeme Google Ads kampaně pro české a slovenské e-shopy a SMB. Search, Performance Max, Shopping, YouTube. Audit zdarma.","hu":"Google Ads kampányokat kezelünk szlovák és cseh webáruházak és KKV-k számára. Search, Performance Max, Shopping, YouTube. Ingyenes audit.","en":"We manage Google Ads campaigns for Slovak and Czech e-shops and SMBs. Search, Performance Max, Shopping, YouTube. Free audit.","de":"Wir verwalten Google Ads Kampagnen für slowakische und tschechische E-Shops und KMU. Search, Performance Max, Shopping, YouTube. Kostenloses Audit."},
   },
-
-
-  // ============================================
-  // META ADS
-  // ============================================
-  'meta-ads': {
+  {
     slug: 'meta-ads',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'online-marketing',
     title: 'Meta Ads',
-    tagline: 'Facebook a Instagram reklamy s dôrazom na kreatívy a A/B testovanie.',
-    lead: 'Meta Ads (Facebook + Instagram) sú o kreatívach. Algoritmus nájde publikum sám — váš job je dať mu materiál ktorý funguje. My to robíme za vás: kreatívy, audience targeting, retargeting, server-side tracking cez Conversion API.',
-    icon: '<path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7C18.3 21.1 22 17 22 12z"></path>',
-
+    tagline: {"sk":"Facebook a Instagram reklamy s dôrazom na kreatívy a A/B testovanie.","cs":"Facebook a Instagram reklamy s důrazem na kreativy a A/B testování.","hu":"Facebook és Instagram hirdetések kreatívokra és A/B tesztelésre fókusszal.","en":"Facebook and Instagram ads focused on creatives and A/B testing.","de":"Facebook und Instagram Werbung mit Fokus auf Creatives und A/B Testing."},
+    lead: {"sk":"Meta Ads (Facebook + Instagram) sú o kreatívach. Algoritmus nájde publikum sám — váš job je dať mu materiál ktorý funguje. My to robíme za vás: kreatívy, audience targeting, retargeting, server-side tracking cez Conversion API.","cs":"Meta Ads (Facebook + Instagram) jsou o kreativách. Algoritmus najde publikum sám — váš job je dát mu materiál, který funguje. My to děláme za vás: kreativy, audience targeting, retargeting, server-side tracking přes Conversion API.","hu":"A Meta Ads (Facebook + Instagram) a kreatívokról szól. Az algoritmus magától megtalálja a közönséget — az Önök feladata, hogy működő anyagot adjanak neki. Mi ezt Önök helyett tesszük: kreatívok, audience targeting, retargeting, server-side követés a Conversion API-n keresztül.","en":"Meta Ads (Facebook + Instagram) are about creatives. The algorithm finds the audience itself — your job is to give it material that works. We do this for you: creatives, audience targeting, retargeting, server-side tracking via Conversion API.","de":"Meta Ads (Facebook + Instagram) sind Creative-basiert. Der Algorithmus findet die Zielgruppe selbst — Ihr Job ist es, ihm Material zu geben, das funktioniert. Wir machen das für Sie: Creatives, Audience Targeting, Retargeting, Server-side Tracking über Conversion API."},
+    icon: ``,
     specs: [
-      { label: 'Setup',         value: '7 dní' },
-      { label: 'Prvé výsledky', value: '2 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+      { label: {"sk":"Setup","cs":"Setup","hu":"Setup","en":"Setup","de":"Setup"}, value: {"sk":"7 dní","cs":"7 dní","hu":"7 nap","en":"7 days","de":"7 Tage"} },
+      { label: {"sk":"Prvé výsledky","cs":"První výsledky","hu":"Első eredmények","en":"First results","de":"Erste Ergebnisse"}, value: {"sk":"2 týždne","cs":"2 týdny","hu":"2 hét","en":"2 weeks","de":"2 Wochen"} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Riportolás","en":"Reporting","de":"Reporting"}, value: {"sk":"Týždenne","cs":"Týdně","hu":"Hetente","en":"Weekly","de":"Wöchentlich"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuto","hu":"Tartalmazza","en":"Included","de":"Enthalten"}, value: {"sk":"Vo všetkých plánoch","cs":"Ve všech plánech","hu":"Minden csomagban","en":"In all plans","de":"In allen Plänen"} },
     ],
-
-    priceFrom: 'Súčasť mesačného plánu',
-    priceNote: 'Od 149 € / mesiac (Starter plán) — viď cenník',
-
+    priceFrom: {"sk":"Súčasť mesačného plánu","cs":"Součást měsíčního plánu","hu":"Havi csomag része","en":"Part of monthly plan","de":"Teil des Monatsplans"},
+    priceNote: {"sk":"Od 149 € / mesiac (Starter plán) — viď cenník","cs":"Od 149 € / měsíc (Starter plán) — viz ceník","hu":"149 € / hónaptól (Starter csomag) — lásd árlistát","en":"From 149 € / month (Starter plan) — see pricing","de":"Ab 149 € / Monat (Starter Plan) — siehe Preisliste"},
     process: [
-      { num: 1, title: 'Audit & briefing',     desc: 'Analyzujeme váš Meta Business účet, existujúce kreatívy, publiká a tracking. Stanovíme KPI.' },
-      { num: 2, title: 'Kreatívy & tracking',  desc: 'Pripravíme 3-5 variantov kreatív (video + statické) na A/B test. Nastavíme Pixel + CAPI server-side.' },
-      { num: 3, title: 'Spustenie kampaní',    desc: 'Cold acquisition + retargeting + Lookalike audiences. Budget split podľa funnel-fázy.' },
-      { num: 4, title: 'Iterácia',              desc: 'Týždenné scaling kreatív ktoré fungujú, vypínanie tých čo nie. Mesačná nová kreatívna batch.' },
+      { num: 1, title: {"sk":"Audit & briefing","cs":"Audit & briefing","hu":"Audit & briefing","en":"Audit & briefing","de":"Audit & Briefing"}, desc: {"sk":"Analyzujeme váš Meta Business účet, existujúce kreatívy, publiká a tracking. Stanovíme KPI.","cs":"Analyzujeme váš Meta Business účet, existující kreativy, publika a tracking. Stanovíme KPI.","hu":"Elemezzük Meta Business fiókjukat, meglévő kreatívokat, közönségeket és követést. Meghatározzuk a KPI-kat.","en":"We analyze your Meta Business account, existing creatives, audiences and tracking. We set KPIs.","de":"Wir analysieren Ihr Meta Business Konto, bestehende Creatives, Zielgruppen und Tracking. Wir definieren KPIs."} },
+      { num: 2, title: {"sk":"Kreatívy & tracking","cs":"Kreativy & tracking","hu":"Kreatívok & követés","en":"Creatives & tracking","de":"Creatives & Tracking"}, desc: {"sk":"Pripravíme 3-5 variantov kreatív (video + statické) na A/B test. Nastavíme Pixel + CAPI server-side.","cs":"Připravíme 3-5 variant kreativ (video + statické) na A/B test. Nastavíme Pixel + CAPI server-side.","hu":"3-5 kreatív variánst készítünk (videó + statikus) A/B teszthez. Beállítjuk a Pixel + CAPI server-side-ot.","en":"We prepare 3-5 creative variants (video + static) for A/B testing. We set up Pixel + CAPI server-side.","de":"Wir erstellen 3-5 Creative-Varianten (Video + statisch) für A/B Tests. Setup von Pixel + CAPI Server-side."} },
+      { num: 3, title: {"sk":"Spustenie kampaní","cs":"Spuštění kampaní","hu":"Kampányindítás","en":"Campaign launch","de":"Kampagnenstart"}, desc: {"sk":"Cold acquisition + retargeting + Lookalike audiences. Budget split podľa funnel-fázy.","cs":"Cold acquisition + retargeting + Lookalike audiences. Budget split podle funnel-fáze.","hu":"Cold acquisition + retargeting + Lookalike közönségek. Budget felosztás funnel-fázis szerint.","en":"Cold acquisition + retargeting + Lookalike audiences. Budget split according to funnel phase.","de":"Cold Acquisition + Retargeting + Lookalike Audiences. Budget-Aufteilung nach Funnel-Phase."} },
+      { num: 4, title: {"sk":"Iterácia","cs":"Iterace","hu":"Iteráció","en":"Iteration","de":"Iteration"}, desc: {"sk":"Týždenné scaling kreatív ktoré fungujú, vypínanie tých čo nie. Mesačná nová kreatívna batch.","cs":"Týdenní scaling kreativ, které fungují, vypínání těch, co ne. Měsíční nová kreativní batch.","hu":"Heti scaling a működő kreatívokkal, leállítás azoknál, amik nem működnek. Havi új kreatív batch.","en":"Weekly scaling of creatives that work, turning off those that don't. Monthly new creative batch.","de":"Wöchentliches Scaling funktionierender Creatives, Deaktivierung nicht funktionierender. Monatlicher neuer Creative-Batch."} },
     ],
-
     whatYouGet: [
-      'Facebook + Instagram + Reels kampane',
-      'Custom + Lookalike publiká z vašich zákazníkov',
-      'Retargeting návštevníkov webu (do 180 dní)',
-      'Conversion API (CAPI) server-side tracking — obchádza iOS 17 ATT',
-      'Advanced Matching (hash-ovaný e-mail/phone)',
-      'A/B testovanie kreatív (3-5 variantov / mesiac)',
+      {"sk":"Facebook + Instagram + Reels kampane","cs":"Facebook + Instagram + Reels kampaně","hu":"Facebook + Instagram + Reels kampányok","en":"Facebook + Instagram + Reels campaigns","de":"Facebook + Instagram + Reels Kampagnen"},
+      {"sk":"Custom + Lookalike publiká z vašich zákazníkov","cs":"Custom + Lookalike publika z vašich zákazníků","hu":"Custom + Lookalike közönségek az Önök ügyfeleiből","en":"Custom + Lookalike audiences from your customers","de":"Custom + Lookalike Audiences aus Ihren Kunden"},
+      {"sk":"Retargeting návštevníkov webu (do 180 dní)","cs":"Retargeting návštevníků webu (do 180 dní)","hu":"Weboldal látogatók retargetingje (180 napig)","en":"Website visitor retargeting (up to 180 days)","de":"Retargeting von Website-Besuchern (bis 180 Tage)"},
+      {"sk":"Conversion API (CAPI) server-side tracking — obchádza iOS 17 ATT","cs":"Conversion API (CAPI) server-side tracking — obchází iOS 17 ATT","hu":"Conversion API (CAPI) server-side követés — megkerüli az iOS 17 ATT-t","en":"Conversion API (CAPI) server-side tracking — bypasses iOS 17 ATT","de":"Conversion API (CAPI) Server-side Tracking — umgeht iOS 17 ATT"},
+      {"sk":"Advanced Matching (hash-ovaný e-mail/phone)","cs":"Advanced Matching (hash-ovaný e-mail/phone)","hu":"Advanced Matching (hash-elt e-mail/telefon)","en":"Advanced Matching (hashed email/phone)","de":"Advanced Matching (gehashte E-Mail/Telefon)"},
+      {"sk":"A/B testovanie kreatív (3-5 variantov / mesiac)","cs":"A/B testování kreativ (3-5 variant / měsíc)","hu":"Kreatívok A/B tesztelése (3-5 variáns / hónap)","en":"A/B testing of creatives (3-5 variants / month)","de":"A/B Testing von Creatives (3-5 Varianten / Monat)"},
     ],
-
     forWhom: [
-      'E-shopy s vizuálnymi produktmi (móda, kozmetika, domácnosť, hobby)',
-      'DTC značky s príbehom (organic / hand-made / lifestyle)',
-      'Služby s pred/po efektom (renovácie, fitness, kozmetika)',
+      {"sk":"E-shopy s vizuálnymi produktmi (móda, kozmetika, domácnosť, hobby)","cs":"E-shopy s vizuálními produkty (móda, kosmetika, domácnost, hobby)","hu":"E-shopok vizuális termékekkel (divat, kozmetika, háztartás, hobby)","en":"E-shops with visual products (fashion, cosmetics, household, hobby)","de":"E-Shops mit visuellen Produkten (Mode, Kosmetik, Haushalt, Hobby)"},
+      {"sk":"DTC značky s príbehom (organic / hand-made / lifestyle)","cs":"DTC značky s příběhem (organic / hand-made / lifestyle)","hu":"DTC márkák történettel (organic / kézműves / lifestyle)","en":"DTC brands with a story (organic / hand-made / lifestyle)","de":"DTC Marken mit Geschichte (organic / handgemacht / Lifestyle)"},
+      {"sk":"Služby s pred/po efektom (renovácie, fitness, kozmetika)","cs":"Služby s před/po efektem (renovace, fitness, kosmetika)","hu":"Szolgáltatások előtte/utána hatással (felújítások, fitness, kozmetika)","en":"Services with before/after effect (renovations, fitness, cosmetics)","de":"Dienstleistungen mit Vorher/Nachher-Effekt (Renovierungen, Fitness, Kosmetik)"},
     ],
-
     faq: [
-      {
-        q: 'Robíte aj kreatívy alebo iba kampane?',
-        a: 'Robíme statické grafiky aj video reels. V plánoch Pro+ máte 3-5 kreatív mesačne v cene. Veľkofilmové produkcie sú extra.',
-      },
-      {
-        q: 'Ako riešite iOS 17 a problémy s atribúciou?',
-        a: 'Implementujeme Conversion API (CAPI) cez server-side tracking. To obchádza Safari ITP aj iOS App Tracking Transparency. Plus Advanced Matching cez hashované e-maily.',
-      },
-      {
-        q: 'Ako rýchlo vidno výsledky?',
-        a: 'Retargeting môže konvertovať za 24-48 hodín. Cold acquisition kampane potrebujú 2 týždne na "learning phase" algoritmu Meta.',
-      },
-      {
-        q: 'Aké minimálne budgety odporúčate?',
-        a: 'Minimálne 300 € / mes na médiá pre testovanie, ideálne 600+ € pre paralelné cold + retargeting kampane.',
-      },
+      { q: {"sk":"Robíte aj kreatívy alebo iba kampane?","cs":"Děláte i kreativy nebo jen kampaně?","hu":"Készítenek kreatívokat is vagy csak kampányokat?","en":"Do you create creatives or just manage campaigns?","de":"Erstellen Sie auch Creatives oder nur Kampagnen?"}, a: {"sk":"Robíme statické grafiky aj video reels. V plánoch Pro+ máte 3-5 kreatív mesačne v cene. Veľkofilmové produkcie sú extra.","cs":"Děláme statické grafiky i video reels. V plánech Pro+ máte 3-5 kreativ měsíčně v ceně. Velkofilmové produkce jsou extra.","hu":"Statikus grafikákat és videó reels-t is készítünk. A Pro+ csomagokban havonta 3-5 kreatív benne van az árban. Nagy filmes produkciók külön díjasak.","en":"We create static graphics and video reels. In Pro+ plans you get 3-5 creatives monthly included. Large-scale productions are extra.","de":"Wir erstellen statische Grafiken und Video Reels. In Pro+ Plänen sind 3-5 Creatives monatlich im Preis enthalten. Großfilmproduktionen sind extra."} },
+      { q: {"sk":"Ako riešite iOS 17 a problémy s atribúciou?","cs":"Jak řešíte iOS 17 a problémy s atribucí?","hu":"Hogyan oldják meg az iOS 17 és az attribúciós problémákat?","en":"How do you handle iOS 17 and attribution issues?","de":"Wie lösen Sie iOS 17 und Attributionsprobleme?"}, a: {"sk":"Implementujeme Conversion API (CAPI) cez server-side tracking. To obchádza Safari ITP aj iOS App Tracking Transparency. Plus Advanced Matching cez hashované e-maily.","cs":"Implementujeme Conversion API (CAPI) přes server-side tracking. To obchází Safari ITP i iOS App Tracking Transparency. Plus Advanced Matching přes hashované e-maily.","hu":"Conversion API (CAPI)-t implementálunk server-side követésen keresztül. Ez megkerüli a Safari ITP-t és az iOS App Tracking Transparency-t. Plusz Advanced Matching hash-elt e-maileken keresztül.","en":"We implement Conversion API (CAPI) via server-side tracking. This bypasses Safari ITP and iOS App Tracking Transparency. Plus Advanced Matching via hashed emails.","de":"Wir implementieren Conversion API (CAPI) über Server-side Tracking. Das umgeht Safari ITP und iOS App Tracking Transparency. Plus Advanced Matching über gehashte E-Mails."} },
+      { q: {"sk":"Ako rýchlo vidno výsledky?","cs":"Jak rychle jsou vidět výsledky?","hu":"Milyen gyorsan láthatók az eredmények?","en":"How quickly can we see results?","de":"Wie schnell sind Ergebnisse sichtbar?"}, a: {"sk":"Retargeting môže konvertovať za 24-48 hodín. Cold acquisition kampane potrebujú 2 týždne na \"learning phase\" algoritmu Meta.","cs":"Retargeting může konvertovat za 24-48 hodin. Cold acquisition kampaně potřebují 2 týdny na \"learning phase\" algoritmu Meta.","hu":"A retargeting 24-48 órán belül konvertálhat. A cold acquisition kampányoknak 2 hétre van szükségük a Meta algoritmus \"learning phase\"-éhez.","en":"Retargeting can convert within 24-48 hours. Cold acquisition campaigns need 2 weeks for Meta's algorithm \"learning phase\".","de":"Retargeting kann in 24-48 Stunden konvertieren. Cold Acquisition Kampagnen benötigen 2 Wochen für die \"Learning Phase\" des Meta-Algorithmus."} },
+      { q: {"sk":"Aké minimálne budgety odporúčate?","cs":"Jaké minimální budgety doporučujete?","hu":"Milyen minimális költségvetést javasolnak?","en":"What minimum budgets do you recommend?","de":"Welche Mindestbudgets empfehlen Sie?"}, a: {"sk":"Minimálne 300 € / mes na médiá pre testovanie, ideálne 600+ € pre paralelné cold + retargeting kampane.","cs":"Minimálně 300 € / měs na média pro testování, ideálně 600+ € pro paralelní cold + retargeting kampaně.","hu":"Minimum 300 € / hónap médiára teszteléshez, ideálisan 600+ € párhuzamos cold + retargeting kampányokhoz.","en":"Minimum 300 € / month for media for testing, ideally 600+ € for parallel cold + retargeting campaigns.","de":"Mindestens 300 € / Monat für Medien zum Testen, idealerweise 600+ € für parallele Cold + Retargeting Kampagnen."} },
     ],
-
     relatedCases: ['bonsai-lab', 'krajcirstvo'],
-
-    seoTitle: 'Meta Ads agentúra (Facebook + Instagram) · Slovensko a Česko',
-    seoDescription: 'Spravujeme Facebook a Instagram reklamy s dôrazom na kreatívy a CAPI tracking. Audit zadarmo, transparentný reporting.',
+    seoTitle: {"sk":"Meta Ads agentúra (Facebook + Instagram) · Slovensko a Česko","cs":"Meta Ads agentura (Facebook + Instagram) · Slovensko a Česko","hu":"Meta Ads ügynökség (Facebook + Instagram) · Szlovákia és Csehország","en":"Meta Ads agency (Facebook + Instagram) · Slovakia and Czech Republic","de":"Meta Ads Agentur (Facebook + Instagram) · Slowakei und Tschechien"},
+    seoDescription: {"sk":"Spravujeme Facebook a Instagram reklamy s dôrazom na kreatívy a CAPI tracking. Audit zadarmo, transparentný reporting.","cs":"Spravujeme Facebook a Instagram reklamy s důrazem na kreativy a CAPI tracking. Audit zdarma, transparentní reporting.","hu":"Facebook és Instagram hirdetéseket kezelünk kreatívokra és CAPI követésre fókusszal. Ingyenes audit, átlátható riportolás.","en":"We manage Facebook and Instagram ads with focus on creatives and CAPI tracking. Free audit, transparent reporting.","de":"Wir verwalten Facebook und Instagram Werbung mit Fokus auf Creatives und CAPI Tracking. Kostenloses Audit, transparentes Reporting."},
   },
-
-
-  // ============================================
-  // SEO
-  // ============================================
-  'seo': {
+  {
     slug: 'seo',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'online-marketing',
     title: 'SEO optimalizácia',
-    tagline: 'Dlhodobý rast organickej návštevnosti. Audit, technické SEO, content, link building.',
-    lead: 'SEO nie je o trickoch — je to o tom mať lepší web než konkurencia. Technicky rýchly, s obsahom ktorý odpovedá na otázky zákazníkov, a so spätnými odkazmi ktoré dokazujú dôveryhodnosť. Postupujeme od auditu cez technické fixy ku content stratégii.',
-    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path>',
-
+    tagline: {"sk":"Dlhodobý rast organickej návštevnosti. Audit, technické SEO, content, link building.","cs":"Dlouhodobý růst organické návštěvnosti. Audit, technické SEO, content, link building.","hu":"Hosszú távú organikus látogatottság növekedése. Audit, technikai SEO, tartalom, linkbuilding.","en":"Long-term organic traffic growth. Audit, technical SEO, content, link building.","de":"Langfristiges Wachstum des organischen Traffics. Audit, technisches SEO, Content, Link Building."},
+    lead: {"sk":"SEO nie je o trickoch — je to o tom mať lepší web než konkurencia. Technicky rýchly, s obsahom ktorý odpovedá na otázky zákazníkov, a so spätnými odkazmi ktoré dokazujú dôveryhodnosť. Postupujeme od auditu cez technické fixy ku content stratégii.","cs":"SEO není o tricích — jde o to mít lepší web než konkurence. Technicky rychlý, s obsahem který odpovídá na otázky zákazníků, a se zpětnými odkazy které dokazují důvěryhodnost. Postupujeme od auditu přes technické úpravy ke content strategii.","hu":"A SEO nem trükkökről szól — arról, hogy jobb weboldallal rendelkezzen, mint a versenytársak. Technikailag gyors, olyan tartalommal, amely megválaszolja az ügyfelek kérdéseit, és olyan visszahivatkozásokkal, amelyek bizonyítják a megbízhatóságot. Az audittól a technikai javításokon keresztül a tartalomstratégiáig haladunk.","en":"SEO isn't about tricks — it's about having a better website than your competition. Technically fast, with content that answers customer questions, and with backlinks that prove credibility. We proceed from audit through technical fixes to content strategy.","de":"SEO geht nicht um Tricks — es geht darum, eine bessere Website als die Konkurrenz zu haben. Technisch schnell, mit Inhalten die Kundenfragen beantworten, und mit Backlinks die Vertrauenswürdigkeit beweisen. Wir gehen vom Audit über technische Fixes zur Content-Strategie vor."},
+    icon: ``,
     specs: [
-      { label: 'Audit',         value: '14 dní' },
-      { label: 'Prvé výsledky', value: '3 mesiace' },
-      { label: 'Reporting',     value: 'Mesačne' },
-      { label: 'Zahrnuté',      value: 'Plán Pro+' },
+      { label: {"sk":"Audit","cs":"Audit","hu":"Audit","en":"Audit","de":"Audit"}, value: {"sk":"14 dní","cs":"14 dní","hu":"14 nap","en":"14 days","de":"14 Tage"} },
+      { label: {"sk":"Prvé výsledky","cs":"První výsledky","hu":"Első eredmények","en":"First results","de":"Erste Ergebnisse"}, value: {"sk":"3 mesiace","cs":"3 měsíce","hu":"3 hónap","en":"3 months","de":"3 Monate"} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Jelentés","en":"Reporting","de":"Reporting"}, value: {"sk":"Mesačne","cs":"Měsíčně","hu":"Havonta","en":"Monthly","de":"Monatlich"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuto","hu":"Tartalmazza","en":"Included","de":"Enthalten"}, value: {"sk":"Plán Pro+","cs":"Plán Pro+","hu":"Pro+ csomag","en":"Pro+ plan","de":"Pro+ Plan"} },
     ],
-
-    priceFrom: 'Súčasť plánu Pro+',
-    priceNote: 'Plán Pro od 349 € / mesiac obsahuje SEO meranie a optimalizácie',
-
+    priceFrom: {"sk":"Súčasť plánu Pro+","cs":"Součást plánu Pro+","hu":"Pro+ csomag része","en":"Part of Pro+ plan","de":"Teil des Pro+ Plans"},
+    priceNote: {"sk":"Plán Pro od 349 € / mesiac obsahuje SEO meranie a optimalizácie","cs":"Plán Pro od 349 € / měsíc obsahuje SEO měření a optimalizace","hu":"A Pro csomag 349 € / hónaptól tartalmazza a SEO mérést és optimalizációkat","en":"Pro plan from €349/month includes SEO measurement and optimizations","de":"Pro Plan ab 349 € / Monat beinhaltet SEO Messung und Optimierungen"},
     process: [
-      { num: 1, title: 'Technický audit',         desc: 'Crawl celého webu, Core Web Vitals, mobile usability, schema, robots.txt, sitemap. Identifikujeme 20+ konkrétnych fixov.' },
-      { num: 2, title: 'Keyword research',         desc: 'Hľadáme témy ktoré vaši zákazníci skutočne hľadajú. Berieme do úvahy search intent (informational vs transactional).' },
-      { num: 3, title: 'Onpage + content',         desc: 'Optimalizujeme existujúce stránky (title, meta, headings, internal linking). Plánujeme nové články a kategórie.' },
-      { num: 4, title: 'Link building & monitoring', desc: 'Akvizícia kvalitných spätných odkazov (PR, partnerstvá, hosting articles). Mesačný report rankings a organic traffic.' },
+      { num: 1, title: {"sk":"Technický audit","cs":"Technický audit","hu":"Technikai audit","en":"Technical audit","de":"Technischer Audit"}, desc: {"sk":"Crawl celého webu, Core Web Vitals, mobile usability, schema, robots.txt, sitemap. Identifikujeme 20+ konkrétnych fixov.","cs":"Crawl celého webu, Core Web Vitals, mobile usability, schema, robots.txt, sitemap. Identifikujeme 20+ konkrétních úprav.","hu":"Teljes weboldal crawl, Core Web Vitals, mobile usability, schema, robots.txt, sitemap. 20+ konkrét javítást azonosítunk.","en":"Full website crawl, Core Web Vitals, mobile usability, schema, robots.txt, sitemap. We identify 20+ specific fixes.","de":"Crawl der gesamten Website, Core Web Vitals, Mobile Usability, Schema, robots.txt, Sitemap. Wir identifizieren 20+ konkrete Fixes."} },
+      { num: 2, title: {"sk":"Keyword research","cs":"Keyword research","hu":"Keyword research","en":"Keyword research","de":"Keyword Research"}, desc: {"sk":"Hľadáme témy ktoré vaši zákazníci skutočne hľadajú. Berieme do úvahy search intent (informational vs transactional).","cs":"Hledáme témata která vaši zákazníci skutečně vyhledávají. Bereme v úvahu search intent (informational vs transactional).","hu":"Olyan témákat keresünk, amelyeket az ügyfelei valóban keresnek. Figyelembe vesszük a search intentet (informational vs transactional).","en":"We search for topics that your customers actually look for. We consider search intent (informational vs transactional).","de":"Wir suchen Themen, die Ihre Kunden tatsächlich suchen. Wir berücksichtigen Search Intent (informational vs transactional)."} },
+      { num: 3, title: {"sk":"Onpage + content","cs":"Onpage + content","hu":"Onpage + tartalom","en":"Onpage + content","de":"Onpage + Content"}, desc: {"sk":"Optimalizujeme existujúce stránky (title, meta, headings, internal linking). Plánujeme nové články a kategórie.","cs":"Optimalizujeme existující stránky (title, meta, headings, internal linking). Plánujeme nové články a kategorie.","hu":"Optimalizáljuk a meglévő oldalakat (title, meta, headings, internal linking). Új cikkeket és kategóriákat tervezünk.","en":"We optimize existing pages (title, meta, headings, internal linking). We plan new articles and categories.","de":"Wir optimieren bestehende Seiten (Title, Meta, Headings, Internal Linking). Wir planen neue Artikel und Kategorien."} },
+      { num: 4, title: {"sk":"Link building & monitoring","cs":"Link building & monitoring","hu":"Link building & monitoring","en":"Link building & monitoring","de":"Link Building & Monitoring"}, desc: {"sk":"Akvizícia kvalitných spätných odkazov (PR, partnerstvá, hosting articles). Mesačný report rankings a organic traffic.","cs":"Akvizice kvalitních zpětných odkazů (PR, partnerství, hosting articles). Měsíční report rankings a organic traffic.","hu":"Minőségi visszahivatkozások megszerzése (PR, partnerségek, hosting articles). Havi ranking és organic traffic jelentés.","en":"Acquiring quality backlinks (PR, partnerships, hosting articles). Monthly rankings and organic traffic report.","de":"Akquisition hochwertiger Backlinks (PR, Partnerschaften, Guest Articles). Monatlicher Report zu Rankings und organischem Traffic."} },
     ],
-
     whatYouGet: [
-      'Technický SEO audit (Screaming Frog + Ahrefs + Search Console)',
-      'Keyword research a content plán (10-30 tém mesačne)',
-      'Onpage optimalizácia (title, meta, headings, schema markup)',
-      'Local SEO + Google Business Profile optimalizácia',
-      'Link building stratégia + akvizícia 2-5 odkazov / mesiac',
-      'Mesačný reporting (Google Search Console + Ahrefs + GA4)',
+      {"sk":"Technický SEO audit (Screaming Frog + Ahrefs + Search Console)","cs":"Technický SEO audit (Screaming Frog + Ahrefs + Search Console)","hu":"Technikai SEO audit (Screaming Frog + Ahrefs + Search Console)","en":"Technical SEO audit (Screaming Frog + Ahrefs + Search Console)","de":"Technischer SEO Audit (Screaming Frog + Ahrefs + Search Console)"},
+      {"sk":"Keyword research a content plán (10-30 tém mesačne)","cs":"Keyword research a content plán (10-30 témat měsíčně)","hu":"Keyword research és tartalomterv (10-30 téma havonta)","en":"Keyword research and content plan (10-30 topics monthly)","de":"Keyword Research und Content Plan (10-30 Themen monatlich)"},
+      {"sk":"Onpage optimalizácia (title, meta, headings, schema markup)","cs":"Onpage optimalizace (title, meta, headings, schema markup)","hu":"Onpage optimalizáció (title, meta, headings, schema markup)","en":"Onpage optimization (title, meta, headings, schema markup)","de":"Onpage-Optimierung (Title, Meta, Headings, Schema Markup)"},
+      {"sk":"Local SEO + Google Business Profile optimalizácia","cs":"Local SEO + Google Business Profile optimalizace","hu":"Local SEO + Google Business Profile optimalizáció","en":"Local SEO + Google Business Profile optimization","de":"Local SEO + Google Business Profile Optimierung"},
+      {"sk":"Link building stratégia + akvizícia 2-5 odkazov / mesiac","cs":"Link building strategie + akvizice 2-5 odkazů / měsíc","hu":"Link building stratégia + 2-5 link megszerzése / hónap","en":"Link building strategy + acquisition of 2-5 links/month","de":"Link Building Strategie + Akquisition 2-5 Links / Monat"},
+      {"sk":"Mesačný reporting (Google Search Console + Ahrefs + GA4)","cs":"Měsíční reporting (Google Search Console + Ahrefs + GA4)","hu":"Havi jelentés (Google Search Console + Ahrefs + GA4)","en":"Monthly reporting (Google Search Console + Ahrefs + GA4)","de":"Monatliches Reporting (Google Search Console + Ahrefs + GA4)"},
     ],
-
     forWhom: [
-      'E-shopy s viacero kategoriami a produktmi (high LTV potenciál)',
-      'B2B firmy s informačnými témami (saas, konzultácie, software)',
-      'Lokálne podniky s viacerými pobočkami (local SEO)',
+      {"sk":"E-shopy s viacero kategoriami a produktmi (high LTV potenciál)","cs":"E-shopy s více kategoriemi a produkty (high LTV potenciál)","hu":"E-shopok több kategóriával és termékkel (magas LTV potenciál)","en":"E-shops with multiple categories and products (high LTV potential)","de":"E-Shops mit mehreren Kategorien und Produkten (hohes LTV Potenzial)"},
+      {"sk":"B2B firmy s informačnými témami (saas, konzultácie, software)","cs":"B2B firmy s informačními tématy (saas, konzultace, software)","hu":"B2B cégek információs témákkal (saas, konzultáció, szoftver)","en":"B2B companies with informational topics (saas, consulting, software)","de":"B2B Unternehmen mit informativen Themen (SaaS, Beratung, Software)"},
+      {"sk":"Lokálne podniky s viacerými pobočkami (local SEO)","cs":"Lokální podniky s více pobočkami (local SEO)","hu":"Helyi vállalkozások több fiókteleppel (local SEO)","en":"Local businesses with multiple locations (local SEO)","de":"Lokale Unternehmen mit mehreren Standorten (Local SEO)"},
     ],
-
     faq: [
-      {
-        q: 'Za ako dlho budú prvé výsledky?',
-        a: 'Technické fixy môžete vidieť v Search Console do 2-4 týždňov (lepšie indexovanie, mobile usability). Pozície na long-tail keywords sa zlepšujú za 8-12 týždňov. Konkurenčné keywords trvajú 6-12 mesiacov.',
-      },
-      {
-        q: 'Robíte aj copywriting / články?',
-        a: 'Áno, ale to nie je súčasť SEO ceny — pripravíme content brief a vy alebo váš copywriter to napíše. Vieme tiež zabezpečiť externého copywritera (extra 80-150 €/článok).',
-      },
-      {
-        q: 'Garantujete pozíciu na konkrétne kľúčové slovo?',
-        a: 'Nie — to by bola lož. Žiadna SEO agentúra to nemôže garantovať. Garantujeme proces, ktorý funguje, a transparentný reporting čo robíme.',
-      },
-      {
-        q: 'Robíte aj negatívne SEO / disavow?',
-        a: 'Áno, ak nájdeme toxické spätné odkazy v audite. Disavow file pripravíme a podáme cez Search Console.',
-      },
+      { q: {"sk":"Za ako dlho budú prvé výsledky?","cs":"Za jak dlouho budou první výsledky?","hu":"Mennyi idő alatt lesznek az első eredmények?","en":"When will the first results be visible?","de":"In welcher Zeit sind erste Ergebnisse sichtbar?"}, a: {"sk":"Technické fixy môžete vidieť v Search Console do 2-4 týždňov (lepšie indexovanie, mobile usability). Pozície na long-tail keywords sa zlepšujú za 8-12 týždňov. Konkurenčné keywords trvajú 6-12 mesiacov.","cs":"Technické úpravy můžete vidět v Search Console do 2-4 týdnů (lepší indexování, mobile usability). Pozice na long-tail keywords se zlepšují za 8-12 týdnů. Konkurenční keywords trvají 6-12 měsíců.","hu":"A technikai javításokat 2-4 hét alatt láthatja a Search Console-ban (jobb indexelés, mobile usability). A long-tail kulcsszavak pozíciói 8-12 hét alatt javulnak. A versengő kulcsszavak 6-12 hónapot igényelnek.","en":"You can see technical fixes in Search Console within 2-4 weeks (better indexing, mobile usability). Long-tail keyword positions improve in 8-12 weeks. Competitive keywords take 6-12 months.","de":"Technische Fixes können Sie in der Search Console innerhalb von 2-4 Wochen sehen (bessere Indexierung, Mobile Usability). Positionen bei Long-Tail Keywords verbessern sich nach 8-12 Wochen. Umkämpfte Keywords dauern 6-12 Monate."} },
+      { q: {"sk":"Robíte aj copywriting / články?","cs":"Děláte také copywriting / články?","hu":"Készítenek copywritingot / cikkeket is?","en":"Do you also do copywriting/articles?","de":"Machen Sie auch Copywriting / Artikel?"}, a: {"sk":"Áno, ale to nie je súčasť SEO ceny — pripravíme content brief a vy alebo váš copywriter to napíše. Vieme tiež zabezpečiť externého copywritera (extra 80-150 €/článok).","cs":"Ano, ale to není součást SEO ceny — připravíme content brief a vy nebo váš copywriter to napíše. Umíme také zajistit externího copywritera (extra 80-150 €/článek).","hu":"Igen, de ez nem része a SEO árnak — elkészítjük a tartalom brief-et, és Önök vagy az Önök copywritere megírja. Tudunk külső copywritert is biztosítani (80-150 €/cikk felár).","en":"Yes, but that's not part of the SEO price — we prepare content brief and you or your copywriter writes it. We can also provide an external copywriter (extra €80-150/article).","de":"Ja, aber das ist nicht im SEO Preis enthalten — wir erstellen Content Briefs und Sie oder Ihr Copywriter schreibt es. Wir können auch einen externen Copywriter organisieren (zusätzlich 80-150 €/Artikel)."} },
+      { q: {"sk":"Garantujete pozíciu na konkrétne kľúčové slovo?","cs":"Garantujete pozici na konkrétní klíčové slovo?","hu":"Garantálják a pozíciót konkrét kulcsszavakra?","en":"Do you guarantee position for specific keyword?","de":"Garantieren Sie Positionen für bestimmte Keywords?"}, a: {"sk":"Nie — to by bola lož. Žiadna SEO agentúra to nemôže garantovať. Garantujeme proces, ktorý funguje, a transparentný reporting čo robíme.","cs":"Ne — to by byla lež. Žádná SEO agentura to nemůže garantovat. Garantujeme proces, který funguje, a transparentní reporting co děláme.","hu":"Nem — ez hazugság lenne. Egyetlen SEO ügynökség sem garantálhatja ezt. A működő folyamatot és az átlátható jelentést garantáljuk arról, hogy mit csinálunk.","en":"No — that would be a lie. No SEO agency can guarantee that. We guarantee a process that works, and transparent reporting of what we do.","de":"Nein — das wäre eine Lüge. Keine SEO Agentur kann das garantieren. Wir garantieren einen funktionierenden Prozess und transparentes Reporting über unsere Arbeit."} },
+      { q: {"sk":"Robíte aj negatívne SEO / disavow?","cs":"Děláte také negativní SEO / disavow?","hu":"Csinálnak negatív SEO-t / disavow-t is?","en":"Do you also do negative SEO/disavow?","de":"Machen Sie auch Negative SEO / Disavow?"}, a: {"sk":"Áno, ak nájdeme toxické spätné odkazy v audite. Disavow file pripravíme a podáme cez Search Console.","cs":"Ano, pokud najdeme toxické zpětné odkazy v auditu. Disavow file připravíme a podáme přes Search Console.","hu":"Igen, ha toxikus visszahivatkozásokat találunk az auditban. A disavow file-t elkészítjük és benyújtjuk a Search Console-on keresztül.","en":"Yes, if we find toxic backlinks in the audit. We prepare the disavow file and submit it through Search Console.","de":"Ja, wenn wir toxische Backlinks im Audit finden. Wir erstellen das Disavow File und reichen es über die Search Console ein."} },
     ],
-
     relatedCases: ['techpark', 'ekodom'],
-
-    seoTitle: 'SEO agentúra Slovensko · Technické SEO, content, link building',
-    seoDescription: 'Dlhodobý rast organickej návštevnosti. Technický audit, onpage optimalizácia, content stratégia a link building.',
+    seoTitle: {"sk":"SEO agentúra Slovensko · Technické SEO, content, link building","cs":"SEO agentura Česko · Technické SEO, content, link building","hu":"SEO ügynökség Szlovákia · Technikai SEO, tartalom, linkbuilding","en":"SEO agency Slovakia · Technical SEO, content, link building","de":"SEO Agentur Österreich · Technisches SEO, Content, Link Building"},
+    seoDescription: {"sk":"Dlhodobý rast organickej návštevnosti. Technický audit, onpage optimalizácia, content stratégia a link building.","cs":"Dlouhodobý růst organické návštěvnosti. Technický audit, onpage optimalizace, content strategie a link building.","hu":"Hosszú távú organikus látogatottság növekedése. Technikai audit, onpage optimalizáció, tartalomstratégia és linkbuilding.","en":"Long-term organic traffic growth. Technical audit, onpage optimization, content strategy and link building.","de":"Langfristiges Wachstum des organischen Traffics. Technischer Audit, Onpage-Optimierung, Content-Strategie und Link Building."},
   },
-
-
-  // ============================================
-  // E-MAIL MARKETING
-  // ============================================
-  'email': {
+  {
     slug: 'email',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'online-marketing',
     title: 'E-mailové kampane a automatizácie',
-    tagline: 'Existujúci zákazník je 5× lacnejší než nový. E-mail to vie využiť.',
-    lead: 'E-mail marketing je najziskovejší kanál v digitále — pomer revenue / náklady je často 30:1 a viac. Postavíme welcome flow, abandoned cart, post-purchase a newsletter strategiu tak, aby vám zákazníci kupovali znova bez toho aby ste platili za nové akvizície.',
-    icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
-
+    tagline: {"sk":"Existujúci zákazník je 5× lacnejší než nový. E-mail to vie využiť.","cs":"Existující zákazník je 5× levnější než nový. E-mail to dokáže využít.","hu":"A meglévő ügyfél 5×-szer olcsóbb, mint egy új. Az e-mail ezt ki tudja használni.","en":"Existing customer is 5× cheaper than new one. Email knows how to leverage this.","de":"Ein bestehender Kunde ist 5× günstiger als ein neuer. E-Mail kann das nutzen."},
+    lead: {"sk":"E-mail marketing je najziskovejší kanál v digitále — pomer revenue / náklady je často 30:1 a viac. Postavíme welcome flow, abandoned cart, post-purchase a newsletter strategiu tak, aby vám zákazníci kupovali znova bez toho aby ste platili za nové akvizície.","cs":"E-mail marketing je najziskovejší kanál v digitále — pomer revenue / náklady je často 30:1 a viac. Postavíme welcome flow, abandoned cart, post-purchase a newsletter strategiu tak, aby vám zákazníci kupovali znova bez toho aby ste platili za nové akvizície.","hu":"Az e-mail marketing a legnyereségesebb csatorna a digitális térben — a bevétel/költség arány gyakran 30:1 vagy több. Kiépítjük a welcome flow-t, az elhagyott kosár, a vásárlás utáni és newsletter stratégiát úgy, hogy ügyfelei újra vásároljanak anélkül, hogy új akvizíciókért kellene fizetniük.","en":"Email marketing is the most profitable channel in digital — revenue/cost ratio is often 30:1 and more. We'll build welcome flow, abandoned cart, post-purchase and newsletter strategy so that your customers buy again without you paying for new acquisitions.","de":"E-Mail Marketing ist der profitabelste Kanal im digitalen Bereich — das Revenue-Kosten-Verhältnis liegt oft bei 30:1 und mehr. Wir erstellen Welcome Flow, Abandoned Cart, Post-Purchase und Newsletter-Strategien, damit Ihre Kunden wieder kaufen, ohne dass Sie für neue Akquisitionen bezahlen müssen."},
+    icon: ``,
     specs: [
-      { label: 'Setup',     value: '7 dní' },
-      { label: 'Frekvencia',value: '1–4× / mes.' },
-      { label: 'Reporting', value: 'Po každej kampani' },
-      { label: 'Zahrnuté',  value: 'Plán Pro+' },
+      { label: {"sk":"Setup","cs":"Setup","hu":"Beállítás","en":"Setup","de":"Setup"}, value: {"sk":"7 dní","cs":"7 dní","hu":"7 nap","en":"7 days","de":"7 Tage"} },
+      { label: {"sk":"Frekvencia","cs":"Frekvencia","hu":"Gyakoriság","en":"Frequency","de":"Frequenz"}, value: {"sk":"1–4× / mes.","cs":"1–4× / mes.","hu":"1–4× / hó","en":"1–4× / month","de":"1–4× / Mon."} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Jelentés","en":"Reporting","de":"Reporting"}, value: {"sk":"Po každej kampani","cs":"Po každej kampani","hu":"Minden kampány után","en":"After each campaign","de":"Nach jeder Kampagne"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuté","hu":"Tartalmazza","en":"Included","de":"Enthalten"}, value: {"sk":"Plán Pro+","cs":"Plán Pro+","hu":"Pro+ csomag","en":"Pro+ plan","de":"Pro+ Plan"} },
     ],
-
-    priceFrom: 'Súčasť plánu Pro+',
-    priceNote: 'Plán Pro od 349 € / mesiac (alebo doplnková služba)',
-
+    priceFrom: {"sk":"Súčasť plánu Pro+","cs":"Súčasť plánu Pro+","hu":"A Pro+ csomag része","en":"Part of Pro+ plan","de":"Bestandteil des Pro+ Plans"},
+    priceNote: {"sk":"Plán Pro od 349 € / mesiac (alebo doplnková služba)","cs":"Plán Pro od 349 € / mesiac (alebo doplnková služba)","hu":"Pro csomag 349 € / hónaptól (vagy kiegészítő szolgáltatás)","en":"Pro plan from €349 / month (or add-on service)","de":"Pro Plan ab 349 € / Monat (oder zusätzliche Dienstleistung)"},
     process: [
-      { num: 1, title: 'Audit & segmentácia',  desc: 'Analyzujeme zoznam kontaktov, otvorenosť, klik-rate, deliverability. Segmentujeme podľa správania.' },
-      { num: 2, title: 'Automation flows',     desc: 'Postavíme Welcome (4-6 e-mailov), Abandoned Cart (3 e-maily), Post-Purchase (recenzia + cross-sell), Win-back (60-90 dní).' },
-      { num: 3, title: 'Kampane',              desc: '1-4 newsletter / mesiac. Pre e-shopy aj promo emaily, novinky, edukačné série.' },
-      { num: 4, title: 'A/B testovanie',        desc: 'Testujeme subject lines, send time, CTA, segmenty. Mesačný report čo funguje a čo škrtáme.' },
+      { num: 1, title: {"sk":"Audit & segmentácia","cs":"Audit & segmentácia","hu":"Audit & szegmentálás","en":"Audit & segmentation","de":"Audit & Segmentierung"}, desc: {"sk":"Analyzujeme zoznam kontaktov, otvorenosť, klik-rate, deliverability. Segmentujeme podľa správania.","cs":"Analyzujeme zoznam kontaktov, otvorenosť, klik-rate, deliverability. Segmentujeme podľa správania.","hu":"Elemezzük a kapcsolatok listáját, nyitási arányt, kattintási arányt, kézbesíthetőséget. Viselkedés alapján szegmentáljuk.","en":"We analyze contact list, open rates, click-through rates, deliverability. We segment by behavior.","de":"Wir analysieren die Kontaktliste, Öffnungsraten, Klickraten, Deliverability. Segmentierung nach Verhalten."} },
+      { num: 2, title: {"sk":"Automation flows","cs":"Automation flows","hu":"Automatizált folyamatok","en":"Automation flows","de":"Automation Flows"}, desc: {"sk":"Postavíme Welcome (4-6 e-mailov), Abandoned Cart (3 e-maily), Post-Purchase (recenzia + cross-sell), Win-back (60-90 dní).","cs":"Postavíme Welcome (4-6 e-mailov), Abandoned Cart (3 e-maily), Post-Purchase (recenzia + cross-sell), Win-back (60-90 dní).","hu":"Kiépítjük a Welcome-ot (4-6 e-mail), Elhagyott kosarat (3 e-mail), Vásárlás utánit (értékelés + keresztértékesítés), Win-back-et (60-90 nap).","en":"We build Welcome (4-6 emails), Abandoned Cart (3 emails), Post-Purchase (review + cross-sell), Win-back (60-90 days).","de":"Wir erstellen Welcome (4-6 E-Mails), Abandoned Cart (3 E-Mails), Post-Purchase (Bewertung + Cross-Sell), Win-back (60-90 Tage)."} },
+      { num: 3, title: {"sk":"Kampane","cs":"Kampane","hu":"Kampányok","en":"Campaigns","de":"Kampagnen"}, desc: {"sk":"1-4 newsletter / mesiac. Pre e-shopy aj promo emaily, novinky, edukačné série.","cs":"1-4 newsletter / mesiac. Pre e-shopy aj promo emaily, novinky, edukačné série.","hu":"1-4 newsletter / hónap. E-shopok számára promóciós e-mailek, újdonságok, oktatási sorozatok is.","en":"1-4 newsletters / month. For e-shops also promo emails, news, educational series.","de":"1-4 Newsletter / Monat. Für E-Shops auch Promo-E-Mails, Neuigkeiten, Bildungsserien."} },
+      { num: 4, title: {"sk":"A/B testovanie","cs":"A/B testovanie","hu":"A/B tesztelés","en":"A/B testing","de":"A/B Testing"}, desc: {"sk":"Testujeme subject lines, send time, CTA, segmenty. Mesačný report čo funguje a čo škrtáme.","cs":"Testujeme subject lines, send time, CTA, segmenty. Mesačný report čo funguje a čo škrtáme.","hu":"Teszteljük a tárgysorokat, küldési időt, CTA-t, szegmenseket. Havi jelentés arról, mi működik és mit törlünk.","en":"We test subject lines, send time, CTA, segments. Monthly report on what works and what to eliminate.","de":"Wir testen Betreffzeilen, Versandzeiten, CTAs, Segmente. Monatlicher Report was funktioniert und was gestrichen wird."} },
     ],
-
     whatYouGet: [
-      'Welcome automation (4-6 e-mailov pre nových odberateľov)',
-      'Abandoned cart flow (3 e-maily — pripomienka, prekážky, zľava)',
-      'Post-purchase flow (potvrdenie, recenzia, cross-sell)',
-      'Newsletter kampane (1-4 mesačne, copywriting + dizajn)',
-      'Win-back kampane pre neaktívnych zákazníkov',
-      'Segmentácia podľa správania (VIP, abandoners, ne-otvárači)',
+      {"sk":"Welcome automation (4-6 e-mailov pre nových odberateľov)","cs":"Welcome automation (4-6 e-mailov pre nových odberateľov)","hu":"Welcome automatizálás (4-6 e-mail új feliratkozóknak)","en":"Welcome automation (4-6 emails for new subscribers)","de":"Welcome Automatisierung (4-6 E-Mails für neue Abonnenten)"},
+      {"sk":"Abandoned cart flow (3 e-maily — pripomienka, prekážky, zľava)","cs":"Abandoned cart flow (3 e-maily — pripomienka, prekážky, zľava)","hu":"Elhagyott kosár folyamat (3 e-mail — emlékeztető, akadályok, kedvezmény)","en":"Abandoned cart flow (3 emails — reminder, objections, discount)","de":"Abandoned Cart Flow (3 E-Mails — Erinnerung, Hindernisse, Rabatt)"},
+      {"sk":"Post-purchase flow (potvrdenie, recenzia, cross-sell)","cs":"Post-purchase flow (potvrdenie, recenzia, cross-sell)","hu":"Vásárlás utáni folyamat (megerősítés, értékelés, keresztértékesítés)","en":"Post-purchase flow (confirmation, review, cross-sell)","de":"Post-Purchase Flow (Bestätigung, Bewertung, Cross-Sell)"},
+      {"sk":"Newsletter kampane (1-4 mesačne, copywriting + dizajn)","cs":"Newsletter kampane (1-4 mesačne, copywriting + dizajn)","hu":"Newsletter kampányok (1-4 havonta, copywriting + design)","en":"Newsletter campaigns (1-4 monthly, copywriting + design)","de":"Newsletter Kampagnen (1-4 monatlich, Copywriting + Design)"},
+      {"sk":"Win-back kampane pre neaktívnych zákazníkov","cs":"Win-back kampane pre neaktívnych zákazníkov","hu":"Win-back kampányok inaktív ügyfeleknek","en":"Win-back campaigns for inactive customers","de":"Win-back Kampagnen für inaktive Kunden"},
+      {"sk":"Segmentácia podľa správania (VIP, abandoners, ne-otvárači)","cs":"Segmentácia podľa správania (VIP, abandoners, ne-otvárači)","hu":"Viselkedés alapú szegmentálás (VIP, elhagyók, nem-nyitók)","en":"Behavioral segmentation (VIP, abandoners, non-openers)","de":"Segmentierung nach Verhalten (VIP, Abandoners, Non-Opener)"},
     ],
-
     forWhom: [
-      'E-shopy s opakovanými nákupmi (móda, kozmetika, jedlo, hobby)',
-      'B2B firmy s edukačným content marketingom (saas, kurzy, konzultácie)',
-      'DTC značky s lojálnou komunitou',
+      {"sk":"E-shopy s opakovanými nákupmi (móda, kozmetika, jedlo, hobby)","cs":"E-shopy s opakovanými nákupmi (móda, kozmetika, jedlo, hobby)","hu":"E-shopok ismétlődő vásárlásokkal (divat, kozmetika, étel, hobbi)","en":"E-shops with repeat purchases (fashion, cosmetics, food, hobby)","de":"E-Shops mit wiederholten Käufen (Mode, Kosmetik, Essen, Hobby)"},
+      {"sk":"B2B firmy s edukačným content marketingom (saas, kurzy, konzultácie)","cs":"B2B firmy s edukačným content marketingom (saas, kurzy, konzultácie)","hu":"B2B cégek oktatási content marketinggel (saas, tanfolyamok, tanácsadás)","en":"B2B companies with educational content marketing (saas, courses, consulting)","de":"B2B Unternehmen mit edukativem Content Marketing (SaaS, Kurse, Beratung)"},
+      {"sk":"DTC značky s lojálnou komunitou","cs":"DTC značky s lojálnou komunitou","hu":"DTC márkák hűséges közösséggel","en":"DTC brands with loyal community","de":"DTC Marken mit loyaler Community"},
     ],
-
     faq: [
-      {
-        q: 'Aké platformy / ESP podporujete?',
-        a: 'Klaviyo (najmä pre e-shopy), Mailchimp, Brevo (sk/cs lokalizácia), ActiveCampaign, ConvertKit. Vieme aj migrovať z jednej do druhej.',
-      },
-      {
-        q: 'Robíte aj copywriting alebo iba dizajn?',
-        a: 'Robíme oboje — copy aj HTML/MJML dizajn. Pre špecializované B2B témy môžeme potrebovať váš materiál na rešerš.',
-      },
-      {
-        q: 'Ako riešite deliverability a SPAM?',
-        a: 'Nastavujeme SPF, DKIM, DMARC záznamy v DNS. Postupne "rozohrievame" doménu pri novej liste. Mesačne monitorujeme bounce rate a Spam Complaints.',
-      },
-      {
-        q: 'Aký výsledok môžem očakávať?',
-        a: 'Pre e-shopy automation flows typicky generujú 20-35% celkového email revenue. Welcome flow má open rate 50-60%, Abandoned Cart konvertuje 8-15% obnovenia.',
-      },
+      { q: {"sk":"Aké platformy / ESP podporujete?","cs":"Aké platformy / ESP podporujete?","hu":"Milyen platformokat / ESP-ket támogatnak?","en":"Which platforms / ESP do you support?","de":"Welche Plattformen / ESP unterstützen Sie?"}, a: {"sk":"Klaviyo (najmä pre e-shopy), Mailchimp, Brevo (sk/cs lokalizácia), ActiveCampaign, ConvertKit. Vieme aj migrovať z jednej do druhej.","cs":"Klaviyo (najmä pre e-shopy), Mailchimp, Brevo (sk/cs lokalizácia), ActiveCampaign, ConvertKit. Vieme aj migrovať z jednej do druhej.","hu":"Klaviyo (főleg e-shopoknak), Mailchimp, Brevo (sk/cs lokalizáció), ActiveCampaign, ConvertKit. Tudunk migrálni is egyikből a másikba.","en":"Klaviyo (especially for e-shops), Mailchimp, Brevo (sk/cs localization), ActiveCampaign, ConvertKit. We can also migrate from one to another.","de":"Klaviyo (hauptsächlich für E-Shops), Mailchimp, Brevo (sk/cs Lokalisierung), ActiveCampaign, ConvertKit. Wir können auch von einer zur anderen migrieren."} },
+      { q: {"sk":"Robíte aj copywriting alebo iba dizajn?","cs":"Robíte aj copywriting alebo iba dizajn?","hu":"Csinálnak copywriting-ot is vagy csak design-t?","en":"Do you do copywriting or just design?","de":"Machen Sie auch Copywriting oder nur Design?"}, a: {"sk":"Robíme oboje — copy aj HTML/MJML dizajn. Pre špecializované B2B témy môžeme potrebovať váš materiál na rešerš.","cs":"Robíme oboje — copy aj HTML/MJML dizajn. Pre špecializované B2B témy môžeme potrebovať váš materiál na rešerš.","hu":"Mindkettőt csináljuk — copy-t és HTML/MJML design-t. Specializált B2B témáknál szükségünk lehet az Önök anyagaira kutatáshoz.","en":"We do both — copy and HTML/MJML design. For specialized B2B topics we may need your material for research.","de":"Wir machen beides — Copy und HTML/MJML Design. Für spezialisierte B2B Themen benötigen wir möglicherweise Ihr Material für die Recherche."} },
+      { q: {"sk":"Ako riešite deliverability a SPAM?","cs":"Ako riešite deliverability a SPAM?","hu":"Hogyan oldják meg a kézbesíthetőséget és a SPAM-et?","en":"How do you handle deliverability and SPAM?","de":"Wie lösen Sie Deliverability und SPAM?"}, a: {"sk":"Nastavujeme SPF, DKIM, DMARC záznamy v DNS. Postupne \"rozohrievame\" doménu pri novej liste. Mesačne monitorujeme bounce rate a Spam Complaints.","cs":"Nastavujeme SPF, DKIM, DMARC záznamy v DNS. Postupne \"rozohrievame\" doménu pri novej liste. Mesačne monitorujeme bounce rate a Spam Complaints.","hu":"Beállítjuk az SPF, DKIM, DMARC rekordokat a DNS-ben. Fokozatosan \"felmelegítjük\" a domént új listánál. Havonta figyeljük a bounce rate-et és Spam Complaints-eket.","en":"We set up SPF, DKIM, DMARC records in DNS. We gradually 'warm up' the domain with new lists. We monitor bounce rate and Spam Complaints monthly.","de":"Wir konfigurieren SPF, DKIM, DMARC Einträge im DNS. Schrittweise \"erwärmen\" wir die Domain bei einer neuen Liste. Monatlich überwachen wir Bounce Rate und Spam Complaints."} },
+      { q: {"sk":"Aký výsledok môžem očakávať?","cs":"Aký výsledok môžem očakávať?","hu":"Milyen eredményt várhatok?","en":"What results can I expect?","de":"Welches Ergebnis kann ich erwarten?"}, a: {"sk":"Pre e-shopy automation flows typicky generujú 20-35% celkového email revenue. Welcome flow má open rate 50-60%, Abandoned Cart konvertuje 8-15% obnovenia.","cs":"Pre e-shopy automation flows typicky generujú 20-35% celkového email revenue. Welcome flow má open rate 50-60%, Abandoned Cart konvertuje 8-15% obnovenia.","hu":"E-shopok esetében az automatizált folyamatok jellemzően a teljes e-mail bevétel 20-35%-át generálják. A Welcome flow nyitási aránya 50-60%, az Elhagyott kosár 8-15%-os megújítási konverziót ér el.","en":"For e-shops automation flows typically generate 20-35% of total email revenue. Welcome flow has 50-60% open rate, Abandoned Cart converts 8-15% recovery.","de":"Für E-Shops generieren Automation Flows typischerweise 20-35% des gesamten E-Mail Revenue. Welcome Flow hat eine Open Rate von 50-60%, Abandoned Cart konvertiert 8-15% Wiederherstellung."} },
     ],
-
     relatedCases: ['novashop', 'krajcirstvo'],
-
-    seoTitle: 'E-mail marketing agentúra · Klaviyo, Mailchimp, automatizácie',
-    seoDescription: 'Welcome flow, abandoned cart, newsletter. E-mail marketing s ROI 30:1. Audit zadarmo.',
+    seoTitle: {"sk":"E-mail marketing agentúra · Klaviyo, Mailchimp, automatizácie","cs":"E-mail marketing agentúra · Klaviyo, Mailchimp, automatizácie","hu":"E-mail marketing ügynökség · Klaviyo, Mailchimp, automatizálás","en":"Email marketing agency · Klaviyo, Mailchimp, automations","de":"E-Mail Marketing Agentur · Klaviyo, Mailchimp, Automatisierungen"},
+    seoDescription: {"sk":"Welcome flow, abandoned cart, newsletter. E-mail marketing s ROI 30:1. Audit zadarmo.","cs":"Welcome flow, abandoned cart, newsletter. E-mail marketing s ROI 30:1. Audit zadarmo.","hu":"Welcome flow, elhagyott kosár, newsletter. E-mail marketing 30:1 ROI-val. Ingyenes audit.","en":"Welcome flow, abandoned cart, newsletter. Email marketing with ROI 30:1. Free audit.","de":"Welcome Flow, Abandoned Cart, Newsletter. E-Mail Marketing mit ROI 30:1. Kostenloser Audit."},
   },
-
-
-  // ============================================
-  // MERANIE A ANALYTIKA
-  // ============================================
-  'meranie': {
+  {
     slug: 'meranie',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'online-marketing',
     title: 'Meranie a analytika',
-    tagline: 'GA4, Tag Manager, server-side tracking. Bez čísel sa nedá optimalizovať.',
-    lead: 'Klasické meranie v prehliadači zachytáva iba 65-75% reálnych konverzií. iOS 17, ad blockery, cookie consent — všetko vám rozbíja dáta. Postavíme server-side tracking ktorý vidí všetko a posunie marketing rozhodovanie z „intuície" na čísla.',
-    icon: '<path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path>',
-
+    tagline: {"sk":"GA4, Tag Manager, server-side tracking. Bez čísel sa nedá optimalizovať.","cs":"GA4, Tag Manager, server-side tracking. Bez čísel sa nedá optimalizovať.","hu":"GA4, Tag Manager, server-side tracking. Számok nélkül nem lehet optimalizálni.","en":"GA4, Tag Manager, server-side tracking. Without numbers you can't optimize.","de":"GA4, Tag Manager, Server-Side-Tracking. Ohne Zahlen lässt sich nichts optimieren."},
+    lead: {"sk":"Klasické meranie v prehliadači zachytáva iba 65-75% reálnych konverzií. iOS 17, ad blockery, cookie consent — všetko vám rozbíja dáta. Postavíme server-side tracking ktorý vidí všetko a posunie marketing rozhodovanie z „intuície","cs":"Klasické meranie v prehliadači zachytáva iba 65-75% reálnych konverzií. iOS 17, ad blockery, cookie consent — všetko vám rozbíja dáta. Postavíme server-side tracking ktorý vidí všetko a posunie marketing rozhodovanie z „intuície","hu":"A klasszikus böngészős mérés csak a valós konverziók 65-75%-át érzékeli. iOS 17, ad blockerek, cookie consent — minden szétveri az adatokat. Felépítjük a server-side tracking-et, ami mindent lát és a marketing döntéshozatalt az \"intuícióból\"","en":"Traditional browser measurement captures only 65-75% of real conversions. iOS 17, ad blockers, cookie consent — everything breaks your data. We'll build server-side tracking that sees everything and move marketing decisions from 'intuition'","de":"Klassische Browser-Messung erfasst nur 65-75% der realen Conversions. iOS 17, Ad-Blocker, Cookie-Einverständnis - alles zerstört Ihre Daten. Wir bauen Server-Side-Tracking auf, das alles sieht und Marketing-Entscheidungen von \"Intuition\" wegbringt."},
+    icon: ``,
     specs: [
-      { label: 'Setup',         value: '5–10 dní' },
-      { label: 'Prvé reporty',  value: '2 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Vo všetkých plánoch' },
+      { label: {"sk":"Setup","cs":"Setup","hu":"Setup","en":"Setup","de":"Setup"}, value: {"sk":"5–10 dní","cs":"5–10 dní","hu":"5–10 nap","en":"5–10 days","de":"5–10 Tage"} },
+      { label: {"sk":"Prvé reporty","cs":"Prvé reporty","hu":"Első reportok","en":"First reports","de":"Erste Reports"}, value: {"sk":"2 týždne","cs":"2 týždne","hu":"2 hét","en":"2 weeks","de":"2 Wochen"} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Reporting","en":"Reporting","de":"Reporting"}, value: {"sk":"Týždenne","cs":"Týždenne","hu":"Hetente","en":"Weekly","de":"Wöchentlich"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuté","hu":"Benne foglaltatik","en":"Included","de":"Enthalten"}, value: {"sk":"Vo všetkých plánoch","cs":"Vo všetkých plánoch","hu":"Minden csomagban","en":"In all plans","de":"In allen Plänen"} },
     ],
-
-    priceFrom: 'Od 590 € (jednorazový setup)',
-    priceNote: 'Alebo súčasť mesačného plánu. Setup vrátane GA4, GTM, server-side, Looker Studio.',
-
+    priceFrom: {"sk":"Od 590 € (jednorazový setup)","cs":"Od 590 € (jednorazový setup)","hu":"590 €-tól (egyszeri setup)","en":"From 590 € (one-time setup)","de":"Ab 590 € (einmaliges Setup)"},
+    priceNote: {"sk":"Alebo súčasť mesačného plánu. Setup vrátane GA4, GTM, server-side, Looker Studio.","cs":"Alebo súčasť mesačného plánu. Setup vrátane GA4, GTM, server-side, Looker Studio.","hu":"Vagy havi csomag része. Setup GA4-gyel, GTM-mel, server-side-dal, Looker Studio-val.","en":"Or part of monthly plan. Setup including GA4, GTM, server-side, Looker Studio.","de":"Oder Teil des Monatsplans. Setup inklusive GA4, GTM, Server-side, Looker Studio."},
     process: [
-      { num: 1, title: 'Audit existujúceho stavu', desc: 'Pozrieme čo máte (GA4, GTM, Pixel, Tracking) a porovnáme s reálnymi predajmi. Identifikujeme „diery" v dátach.' },
-      { num: 2, title: 'GA4 + GTM setup',           desc: 'Postavíme správne event-y (purchase, lead, contact), Enhanced Conversions, custom dimensions. Test cez GTM Preview Mode.' },
-      { num: 3, title: 'Server-side tracking',      desc: 'GTM Server Container (Stape.io alebo Google Cloud Run). Meta CAPI, Google Enhanced Conversions, server-side trackingu pre obchádzanie iOS/AdBlock.' },
-      { num: 4, title: 'Dashboard & reporting',     desc: 'Looker Studio dashboard s konverziami, kanálmi, ROAS, CPA. Týždenný update.' },
+      { num: 1, title: {"sk":"Audit existujúceho stavu","cs":"Audit existujúceho stavu","hu":"Meglévő állapot auditja","en":"Audit of existing setup","de":"Audit des aktuellen Zustands"}, desc: {"sk":"Pozrieme čo máte (GA4, GTM, Pixel, Tracking) a porovnáme s reálnymi predajmi. Identifikujeme „diery\" v dátach.","cs":"Pozrieme čo máte (GA4, GTM, Pixel, Tracking) a porovnáme s reálnymi predajmi. Identifikujeme „diery\" v dátach.","hu":"Megnézzük mit Van (GA4, GTM, Pixel, Tracking) és összehasonlítjuk a valós eladásokkal. Azonosítjuk az adatok \"lyukait\".","en":"We'll review what you have (GA4, GTM, Pixel, Tracking) and compare with actual sales. We identify data gaps.","de":"Wir prüfen was Sie haben (GA4, GTM, Pixel, Tracking) und vergleichen mit realen Verkäufen. Wir identifizieren \"Lücken\" in den Daten."} },
+      { num: 2, title: {"sk":"GA4 + GTM setup","cs":"GA4 + GTM setup","hu":"GA4 + GTM setup","en":"GA4 + GTM setup","de":"GA4 + GTM Setup"}, desc: {"sk":"Postavíme správne event-y (purchase, lead, contact), Enhanced Conversions, custom dimensions. Test cez GTM Preview Mode.","cs":"Postavíme správne event-y (purchase, lead, contact), Enhanced Conversions, custom dimensions. Test cez GTM Preview Mode.","hu":"Megfelelő event-eket építünk (purchase, lead, contact), Enhanced Conversions-t, custom dimension-öket. Test GTM Preview Mode-ban.","en":"We'll build proper events (purchase, lead, contact), Enhanced Conversions, custom dimensions. Testing via GTM Preview Mode.","de":"Wir erstellen korrekte Events (purchase, lead, contact), Enhanced Conversions, Custom Dimensions. Test über GTM Preview Mode."} },
+      { num: 3, title: {"sk":"Server-side tracking","cs":"Server-side tracking","hu":"Server-side tracking","en":"Server-side tracking","de":"Server-side Tracking"}, desc: {"sk":"GTM Server Container (Stape.io alebo Google Cloud Run). Meta CAPI, Google Enhanced Conversions, server-side trackingu pre obchádzanie iOS/AdBlock.","cs":"GTM Server Container (Stape.io alebo Google Cloud Run). Meta CAPI, Google Enhanced Conversions, server-side trackingu pre obchádzanie iOS/AdBlock.","hu":"GTM Server Container (Stape.io vagy Google Cloud Run). Meta CAPI, Google Enhanced Conversions, server-side tracking az iOS/AdBlock megkerülésére.","en":"GTM Server Container (Stape.io or Google Cloud Run). Meta CAPI, Google Enhanced Conversions, server-side tracking to bypass iOS/AdBlock.","de":"GTM Server Container (Stape.io oder Google Cloud Run). Meta CAPI, Google Enhanced Conversions, Server-side Tracking zur Umgehung von iOS/AdBlock."} },
+      { num: 4, title: {"sk":"Dashboard & reporting","cs":"Dashboard & reporting","hu":"Dashboard & reporting","en":"Dashboard & reporting","de":"Dashboard & Reporting"}, desc: {"sk":"Looker Studio dashboard s konverziami, kanálmi, ROAS, CPA. Týždenný update.","cs":"Looker Studio dashboard s konverziami, kanálmi, ROAS, CPA. Týždenný update.","hu":"Looker Studio dashboard konverziókkal, csatornákkal, ROAS-szal, CPA-val. Heti frissítés.","en":"Looker Studio dashboard with conversions, channels, ROAS, CPA. Weekly updates.","de":"Looker Studio Dashboard mit Conversions, Kanälen, ROAS, CPA. Wöchentliches Update."} },
     ],
-
     whatYouGet: [
-      'GA4 setup (events, conversions, audiences, custom dimensions)',
-      'Google Tag Manager Web + Server container',
-      'Meta Pixel + Conversion API (CAPI)',
-      'Google Enhanced Conversions for Web + Offline Conversion Import',
-      'Consent Mode v2 (GDPR + cookie banner integration)',
-      'Looker Studio dashboard (kanály, konverzie, ROAS, CPA)',
-      'Heatmapy + session recordings (Hotjar / Microsoft Clarity)',
+      {"sk":"GA4 setup (events, conversions, audiences, custom dimensions)","cs":"GA4 setup (events, conversions, audiences, custom dimensions)","hu":"GA4 setup (events, conversions, audiences, custom dimensions)","en":"GA4 setup (events, conversions, audiences, custom dimensions)","de":"GA4 Setup (Events, Conversions, Audiences, Custom Dimensions)"},
+      {"sk":"Google Tag Manager Web + Server container","cs":"Google Tag Manager Web + Server container","hu":"Google Tag Manager Web + Server container","en":"Google Tag Manager Web + Server container","de":"Google Tag Manager Web + Server Container"},
+      {"sk":"Meta Pixel + Conversion API (CAPI)","cs":"Meta Pixel + Conversion API (CAPI)","hu":"Meta Pixel + Conversion API (CAPI)","en":"Meta Pixel + Conversion API (CAPI)","de":"Meta Pixel + Conversion API (CAPI)"},
+      {"sk":"Google Enhanced Conversions for Web + Offline Conversion Import","cs":"Google Enhanced Conversions for Web + Offline Conversion Import","hu":"Google Enhanced Conversions for Web + Offline Conversion Import","en":"Google Enhanced Conversions for Web + Offline Conversion Import","de":"Google Enhanced Conversions for Web + Offline Conversion Import"},
+      {"sk":"Consent Mode v2 (GDPR + cookie banner integration)","cs":"Consent Mode v2 (GDPR + cookie banner integration)","hu":"Consent Mode v2 (GDPR + cookie banner integráció)","en":"Consent Mode v2 (GDPR + cookie banner integration)","de":"Consent Mode v2 (GDPR + Cookie-Banner-Integration)"},
+      {"sk":"Looker Studio dashboard (kanály, konverzie, ROAS, CPA)","cs":"Looker Studio dashboard (kanály, konverzie, ROAS, CPA)","hu":"Looker Studio dashboard (csatornák, konverziók, ROAS, CPA)","en":"Looker Studio dashboard (channels, conversions, ROAS, CPA)","de":"Looker Studio Dashboard (Kanäle, Conversions, ROAS, CPA)"},
+      {"sk":"Heatmapy + session recordings (Hotjar / Microsoft Clarity)","cs":"Heatmapy + session recordings (Hotjar / Microsoft Clarity)","hu":"Heatmap-ek + session recordings (Hotjar / Microsoft Clarity)","en":"Heatmaps + session recordings (Hotjar / Microsoft Clarity)","de":"Heatmaps + Session Recordings (Hotjar / Microsoft Clarity)"},
     ],
-
     forWhom: [
-      'Každý kto míňa 300+ €/mes na reklamy a chce vedieť čo z toho funguje',
-      'E-shopy ktoré chcú import offline conversions späť do Google Ads',
-      'Firmy s leadmi cez formulár / telefón (offline conversion tracking)',
+      {"sk":"Každý kto míňa 300+ €/mes na reklamy a chce vedieť čo z toho funguje","cs":"Každý kto míňa 300+ €/mes na reklamy a chce vedieť čo z toho funguje","hu":"Mindenki aki 300+ €/hónap költ hirdetésre és tudni akarja mi működik belőle","en":"Anyone spending 300+ €/month on ads and wants to know what's working","de":"Jeder, der 300+ €/Monat für Werbung ausgibt und wissen möchte, was davon funktioniert"},
+      {"sk":"E-shopy ktoré chcú import offline conversions späť do Google Ads","cs":"E-shopy ktoré chcú import offline conversions späť do Google Ads","hu":"E-shopok amelyek offline conversion import-ot akarnak visszaimportálni Google Ads-be","en":"E-shops wanting offline conversion import back to Google Ads","de":"E-Shops, die Offline-Conversions zurück in Google Ads importieren möchten"},
+      {"sk":"Firmy s leadmi cez formulár / telefón (offline conversion tracking)","cs":"Firmy s leadmi cez formulár / telefón (offline conversion tracking)","hu":"Cégek lead-ekkel űrlapon / telefonon keresztül (offline conversion tracking)","en":"Companies with leads via forms / phone (offline conversion tracking)","de":"Unternehmen mit Leads über Formular / Telefon (Offline Conversion Tracking)"},
     ],
-
     faq: [
-      {
-        q: 'Prečo potrebujem server-side tracking?',
-        a: 'Klasický browser tracking stráca 25-35% konverzií kvôli iOS 17 Privacy, ad blockerom a cookie consent „decline". Server-side tracking obchádza prehliadač a posiela dáta priamo na GA4 / Meta.',
-      },
-      {
-        q: 'Koľko stojí prevádzka server-side?',
-        a: 'Stape.io máte za ~20 €/mesiac alebo Google Cloud Run za podobne. Setup je jednorazový (590 € v našom audite), prevádzka je vaša.',
-      },
-      {
-        q: 'Robíte aj Looker Studio dashboardy?',
-        a: 'Áno — finálny dashboard je súčasť každého setupu. Kanály, ROAS, CPA, top-performing kampane. Updaty automaticky.',
-      },
-      {
-        q: 'Spravíte aj offline conversion tracking?',
-        a: 'Áno — ak predávate cez telefón / showroom / kamenná predajňa. Importujeme offline predaje späť do Google Ads cez CSV alebo API.',
-      },
+      { q: {"sk":"Prečo potrebujem server-side tracking?","cs":"Prečo potrebujem server-side tracking?","hu":"Miért van szükségem server-side tracking-re?","en":"Why do I need server-side tracking?","de":"Warum benötige ich Server-Side-Tracking?"}, a: {"sk":"Klasický browser tracking stráca 25-35% konverzií kvôli iOS 17 Privacy, ad blockerom a cookie consent „decline\". Server-side tracking obchádza prehliadač a posiela dáta priamo na GA4 / Meta.","cs":"Klasický browser tracking stráca 25-35% konverzií kvôli iOS 17 Privacy, ad blockerom a cookie consent „decline\". Server-side tracking obchádza prehliadač a posiela dáta priamo na GA4 / Meta.","hu":"A klasszikus browser tracking 25-35% konverziót veszít az iOS 17 Privacy, ad blockerek és cookie consent \"decline\" miatt. A server-side tracking megkerüli a böngészőt és közvetlenül küldi az adatokat a GA4 / Meta-ra.","en":"Classic browser tracking loses 25-35% conversions due to iOS 17 Privacy, ad blockers and cookie consent decline. Server-side tracking bypasses the browser and sends data directly to GA4 / Meta.","de":"Klassisches Browser-Tracking verliert 25-35% der Conversions aufgrund von iOS 17 Privacy, Ad-Blockern und Cookie-Consent \"Ablehnung\". Server-Side-Tracking umgeht den Browser und sendet Daten direkt an GA4 / Meta."} },
+      { q: {"sk":"Koľko stojí prevádzka server-side?","cs":"Koľko stojí prevádzka server-side?","hu":"Mennyibe kerül a server-side üzemeltetése?","en":"How much does server-side operation cost?","de":"Was kostet der Betrieb von Server-Side?"}, a: {"sk":"Stape.io máte za ~20 €/mesiac alebo Google Cloud Run za podobne. Setup je jednorazový (590 € v našom audite), prevádzka je vaša.","cs":"Stape.io máte za ~20 €/mesiac alebo Google Cloud Run za podobne. Setup je jednorazový (590 € v našom audite), prevádzka je vaša.","hu":"Stape.io ~20 €/hónap vagy Google Cloud Run hasonlóért. A setup egyszeri (590 € az auditunkban), az üzemeltetés az Öné.","en":"Stape.io costs ~20 €/month or Google Cloud Run for similar. Setup is one-time (590 € in our audit), operation is yours.","de":"Stape.io haben Sie für ~20 €/Monat oder Google Cloud Run für ähnlich. Das Setup ist einmalig (590 € in unserem Audit), der Betrieb ist Ihrer."} },
+      { q: {"sk":"Robíte aj Looker Studio dashboardy?","cs":"Robíte aj Looker Studio dashboardy?","hu":"Csinálnak Looker Studio dashboard-okat is?","en":"Do you create Looker Studio dashboards too?","de":"Erstellen Sie auch Looker Studio Dashboards?"}, a: {"sk":"Áno — finálny dashboard je súčasť každého setupu. Kanály, ROAS, CPA, top-performing kampane. Updaty automaticky.","cs":"Áno — finálny dashboard je súčasť každého setupu. Kanály, ROAS, CPA, top-performing kampane. Updaty automaticky.","hu":"Igen — a végső dashboard minden setup része. Csatornák, ROAS, CPA, legjobb teljesítményű kampányok. Automatikus frissítések.","en":"Yes — final dashboard is included in every setup. Channels, ROAS, CPA, top-performing campaigns. Updates automatically.","de":"Ja - das finale Dashboard ist Teil jedes Setups. Kanäle, ROAS, CPA, top-performing Kampagnen. Updates automatisch."} },
+      { q: {"sk":"Spravíte aj offline conversion tracking?","cs":"Spravíte aj offline conversion tracking?","hu":"Csinálnak offline conversion tracking-et is?","en":"Do you handle offline conversion tracking?","de":"Machen Sie auch Offline Conversion Tracking?"}, a: {"sk":"Áno — ak predávate cez telefón / showroom / kamenná predajňa. Importujeme offline predaje späť do Google Ads cez CSV alebo API.","cs":"Áno — ak predávate cez telefón / showroom / kamenná predajňa. Importujeme offline predaje späť do Google Ads cez CSV alebo API.","hu":"Igen — ha telefonon / showroom-ban / fizikai boltban árul. Offline eladásokat importálunk vissza a Google Ads-be CSV-n vagy API-n keresztül.","en":"Yes — if you sell via phone / showroom / brick-and-mortar store. We import offline sales back to Google Ads via CSV or API.","de":"Ja - wenn Sie über Telefon / Showroom / stationären Handel verkaufen. Wir importieren Offline-Verkäufe zurück in Google Ads über CSV oder API."} },
     ],
-
     relatedCases: ['novashop', 'techpark'],
-
-    seoTitle: 'Server-side tracking a meranie · GA4, GTM, CAPI, Looker Studio',
-    seoDescription: 'Spustíme presné meranie konverzií cez server-side tracking. Obíďte iOS 17 a ad blocky. Audit zadarmo.',
+    seoTitle: {"sk":"Server-side tracking a meranie · GA4, GTM, CAPI, Looker Studio","cs":"Server-side tracking a meranie · GA4, GTM, CAPI, Looker Studio","hu":"Server-side tracking és mérés · GA4, GTM, CAPI, Looker Studio","en":"Server-side tracking and measurement · GA4, GTM, CAPI, Looker Studio","de":"Server-side Tracking und Messung · GA4, GTM, CAPI, Looker Studio"},
+    seoDescription: {"sk":"Spustíme presné meranie konverzií cez server-side tracking. Obíďte iOS 17 a ad blocky. Audit zadarmo.","cs":"Spustíme presné meranie konverzií cez server-side tracking. Obíďte iOS 17 a ad blocky. Audit zadarmo.","hu":"Pontos konverzió mérést indítunk server-side tracking-gel. Megkerüljük az iOS 17-et és ad blockokat. Ingyenes audit.","en":"We'll implement precise conversion tracking via server-side tracking. Bypass iOS 17 and ad blockers. Free audit.","de":"Wir implementieren präzise Conversion-Messung über Server-side Tracking. Umgehen Sie iOS 17 und Ad-Blocker. Audit kostenlos."},
   },
-
-
-  // ============================================
-  // WEB STRÁNKY a LANDING PAGES
-  // ============================================
-  'web': {
+  {
     slug: 'web',
-    category: 'Online marketing',
+    category: {"sk":"Online marketing","cs":"Online marketing","hu":"Online marketing","en":"Online marketing","de":"Online Marketing"},
     categorySlug: 'web-aplikacie',
     title: 'Web a vstupné stránky',
-    tagline: 'Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po deploy.',
-    lead: 'Vstupná stránka pre vaše Google a Meta Ads je často dôvod, prečo vám klienti nekupujú. Pomalý web, slabá kópia, nejasná hodnota. Postavíme stránku ktorá konvertuje — od briefu po deploy za 2-3 týždne.',
-    icon: '<rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path>',
-
+    tagline: {"sk":"Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po deploy.","cs":"Rýchle, konverzné landing pages a microweby. Od copy cez dizajn po deploy.","hu":"Gyors, konvertáló landing oldalak és microweboldalak. A szövegtől a designon át a telepítésig.","en":"Fast, conversion-focused landing pages and microsites. From copy through design to deployment.","de":"Schnelle, konvertierende Landing Pages und Microwebs. Von Copy über Design bis zum Deploy."},
+    lead: {"sk":"Vstupná stránka pre vaše Google a Meta Ads je často dôvod, prečo vám klienti nekupujú. Pomalý web, slabá kópia, nejasná hodnota. Postavíme stránku ktorá konvertuje — od briefu po deploy za 2-3 týždne.","cs":"Vstupná stránka pre vaše Google a Meta Ads je často dôvod, prečo vám klienti nekupujú. Pomalý web, slabá kópia, nejasná hodnota. Postavíme stránku ktorá konvertuje — od briefu po deploy za 2-3 týždne.","hu":"A Google és Meta Ads kampányaihoz készült landing oldal gyakran az oka annak, hogy az ügyfelek nem vásárolnak Öntől. Lassú weboldal, gyenge szöveg, tisztázatlan érték. Olyan oldalt építünk, amely konvertál — a briefing-től a telepítésig 2-3 hét alatt.","en":"Landing pages for your Google and Meta Ads are often the reason clients don't buy from you. Slow website, weak copy, unclear value proposition. We'll build a page that converts — from brief to deployment in 2-3 weeks.","de":"Die Landing Page für Ihre Google Ads und Meta Ads ist oft der Grund, warum Kunden nicht kaufen. Langsame Website, schwache Copy, unklarer Wert. Wir erstellen eine Seite, die konvertiert — vom Briefing bis zum Deploy in 2-3 Wochen."},
+    icon: ``,
     specs: [
-      { label: 'Setup',         value: '14–21 dní' },
-      { label: 'Prvé výsledky', value: '4 týždne' },
-      { label: 'Reporting',     value: 'Týždenne' },
-      { label: 'Zahrnuté',      value: 'Doplnková služba' },
+      { label: {"sk":"Setup","cs":"Setup","hu":"Beállítás","en":"Setup","de":"Setup"}, value: {"sk":"14–21 dní","cs":"14–21 dní","hu":"14–21 nap","en":"14–21 days","de":"14–21 Tage"} },
+      { label: {"sk":"Prvé výsledky","cs":"První výsledky","hu":"Első eredmények","en":"First results","de":"Erste Ergebnisse"}, value: {"sk":"4 týždne","cs":"4 týdny","hu":"4 hét","en":"4 weeks","de":"4 Wochen"} },
+      { label: {"sk":"Reporting","cs":"Reporting","hu":"Riportálás","en":"Reporting","de":"Reporting"}, value: {"sk":"Týždenne","cs":"Týdně","hu":"Hetente","en":"Weekly","de":"Wöchentlich"} },
+      { label: {"sk":"Zahrnuté","cs":"Zahrnuto","hu":"Benne foglalva","en":"Included","de":"Inbegriffen"}, value: {"sk":"Doplnková služba","cs":"Doplňková služba","hu":"Kiegészítő szolgáltatás","en":"Additional service","de":"Zusätzliche Dienstleistung"} },
     ],
-
-    priceFrom: 'Od 890 € (jednorazovo)',
-    priceNote: 'Landing page (1 stránka). Microweb 3-5 stránok od 1 890 €.',
-
+    priceFrom: {"sk":"Od 890 € (jednorazovo)","cs":"Od 890 € (jednorázově)","hu":"890 €-tól (egyszeri)","en":"From 890 € (one-time)","de":"Ab 890 € (einmalig)"},
+    priceNote: {"sk":"Landing page (1 stránka). Microweb 3-5 stránok od 1 890 €.","cs":"Landing page (1 stránka). Microweb 3-5 stránek od 1 890 €.","hu":"Landing page (1 oldal). Microweb 3-5 oldal 1 890 €-tól.","en":"Landing page (1 page). Microweb 3-5 pages from 1,890 €.","de":"Landing Page (1 Seite). Microweb 3-5 Seiten ab 1 890 €."},
     process: [
-      { num: 1, title: 'Brief & content strategy', desc: 'Pochopíme produkt, cieľovku, konkurenciu. Pripravíme wireframe a štruktúru.' },
-      { num: 2, title: 'Copy & dizajn',            desc: 'Napíšeme copy ktoré sa číta a presviedča. Dizajn v Figma s revíziami.' },
-      { num: 3, title: 'Implementácia',            desc: 'Postavíme web na Astro / Next.js (rýchle) alebo WordPress (ak treba CMS). Mobile-first, Core Web Vitals optimalizácia.' },
-      { num: 4, title: 'Deploy + A/B testovanie',  desc: 'Nasadenie na Netlify / Vercel / vlastný hosting. SEO + tracking setup. A/B testy CTA, headlinov.' },
+      { num: 1, title: {"sk":"Brief & content strategy","cs":"Brief & content strategy","hu":"Briefing & tartalomstratégia","en":"Brief & content strategy","de":"Brief & Content-Strategie"}, desc: {"sk":"Pochopíme produkt, cieľovku, konkurenciu. Pripravíme wireframe a štruktúru.","cs":"Pochopíme produkt, cílovku, konkurenci. Připravíme wireframe a strukturu.","hu":"Megértjük a terméket, célcsoportot, versenytársakat. Elkészítjük a wireframe-et és struktúrát.","en":"We understand the product, target audience, competition. We prepare wireframes and structure.","de":"Wir verstehen Produkt, Zielgruppe, Konkurrenz. Wir erstellen Wireframe und Struktur."} },
+      { num: 2, title: {"sk":"Copy & dizajn","cs":"Copy & design","hu":"Szöveg & design","en":"Copy & design","de":"Copy & Design"}, desc: {"sk":"Napíšeme copy ktoré sa číta a presviedča. Dizajn v Figma s revíziami.","cs":"Napíšeme copy, které se čte a přesvědčuje. Design ve Figma s revizemi.","hu":"Megírjuk az olvasható és meggyőző szöveget. Figma design revíziókkal.","en":"We write copy that reads well and persuades. Design in Figma with revisions.","de":"Wir schreiben Copy, das sich liest und überzeugt. Design in Figma mit Revisionen."} },
+      { num: 3, title: {"sk":"Implementácia","cs":"Implementace","hu":"Implementáció","en":"Implementation","de":"Implementierung"}, desc: {"sk":"Postavíme web na Astro / Next.js (rýchle) alebo WordPress (ak treba CMS). Mobile-first, Core Web Vitals optimalizácia.","cs":"Postavíme web na Astro / Next.js (rychlé) nebo WordPress (pokud je potřeba CMS). Mobile-first, Core Web Vitals optimalizace.","hu":"Weboldalt építünk Astro / Next.js (gyors) vagy WordPress (ha CMS szükséges). Mobile-first, Core Web Vitals optimalizálás.","en":"We build the website on Astro / Next.js (fast) or WordPress (if CMS needed). Mobile-first, Core Web Vitals optimization.","de":"Wir entwickeln die Website mit Astro / Next.js (schnell) oder WordPress (wenn CMS benötigt). Mobile-first, Core Web Vitals Optimierung."} },
+      { num: 4, title: {"sk":"Deploy + A/B testovanie","cs":"Deploy + A/B testování","hu":"Telepítés + A/B tesztelés","en":"Deploy + A/B testing","de":"Deploy + A/B Testing"}, desc: {"sk":"Nasadenie na Netlify / Vercel / vlastný hosting. SEO + tracking setup. A/B testy CTA, headlinov.","cs":"Nasazení na Netlify / Vercel / vlastní hosting. SEO + tracking setup. A/B testy CTA, headlinů.","hu":"Telepítés Netlify / Vercel / saját hosting. SEO + tracking beállítás. A/B tesztek CTA-kkal, címsorokkal.","en":"Deployment on Netlify / Vercel / your hosting. SEO + tracking setup. A/B tests of CTAs, headlines.","de":"Deployment auf Netlify / Vercel / eigenem Hosting. SEO + Tracking Setup. A/B Tests von CTA, Headlines."} },
     ],
-
     whatYouGet: [
-      'Wireframe + dizajn v Figma (3 revízne kolá)',
-      'Copy v slovenčine / češtine (alebo váš text optimalizovaný)',
-      'Vývoj — Astro, Next.js alebo WordPress podľa potreby',
-      'Core Web Vitals optimalizácia (rýchlosť 90+)',
-      'SEO základ (meta, schema, sitemap, robots)',
-      'GA4 + GTM + Meta Pixel tracking pripravený',
-      'Hosting setup (Netlify / Vercel alebo Váš)',
+      {"sk":"Wireframe + dizajn v Figma (3 revízne kolá)","cs":"Wireframe + design ve Figma (3 revizní kola)","hu":"Wireframe + design Figmában (3 revíziós kör)","en":"Wireframe + design in Figma (3 revision rounds)","de":"Wireframe + Design in Figma (3 Revisionsrunden)"},
+      {"sk":"Copy v slovenčine / češtine (alebo váš text optimalizovaný)","cs":"Copy v češtině / slovenštině (nebo váš text optimalizovaný)","hu":"Szöveg magyarul / szlovákul (vagy az Önök szövegének optimalizálása)","en":"Copy in Slovak / Czech (or your text optimized)","de":"Copy auf Deutsch (oder Ihr Text optimiert)"},
+      {"sk":"Vývoj — Astro, Next.js alebo WordPress podľa potreby","cs":"Vývoj — Astro, Next.js nebo WordPress podle potřeby","hu":"Fejlesztés — Astro, Next.js vagy WordPress igény szerint","en":"Development — Astro, Next.js or WordPress as needed","de":"Entwicklung — Astro, Next.js oder WordPress je nach Bedarf"},
+      {"sk":"Core Web Vitals optimalizácia (rýchlosť 90+)","cs":"Core Web Vitals optimalizace (rychlost 90+)","hu":"Core Web Vitals optimalizálás (90+ sebesség)","en":"Core Web Vitals optimization (speed 90+)","de":"Core Web Vitals Optimierung (Geschwindigkeit 90+)"},
+      {"sk":"SEO základ (meta, schema, sitemap, robots)","cs":"SEO základ (meta, schema, sitemap, robots)","hu":"SEO alapok (meta, schema, sitemap, robots)","en":"SEO basics (meta, schema, sitemap, robots)","de":"SEO Grundlagen (Meta, Schema, Sitemap, Robots)"},
+      {"sk":"GA4 + GTM + Meta Pixel tracking pripravený","cs":"GA4 + GTM + Meta Pixel tracking připravený","hu":"GA4 + GTM + Meta Pixel tracking előkészítve","en":"GA4 + GTM + Meta Pixel tracking ready","de":"GA4 + GTM + Meta Pixel Tracking vorbereitet"},
+      {"sk":"Hosting setup (Netlify / Vercel alebo Váš)","cs":"Hosting setup (Netlify / Vercel nebo Váš)","hu":"Hosting beállítás (Netlify / Vercel vagy az Önök)","en":"Hosting setup (Netlify / Vercel or yours)","de":"Hosting Setup (Netlify / Vercel oder Ihres)"},
     ],
-
     forWhom: [
-      'Firmy spúšťajúce nové reklamné kampane bez existujúcej landing page',
-      'B2B firmy s drahým produktom (lead-gen formulár ako primary CTA)',
-      'Konzultanti, agentúry, freelanceri (presentation site)',
+      {"sk":"Firmy spúšťajúce nové reklamné kampane bez existujúcej landing page","cs":"Firmy spouštějící nové reklamní kampaně bez existující landing page","hu":"Új reklámkampányokat indító cégek meglévő landing page nélkül","en":"Companies launching new advertising campaigns without an existing landing page","de":"Unternehmen, die neue Werbekampagnen ohne bestehende Landing Page starten"},
+      {"sk":"B2B firmy s drahým produktom (lead-gen formulár ako primary CTA)","cs":"B2B firmy s drahým produktem (lead-gen formulář jako primary CTA)","hu":"B2B cégek drága termékkel (lead-gen űrlap mint elsődleges CTA)","en":"B2B companies with expensive products (lead-gen form as primary CTA)","de":"B2B-Unternehmen mit teurem Produkt (Lead-Gen Formular als primäre CTA)"},
+      {"sk":"Konzultanti, agentúry, freelanceri (presentation site)","cs":"Konzultanti, agentury, freelanceři (presentation site)","hu":"Tanácsadók, ügynökségek, freelancerek (bemutatkozó oldal)","en":"Consultants, agencies, freelancers (presentation site)","de":"Berater, Agenturen, Freelancer (Presentation Site)"},
     ],
-
     faq: [
-      {
-        q: 'Robíte aj e-shopy?',
-        a: 'Áno, ale e-shopy sú samostatná služba (od 2 890 €) s integráciou na Stripe / GoPay / fakturáciu. Pre 5-20 produktov stačí jednoduchý landing s checkoutom.',
-      },
-      {
-        q: 'Aké technológie používate?',
-        a: 'Pre marketingové stránky: Astro alebo Next.js (rýchlejšie ako WordPress, lepší SEO). Pre stránky s častými zmenami obsahu: WordPress alebo Sanity headless CMS.',
-      },
-      {
-        q: 'Aká je rýchlosť vývoja?',
-        a: 'Landing page (1 stránka): 14-21 dní od briefu po deploy. Microweb (3-5 stránok): 21-35 dní. E-shop: 6-10 týždňov.',
-      },
-      {
-        q: 'Aké tipy hostingu odporúčate?',
-        a: 'Netlify alebo Vercel pre Astro / Next.js (free tier postačuje pre väčšinu prípadov). Pre WordPress: WPX alebo Cloudways.',
-      },
+      { q: {"sk":"Robíte aj e-shopy?","cs":"Děláte i e-shopy?","hu":"Készítenek webshopokat is?","en":"Do you also create e-shops?","de":"Erstellen Sie auch E-Shops?"}, a: {"sk":"Áno, ale e-shopy sú samostatná služba (od 2 890 €) s integráciou na Stripe / GoPay / fakturáciu. Pre 5-20 produktov stačí jednoduchý landing s checkoutom.","cs":"Ano, ale e-shopy jsou samostatná služba (od 2 890 €) s integrací na Stripe / GoPay / fakturaci. Pro 5-20 produktů stačí jednoduchý landing s checkoutem.","hu":"Igen, de a webshopok külön szolgáltatás (2 890 €-tól) Stripe / GoPay / számlázás integrációval. 5-20 termékhez elég egy egyszerű landing checkout-tal.","en":"Yes, but e-shops are a separate service (from 2,890 €) with Stripe / GoPay / invoicing integration. For 5-20 products, a simple landing page with checkout is sufficient.","de":"Ja, aber E-Shops sind eine separate Dienstleistung (ab 2 890 €) mit Integration von Stripe / GoPay / Rechnungsstellung. Für 5-20 Produkte reicht eine einfache Landing Page mit Checkout."} },
+      { q: {"sk":"Aké technológie používate?","cs":"Jaké technologie používáte?","hu":"Milyen technológiákat használnak?","en":"What technologies do you use?","de":"Welche Technologien verwenden Sie?"}, a: {"sk":"Pre marketingové stránky: Astro alebo Next.js (rýchlejšie ako WordPress, lepší SEO). Pre stránky s častými zmenami obsahu: WordPress alebo Sanity headless CMS.","cs":"Pro marketingové stránky: Astro nebo Next.js (rychlejší než WordPress, lepší SEO). Pro stránky s častými změnami obsahu: WordPress nebo Sanity headless CMS.","hu":"Marketing oldalakhoz: Astro vagy Next.js (gyorsabb WordPressnél, jobb SEO). Gyakran változó tartalomhoz: WordPress vagy Sanity headless CMS.","en":"For marketing sites: Astro or Next.js (faster than WordPress, better SEO). For sites with frequent content changes: WordPress or Sanity headless CMS.","de":"Für Marketing-Websites: Astro oder Next.js (schneller als WordPress, besseres SEO). Für Websites mit häufigen Inhaltsänderungen: WordPress oder Sanity Headless CMS."} },
+      { q: {"sk":"Aká je rýchlosť vývoja?","cs":"Jaká je rychlost vývoje?","hu":"Milyen a fejlesztés sebessége?","en":"What is the development speed?","de":"Wie schnell ist die Entwicklung?"}, a: {"sk":"Landing page (1 stránka): 14-21 dní od briefu po deploy. Microweb (3-5 stránok): 21-35 dní. E-shop: 6-10 týždňov.","cs":"Landing page (1 stránka): 14-21 dní od briefu po deploy. Microweb (3-5 stránek): 21-35 dní. E-shop: 6-10 týdnů.","hu":"Landing page (1 oldal): 14-21 nap a briefingtől a telepítésig. Microweb (3-5 oldal): 21-35 nap. Webshop: 6-10 hét.","en":"Landing page (1 page): 14-21 days from brief to deployment. Microweb (3-5 pages): 21-35 days. E-shop: 6-10 weeks.","de":"Landing Page (1 Seite): 14-21 Tage vom Brief bis zum Deploy. Microweb (3-5 Seiten): 21-35 Tage. E-Shop: 6-10 Wochen."} },
+      { q: {"sk":"Aké tipy hostingu odporúčate?","cs":"Jaké typy hostingu doporučujete?","hu":"Milyen hosting típusokat ajánlanak?","en":"What hosting types do you recommend?","de":"Welche Hosting-Typen empfehlen Sie?"}, a: {"sk":"Netlify alebo Vercel pre Astro / Next.js (free tier postačuje pre väčšinu prípadov). Pre WordPress: WPX alebo Cloudways.","cs":"Netlify nebo Vercel pro Astro / Next.js (free tier postačuje pro většinu případů). Pro WordPress: WPX nebo Cloudways.","hu":"Netlify vagy Vercel az Astro / Next.js-hez (ingyenes szint a legtöbb esetben elegendő). WordPresshez: WPX vagy Cloudways.","en":"Netlify or Vercel for Astro / Next.js (free tier sufficient for most cases). For WordPress: WPX or Cloudways.","de":"Netlify oder Vercel für Astro / Next.js (Free Tier reicht für die meisten Fälle). Für WordPress: WPX oder Cloudways."} },
     ],
-
     relatedCases: ['ekodom', 'techpark'],
-
-    seoTitle: 'Tvorba landing pages a webov · Astro, Next.js, WordPress',
-    seoDescription: 'Konverzné landing pages a microweby. Od briefu po deploy za 2-3 týždne. Core Web Vitals optimalizácia.',
+    seoTitle: {"sk":"Tvorba landing pages a webov · Astro, Next.js, WordPress","cs":"Tvorba landing pages a webů · Astro, Next.js, WordPress","hu":"Landing page-ek és weboldalak készítése · Astro, Next.js, WordPress","en":"Landing page and website development · Astro, Next.js, WordPress","de":"Erstellung von Landing Pages und Websites · Astro, Next.js, WordPress"},
+    seoDescription: {"sk":"Konverzné landing pages a microweby. Od briefu po deploy za 2-3 týždne. Core Web Vitals optimalizácia.","cs":"Konverzní landing pages a microweby. Od briefu po deploy za 2-3 týdny. Core Web Vitals optimalizace.","hu":"Konverziós landing page-ek és microwebok. A briefingtől a telepítésig 2-3 hét alatt. Core Web Vitals optimalizálás.","en":"Conversion landing pages and microwebs. From brief to deployment in 2-3 weeks. Core Web Vitals optimization.","de":"Konversionsstarke Landing Pages und Microwebs. Vom Brief bis zum Deploy in 2-3 Wochen. Core Web Vitals Optimierung."},
   },
-};
+];
 
-// Pomocná funkcia: list všetkých slugov pre getStaticPaths
-export const SERVICE_DETAIL_SLUGS = Object.keys(SERVICE_DETAILS);
+// Lookup maps pre routing
+export const SERVICE_DETAIL_SLUGS = serviceDetails.map((s) => s.slug);
+export const SERVICE_DETAILS: Record<string, ServiceDetail> = Object.fromEntries(
+  serviceDetails.map((s) => [s.slug, s])
+);
