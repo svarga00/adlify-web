@@ -1,220 +1,211 @@
 /**
- * Balíčky pre odvetvia — data
- *
- * Každý balíček má:
- *  - slug (URL)
- *  - name (názov)
- *  - tagline (krátky popis pod hero)
- *  - heroLead (dlhší úvod)
- *  - pains (3-4 typické problémy odvetvia)
- *  - includes (6-10 položiek čo balíček obsahuje)
- *  - results (príklady výsledkov, placeholdery sú OK)
- *  - priceFrom (od koľko € mesačne)
- *  - timeline (typicky koľko trvá rozbeh)
+ * Industry packages - MULTILANG
  */
+
+import type { Lang } from './i18n';
+
+type ML = Record<Lang, string>;
+
+export interface IndustryInclude {
+  title: ML;
+  desc: ML;
+}
+
+export interface IndustryResult {
+  metric: ML;
+  value: ML;
+  change: ML;
+}
 
 export interface IndustryPackage {
   slug: string;
-  name: string;
-  tagline: string;
-  heroLead: string;
-  pains: string[];
-  includes: { title: string; desc: string }[];
-  results: { metric: string; label: string }[];
+  name: ML;
+  icon: string;
+  tagline: ML;
+  heroLead: ML;
   priceFrom: number;
-  timeline: string;
-  idealFor: string;
+  timeline: ML;
+  idealFor: ML;
+  pains: ML[];
+  includes: IndustryInclude[];
+  results: IndustryResult[];
+}
+
+// Helper
+export function indT(field: ML | string | undefined, lang: Lang): string {
+  if (!field) return '';
+  if (typeof field === 'string') return field;
+  return field[lang] || field.sk || '';
 }
 
 export const industries: IndustryPackage[] = [
-
-  // 1) KADERNÍCTVA
   {
     slug: 'kadernictva',
-    name: 'Kaderníctva a salóny krásy',
-    tagline: 'Plný kalendár každý týždeň. Bez výpadkov.',
-    heroLead: 'Kaderníctvo, kozmetika, manikúra alebo solárium — všetko sa točí okolo plného kalendára. Pomáhame plniť termíny cez Instagram, Google Maps a online rezervácie.',
+    name: {"sk":"Kaderníctva a salóny krásy","cs":"Kadeřnictví a salony krásy","hu":"Fodrászatok és szépségszalonok","en":"Hair Salons and Beauty Salons","de":"Friseursalons und Schönheitssalons"},
+    icon: ``,
+    tagline: {"sk":"Plný kalendár každý týždeň. Bez výpadkov.","cs":"Plný kalendář každý týden. Bez výpadků.","hu":"Tele naptár minden héten. Kiesés nélkül.","en":"Full calendar every week. No downtime.","de":"Jede Woche ein voller Terminkalender. Ohne Ausfälle."},
+    heroLead: {"sk":"Kaderníctvo, kozmetika, manikúra alebo solárium — všetko sa točí okolo plného kalendára. Pomáhame plniť termíny cez Instagram, Google Maps a online rezervácie.","cs":"Kadeřnictví, kosmetika, manikúra nebo solárium - všechno se točí kolem plného kalendáře. Pomáháme plnit termíny přes Instagram, Google Maps a online rezervace.","hu":"Fodrászat, kozmetika, manikűr vagy szolárium - minden a tele naptár körül forog. Segítünk megtölteni az időpontokat Instagram, Google Maps és online foglalások révén.","en":"Hair salon, cosmetics, manicure or solarium - everything revolves around a full calendar. We help fill appointments through Instagram, Google Maps and online bookings.","de":"Friseursalon, Kosmetik, Maniküre oder Solarium - alles dreht sich um einen vollen Terminkalender. Wir helfen dabei, Termine über Instagram, Google Maps und Online-Buchungen zu füllen."},
+    priceFrom: 249,
+    timeline: {"sk":"14 dní setup, prvé výsledky do 30 dní","cs":"14 dní setup, první výsledky do 30 dní","hu":"14 napos beállítás, első eredmények 30 napon belül","en":"14 days setup, first results within 30 days","de":"14 Tage Setup, erste Ergebnisse binnen 30 Tagen"},
+    idealFor: {"sk":"Salóny s 1-5 stoličkami v Bratislave, Košiciach, Prešove a iných mestách","cs":"Salony s 1-5 židlemi v Praze, Brně, Ostravě a dalších městech","hu":"1-5 székes szalonok Pozsonyban, Kassán, Eperjesen és más városokban","en":"Salons with 1-5 chairs in Bratislava, Košice, Prešov and other cities","de":"Salons mit 1-5 Stühlen in Bratislava, Košice, Prešov und anderen Städten"},
     pains: [
-      'Termíny zadávate ručne cez WhatsApp a Messenger',
-      'Recenzií máte málo a nikto ich nepýta po návšteve',
-      'Konkurencia je viditeľnejšia v Google Maps',
-      'Nemáte čas robiť obsah na Instagram každý týždeň',
+      {"sk":"Termíny zadávate ručne cez WhatsApp a Messenger","cs":"Termíny zadáváte ručně přes WhatsApp a Messenger","hu":"Az időpontokat kézzel adják meg WhatsApp és Messenger keresztül","en":"You enter appointments manually via WhatsApp and Messenger","de":"Sie vergeben Termine manuell über WhatsApp und Messenger"},
+      {"sk":"Recenzií máte málo a nikto ich nepýta po návšteve","cs":"Recenzí máte málo a nikdo je nepožaduje po návštěvě","hu":"Kevés értékelésük van és senki sem kéri látogatás után","en":"You have few reviews and no one asks for them after visits","de":"Sie haben wenige Bewertungen und niemand bittet nach dem Besuch darum"},
+      {"sk":"Konkurencia je viditeľnejšia v Google Maps","cs":"Konkurence je viditelnější v Google Maps","hu":"A konkurencia láthatóbb a Google Maps-ben","en":"Competition is more visible in Google Maps","de":"Die Konkurrenz ist in Google Maps sichtbarer"},
+      {"sk":"Nemáte čas robiť obsah na Instagram každý týždeň","cs":"Nemáte čas dělat obsah na Instagram každý týden","hu":"Nincs idejük Instagram tartalmat készíteni minden héten","en":"You don't have time to create Instagram content every week","de":"Sie haben keine Zeit, jede Woche Inhalte für Instagram zu erstellen"},
     ],
     includes: [
-      { title: 'Online rezervačný systém', desc: 'Zákazníci sa rezervujú sami 24/7. Reservio, Booksy alebo SimplyBook.' },
-      { title: 'Google Business Profile', desc: 'Optimalizácia profilu, správa fotografií, reagovanie na recenzie.' },
-      { title: 'Local SEO', desc: 'Aby ste sa zobrazovali medzi prvými v "kaderníctvo + vaše mesto".' },
-      { title: 'Instagram + TikTok ads', desc: '2 kampane mesačne — propagácia služieb a získavanie nových zákazníkov.' },
-      { title: 'Mesačná tvorba obsahu', desc: '8-12 príspevkov + reels mesačne. Konzistentný brand.' },
-      { title: 'Recenzie automation', desc: 'Po každej návšteve automatický mail/SMS s prosbou o recenziu.' },
-      { title: 'Mesačný reporting', desc: 'Koľko nových zákazníkov, odkiaľ, koľko sa vrátili.' },
+      { title: {"sk":"Online rezervačný systém","cs":"Online rezervační systém","hu":"Online foglalási rendszer","en":"Online booking system","de":"Online-Buchungssystem"}, desc: {"sk":"Zákazníci sa rezervujú sami 24/7. Reservio, Booksy alebo SimplyBook.","cs":"Zákazníci se rezervují sami 24/7. Reservio, Booksy nebo SimplyBook.","hu":"Az ügyfelek maguktól foglalnak 24/7. Reservio, Booksy vagy SimplyBook.","en":"Customers book themselves 24/7. Reservio, Booksy or SimplyBook.","de":"Kunden buchen selbständig 24/7. Reservio, Booksy oder SimplyBook."} },
+      { title: {"sk":"Google Business Profile","cs":"Google Business Profile","hu":"Google Business Profile","en":"Google Business Profile","de":"Google Business Profile"}, desc: {"sk":"Optimalizácia profilu, správa fotografií, reagovanie na recenzie.","cs":"Optimalizace profilu, správa fotografií, reagování na recenze.","hu":"Profil optimalizálás, fotók kezelése, válaszolás értékelésekre.","en":"Profile optimization, photo management, responding to reviews.","de":"Profiloptimierung, Fotoverwaltung, Antworten auf Bewertungen."} },
+      { title: {"sk":"Local SEO","cs":"Local SEO","hu":"Local SEO","en":"Local SEO","de":"Local SEO"}, desc: {"sk":"Aby ste sa zobrazovali medzi prvými v \"kaderníctvo + vaše mesto\".","cs":"Abyste se zobrazovali mezi prvními v \"kadeřnictví + vaše město\".","hu":"Hogy az elsők között jelenjenek meg a \"fodrászat + az Önök városa\" keresésben.","en":"So you appear among the first in \"hair salon + your city\".","de":"Damit Sie unter den ersten bei \"Friseursalon + Ihre Stadt\" erscheinen."} },
+      { title: {"sk":"Instagram + TikTok ads","cs":"Instagram + TikTok ads","hu":"Instagram + TikTok hirdetések","en":"Instagram + TikTok ads","de":"Instagram + TikTok Ads"}, desc: {"sk":"2 kampane mesačne — propagácia služieb a získavanie nových zákazníkov.","cs":"2 kampaně měsíčně - propagace služeb a získávání nových zákazníků.","hu":"Havonta 2 kampány - szolgáltatások promóciója és új ügyfelek megszerzése.","en":"2 campaigns monthly - promoting services and acquiring new customers.","de":"2 Kampagnen monatlich - Bewerbung von Dienstleistungen und Gewinnung neuer Kunden."} },
+      { title: {"sk":"Mesačná tvorba obsahu","cs":"Měsíční tvorba obsahu","hu":"Havi tartalomkészítés","en":"Monthly content creation","de":"Monatliche Content-Erstellung"}, desc: {"sk":"8-12 príspevkov + reels mesačne. Konzistentný brand.","cs":"8-12 příspěvků + reels měsíčně. Konzistentní brand.","hu":"Havonta 8-12 poszt + reels. Konzisztens márka.","en":"8-12 posts + reels monthly. Consistent brand.","de":"8-12 Beiträge + Reels monatlich. Konsistente Marke."} },
+      { title: {"sk":"Recenzie automation","cs":"Recenze automation","hu":"Értékelés automatizálás","en":"Reviews automation","de":"Bewertungs-Automatisierung"}, desc: {"sk":"Po každej návšteve automatický mail/SMS s prosbou o recenziu.","cs":"Po každé návštěvě automatický mail/SMS s žádostí o recenzi.","hu":"Minden látogatás után automatikus e-mail/SMS értékelés kéréssel.","en":"After each visit automatic email/SMS with review request.","de":"Nach jedem Besuch automatische E-Mail/SMS mit Bitte um Bewertung."} },
+      { title: {"sk":"Mesačný reporting","cs":"Měsíční reporting","hu":"Havi jelentés","en":"Monthly reporting","de":"Monatliches Reporting"}, desc: {"sk":"Koľko nových zákazníkov, odkiaľ, koľko sa vrátili.","cs":"Kolik nových zákazníků, odkud, kolik se vrátilo.","hu":"Hány új ügyfél, honnan, hányan tértek vissza.","en":"How many new customers, from where, how many returned.","de":"Wie viele neue Kunden, woher, wie viele sind zurückgekehrt."} },
     ],
     results: [
-      { metric: '+50%',   label: 'Online rezervácií / 6 mes' },
-      { metric: '4.7+',   label: 'Priemerné hodnotenie' },
-      { metric: '+60',    label: 'Nových klientov / 6 mes' },
     ],
-    priceFrom: 249,
-    timeline: '14 dní setup, prvé výsledky do 30 dní',
-    idealFor: 'Salóny s 1-5 stoličkami v Bratislave, Košiciach, Prešove a iných mestách',
   },
-
-  // 2) AUTOSERVISY
   {
     slug: 'autoservisy',
-    name: 'Autoservisy a pneuservisy',
-    tagline: 'Zákazníci nájdu vás, nie konkurenciu.',
-    heroLead: 'Pri poruche auta hľadá zákazník v Google "autoservis + jeho mesto" a klikne na prvý výsledok. Postaráme sa, aby to bol váš servis.',
+    name: {"sk":"Autoservisy a pneuservisy","cs":"Autoservisy a pneuservisy","hu":"Autószervizek és gumiszerelők","en":"Auto Repair Shops and Tire Services","de":"Autowerkstätten und Reifenservice"},
+    icon: ``,
+    tagline: {"sk":"Zákazníci nájdu vás, nie konkurenciu.","cs":"Zákazníci najdou vás, ne konkurenci.","hu":"Az ügyfelek Önöket találják meg, nem a konkurenciát.","en":"Customers find you, not the competition.","de":"Kunden finden Sie, nicht die Konkurrenz."},
+    heroLead: {"sk":"Pri poruche auta hľadá zákazník v Google \"autoservis + jeho mesto\" a klikne na prvý výsledok. Postaráme sa, aby to bol váš servis.","cs":"Při poruše auta hledá zákazník v Google \"autoservis + jeho město\" a klikne na první výsledek. Postaráme se, aby to byl váš servis.","hu":"Pri poruche auta hľadá zákazník v Google \"autoservis + jeho mesto\" a klikne na prvý výsledok. Postaráme sa, aby to bol váš servis.","en":"When a car breaks down, the customer searches Google for \"car service + their city\" and clicks on the first result. We'll make sure that's your service.","de":"Bei einer Autopanne sucht der Kunde in Google \"Autowerkstatt + seine Stadt\" und klickt auf das erste Ergebnis. Wir sorgen dafür, dass es Ihre Werkstatt ist."},
+    priceFrom: 199,
+    timeline: {"sk":"10 dní setup, prvé hovory do 14 dní","cs":"10 dní setup, první hovory do 14 dní","hu":"10 dní setup, prvé hovory do 14 dní","en":"10-day setup, first calls within 14 days","de":"10 Tage Setup, erste Anrufe binnen 14 Tagen"},
+    idealFor: {"sk":"Autoservisy, pneuservisy, autoumyvárky s 2+ technikmi","cs":"Autoservisy, pneuservisy, automyčky se 2+ technikmi","hu":"Autoservisy, pneuservisy, autoumyvárky s 2+ technikmi","en":"Car repair shops, tire services, car washes with 2+ technicians","de":"Autowerkstätten, Reifendienste, Autowaschanlagen mit 2+ Technikern"},
     pains: [
-      'Zákazníci si vás všimnú, len keď sú vedľa vašej budovy',
-      'V Google Maps ste niekde dole, nad vami sú konkurenti',
-      'Sezónne výpadky (jar/jeseň) sú vidieť na obrate',
-      'Nemáte web alebo je z roku 2010',
+      {"sk":"Zákazníci si vás všimnú, len keď sú vedľa vašej budovy","cs":"Zákazníci si vás všimnou, jen když jsou vedle vaší budovy","hu":"Zákazníci si vás všimnú, len keď sú vedľa vašej budovy","en":"Customers only notice you when they're next to your building","de":"Kunden bemerken Sie nur, wenn sie neben Ihrem Gebäude sind"},
+      {"sk":"V Google Maps ste niekde dole, nad vami sú konkurenti","cs":"V Google Maps jste někde dole, nad vámi jsou konkurenti","hu":"V Google Maps ste niekde dole, nad vami sú konkurenti","en":"You're somewhere at the bottom in Google Maps, competitors are above you","de":"In Google Maps sind Sie irgendwo unten, über Ihnen stehen Konkurrenten"},
+      {"sk":"Sezónne výpadky (jar/jeseň) sú vidieť na obrate","cs":"Sezónní výpadky (jaro/podzim) jsou vidět na obratu","hu":"Sezónne výpadky (jar/jeseň) sú vidieť na obrate","en":"Seasonal drops (spring/autumn) are visible in turnover","de":"Saisonale Ausfälle (Frühjahr/Herbst) sind am Umsatz sichtbar"},
+      {"sk":"Nemáte web alebo je z roku 2010","cs":"Nemáte web nebo je z roku 2010","hu":"Nemáte web alebo je z roku 2010","en":"You don't have a website or it's from 2010","de":"Sie haben keine Website oder sie stammt aus dem Jahr 2010"},
     ],
     includes: [
-      { title: 'Lokálny Google Ads', desc: 'Search kampane na "autoservis Prešov", "pneuservis Bratislava" atď.' },
-      { title: 'Google Business Profile', desc: 'Plný profil s fotkami, otváracími hodinami, službami a cenníkom.' },
-      { title: 'Local SEO', desc: 'Optimalizácia pre lokálne vyhľadávania v okruhu 20 km.' },
-      { title: 'Recenzie management', desc: 'Aktívne získavanie recenzií od spokojných zákazníkov.' },
-      { title: 'Sezónne kampane', desc: 'Pred jarou pneumatiky, pred zimou kontroly, klimatizácie.' },
-      { title: 'Jednoduchý web', desc: 'Ak nemáte alebo je zastaraný — moderný web s formulárom a cenníkom.' },
-      { title: 'Týždenné reporty', desc: 'Koľko hovorov a dopytov ste dostali z online reklamy.' },
+      { title: {"sk":"Lokálny Google Ads","cs":"Lokální Google Ads","hu":"Lokálny Google Ads","en":"Local Google Ads","de":"Lokale Google Ads"}, desc: {"sk":"Search kampane na \"autoservis Prešov\", \"pneuservis Bratislava\" atď.","cs":"Search kampaně na \"autoservis Ostrava\", \"pneuservis Praha\" apod.","hu":"Search kampane na \"autoservis Prešov\", \"pneuservis Bratislava\" atď.","en":"Search campaigns for \"car service Prešov\", \"tire service Bratislava\" etc.","de":"Search-Kampagnen auf \"Autowerkstatt Köln\", \"Reifendienst München\" usw."} },
+      { title: {"sk":"Google Business Profile","cs":"Google Business Profile","hu":"Google Business Profile","en":"Google Business Profile","de":"Google Business Profile"}, desc: {"sk":"Plný profil s fotkami, otváracími hodinami, službami a cenníkom.","cs":"Úplný profil s fotkami, otevírací dobou, službami a ceníkem.","hu":"Plný profil s fotkami, otváracími hodinami, službami a cenníkom.","en":"Complete profile with photos, opening hours, services and price list.","de":"Vollständiges Profil mit Fotos, Öffnungszeiten, Dienstleistungen und Preisliste."} },
+      { title: {"sk":"Local SEO","cs":"Local SEO","hu":"Local SEO","en":"Local SEO","de":"Local SEO"}, desc: {"sk":"Optimalizácia pre lokálne vyhľadávania v okruhu 20 km.","cs":"Optimalizace pro lokální vyhledávání v okruhu 20 km.","hu":"Optimalizácia pre lokálne vyhľadávania v okruhu 20 km.","en":"Optimization for local searches within 20 km radius.","de":"Optimierung für lokale Suchanfragen im Umkreis von 20 km."} },
+      { title: {"sk":"Recenzie management","cs":"Recenze management","hu":"Recenzie management","en":"Review management","de":"Bewertungsmanagement"}, desc: {"sk":"Aktívne získavanie recenzií od spokojných zákazníkov.","cs":"Aktivní získávání recenzí od spokojených zákazníků.","hu":"Aktívne získavanie recenzií od spokojných zákazníkov.","en":"Active collection of reviews from satisfied customers.","de":"Aktive Gewinnung von Bewertungen zufriedener Kunden."} },
+      { title: {"sk":"Sezónne kampane","cs":"Sezónní kampaně","hu":"Sezónne kampane","en":"Seasonal campaigns","de":"Saisonale Kampagnen"}, desc: {"sk":"Pred jarou pneumatiky, pred zimou kontroly, klimatizácie.","cs":"Před jarem pneumatiky, před zimou kontroly, klimatizace.","hu":"Pred jarou pneumatiky, pred zimou kontroly, klimatizácie.","en":"Pre-spring tires, pre-winter inspections, air conditioning.","de":"Vor dem Frühjahr Reifen, vor dem Winter Kontrollen, Klimaanlagen."} },
+      { title: {"sk":"Jednoduchý web","cs":"Jednoduchý web","hu":"Jednoduchý web","en":"Simple website","de":"Einfache Website"}, desc: {"sk":"Ak nemáte alebo je zastaraný — moderný web s formulárom a cenníkom.","cs":"Pokud nemáte nebo je zastaralý - moderní web s formulářem a ceníkem.","hu":"Ak nemáte alebo je zastaraný — moderný web s formulárom a cenníkom.","en":"If you don't have one or it's outdated - modern website with form and price list.","de":"Falls Sie keine haben oder sie veraltet ist - moderne Website mit Formular und Preisliste."} },
+      { title: {"sk":"Týždenné reporty","cs":"Týdenní reporty","hu":"Týždenné reporty","en":"Weekly reports","de":"Wöchentliche Reports"}, desc: {"sk":"Koľko hovorov a dopytov ste dostali z online reklamy.","cs":"Kolik hovorů a dotazů jste dostali z online reklamy.","hu":"Koľko hovorov a dopytov ste dostali z online reklamy.","en":"How many calls and inquiries you received from online advertising.","de":"Wie viele Anrufe und Anfragen Sie durch Online-Werbung erhalten haben."} },
     ],
     results: [
-      { metric: '+40%',   label: 'Telefonických dopytov / 6 mes' },
-      { metric: 'Top 5',  label: 'V Google Maps (lokálne)' },
-      { metric: '+25',    label: 'Nových recenzií / rok' },
     ],
-    priceFrom: 199,
-    timeline: '10 dní setup, prvé hovory do 14 dní',
-    idealFor: 'Autoservisy, pneuservisy, autoumyvárky s 2+ technikmi',
   },
-
-  // 3) REŠTAURÁCIE
   {
     slug: 'restauracie',
-    name: 'Reštaurácie a kaviarne',
-    tagline: 'Plné stoly aj cez týždeň.',
-    heroLead: 'Reštaurácia žije z prvej návštevy a hlavne z opakovaných. Pomáhame priviesť nových hostí a udržať tých starých — cez Instagram, online menu a lokálnu reklamu.',
+    name: {"sk":"Reštaurácie a kaviarne","cs":"Restaurace a kavárny","hu":"Reštaurácie a kaviarne","en":"Restaurants and cafes","de":"Restaurants und Cafés"},
+    icon: ``,
+    tagline: {"sk":"Plné stoly aj cez týždeň.","cs":"Plné stoly i v týdnu.","hu":"Plné stoly aj cez týždeň.","en":"Full tables even during the week.","de":"Volle Tische auch unter der Woche."},
+    heroLead: {"sk":"Reštaurácia žije z prvej návštevy a hlavne z opakovaných. Pomáhame priviesť nových hostí a udržať tých starých — cez Instagram, online menu a lokálnu reklamu.","cs":"Restaurace žije z první návštěvy a hlavně z opakovaných. Pomáháme přivést nové hosty a udržet ty staré - přes Instagram, online menu a lokální reklamu.","hu":"Reštaurácia žije z prvej návštevy a hlavne z opakovaných. Pomáhame priviesť nových hostí a udržať tých starých — cez Instagram, online menu a lokálnu reklamu.","en":"A restaurant lives on first visits and especially repeat visits. We help bring new guests and keep the old ones - through Instagram, online menus and local advertising.","de":"Ein Restaurant lebt vom ersten Besuch und vor allem von Wiederholungsbesuchen. Wir helfen dabei, neue Gäste zu gewinnen und die alten zu halten - über Instagram, Online-Menü und lokale Werbung."},
+    priceFrom: 349,
+    timeline: {"sk":"14-21 dní setup, prvé výsledky do 30 dní","cs":"14-21 dní setup, první výsledky do 30 dní","hu":"14-21 napos beállítás, első eredmények 30 napon belül","en":"14-21 days setup, first results within 30 days","de":"14-21 Tage Setup, erste Ergebnisse in 30 Tagen"},
+    idealFor: {"sk":"Reštaurácie, kaviarne, pizzerie, cukrárne, bistrá s vlastnou prevádzkou","cs":"Restaurace, kavárny, pizzerie, cukrárny, bistra s vlastní provozovnou","hu":"Reštaurácie, kaviarne, pizzerie, cukrárne, bistrá s vlastnou prevádzkou","en":"Restaurants, cafes, pizzerias, bakeries, bistros with their own operation","de":"Restaurants, Cafés, Pizzerien, Konditoreien, Bistros mit eigenem Betrieb"},
     pains: [
-      'Cez týždeň máte poloprázdne stoly',
-      'Instagram nemá čas nikto robiť každý deň',
-      'Nemáte online menu a ľudia sa pýtajú cez Messenger',
-      'Konkurencia má lepšie fotky a recenzie',
+      {"sk":"Cez týždeň máte poloprázdne stoly","cs":"Přes týden máte poloprázdné stoly","hu":"A hét közepén félig üres asztalok vannak","en":"You have half-empty tables during the week","de":"Unter der Woche haben Sie halbleere Tische"},
+      {"sk":"Instagram nemá čas nikto robiť každý deň","cs":"Instagram nemá čas nikdo dělat každý den","hu":"Nincs senki, aki minden nap foglalkozna az Instagrammal","en":"No one has time to do Instagram every day","de":"Niemand hat Zeit, täglich Instagram zu betreuen"},
+      {"sk":"Nemáte online menu a ľudia sa pýtajú cez Messenger","cs":"Nemáte online menu a lidé se ptají přes Messenger","hu":"Nincs online étlapjuk és az emberek Messengeren érdeklődnek","en":"You don't have an online menu and people ask via Messenger","de":"Sie haben keine Online-Speisekarte und Leute fragen über Messenger"},
+      {"sk":"Konkurencia má lepšie fotky a recenzie","cs":"Konkurence má lepší fotky a recenze","hu":"A versenytársak jobb fotókkal és értékelésekkel rendelkeznek","en":"Competition has better photos and reviews","de":"Die Konkurrenz hat bessere Fotos und Bewertungen"},
     ],
     includes: [
-      { title: 'Online menu (QR + web)', desc: 'Profesionálne digitálne menu, ktoré zákazník naskenuje a uvidí celú ponuku.' },
-      { title: 'Instagram + Facebook content', desc: '12-15 príspevkov a stories mesačne. Profi fotky jedál.' },
-      { title: 'Lokálna Meta Ads kampaň', desc: 'Cielenie na ľudí v okruhu 5-10 km od vašej reštaurácie.' },
-      { title: 'Google Business Profile', desc: 'Optimalizácia, fotky jedál, menu, otváracie hodiny.' },
-      { title: 'Profi food fotenie', desc: 'Raz za 3 mesiace fotenie nového menu (alebo sezónne).' },
-      { title: 'Newsletter pre verných', desc: 'Mesačný newsletter s novinkami a špeciálnymi akciami.' },
-      { title: 'Integrácia delivery', desc: 'Bolt Food, Wolt — nastavenie a optimalizácia profilov.' },
+      { title: {"sk":"Online menu (QR + web)","cs":"Online menu (QR + web)","hu":"Online étlap (QR + web)","en":"Online menu (QR + web)","de":"Online-Speisekarte (QR + Web)"}, desc: {"sk":"Profesionálne digitálne menu, ktoré zákazník naskenuje a uvidí celú ponuku.","cs":"Profesionální digitální menu, které zákazník naskenuje a uvidí celou nabídku.","hu":"Professzionális digitális étlap, amit a vásárló beszkennelhet és láthatja a teljes kínálatot.","en":"Professional digital menu that customers scan and see the entire offer.","de":"Professionelle digitale Speisekarte, die der Kunde scannt und das gesamte Angebot sieht."} },
+      { title: {"sk":"Instagram + Facebook content","cs":"Instagram + Facebook content","hu":"Instagram + Facebook tartalom","en":"Instagram + Facebook content","de":"Instagram + Facebook Content"}, desc: {"sk":"12-15 príspevkov a stories mesačne. Profi fotky jedál.","cs":"12-15 příspěvků a stories měsíčně. Profi fotky jídel.","hu":"Havonta 12-15 poszt és story. Profi ételképek.","en":"12-15 posts and stories monthly. Professional food photos.","de":"12-15 Posts und Stories monatlich. Profi-Fotos von Gerichten."} },
+      { title: {"sk":"Lokálna Meta Ads kampaň","cs":"Lokální Meta Ads kampaň","hu":"Helyi Meta Ads kampány","en":"Local Meta Ads campaign","de":"Lokale Meta Ads Kampagne"}, desc: {"sk":"Cielenie na ľudí v okruhu 5-10 km od vašej reštaurácie.","cs":"Cílení na lidi v okruhu 5-10 km od Vaší restaurace.","hu":"Célzás az étteremtől 5-10 km-es körzetben élő emberekre.","en":"Targeting people within 5-10 km radius of your restaurant.","de":"Targeting auf Personen im Umkreis von 5-10 km von Ihrem Restaurant."} },
+      { title: {"sk":"Google Business Profile","cs":"Google Business Profile","hu":"Google Business Profile","en":"Google Business Profile","de":"Google Business Profile"}, desc: {"sk":"Optimalizácia, fotky jedál, menu, otváracie hodiny.","cs":"Optimalizace, fotky jídel, menu, otevírací hodiny.","hu":"Optimalizálás, ételképek, étlap, nyitvatartás.","en":"Optimization, food photos, menu, opening hours.","de":"Optimierung, Fotos von Gerichten, Speisekarte, Öffnungszeiten."} },
+      { title: {"sk":"Profi food fotenie","cs":"Profi food focení","hu":"Profi étel fotózás","en":"Professional food photography","de":"Profi Food-Fotoshooting"}, desc: {"sk":"Raz za 3 mesiace fotenie nového menu (alebo sezónne).","cs":"Jednou za 3 měsíce focení nového menu (nebo sezónně).","hu":"3 havonta új étlap fotózása (vagy szezonálisan).","en":"New menu photography every 3 months (or seasonal).","de":"Alle 3 Monate Fotoshooting der neuen Speisekarte (oder saisonal)."} },
+      { title: {"sk":"Newsletter pre verných","cs":"Newsletter pro věrné","hu":"Hűségprogram newsletter","en":"Newsletter for loyal customers","de":"Newsletter für Stammkunden"}, desc: {"sk":"Mesačný newsletter s novinkami a špeciálnymi akciami.","cs":"Měsíční newsletter s novinkami a speciálními akcemi.","hu":"Havi newsletter újdonságokkal és különleges akciókkal.","en":"Monthly newsletter with news and special offers.","de":"Monatlicher Newsletter mit Neuigkeiten und speziellen Aktionen."} },
+      { title: {"sk":"Integrácia delivery","cs":"Integrace delivery","hu":"Szállítás integráció","en":"Delivery integration","de":"Delivery-Integration"}, desc: {"sk":"Bolt Food, Wolt — nastavenie a optimalizácia profilov.","cs":"Bolt Food, Wolt - nastavení a optimalizace profilů.","hu":"Bolt Food, Wolt - profilok beállítása és optimalizálása.","en":"Bolt Food, Wolt - setup and profile optimization.","de":"Bolt Food, Wolt - Einrichtung und Optimierung der Profile."} },
     ],
     results: [
-      { metric: '+25%',  label: 'Návštev cez týždeň / 3 mes' },
-      { metric: '+1k',    label: 'Sledovateľov / 6 mes' },
-      { metric: '4.6+',  label: 'Priemerné hodnotenie' },
     ],
-    priceFrom: 349,
-    timeline: '14-21 dní setup, prvé výsledky do 30 dní',
-    idealFor: 'Reštaurácie, kaviarne, pizzerie, cukrárne, bistrá s vlastnou prevádzkou',
   },
-
-  // 4) E-SHOPY
   {
     slug: 'eshopy',
-    name: 'E-shopy',
-    tagline: 'Predaj, ktorý rastie. Bez záhad.',
-    heroLead: 'E-shop bez merania je čierna skrinka. Bez Meta + Google Ads je neviditeľný. My nasadíme oboje a navyše Klaviyo automatizácie, ktoré vrátia 30-40 % zákazníkov späť.',
+    name: {"sk":"E-shopy","cs":"E-shopy","hu":"E-shopok","en":"E-shops","de":"E-Shops"},
+    icon: ``,
+    tagline: {"sk":"Predaj, ktorý rastie. Bez záhad.","cs":"Prodej, který roste. Bez záhad.","hu":"Növekvő eladások. Titkok nélkül.","en":"Sales that grow. Without mysteries.","de":"Verkauf, der wächst. Ohne Rätsel."},
+    heroLead: {"sk":"E-shop bez merania je čierna skrinka. Bez Meta + Google Ads je neviditeľný. My nasadíme oboje a navyše Klaviyo automatizácie, ktoré vrátia 30-40 % zákazníkov späť.","cs":"E-shop bez měření je černá skříňka. Bez Meta + Google Ads je neviditelný. My nasadíme oboje a navíc Klaviyo automatizace, které vrátí 30-40 % zákazníků zpět.","hu":"Mérés nélküli e-shop fekete doboz. Meta + Google Ads nélkül láthatatlan. Mi mindkettőt beállítjuk, plusz Klaviyo automatizációkat, amelyek 30-40%-ban visszahozzák a vásárlókat.","en":"E-shop without measurement is a black box. Without Meta + Google Ads it's invisible. We deploy both plus Klaviyo automations that bring back 30-40% of customers.","de":"E-Shop ohne Messung ist eine Black Box. Ohne Meta + Google Ads ist er unsichtbar. Wir setzen beides ein und zusätzlich Klaviyo-Automatisierungen, die 30-40 % der Kunden zurückbringen."},
+    priceFrom: 399,
+    timeline: {"sk":"14-21 dní setup, prvé výsledky do 14 dní","cs":"14-21 dní setup, první výsledky do 14 dní","hu":"14-21 napos beállítás, első eredmények 14 napon belül","en":"14-21 days setup, first results within 14 days","de":"14-21 Tage Setup, erste Ergebnisse in 14 Tagen"},
+    idealFor: {"sk":"E-shopy s mesačným obratom 5-100k €. Shopify, WooCommerce, Upgades, Shoptet.","cs":"E-shopy s měsíčním obratem 5-100k €. Shopify, WooCommerce, Upgades, Shoptet.","hu":"E-shopok 5-100k € havi forgalommal. Shopify, WooCommerce, Upgades, Shoptet.","en":"E-shops with monthly turnover 5-100k €. Shopify, WooCommerce, Upgades, Shoptet.","de":"E-Shops mit monatlichem Umsatz von 5-100k €. Shopify, WooCommerce, Upgades, Shoptet."},
     pains: [
-      'Reklama beží, ale neviete, koľko z nej naozaj predáva',
-      'Návštevníci kliknú "do košíka" a odídu',
-      'Nemáte e-mail komunikáciu s existujúcimi zákazníkmi',
-      'Konverzný pomer pod 1 %',
+      {"sk":"Reklama beží, ale neviete, koľko z nej naozaj predáva","cs":"Reklama běží, ale nevíte, kolik z ní skutečně prodává","hu":"A reklám fut, de nem tudják, mennyit ad el ténylegesen belőle","en":"Ads are running, but you don't know how much they actually sell","de":"Werbung läuft, aber Sie wissen nicht, wie viel davon tatsächlich verkauft"},
+      {"sk":"Návštevníci kliknú \"do košíka\" a odídu","cs":"Návštěvníci kliknou \"do košíku\" a odejdou","hu":"A látogatók rákattintanak a \"kosárba\" és távoznak","en":"Visitors click \"add to cart\" and leave","de":"Besucher klicken \"in den Warenkorb\" und gehen weg"},
+      {"sk":"Nemáte e-mail komunikáciu s existujúcimi zákazníkmi","cs":"Nemáte e-mailovou komunikaci s existujícími zákazníky","hu":"Nincs e-mail kommunikációjuk a meglévő ügyfelekkel","en":"You don't have email communication with existing customers","de":"Sie haben keine E-Mail-Kommunikation mit bestehenden Kunden"},
+      {"sk":"Konverzný pomer pod 1 %","cs":"Konverzní poměr pod 1 %","hu":"1% alatti konverziós arány","en":"Conversion rate below 1%","de":"Conversion-Rate unter 1 %"},
     ],
     includes: [
-      { title: 'Pokročilé meranie', desc: 'GA4 + GTM + server-side tracking + Meta CAPI. Bez stratených konverzií.' },
-      { title: 'Google Ads (Shopping + Search + PMAX)', desc: 'Plný stack pre maximalizáciu predaja.' },
-      { title: 'Meta Ads (FB + IG)', desc: 'Catalog, retargeting, lookalike audiences.' },
-      { title: 'Klaviyo automation', desc: 'Welcome flow, abandoned cart, post-purchase, win-back.' },
-      { title: 'Optimalizácia konverzie', desc: 'Audit checkoutu, A/B testy product page, heatmapy.' },
-      { title: 'Feed management', desc: 'Google Shopping feed, Heuréka, optimalizácia produktových popisov.' },
-      { title: 'Týždenné reporty + portál 24/7', desc: 'Live čísla z všetkých kanálov. Real ROAS.' },
+      { title: {"sk":"Pokročilé meranie","cs":"Pokročilé měření","hu":"Fejlett mérés","en":"Advanced tracking","de":"Erweiterte Messung"}, desc: {"sk":"GA4 + GTM + server-side tracking + Meta CAPI. Bez stratených konverzií.","cs":"GA4 + GTM + server-side tracking + Meta CAPI. Bez ztracených konverzí.","hu":"GA4 + GTM + server-side tracking + Meta CAPI. Elveszett konverziók nélkül.","en":"GA4 + GTM + server-side tracking + Meta CAPI. No lost conversions.","de":"GA4 + GTM + server-side tracking + Meta CAPI. Ohne verlorene Conversions."} },
+      { title: {"sk":"Google Ads (Shopping + Search + PMAX)","cs":"Google Ads (Shopping + Search + PMAX)","hu":"Google Ads (Shopping + Search + PMAX)","en":"Google Ads (Shopping + Search + PMAX)","de":"Google Ads (Shopping + Search + PMAX)"}, desc: {"sk":"Plný stack pre maximalizáciu predaja.","cs":"Plný stack pro maximalizaci prodeje.","hu":"Teljes stack az eladások maximalizálásához.","en":"Full stack for maximizing sales.","de":"Vollständiger Stack zur Maximierung der Verkäufe."} },
+      { title: {"sk":"Meta Ads (FB + IG)","cs":"Meta Ads (FB + IG)","hu":"Meta Ads (FB + IG)","en":"Meta Ads (FB + IG)","de":"Meta Ads (FB + IG)"}, desc: {"sk":"Catalog, retargeting, lookalike audiences.","cs":"Catalog, retargeting, lookalike audiences.","hu":"Katalógus, retargeting, lookalike audiences.","en":"Catalog, retargeting, lookalike audiences.","de":"Catalog, Retargeting, Lookalike Audiences."} },
+      { title: {"sk":"Klaviyo automation","cs":"Klaviyo automation","hu":"Klaviyo automatizálás","en":"Klaviyo automation","de":"Klaviyo Automation"}, desc: {"sk":"Welcome flow, abandoned cart, post-purchase, win-back.","cs":"Welcome flow, abandoned cart, post-purchase, win-back.","hu":"Welcome flow, elhagyott kosár, vásárlás utáni, visszanyerő.","en":"Welcome flow, abandoned cart, post-purchase, win-back.","de":"Welcome Flow, Abandoned Cart, Post-Purchase, Win-Back."} },
+      { title: {"sk":"Optimalizácia konverzie","cs":"Optimalizace konverze","hu":"Konverzió optimalizálás","en":"Conversion optimization","de":"Conversion-Optimierung"}, desc: {"sk":"Audit checkoutu, A/B testy product page, heatmapy.","cs":"Audit checkoutu, A/B testy product page, heatmapy.","hu":"Checkout audit, termékoldal A/B tesztek, hőtérképek.","en":"Checkout audit, A/B tests product page, heatmaps.","de":"Checkout-Audit, A/B-Tests der Produktseite, Heatmaps."} },
+      { title: {"sk":"Feed management","cs":"Feed management","hu":"Feed menedzsment","en":"Feed management","de":"Feed Management"}, desc: {"sk":"Google Shopping feed, Heuréka, optimalizácia produktových popisov.","cs":"Google Shopping feed, Heuréka, optimalizace produktových popisů.","hu":"Google Shopping feed, Heuréka, termékleírások optimalizálása.","en":"Google Shopping feed, Heureka, product description optimization.","de":"Google Shopping Feed, Heuréka, Optimierung der Produktbeschreibungen."} },
+      { title: {"sk":"Týždenné reporty + portál 24/7","cs":"Týdenní reporty + portál 24/7","hu":"Heti riportok + 24/7 portál","en":"Weekly reports + 24/7 portal","de":"Wöchentliche Reports + Portal 24/7"}, desc: {"sk":"Live čísla z všetkých kanálov. Real ROAS.","cs":"Live čísla ze všech kanálů. Reálný ROAS.","hu":"Élő adatok minden csatornából. Valós ROAS.","en":"Live numbers from all channels. Real ROAS.","de":"Live-Zahlen aus allen Kanälen. Echter ROAS."} },
     ],
     results: [
-      { metric: '3-5×',   label: 'ROAS (typický rozsah)' },
-      { metric: '+20%',   label: 'Konverzný pomer / 3 mes' },
-      { metric: '+30-60%', label: 'Mesačné tržby / 6 mes' },
     ],
-    priceFrom: 399,
-    timeline: '14-21 dní setup, prvé výsledky do 14 dní',
-    idealFor: 'E-shopy s mesačným obratom 5-100k €. Shopify, WooCommerce, Upgades, Shoptet.',
   },
-
-  // 5) KOVOVÝROBA / B2B VÝROBA
   {
     slug: 'kovovyroba',
-    name: 'Kovovýroba a B2B výroba',
-    tagline: 'Lead generation pre B2B. Bez impresií, len konkrétne dopyty.',
-    heroLead: 'Kovovýroba, plastikárstvo, technológie — B2B reklama nie je o impresiách. Je o správnych ľuďoch v správnej firme. Pomáhame nájsť konkrétne firmy, ktoré potrebujú vaše služby.',
+    name: {"sk":"Kovovýroba a B2B výroba","cs":"Kovářství a B2B výroba","hu":"Fémfeldolgozás és B2B gyártás","en":"Metal Manufacturing and B2B Production","de":"Metallverarbeitung und B2B-Produktion"},
+    icon: ``,
+    tagline: {"sk":"Lead generation pre B2B. Bez impresií, len konkrétne dopyty.","cs":"Lead generation pro B2B. Bez impresí, jen konkrétní poptávky.","hu":"Lead generation B2B-hez. Impressziók nélkül, csak konkrét megkeresések.","en":"Lead generation for B2B. No impressions, only concrete inquiries.","de":"Lead-Generierung für B2B. Keine Impressionen, nur konkrete Anfragen."},
+    heroLead: {"sk":"Kovovýroba, plastikárstvo, technológie — B2B reklama nie je o impresiách. Je o správnych ľuďoch v správnej firme. Pomáhame nájsť konkrétne firmy, ktoré potrebujú vaše služby.","cs":"Kovářství, plastikářství, technologie - B2B reklama není o impresích. Je o správných lidech ve správné firmě. Pomáháme najít konkrétní firmy, které potřebují vaše služby.","hu":"Fémfeldolgozás, műanyagipar, technológiák - a B2B reklám nem impressziókról szól. A megfelelő emberekről a megfelelő cégben. Segítünk megtalálni azokat a konkrét cégeket, amelyek szükségük van az Önök szolgáltatásaira.","en":"Metal manufacturing, plastics, technology - B2B advertising isn't about impressions. It's about the right people in the right company. We help find specific companies that need your services.","de":"Metallverarbeitung, Kunststofftechnik, Technologien - B2B-Werbung geht nicht um Impressionen. Es geht um die richtigen Personen im richtigen Unternehmen. Wir helfen dabei, konkrete Firmen zu finden, die Ihre Dienstleistungen benötigen."},
+    priceFrom: 499,
+    timeline: {"sk":"21 dní setup, prvé leady do 30-45 dní","cs":"21 dní setup, první leady do 30-45 dní","hu":"21 napos beállítás, első leadek 30-45 napon belül","en":"21 days setup, first leads within 30-45 days","de":"21 Tage Setup, erste Leads in 30-45 Tagen"},
+    idealFor: {"sk":"Kovovýroba, plastikárstvo, presná mechanika, technologické služby. 5-50 zamestnancov.","cs":"Kovářství, plastikářství, přesná mechanika, technologické služby. 5-50 zaměstnanců.","hu":"Fémfeldolgozás, műanyagipar, precíziós mechanika, technológiai szolgáltatások. 5-50 alkalmazott.","en":"Metal manufacturing, plastics, precision mechanics, technology services. 5-50 employees.","de":"Metallverarbeitung, Kunststofftechnik, Präzisionsmechanik, technologische Dienstleistungen. 5-50 Mitarbeiter."},
     pains: [
-      'Klienti vás nájdu len cez referencie a outreach',
-      'LinkedIn nemáte čas riešiť',
-      'Web nemá nič o vašich kapacitách a strojoch',
-      'Lacné výrobky z Číny vám berú dopyty',
+      {"sk":"Klienti vás nájdu len cez referencie a outreach","cs":"Klienti vás najdou jen přes reference a outreach","hu":"Az ügyfelek csak referenciák és outreach révén találnak Önökre","en":"Clients find you only through referrals and outreach","de":"Kunden finden Sie nur über Referenzen und Outreach"},
+      {"sk":"LinkedIn nemáte čas riešiť","cs":"LinkedIn nemáte čas řešit","hu":"A LinkedIn kezelésére nincs idejük","en":"You don't have time to manage LinkedIn","de":"LinkedIn haben Sie keine Zeit zu betreuen"},
+      {"sk":"Web nemá nič o vašich kapacitách a strojoch","cs":"Web nemá nic o vašich kapacitách a strojích","hu":"A weboldalon nincs semmi a kapacitásaikról és gépekről","en":"Your website has nothing about your capabilities and machinery","de":"Die Website hat nichts über Ihre Kapazitäten und Maschinen"},
+      {"sk":"Lacné výrobky z Číny vám berú dopyty","cs":"Levné výrobky z Číny vám berou poptávky","hu":"A kínai olcsó termékek elviszik az Önök keresletét","en":"Cheap products from China are taking away your inquiries","de":"Billige Produkte aus China nehmen Ihnen Anfragen weg"},
     ],
     includes: [
-      { title: 'LinkedIn Ads + organické', desc: 'Profil firmy, sponzorované príspevky, lead gen kampane.' },
-      { title: 'Google Ads B2B', desc: 'Cielené na nákupcov, technológov, projekt manažérov.' },
-      { title: 'B2B landing pages', desc: '2-3 stránky pre konkrétne služby (napr. CNC obrábanie, frézovanie).' },
-      { title: 'Lead scoring + CRM', desc: 'HubSpot alebo Brevo — automatická kvalifikácia leadov.' },
-      { title: 'Case study tvorba', desc: '2-3 prípadové štúdie ročne — váš nástroj na presvedčenie.' },
-      { title: 'Outreach support', desc: 'Šablóny e-mailov pre cold outreach, sequencie.' },
-      { title: 'Mesačné reporty', desc: 'Kvalifikované leady, zdroje, sales pipeline.' },
+      { title: {"sk":"LinkedIn Ads + organické","cs":"LinkedIn Ads + organické","hu":"LinkedIn Ads + organikus","en":"LinkedIn Ads + organic","de":"LinkedIn Ads + organisch"}, desc: {"sk":"Profil firmy, sponzorované príspevky, lead gen kampane.","cs":"Profil firmy, sponzorované příspěvky, lead gen kampaně.","hu":"Céges profil, szponzorált posztok, lead generációs kampányok.","en":"Company profile, sponsored posts, lead gen campaigns.","de":"Firmenprofil, gesponserte Beiträge, Lead-Gen-Kampagnen."} },
+      { title: {"sk":"Google Ads B2B","cs":"Google Ads B2B","hu":"Google Ads B2B","en":"Google Ads B2B","de":"Google Ads B2B"}, desc: {"sk":"Cielené na nákupcov, technológov, projekt manažérov.","cs":"Cílené na nákupčí, technology, projektové manažery.","hu":"Beszerzőkre, technológusokra, projektmenedzserekre célozva.","en":"Targeted at buyers, technologists, project managers.","de":"Gezielt auf Einkäufer, Technologen, Projektmanager ausgerichtet."} },
+      { title: {"sk":"B2B landing pages","cs":"B2B landing pages","hu":"B2B landing oldalak","en":"B2B landing pages","de":"B2B Landing Pages"}, desc: {"sk":"2-3 stránky pre konkrétne služby (napr. CNC obrábanie, frézovanie).","cs":"2-3 stránky pro konkrétní služby (např. CNC obrábění, frézování).","hu":"2-3 oldal konkrét szolgáltatásokhoz (pl. CNC megmunkálás, marás).","en":"2-3 pages for specific services (e.g. CNC machining, milling).","de":"2-3 Seiten für konkrete Dienstleistungen (z.B. CNC-Bearbeitung, Fräsen)."} },
+      { title: {"sk":"Lead scoring + CRM","cs":"Lead scoring + CRM","hu":"Lead scoring + CRM","en":"Lead scoring + CRM","de":"Lead Scoring + CRM"}, desc: {"sk":"HubSpot alebo Brevo — automatická kvalifikácia leadov.","cs":"HubSpot nebo Brevo - automatická kvalifikace leadů.","hu":"HubSpot vagy Brevo - automatikus lead minősítés.","en":"HubSpot or Brevo - automatic lead qualification.","de":"HubSpot oder Brevo - automatische Lead-Qualifizierung."} },
+      { title: {"sk":"Case study tvorba","cs":"Case study tvorba","hu":"Esettanulmány készítés","en":"Case study creation","de":"Case Study Erstellung"}, desc: {"sk":"2-3 prípadové štúdie ročne — váš nástroj na presvedčenie.","cs":"2-3 případové studie ročně - váš nástroj na přesvědčení.","hu":"2-3 esettanulmány évente - az Önök meggyőzési eszköze.","en":"2-3 case studies per year - your persuasion tool.","de":"2-3 Fallstudien jährlich - Ihr Überzeugungsinstrument."} },
+      { title: {"sk":"Outreach support","cs":"Outreach support","hu":"Outreach támogatás","en":"Outreach support","de":"Outreach Support"}, desc: {"sk":"Šablóny e-mailov pre cold outreach, sequencie.","cs":"Šablony e-mailů pro cold outreach, sekvence.","hu":"E-mail sablonok cold outreach-hez, szekvenciák.","en":"Email templates for cold outreach, sequences.","de":"E-Mail-Vorlagen für Cold Outreach, Sequenzen."} },
+      { title: {"sk":"Mesačné reporty","cs":"Měsíční reporty","hu":"Havi riportok","en":"Monthly reports","de":"Monatliche Reports"}, desc: {"sk":"Kvalifikované leady, zdroje, sales pipeline.","cs":"Kvalifikované leady, zdroje, sales pipeline.","hu":"Minősített leadek, források, értékesítési pipeline.","en":"Qualified leads, sources, sales pipeline.","de":"Qualifizierte Leads, Quellen, Sales Pipeline."} },
     ],
     results: [
-      { metric: '+5-12',   label: 'Kvalifikovaných leadov / mes' },
-      { metric: 'Variabilné', label: 'Hodnota dopytu' },
-      { metric: '15-25%',  label: 'Conversion lead → schôdzka' },
     ],
-    priceFrom: 499,
-    timeline: '21 dní setup, prvé leady do 30-45 dní',
-    idealFor: 'Kovovýroba, plastikárstvo, presná mechanika, technologické služby. 5-50 zamestnancov.',
   },
-
-  // 6) REMESELNÍCI
   {
     slug: 'remeselnici',
-    name: 'Remeselné firmy',
-    tagline: 'Sklenári, klampiari, stavebníci. Vyhrávate v Google.',
-    heroLead: 'Sklenárske, klampiarske, stavebné, či záhradnícke firmy — všetky majú jeden problém: zákazník ich nájde, len keď to akútne potrebuje. Postaráme sa, aby vás našiel ako prvého.',
+    name: {"sk":"Remeselné firmy","cs":"Řemeslné firmy","hu":"Kézműves cégek","en":"Craft Companies","de":"Handwerksbetriebe"},
+    icon: ``,
+    tagline: {"sk":"Sklenári, klampiari, stavebníci. Vyhrávate v Google.","cs":"Sklenáři, klempíři, stavebníci. Vyhráváte v Google.","hu":"Üvegesek, bádogosok, építők. Önök nyernek a Google-ben.","en":"Glaziers, plumbers, builders. You win in Google.","de":"Glaser, Klempner, Bauunternehmer. Sie gewinnen in Google."},
+    heroLead: {"sk":"Sklenárske, klampiarske, stavebné, či záhradnícke firmy — všetky majú jeden problém: zákazník ich nájde, len keď to akútne potrebuje. Postaráme sa, aby vás našiel ako prvého.","cs":"Sklenářské, klempířské, stavební či zahradnické firmy - všechny mají jeden problém: zákazník je najde, jen když to akutně potřebuje. Postaráme se, aby vás našel jako prvního.","hu":"Üveges, bádogos, építési vagy kertészeti cégek - mindegyiknek egy problémája van: az ügyfél csak akkor találja meg őket, amikor sürgősen szüksége van rá. Mi gondoskodunk arról, hogy Önöket találja meg elsőként.","en":"Glazing, plumbing, construction, or landscaping companies - they all have one problem: customers find them only when they urgently need them. We'll make sure they find you first.","de":"Glaserei-, Klempner-, Bau- oder Gartenbaubetriebe - alle haben ein Problem: Der Kunde findet sie nur, wenn er sie akut braucht. Wir sorgen dafür, dass er Sie als ersten findet."},
+    priceFrom: 249,
+    timeline: {"sk":"14-21 dní setup, prvé hovory do 21 dní","cs":"14-21 dní setup, první hovory do 21 dní","hu":"14-21 nap beállítás, első hívások 21 napon belül","en":"14-21 days setup, first calls within 21 days","de":"14-21 Tage Setup, erste Anrufe binnen 21 Tagen"},
+    idealFor: {"sk":"Sklenári, klampiari, stavebné firmy, záhradníci, elektrikári, kúrenárie.","cs":"Sklenáři, klempíři, stavební firmy, zahradníci, elektrikáři, topenářské firmy.","hu":"Üvegesek, bádogosok, építési cégek, kertészek, villanyszerelők, fűtésszerelők.","en":"Glaziers, plumbers, construction companies, landscapers, electricians, heating specialists.","de":"Glaser, Klempner, Baufirmen, Gärtner, Elektriker, Heizungsbauer."},
     pains: [
-      'Klienti volajú podľa odporúčania alebo z lokálnej skupinky FB',
-      'Web je zastaraný alebo žiadny',
-      'Recenzií máte málo, hoci robíte kvalitnú prácu',
-      'Konkurencia v Google reklame ide drahšie ako vy',
+      {"sk":"Klienti volajú podľa odporúčania alebo z lokálnej skupinky FB","cs":"Klienti volají podle doporučení nebo z lokální skupinky FB","hu":"Az ügyfelek ajánlás alapján vagy helyi Facebook csoportokból hívnak","en":"Clients call based on recommendations or from local Facebook groups","de":"Kunden rufen aufgrund von Empfehlungen oder aus lokalen Facebook-Gruppen an"},
+      {"sk":"Web je zastaraný alebo žiadny","cs":"Web je zastaralý nebo žádný","hu":"A weboldal elavult vagy egyáltalán nincs","en":"Your website is outdated or non-existent","de":"Die Website ist veraltet oder nicht vorhanden"},
+      {"sk":"Recenzií máte málo, hoci robíte kvalitnú prácu","cs":"Recenzí máte málo, přestože děláte kvalitní práci","hu":"Kevés értékelésük van, pedig minőségi munkát végeznek","en":"You have few reviews, even though you do quality work","de":"Sie haben wenige Bewertungen, obwohl Sie qualitativ hochwertige Arbeit leisten"},
+      {"sk":"Konkurencia v Google reklame ide drahšie ako vy","cs":"Konkurence v Google reklamě jde dráž než vy","hu":"A versenytársak a Google hirdetésekben drágábban mennek, mint Önök","en":"Competition in Google advertising goes more expensive than you","de":"Die Konkurrenz in Google-Werbung bietet teurer als Sie"},
     ],
     includes: [
-      { title: 'Lokálne SEO', desc: 'Optimalizácia pre vyhľadávania typu "sklenár Prešov", "klampiar Košice".' },
-      { title: 'Google Ads (Search + Local)', desc: 'Cielené na vaše služby v okruhu 30-50 km.' },
-      { title: 'Google Business Profile', desc: 'Plný profil, fotky realizácií, recenzie, otváracie hodiny.' },
-      { title: 'Jednoduchý moderný web', desc: 'Prezentačný web s portfóliom prác, cenníkom a kontaktným formulárom.' },
-      { title: 'Recenzie management', desc: 'Po každej zákazke automaticky žiadame o recenziu cez SMS/e-mail.' },
-      { title: 'Foto realizácií', desc: 'Pomôžeme s fotením realizácií — buď máte vlastný telefón, alebo dodáme.' },
-      { title: 'Mesačný reporting', desc: 'Koľko volaní, koľko vyplnených formulárov, odkiaľ.' },
+      { title: {"sk":"Lokálne SEO","cs":"Lokální SEO","hu":"Helyi SEO","en":"Local SEO","de":"Lokales SEO"}, desc: {"sk":"Optimalizácia pre vyhľadávania typu \"sklenár Prešov\", \"klampiar Košice\".","cs":"Optimalizace pro vyhledávání typu \"sklenář Brno\", \"klempíř Ostrava\".","hu":"Optimalizálás olyan keresésekre mint \"üveges Pozsony\", \"vízszerelő Kassa\".","en":"Optimization for searches like \"glazier Prešov\", \"plumber Košice\".","de":"Optimierung für Suchanfragen wie \"Glaser Pressburg\", \"Klempner Kaschau\"."} },
+      { title: {"sk":"Google Ads (Search + Local)","cs":"Google Ads (Search + Local)","hu":"Google Ads (Search + Local)","en":"Google Ads (Search + Local)","de":"Google Ads (Search + Local)"}, desc: {"sk":"Cielené na vaše služby v okruhu 30-50 km.","cs":"Cílené na Vaše služby v okruhu 30-50 km.","hu":"Célzott az Ön szolgáltatásaira 30-50 km-es körzetben.","en":"Targeted to your services within a 30-50 km radius.","de":"Zielgerichtet auf Ihre Dienstleistungen im Umkreis von 30-50 km."} },
+      { title: {"sk":"Google Business Profile","cs":"Google Business Profile","hu":"Google Business Profile","en":"Google Business Profile","de":"Google Business Profile"}, desc: {"sk":"Plný profil, fotky realizácií, recenzie, otváracie hodiny.","cs":"Kompletní profil, fotky realizací, recenze, otevírací hodiny.","hu":"Teljes profil, megvalósítási fotók, vélemények, nyitvatartási idő.","en":"Complete profile, project photos, reviews, opening hours.","de":"Vollständiges Profil, Fotos von Realisierungen, Bewertungen, Öffnungszeiten."} },
+      { title: {"sk":"Jednoduchý moderný web","cs":"Jednoduchý moderní web","hu":"Egyszerű modern weboldal","en":"Simple modern website","de":"Einfache moderne Website"}, desc: {"sk":"Prezentačný web s portfóliom prác, cenníkom a kontaktným formulárom.","cs":"Prezentační web s portfoliem prací, ceníkem a kontaktním formulářem.","hu":"Bemutatkozó weboldal munkaporftólióval, árlistával és kapcsolati űrlappal.","en":"Presentation website with work portfolio, pricing and contact form.","de":"Präsentationswebsite mit Portfolio der Arbeiten, Preisliste und Kontaktformular."} },
+      { title: {"sk":"Recenzie management","cs":"Management recenzí","hu":"Vélemények menedzsmentje","en":"Review management","de":"Bewertungsmanagement"}, desc: {"sk":"Po každej zákazke automaticky žiadame o recenziu cez SMS/e-mail.","cs":"Po každé zakázce automaticky žádáme o recenzi přes SMS/e-mail.","hu":"Minden munka után automatikusan kérünk véleményt SMS/e-mail útján.","en":"After each project, we automatically request reviews via SMS/email.","de":"Nach jedem Auftrag bitten wir automatisch um eine Bewertung per SMS/E-Mail."} },
+      { title: {"sk":"Foto realizácií","cs":"Foto realizací","hu":"Megvalósítási fotók","en":"Project photography","de":"Fotos von Realisierungen"}, desc: {"sk":"Pomôžeme s fotením realizácií — buď máte vlastný telefón, alebo dodáme.","cs":"Pomůžeme s focením realizací - buď máte vlastní telefon, nebo dodáme.","hu":"Segítünk a megvalósítások fotózásában - vagy saját telefonnal, vagy biztosítjuk.","en":"We help with photographing projects - either you use your own phone or we provide one.","de":"Wir helfen beim Fotografieren von Realisierungen - entweder Sie haben Ihr eigenes Telefon oder wir stellen eines bereit."} },
+      { title: {"sk":"Mesačný reporting","cs":"Měsíční reporting","hu":"Havi jelentések","en":"Monthly reporting","de":"Monatliches Reporting"}, desc: {"sk":"Koľko volaní, koľko vyplnených formulárov, odkiaľ.","cs":"Kolik hovorů, kolik vyplněných formulářů, odkud.","hu":"Hány hívás, hány kitöltött űrlap, honnan érkeztek.","en":"How many calls, how many completed forms, from where.","de":"Wie viele Anrufe, wie viele ausgefüllte Formulare, woher."} },
     ],
     results: [
-      { metric: '+30%',   label: 'Telefonických dopytov / 6 mes' },
-      { metric: 'Top 5',  label: 'V Google Maps (lokálne)' },
-      { metric: '+20',    label: 'Nových recenzií / rok' },
     ],
-    priceFrom: 249,
-    timeline: '14-21 dní setup, prvé hovory do 21 dní',
-    idealFor: 'Sklenári, klampiari, stavebné firmy, záhradníci, elektrikári, kúrenárie.',
   },
 ];
 
+export const INDUSTRY_SLUGS = industries.map(p => p.slug);
+export const INDUSTRY_MAP: Record<string, IndustryPackage> = Object.fromEntries(industries.map(p => [p.slug, p]));
+
 export function getIndustry(slug: string): IndustryPackage | undefined {
-  return industries.find((i) => i.slug === slug);
+  return INDUSTRY_MAP[slug];
 }

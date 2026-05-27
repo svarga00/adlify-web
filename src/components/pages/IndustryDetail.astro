@@ -7,6 +7,7 @@ import Layout from '../../layouts/Layout.astro';
 import ContactSection from '../ContactSection.astro';
 import { buildUrl, type Lang } from '../../lib/i18n';
 import type { IndustryPackage } from '../../lib/industries';
+import { indT } from '../../lib/industries';
 import { t } from '../../lib/translations';
 
 interface Props {
@@ -17,8 +18,8 @@ const { pkg, lang = 'sk' } = Astro.props;
 ---
 
 <Layout
-  title={`${pkg.name} — Adlify`}
-  description={pkg.tagline}
+  title={`${indT(pkg.name, lang)} — Adlify`}
+  description={indT(pkg.tagline, lang)}
   lang={lang}
   pathname={`/odvetvia/${pkg.slug}`}
 >
@@ -34,23 +35,23 @@ const { pkg, lang = 'sk' } = Astro.props;
         <span style="opacity: 0.4;">/</span>
         <span style="color: var(--ink);">{t('industryDetail.crumbIndustryPacks', lang)}</span>
         <span style="opacity: 0.4;">/</span>
-        <span style="color: var(--grad-start);">{pkg.name.toUpperCase()}</span>
+        <span style="color: var(--grad-start);">{indT(pkg.name, lang).toUpperCase()}</span>
       </nav>
 
       <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end;" class="industry-hero-grid">
         <div>
           <div class="eyebrow" style="margin-bottom: 24px;">{t('industryDetail.heroEyebrow', lang)}</div>
           <h1 style="font-size: clamp(40px, 6vw, 84px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin-bottom: 24px;">
-            {pkg.name}
+            {indT(pkg.name, lang)}
           </h1>
           <p style="font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; line-height: 1.4; max-width: 24ch; color: var(--ink-2);">
-            <span class="grad">{pkg.tagline}</span>
+            <span class="grad">{indT(pkg.tagline, lang)}</span>
           </p>
         </div>
 
         <div>
           <p style="font-size: 16px; line-height: 1.65; color: var(--muted); margin-bottom: 24px;">
-            {pkg.heroLead}
+            {indT(pkg.heroLead, lang)}
           </p>
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
             <a href="#balicek" class="btn btn-ink">
@@ -59,7 +60,7 @@ const { pkg, lang = 'sk' } = Astro.props;
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </a>
-            <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad">{t('industryDetail.heroCtaSecondary', lang)}</a>
+            <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={indT(pkg.name, lang)} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad">{t('industryDetail.heroCtaSecondary', lang)}</a>
           </div>
         </div>
       </div>
@@ -93,7 +94,7 @@ const { pkg, lang = 'sk' } = Astro.props;
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </div>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0;">{p}</p>
+            <p style="font-size: 15px; line-height: 1.5; margin: 0;">{indT(p, lang)}</p>
           </div>
         ))}
       </div>
@@ -126,8 +127,8 @@ const { pkg, lang = 'sk' } = Astro.props;
               {String(i + 1).padStart(2, '0')}
             </div>
             <div>
-              <h3 style="font-size: 16px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 6px 0;">{item.title}</h3>
-              <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">{item.desc}</p>
+              <h3 style="font-size: 16px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 6px 0;">{indT(item.title, lang)}</h3>
+              <p style="font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0;">{indT(item.desc, lang)}</p>
             </div>
           </article>
         ))}
@@ -157,8 +158,8 @@ const { pkg, lang = 'sk' } = Astro.props;
       <div class="results-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
         {pkg.results.map((r) => (
           <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 36px 32px; text-align: center;">
-            <div class="num grad" style="font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 12px;">{r.metric}</div>
-            <div style="font-size: 13px; opacity: 0.7;">{r.label}</div>
+            <div class="num grad" style="font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 12px;">{indT(r.metric, lang)}</div>
+            <div style="font-size: 13px; opacity: 0.7;">{indT(r.value, lang)}</div>
           </div>
         ))}
       </div>
@@ -186,17 +187,17 @@ const { pkg, lang = 'sk' } = Astro.props;
 
         <div>
           <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">{t('industryDetail.lblTimeline', lang)}</div>
-          <div style="font-size: 15px; font-weight: 600; line-height: 1.4;">{pkg.timeline}</div>
+          <div style="font-size: 15px; font-weight: 600; line-height: 1.4;">{indT(pkg.timeline, lang)}</div>
         </div>
 
         <div>
           <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">{t('industryDetail.lblIdealFor', lang)}</div>
-          <div style="font-size: 14px; line-height: 1.5; color: var(--ink-2);">{pkg.idealFor}</div>
+          <div style="font-size: 14px; line-height: 1.5; color: var(--ink-2);">{indT(pkg.idealFor, lang)}</div>
         </div>
       </div>
 
       <div style="text-align: center; margin-top: 40px;">
-        <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={pkg.name} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad" style="font-size: 15px; padding: 16px 32px;">
+        <a href={`${buildUrl(lang, "/kontakt")}#formular`} data-pricing-cta data-plan-name={indT(pkg.name, lang)} data-plan-slug={pkg.slug} data-plan-period={t('industryDetail.periodLabel', lang)} class="btn btn-grad" style="font-size: 15px; padding: 16px 32px;">
           {t('industryDetail.finalCta', lang)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
