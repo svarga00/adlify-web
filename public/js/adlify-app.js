@@ -452,30 +452,29 @@
     window.openContact = (preset) => ensureDrawer().open(preset || {});
     window.closeContact = () => ensureDrawer().close();
 
-    // Naviazať na všetky CTA tlačidlá podľa textu
-    $$('button, a').forEach((el) => {
-      const txt = (el.textContent || '').trim().toLowerCase();
-      const triggers = [
-        // SK
-        'bezplatná konzultácia', 'získať audit', 'napísať nám', 'otvoriť formulár',
-        'audit zadarmo', 'chcem poradiť', 'rezervovať', 'chcem presný plán',
-        // CS
-        'bezplatná konzultace', 'audit zdarma', 'napište nám',
-        // HU
-        'ingyenes konzultáció', 'ingyenes audit',
-        // EN
-        'free consultation', 'get audit', 'free audit', 'book a call',
-        // DE
-        'kostenlose beratung', 'kostenlosen audit', 'audit anfordern',
-      ];
-      if (!triggers.some((t) => txt.includes(t))) return;
-
+    // Naviazať na všetky CTA tlačidlá.
+    // Robustne: čokoľvek s href obsahujúcim "#formular" alebo s atribútom
+    // data-open-contact otvorí bočný formulár — funguje vo všetkých jazykoch
+    // bez ohľadu na text tlačidla.
+    $$('a[href*="#formular"], [data-open-contact]').forEach((el) => {
       // Skip submit button vo vnútri samotného formulára
       if (el.closest('[data-drawer-form]')) return;
 
       el.addEventListener('click', (e) => {
+        // Ak je na stránke reálna sekcia #formular (kontaktná stránka),
+        // necháme prehliadač naňu odscrollovať namiesto otvorenia drawera.
+        const onContactPage = document.getElementById('formular');
+        if (onContactPage) return;
+
         e.preventDefault();
-        window.openContact();
+        // Ak má CTA preset (z cenníka / industry detailu), použijeme ho
+        const planName = el.getAttribute('data-plan-name');
+        const planPeriod = el.getAttribute('data-plan-period');
+        if (planName) {
+          window.openContact({ plan: planName, period: planPeriod || '' });
+        } else {
+          window.openContact();
+        }
       });
     });
   }
