@@ -28,7 +28,7 @@ const relatedCases = service.relatedCases
 ---
 
 <Layout
-  title={svcT(service.seoTitle, lang) || `${service.title} — Adlify`}
+  title={svcT(service.seoTitle, lang) || `${svcT(service.title, lang)} — Adlify`}
   description={svcT(service.seoDescription, lang) || svcT(service.tagline, lang)}
   lang={lang}
   pathname={`/sluzby/${service.slug}`}
@@ -45,7 +45,7 @@ const relatedCases = service.relatedCases
         <span style="opacity: 0.4;">/</span>
         <a href={buildUrl(lang, `/sluzby#${service.categorySlug}`)} style="color: var(--muted); text-decoration: none;">{svcT(service.category, lang).toUpperCase()}</a>
         <span style="opacity: 0.4;">/</span>
-        <span style="color: var(--grad-start);">{service.title.toUpperCase()}</span>
+        <span style="color: var(--grad-start);">{svcT(service.title, lang).toUpperCase()}</span>
       </nav>
 
       <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: end;" class="svc-hero-grid">
@@ -58,7 +58,7 @@ const relatedCases = service.relatedCases
           </div>
 
           <h1 style="font-size: clamp(40px, 6vw, 84px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; margin-bottom: 20px;">
-            {service.title}
+            {svcT(service.title, lang)}
           </h1>
           <p style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 500; line-height: 1.4; max-width: 26ch; color: var(--ink-2);">
             <span class="grad">{svcT(service.tagline, lang)}</span>
@@ -229,7 +229,7 @@ const relatedCases = service.relatedCases
         <span class="eyebrow">{t('serviceDetail.faqEyebrow', lang)}</span>
         <span style="flex: 1; height: 1px; background: var(--line);"></span>
       </div>
-      <h2 class="h2" style="max-width: 18ch; margin-bottom: 40px;">{t('serviceDetail.faqTitlePrefix', lang)} {service.title}.</h2>
+      <h2 class="h2" style="max-width: 18ch; margin-bottom: 40px;">{t('serviceDetail.faqTitlePrefix', lang)} {svcT(service.title, lang)}.</h2>
 
       <div style="display: flex; flex-direction: column; border-top: 1px solid var(--line);">
         {service.faq.map((item, i) => (
