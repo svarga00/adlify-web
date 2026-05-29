@@ -1,14 +1,74 @@
 # Netlify redirects
 # Format: /from /to status
 
-# /odvetvia listing zruseny — presmeruvame na /sluzby#odvetvia (sekcia v sluzby)
-/odvetvia                /sluzby#odvetvia      301
-/odvetvia/               /sluzby#odvetvia      301
-/cs/odvetvia             /cs/sluzby#odvetvia   301
-/cs/odvetvia/            /cs/sluzby#odvetvia   301
-/hu/odvetvia             /hu/sluzby#odvetvia   301
-/hu/odvetvia/            /hu/sluzby#odvetvia   301
-/en/odvetvia             /en/sluzby#odvetvia   301
-/en/odvetvia/            /en/sluzby#odvetvia   301
-/de/odvetvia             /de/sluzby#odvetvia   301
-/de/odvetvia/            /de/sluzby#odvetvia   301
+# ============================================================
+# Lokalizované slugy — staré SK-slug cesty v cudzích jazykoch
+# presmerujeme na nové lokalizované cesty (301 permanent)
+# ============================================================
+
+# --- DE ---
+/de/sluzby                  /de/leistungen              301
+/de/sluzby/*                /de/leistungen/:splat       301
+/de/odvetvia                /de/leistungen#odvetvia     301
+/de/odvetvia/*              /de/branchen/:splat         301
+/de/cennik                  /de/preise                  301
+/de/o-nas                   /de/ueber-uns               301
+/de/ako-to-funguje          /de/so-funktioniert-es      301
+/de/s-cim-pracujeme         /de/unsere-tools            301
+/de/pripadove-studie        /de/fallstudien             301
+/de/pripadove-studie/*      /de/fallstudien/:splat      301
+/de/ochrana-udajov          /de/datenschutz             301
+/de/obchodne-podmienky      /de/agb                     301
+
+# --- EN ---
+/en/sluzby                  /en/services                301
+/en/sluzby/*                /en/services/:splat         301
+/en/odvetvia                /en/services#odvetvia       301
+/en/odvetvia/*              /en/industries/:splat       301
+/en/cennik                  /en/pricing                 301
+/en/o-nas                   /en/about                   301
+/en/ako-to-funguje          /en/how-it-works            301
+/en/s-cim-pracujeme         /en/our-stack               301
+/en/pripadove-studie        /en/case-studies            301
+/en/pripadove-studie/*      /en/case-studies/:splat     301
+/en/ochrana-udajov          /en/privacy                 301
+/en/obchodne-podmienky      /en/terms                   301
+/en/faq                     /en/faq                     200
+
+# --- HU ---
+/hu/sluzby                  /hu/szolgaltatasok          301
+/hu/sluzby/*                /hu/szolgaltatasok/:splat   301
+/hu/odvetvia                /hu/szolgaltatasok#odvetvia 301
+/hu/odvetvia/*              /hu/iparagak/:splat         301
+/hu/cennik                  /hu/arak                    301
+/hu/o-nas                   /hu/rolunk                  301
+/hu/ako-to-funguje          /hu/hogyan-mukodik          301
+/hu/s-cim-pracujeme         /hu/eszkozeink              301
+/hu/pripadove-studie        /hu/esettanulmanyok         301
+/hu/pripadove-studie/*      /hu/esettanulmanyok/:splat  301
+/hu/faq                     /hu/gyik                    301
+/hu/ochrana-udajov          /hu/adatvedelem             301
+/hu/obchodne-podmienky      /hu/aszf                    301
+/hu/cookies                 /hu/cookie-k                301
+
+# --- CS ---
+/cs/odvetvia                /cs/sluzby#odvetvia         301
+/cs/odvetvia/*              /cs/obory/:splat            301
+/cs/cennik                  /cs/cenik                   301
+/cs/ako-to-funguje          /cs/jak-to-funguje          301
+/cs/pripadove-studie        /cs/pripadove-studie        200
+/cs/ochrana-udajov          /cs/ochrana-udaju           301
+/cs/obchodne-podmienky      /cs/obchodni-podminky       301
+
+
+# Holé branche listing -> sekcia v sluzby
+/de/branchen                /de/leistungen#odvetvia     301
+/en/industries              /en/services#odvetvia       301
+/hu/iparagak                /hu/szolgaltatasok#odvetvia 301
+/cs/obory                   /cs/sluzby#odvetvia         301
+
+# ============================================================
+# SK — /odvetvia listing zrušený, presmeruvame na sekciu v /sluzby
+# ============================================================
+/odvetvia                   /sluzby#odvetvia            301
+/odvetvia/                  /sluzby#odvetvia            301

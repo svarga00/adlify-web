@@ -1,0 +1,73 @@
+---
+/**
+ * Dynamický router pre lokalizované top-level cesty.
+ * Generuje napr. /de/leistungen, /en/services, /hu/szolgaltatasok
+ * a mapuje lokalizovaný slug späť na správny komponent.
+ *
+ * Pokrýva všetky single-page sekcie. Sekcie s detailmi (sluzby, odvetvia,
+ * pripadove-studie, blog) majú vlastné priečinky s [slug].astro + index.astro.
+ */
+import { EXTRA_LANGS, PATH_SLUGS, canonicalSlug, type Lang } from '../../lib/i18n';
+
+import Services from '../../components/pages/Services.astro';
+import Pricing from '../../components/pages/Pricing.astro';
+import About from '../../components/pages/About.astro';
+import Contact from '../../components/pages/Contact.astro';
+import HowItWorks from '../../components/pages/HowItWorks.astro';
+import Faq from '../../components/pages/Faq.astro';
+import Tools from '../../components/pages/Tools.astro';
+import Cookies from '../../components/pages/Cookies.astro';
+import Privacy from '../../components/pages/Privacy.astro';
+import Terms from '../../components/pages/Terms.astro';
+import Cases from '../../components/pages/Cases.astro';
+import Blog from '../../components/pages/Blog.astro';
+
+// Kanonické slugy ktoré majú top-level stránku
+const CANONICAL_SECTIONS = [
+  'sluzby', 'cennik', 'o-nas', 'kontakt', 'ako-to-funguje', 'faq',
+  's-cim-pracujeme', 'cookies', 'ochrana-udajov', 'obchodne-podmienky',
+  'pripadove-studie', 'blog',
+];
+
+// Kanonický slug → komponent. (sluzby, odvetvia majú vlastné priečinky pre detaily,
+// ale ich indexovú stránku generujeme tu.)
+const COMPONENTS: Record<string, any> = {
+  'sluzby': Services,
+  'cennik': Pricing,
+  'o-nas': About,
+  'kontakt': Contact,
+  'ako-to-funguje': HowItWorks,
+  'faq': Faq,
+  's-cim-pracujeme': Tools,
+  'cookies': Cookies,
+  'ochrana-udajov': Privacy,
+  'obchodne-podmienky': Terms,
+  'pripadove-studie': Cases,
+  'blog': Blog,
+};
+
+export async function getStaticPaths() {
+  const sections = [
+    'sluzby', 'cennik', 'o-nas', 'kontakt', 'ako-to-funguje', 'faq',
+    's-cim-pracujeme', 'cookies', 'ochrana-udajov', 'obchodne-podmienky',
+    'pripadove-studie', 'blog',
+  ];
+  const paths = [];
+  for (const lang of EXTRA_LANGS) {
+    for (const canonical of sections) {
+      const localizedSection = PATH_SLUGS[canonical]?.[lang] || canonical;
+      paths.push({ params: { lang, section: localizedSection } });
+    }
+  }
+  return paths;
+}
+
+const { lang, section } = Astro.params as { lang: Lang; section: string };
+const canonical = canonicalSlug(section);
+const Component = COMPONENTS[canonical];
+
+if (!Component) {
+  return Astro.redirect('/');
+}
+---
+<Component lang={lang} />

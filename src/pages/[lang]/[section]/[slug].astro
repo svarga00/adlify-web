@@ -1,0 +1,78 @@
+---
+/**
+ * Zjednotený detail router pre lokalizované cesty s detailom.
+ * Generuje napr.:
+ *   /de/leistungen/google-ads   (ServiceDetail)
+ *   /de/branchen/eshopy         (IndustryDetail)
+ *   /de/fallstudien/<slug>      (CaseDetail)
+ *   /de/blog/<slug>             (BlogDetail)
+ *
+ * Section slug je lokalizovaný (leistungen/branchen/...), mapuje sa
+ * cez canonicalSlug späť na typ obsahu.
+ */
+import { EXTRA_LANGS, PATH_SLUGS, canonicalSlug, type Lang } from '../../../lib/i18n';
+
+import ServiceDetail from '../../../components/pages/ServiceDetail.astro';
+import IndustryDetail from '../../../components/pages/IndustryDetail.astro';
+import CaseDetail from '../../../components/pages/CaseDetail.astro';
+import BlogDetail from '../../../components/pages/BlogDetail.astro';
+
+import { SERVICE_DETAILS, SERVICE_DETAIL_SLUGS } from '../../../data/serviceDetails';
+import { industries, getIndustry } from '../../../lib/industries';
+import { fetchAllCases, fetchAllPosts } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const lang of EXTRA_LANGS) {
+    const sluzbySection = PATH_SLUGS['sluzby'][lang];
+    const odvetviaSection = PATH_SLUGS['odvetvia'][lang];
+    const casesSection = PATH_SLUGS['pripadove-studie'][lang];
+    const blogSection = PATH_SLUGS['blog'][lang];
+
+    // Service details
+    for (const slug of SERVICE_DETAIL_SLUGS) {
+      paths.push({
+        params: { lang, section: sluzbySection, slug },
+        props: { type: 'service', slug },
+      });
+    }
+
+    // Industry details
+    for (const p of industries) {
+      paths.push({
+        params: { lang, section: odvetviaSection, slug: p.slug },
+        props: { type: 'industry', slug: p.slug },
+      });
+    }
+
+    // Case studies
+    const cases = await fetchAllCases(lang);
+    for (const c of cases) {
+      paths.push({
+        params: { lang, section: casesSection, slug: c.slug },
+        props: { type: 'case', caseStudy: c },
+      });
+    }
+
+    // Blog posts
+    const posts = await fetchAllPosts(lang);
+    for (const post of posts) {
+      paths.push({
+        params: { lang, section: blogSection, slug: post.slug },
+        props: { type: 'post', post },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang } = Astro.params as { lang: Lang; section: string; slug: string };
+const props = Astro.props as any;
+const { type } = props;
+---
+{type === 'service' && <ServiceDetail service={SERVICE_DETAILS[props.slug]} lang={lang} />}
+{type === 'industry' && <IndustryDetail pkg={getIndustry(props.slug)} lang={lang} />}
+{type === 'case' && <CaseDetail caseStudy={props.caseStudy} lang={lang} />}
+{type === 'post' && <BlogDetail post={props.post} lang={lang} />}
