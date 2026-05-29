@@ -15,7 +15,7 @@ import Layout from '../../layouts/Layout.astro';
 import PageHero from '../PageHero.astro';
 import ContactSection from '../ContactSection.astro';
 import { fetchAllCases, fetchTestimonials, fetchFaq } from '../../lib/content';
-import { industries } from '../../lib/industries';
+import { industries, indT } from '../../lib/industries';
 import { SERVICE_DETAIL_SLUGS } from '../../data/serviceDetails';
 import { buildUrl, type Lang } from '../../lib/i18n';
 import { pageMeta } from '../../lib/pageMeta';
@@ -474,7 +474,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px;">
               <div>
                 <div class="eyebrow" style="margin-bottom: 8px; font-size: 10px;">{t('services.industryPackBadge', lang)} {String(i + 1).padStart(2, '0')} ]</div>
-                <h3 style="font-size: clamp(20px, 2.2vw, 24px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 0;">{p.name}</h3>
+                <h3 style="font-size: clamp(20px, 2.2vw, 24px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 0;">{indT(p.name, lang)}</h3>
               </div>
               <div class="industry-card-arrow">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -486,7 +486,7 @@ const allServices = categories.flatMap((c) => c.services.map((s) => ({ ...s, cat
 
             <!-- Tagline -->
             <p style="font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 20px; color: var(--ink-2);">
-              <span class="grad">{p.tagline}</span>
+              <span class="grad">{indT(p.tagline, lang)}</span>
             </p>
 
             <!-- Footer info: cena + počet položiek -->
