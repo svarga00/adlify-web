@@ -265,6 +265,39 @@ const siteSettings = await fetchSettings(lang);
       gtag('config', 'G-8XXE3MYJMN', { send_page_view: true });
     </script>
 
+    <!-- ============ META (FACEBOOK) PIXEL ============ -->
+    <!-- TODO: nahradiť FB_PIXEL_ID za reálne Meta Pixel ID (15-16 ciferné číslo z Events Managera) -->
+    <script is:inline>
+      (function () {
+        var FB_PIXEL_ID = 'FB_PIXEL_ID'; // <-- sem vložiť reálne Pixel ID
+        // Nespúšťať, ak ID nie je nastavené (placeholder) — predíde chybám pred konfiguráciou
+        if (FB_PIXEL_ID === 'FB_PIXEL_ID' || !FB_PIXEL_ID) return;
+        window.__FB_PIXEL_ID = FB_PIXEL_ID;
+
+        // Štandardný Meta Pixel loader
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+        // GDPR: PageView + sledovanie spustíme až po súhlase s cookies.
+        // (Pixel knižnica sa síce načíta, ale revenue/ad cookies sa nastavia až po consent.)
+        var consent = localStorage.getItem('adlify_consent');
+        fbq('consent', consent === 'all' ? 'grant' : 'revoke');
+        fbq('init', FB_PIXEL_ID);
+        if (consent === 'all') {
+          fbq('track', 'PageView');
+        }
+      })();
+    </script>
+    <noscript is:inline>
+      <!-- Pixel noscript fallback sa pridá automaticky až s reálnym ID -->
+    </noscript>
+
     <!-- ============ Microsoft Clarity ============ -->
     <!-- TODO: nahradiť 515578426 za reálne Clarity project ID -->
     <script is:inline>
@@ -604,6 +637,11 @@ const siteSettings = await fetchSettings(lang);
               'ad_personalization': 'granted',
               'analytics_storage': 'granted'
             });
+          }
+          // Meta Pixel: po súhlase povolíme cookies a pošleme PageView
+          if (typeof fbq === 'function') {
+            fbq('consent', 'grant');
+            fbq('track', 'PageView');
           }
         }
 

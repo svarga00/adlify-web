@@ -428,6 +428,10 @@
           status.style.color = '#86efac';
           status.textContent = dt('success');
           form.reset();
+          // Meta Pixel Lead event (len ak je pixel načítaný a je súhlas)
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'Lead', { content_name: 'contact_drawer' });
+          }
         } else {
           throw new Error('failed');
         }
