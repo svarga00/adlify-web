@@ -19,6 +19,7 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      filter: (page) => !page.includes('/web-brief'),
       i18n: {
         defaultLocale: 'sk',
         locales: {
