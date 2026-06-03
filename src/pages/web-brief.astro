@@ -1,0 +1,808 @@
+---
+/**
+ * /web-brief  —  SKRYTÁ stránka (nie je v menu, sitemape ani jazyk-switcheri)
+ *
+ * Podrobný interaktívny formulár (jednorázový "web brief"), ktorý vyplní
+ * zákazník, ktorý chce novú webovú stránku. Po odoslaní:
+ *   POST /.netlify/functions/web-brief  →  e-mail na info@adlify.eu
+ *   (štruktúrovaný text brief + JSON príloha pripravená pre Claude Design)
+ *
+ * Štandalone HTML dokument (nepoužíva zdieľaný Layout), aby:
+ *   - nebol v navigácii / jazyk-switcheri / sitemape
+ *   - mal vlastný <meta name="robots" content="noindex,nofollow">
+ *
+ * Brand: navy #0F2540, gradient #F16434→#E85D9C, Figtree + JetBrains Mono,
+ *        pill komponenty (border-radius:999px), light theme.
+ */
+const PRIMARY = '#0F2540';
+---
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Web brief — Adlify</title>
+  <meta name="description" content="Podklad pre návrh vašej novej webovej stránky." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0F2540;
+      --grad-start: #F16434;
+      --grad-mid: #F47F3F;
+      --grad-end: #E85D9C;
+      --yellow: #FFB347;
+      --bg: #FFFFFF;
+      --bg-soft: #F5F4F1;
+      --bg-mid: #EEEBE4;
+      --ink: #0A0A0A;
+      --ink-2: #1F1F1F;
+      --muted: #6B6B6B;
+      --muted-2: #A0A0A0;
+      --line: rgba(0,0,0,0.09);
+      --line-2: rgba(0,0,0,0.16);
+      --font: 'Figtree', -apple-system, system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(232,93,156,0.06), transparent 60%),
+        radial-gradient(1000px 500px at -10% 10%, rgba(241,100,52,0.05), transparent 55%),
+        var(--bg-soft);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    .mono { font-family: var(--mono); }
+    .grad-text {
+      background: linear-gradient(100deg, var(--grad-start), var(--grad-mid) 55%, var(--grad-end));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    /* Header */
+    .head { text-align: center; margin-bottom: 36px; }
+    .badge {
+      display: inline-block; font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase;
+      border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px;
+      background: var(--bg); margin-bottom: 18px;
+    }
+    .head h1 {
+      font-size: clamp(28px, 5vw, 42px); font-weight: 900;
+      letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 12px;
+    }
+    .head p { color: var(--muted); font-size: clamp(15px, 1.6vw, 17px); max-width: 540px; margin: 0 auto; }
+
+    /* Progress */
+    .progress-wrap { position: sticky; top: 0; z-index: 20; padding: 12px 0 8px; background: linear-gradient(180deg, var(--bg-soft) 70%, transparent); margin: 0 -20px 28px; }
+    .progress-inner { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+    .progress-bar { height: 6px; border-radius: 999px; background: var(--bg-mid); overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); transition: width .35s cubic-bezier(.4,0,.2,1); }
+    .progress-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 7px; letter-spacing: 0.04em; }
+
+    /* Card / fieldsets */
+    .card {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 20px;
+      padding: clamp(20px, 3vw, 30px); margin-bottom: 18px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+    .card-num {
+      flex: none; width: 34px; height: 34px; border-radius: 999px;
+      display: grid; place-items: center; font-family: var(--mono); font-size: 13px; font-weight: 500;
+      background: var(--navy); color: #fff;
+    }
+    .card-head h2 { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+    .card-head .sub { font-size: 12.5px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+    /* Fields */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } }
+    .field-block { margin-bottom: 18px; }
+    .field-block:last-child { margin-bottom: 0; }
+    label.lbl { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 7px; }
+    label.lbl .req { color: var(--grad-start); margin-left: 2px; }
+    label.lbl .opt { color: var(--muted-2); font-weight: 400; font-size: 12px; margin-left: 4px; }
+    .hint { font-size: 12px; color: var(--muted); margin-bottom: 9px; margin-top: -2px; }
+
+    .field {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--line);
+      border-radius: 14px; background: var(--bg-soft); font-size: 14.5px; color: var(--ink);
+      transition: border-color .15s, background .15s, box-shadow .15s;
+    }
+    .field::placeholder { color: var(--muted-2); }
+    .field:focus { outline: none; border-color: var(--navy); background: var(--bg); box-shadow: 0 0 0 3px rgba(15,37,64,0.07); }
+    textarea.field { resize: vertical; min-height: 96px; font-family: inherit; line-height: 1.5; }
+    select.field { appearance: none; -webkit-appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 42px; }
+
+    /* Chip toggles (checkbox / radio styled as pills) */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { position: relative; }
+    .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .chip span {
+      display: inline-block; padding: 9px 16px; border: 1px solid var(--line-2);
+      border-radius: 999px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+      background: var(--bg); color: var(--ink-2); transition: all .15s; user-select: none;
+    }
+    .chip span:hover { border-color: var(--navy); }
+    .chip input:checked + span {
+      background: var(--navy); color: #fff; border-color: var(--navy);
+    }
+    .chip.accent input:checked + span {
+      background: linear-gradient(100deg, var(--grad-start), var(--grad-end));
+      border-color: transparent;
+    }
+
+    /* Color picker rows */
+    .color-row { display: flex; align-items: center; gap: 12px; }
+    .color-swatch {
+      width: 52px; height: 44px; border-radius: 12px; border: 1px solid var(--line-2);
+      padding: 0; cursor: pointer; background: none; flex: none; overflow: hidden;
+    }
+    input[type="color"] { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; border: none; cursor: pointer; padding: 0; }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 12px; }
+    .color-hex { flex: 1; }
+
+    /* Style preview swatches */
+    .style-presets { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .preset {
+      border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px;
+      cursor: pointer; background: var(--bg); transition: all .15s; text-align: left; min-width: 120px;
+    }
+    .preset:hover { border-color: var(--navy); transform: translateY(-1px); }
+    .preset.active { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(15,37,64,0.12); }
+    .preset .dots { display: flex; gap: 5px; margin-bottom: 8px; }
+    .preset .dots i { width: 16px; height: 16px; border-radius: 6px; display: block; }
+    .preset .pname { font-size: 12.5px; font-weight: 700; }
+    .preset .pdesc { font-size: 11px; color: var(--muted); }
+
+    /* Conditional "other" inputs */
+    .other-input { margin-top: 10px; display: none; }
+    .other-input.show { display: block; }
+
+    /* Submit */
+    .submit-row { margin-top: 8px; }
+    .btn-submit {
+      width: 100%; padding: 17px 24px; border: none; border-radius: 999px;
+      font-family: var(--font); font-size: 16px; font-weight: 700; cursor: pointer;
+      color: #fff; background: linear-gradient(100deg, var(--grad-start), var(--grad-mid) 55%, var(--grad-end));
+      transition: transform .12s, box-shadow .2s, opacity .2s;
+      box-shadow: 0 8px 24px rgba(232,93,156,0.25);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(232,93,156,0.32); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .status { text-align: center; font-size: 13.5px; margin-top: 14px; min-height: 20px; color: var(--muted); }
+    .consent { font-size: 12px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.5; }
+
+    /* Honeypot */
+    .hp { position: absolute; left: -9999px; top: -9999px; opacity: 0; height: 0; overflow: hidden; }
+
+    /* Success screen */
+    .done { display: none; text-align: center; padding: 40px 24px; }
+    .done.show { display: block; }
+    .done .check {
+      width: 72px; height: 72px; border-radius: 999px; margin: 0 auto 22px;
+      background: linear-gradient(100deg, var(--grad-start), var(--grad-end));
+      display: grid; place-items: center;
+    }
+    .done h2 { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .done p { color: var(--muted); max-width: 440px; margin: 0 auto; font-size: 15px; }
+
+    .foot { text-align: center; margin-top: 36px; font-family: var(--mono); font-size: 11px; color: var(--muted-2); letter-spacing: 0.04em; }
+    .foot a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Progress -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-inner">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">0 % vyplnené</div>
+      </div>
+    </div>
+
+    <div class="head">
+      <span class="badge">Adlify · Podklad pre web</span>
+      <h1>Povedzte nám o <span class="grad-text">vašom novom webe</span></h1>
+      <p>Vyplňte tento formulár <strong>raz</strong> a my pripravíme návrh presne podľa vašich predstáv. Čím viac detailov, tým presnejší prvý návrh.</p>
+    </div>
+
+    <form id="briefForm" novalidate>
+      <!-- Honeypot -->
+      <div class="hp" aria-hidden="true">
+        <label>Nevypĺňajte<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <!-- 1 · Kontakt -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">01</div>
+          <div><h2>Kontakt</h2><div class="sub">Komu sa ozveme s návrhom</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="field-block">
+            <label class="lbl">Meno a priezvisko<span class="req">*</span></label>
+            <input class="field" type="text" name="contactName" placeholder="Ján Novák" required />
+          </div>
+          <div class="field-block">
+            <label class="lbl">E-mail<span class="req">*</span></label>
+            <input class="field" type="email" name="contactEmail" placeholder="jan@firma.sk" required />
+          </div>
+          <div class="field-block">
+            <label class="lbl">Telefón<span class="opt">nepovinné</span></label>
+            <input class="field" type="tel" name="contactPhone" placeholder="+421 900 000 000" />
+          </div>
+          <div class="field-block">
+            <label class="lbl">Vaša pozícia<span class="opt">nepovinné</span></label>
+            <input class="field" type="text" name="contactRole" placeholder="Konateľ, marketing…" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 · Firma -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">02</div>
+          <div><h2>O firme</h2><div class="sub">Čím sa zaoberáte</div></div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Názov firmy / značky<span class="req">*</span></label>
+          <input class="field" type="text" name="companyName" placeholder="Firma s.r.o." required />
+        </div>
+        <div class="field-block">
+          <label class="lbl">Odvetvie<span class="req">*</span></label>
+          <select class="field" name="industry" data-other-trigger="industryOther" required>
+            <option value="" disabled selected>Vyberte odvetvie…</option>
+            <option>HVAC / tepelné čerpadlá</option>
+            <option>Stavebníctvo / rekonštrukcie</option>
+            <option>Auto služby</option>
+            <option>Svadobné služby</option>
+            <option>E-shop / predaj</option>
+            <option>Solár / fotovoltika</option>
+            <option>Reality</option>
+            <option>Beauty / wellness</option>
+            <option>Gastro / reštaurácia</option>
+            <option>Služby (iné)</option>
+            <option value="iné">Iné…</option>
+          </select>
+          <div class="other-input" data-other-for="industry">
+            <input class="field" type="text" name="industryOther" placeholder="Napíšte vaše odvetvie" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field-block">
+            <label class="lbl">Súčasný web<span class="opt">ak máte</span></label>
+            <input class="field" type="text" name="currentWebsite" placeholder="www.vasaweb.sk / nemám" />
+          </div>
+          <div class="field-block">
+            <label class="lbl">Sídlo / pôsobnosť<span class="opt">nepovinné</span></label>
+            <input class="field" type="text" name="location" placeholder="Bratislava / celé SK" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Veľkosť firmy<span class="opt">nepovinné</span></label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="companySize" value="SZČO / 1 osoba" /><span>SZČO / 1 osoba</span></label>
+            <label class="chip"><input type="radio" name="companySize" value="2–10" /><span>2–10</span></label>
+            <label class="chip"><input type="radio" name="companySize" value="11–50" /><span>11–50</span></label>
+            <label class="chip"><input type="radio" name="companySize" value="50+" /><span>50+</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · Projekt & ciele -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">03</div>
+          <div><h2>Projekt a ciele</h2><div class="sub">Čo má web dosiahnuť</div></div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Typ projektu<span class="req">*</span></label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="projectType" value="Nový web od nuly" required /><span>Nový web od nuly</span></label>
+            <label class="chip"><input type="radio" name="projectType" value="Redizajn existujúceho" /><span>Redizajn existujúceho</span></label>
+            <label class="chip"><input type="radio" name="projectType" value="Landing page" /><span>Landing page</span></label>
+            <label class="chip"><input type="radio" name="projectType" value="E-shop" /><span>E-shop</span></label>
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Hlavné ciele webu<span class="opt">vyberte všetko relevantné</span></label>
+          <div class="chips" data-other-trigger="goalsOther">
+            <label class="chip accent"><input type="checkbox" name="goals" value="Získavať dopyty / leady" /><span>Získavať dopyty</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="Predávať online" /><span>Predávať online</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="Budovať dôveru / značku" /><span>Budovať značku</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="Prezentovať portfólio / referencie" /><span>Portfólio</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="Rezervácie / objednávky" /><span>Rezervácie</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="Informovať / katalóg" /><span>Informovať</span></label>
+            <label class="chip accent"><input type="checkbox" name="goals" value="iné" data-other="goalsOther" /><span>Iné…</span></label>
+          </div>
+          <div class="other-input" data-other-for="goalsOther">
+            <input class="field" type="text" name="goalsOther" placeholder="Iný cieľ" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Aká je hlavná akcia, ktorú má návštevník urobiť?<span class="opt">nepovinné</span></label>
+          <div class="hint">Napr. „Zavolať“, „Vyplniť dopytový formulár“, „Kúpiť produkt“, „Rezervovať termín“.</div>
+          <input class="field" type="text" name="primaryAction" placeholder="Vyplniť dopytový formulár" />
+        </div>
+        <div class="grid-2">
+          <div class="field-block">
+            <label class="lbl">Predstava termínu<span class="opt">nepovinné</span></label>
+            <select class="field" name="deadline">
+              <option value="" disabled selected>Vyberte…</option>
+              <option>Čo najskôr</option>
+              <option>Do 2 týždňov</option>
+              <option>Do 1 mesiaca</option>
+              <option>Do 2–3 mesiacov</option>
+              <option>Nemám pevný termín</option>
+            </select>
+          </div>
+          <div class="field-block">
+            <label class="lbl">Orientačný rozpočet<span class="opt">nepovinné</span></label>
+            <select class="field" name="budget">
+              <option value="" disabled selected>Vyberte…</option>
+              <option>Do 500 €</option>
+              <option>500 – 1 000 €</option>
+              <option>1 000 – 2 500 €</option>
+              <option>2 500 – 5 000 €</option>
+              <option>5 000 € +</option>
+              <option>Zatiaľ neviem</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 · Publikum -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">04</div>
+          <div><h2>Cieľové publikum</h2><div class="sub">Pre koho web tvoríme</div></div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Komu predávate / kto je váš zákazník?<span class="opt">nepovinné</span></label>
+          <textarea class="field" name="targetAudience" placeholder="Napr. majitelia rodinných domov 35–55 rokov, ktorí riešia kúrenie…"></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field-block">
+            <label class="lbl">Jazyky webu<span class="opt">vyberte všetko</span></label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="languages" value="SK" checked /><span>SK</span></label>
+              <label class="chip"><input type="checkbox" name="languages" value="CZ" /><span>CZ</span></label>
+              <label class="chip"><input type="checkbox" name="languages" value="HU" /><span>HU</span></label>
+              <label class="chip"><input type="checkbox" name="languages" value="EN" /><span>EN</span></label>
+              <label class="chip"><input type="checkbox" name="languages" value="DE" /><span>DE</span></label>
+            </div>
+          </div>
+          <div class="field-block">
+            <label class="lbl">Trhy / krajiny<span class="opt">nepovinné</span></label>
+            <input class="field" type="text" name="markets" placeholder="SK, CZ…" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 · Obsah & funkcie -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">05</div>
+          <div><h2>Obsah a funkcie</h2><div class="sub">Čo všetko web potrebuje</div></div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Predpokladané sekcie / podstránky<span class="opt">vyberte všetko</span></label>
+          <div class="chips" data-other-trigger="sectionsOther">
+            <label class="chip"><input type="checkbox" name="sections" value="Domov" checked /><span>Domov</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="O nás" /><span>O nás</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="Služby / produkty" /><span>Služby / produkty</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="Cenník" /><span>Cenník</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="Referencie / portfólio" /><span>Referencie</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="Blog / novinky" /><span>Blog</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="Kontakt" checked /><span>Kontakt</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="FAQ" /><span>FAQ</span></label>
+            <label class="chip"><input type="checkbox" name="sections" value="iné" data-other="sectionsOther" /><span>Iné…</span></label>
+          </div>
+          <div class="other-input" data-other-for="sectionsOther">
+            <input class="field" type="text" name="sectionsOther" placeholder="Iná sekcia" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Funkcie<span class="opt">vyberte všetko</span></label>
+          <div class="chips" data-other-trigger="featuresOther">
+            <label class="chip"><input type="checkbox" name="features" value="Kontaktný / dopytový formulár" /><span>Kontaktný formulár</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Online rezervácie" /><span>Rezervácie</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="E-shop / platby" /><span>E-shop / platby</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Newsletter prihlásenie" /><span>Newsletter</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Mapa / pobočky" /><span>Mapa</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Galéria / fotky" /><span>Galéria</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Chat" /><span>Chat</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="Klientská zóna / prihlásenie" /><span>Klientská zóna</span></label>
+            <label class="chip"><input type="checkbox" name="features" value="iné" data-other="featuresOther" /><span>Iné…</span></label>
+          </div>
+          <div class="other-input" data-other-for="featuresOther">
+            <input class="field" type="text" name="featuresOther" placeholder="Iná funkcia" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Stav obsahu (texty, fotky)<span class="opt">nepovinné</span></label>
+          <select class="field" name="hasContent">
+            <option value="" disabled selected>Vyberte…</option>
+            <option>Mám hotové texty aj fotky</option>
+            <option>Mám čiastočne, niečo treba doplniť</option>
+            <option>Nemám nič, potrebujem pomoc</option>
+          </select>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Podklady<span class="opt">zaškrtnite čo platí</span></label>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="hasLogo" value="true" /><span>Mám logo</span></label>
+            <label class="chip"><input type="checkbox" name="hasPhotos" value="true" /><span>Mám vlastné fotky</span></label>
+            <label class="chip"><input type="checkbox" name="needsCopywriting" value="true" /><span>Potrebujem napísať texty</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 · Dizajn (interaktívne) -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">06</div>
+          <div><h2>Dizajn a vizuál</h2><div class="sub">Ako má web pôsobiť a vyzerať</div></div>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Štýl<span class="opt">vyberte všetko, čo sa vám páči</span></label>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Moderný / čistý" /><span>Moderný / čistý</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Minimalistický" /><span>Minimalistický</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Luxusný / prémiový" /><span>Luxusný</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Hravý / odvážny" /><span>Hravý / odvážny</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Korporátny / seriózny" /><span>Korporátny</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Prírodný / organický" /><span>Prírodný</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Technologický" /><span>Technologický</span></label>
+            <label class="chip"><input type="checkbox" name="styleKeywords" value="Retro / vintage" /><span>Retro</span></label>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Farebná schéma</label>
+          <div class="hint">Začnite z predvoľby alebo si nastavte vlastné farby. Nemusíte trafiť presne — slúži to ako smer.</div>
+          <div class="style-presets" id="colorPresets">
+            <button type="button" class="preset" data-colors='["#0F2540","#F16434","#FFB347"]'>
+              <div class="dots"><i style="background:#0F2540"></i><i style="background:#F16434"></i><i style="background:#FFB347"></i></div>
+              <div class="pname">Teplá energia</div><div class="pdesc">navy + coral</div>
+            </button>
+            <button type="button" class="preset" data-colors='["#1A1A2E","#16C79A","#E4E4E4"]'>
+              <div class="dots"><i style="background:#1A1A2E"></i><i style="background:#16C79A"></i><i style="background:#E4E4E4"></i></div>
+              <div class="pname">Tech mint</div><div class="pdesc">tmavá + zelená</div>
+            </button>
+            <button type="button" class="preset" data-colors='["#2C2C2C","#C9A227","#F5F0E6"]'>
+              <div class="dots"><i style="background:#2C2C2C"></i><i style="background:#C9A227"></i><i style="background:#F5F0E6"></i></div>
+              <div class="pname">Prémium zlatá</div><div class="pdesc">čierna + zlatá</div>
+            </button>
+            <button type="button" class="preset" data-colors='["#1E3A2F","#7FB069","#F0EAD6"]'>
+              <div class="dots"><i style="background:#1E3A2F"></i><i style="background:#7FB069"></i><i style="background:#F0EAD6"></i></div>
+              <div class="pname">Prírodná</div><div class="pdesc">zelená + krémová</div>
+            </button>
+            <button type="button" class="preset" data-colors='["#0B5394","#3D85C6","#FFFFFF"]'>
+              <div class="dots"><i style="background:#0B5394"></i><i style="background:#3D85C6"></i><i style="background:#FFFFFF;border:1px solid #ddd"></i></div>
+              <div class="pname">Dôveryhodná modrá</div><div class="pdesc">korporát</div>
+            </button>
+          </div>
+          <div class="grid-2">
+            <div class="field-block" style="margin-bottom:12px;">
+              <label class="lbl" style="font-size:12.5px;">Primárna</label>
+              <div class="color-row">
+                <span class="color-swatch"><input type="color" name="colorPrimary" value="#0F2540" data-hex="hexPrimary" /></span>
+                <input class="field color-hex mono" type="text" id="hexPrimary" value="#0F2540" />
+              </div>
+            </div>
+            <div class="field-block" style="margin-bottom:12px;">
+              <label class="lbl" style="font-size:12.5px;">Sekundárna</label>
+              <div class="color-row">
+                <span class="color-swatch"><input type="color" name="colorSecondary" value="#F16434" data-hex="hexSecondary" /></span>
+                <input class="field color-hex mono" type="text" id="hexSecondary" value="#F16434" />
+              </div>
+            </div>
+            <div class="field-block" style="margin-bottom:0;">
+              <label class="lbl" style="font-size:12.5px;">Akcent</label>
+              <div class="color-row">
+                <span class="color-swatch"><input type="color" name="colorAccent" value="#FFB347" data-hex="hexAccent" /></span>
+                <input class="field color-hex mono" type="text" id="hexAccent" value="#FFB347" />
+              </div>
+            </div>
+            <div class="field-block" style="margin-bottom:0;">
+              <label class="lbl" style="font-size:12.5px;">Poznámka k farbám<span class="opt">nepovinné</span></label>
+              <input class="field" type="text" name="colorNote" placeholder="Napr. mám firemné farby z loga…" />
+            </div>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Typ písma</label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="fontStyle" value="Moderný bezpätkový (sans-serif)" /><span style="font-family:Figtree,sans-serif;">Moderný bezpätkový</span></label>
+            <label class="chip"><input type="radio" name="fontStyle" value="Klasický pätkový (serif)" /><span style="font-family:Georgia,serif;">Klasický pätkový</span></label>
+            <label class="chip"><input type="radio" name="fontStyle" value="Technický / monospace" /><span style="font-family:'JetBrains Mono',monospace;font-size:12px;">Technický mono</span></label>
+            <label class="chip"><input type="radio" name="fontStyle" value="Nechám na vás" /><span>Nechám na vás</span></label>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Svetlá alebo tmavá?</label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="themeMode" value="Svetlá" /><span>☀ Svetlá</span></label>
+            <label class="chip"><input type="radio" name="themeMode" value="Tmavá" /><span>☾ Tmavá</span></label>
+            <label class="chip"><input type="radio" name="themeMode" value="Nechám na vás" /><span>Nechám na vás</span></label>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Weby, ktoré sa vám páčia<span class="opt">nepovinné</span></label>
+          <div class="hint">Vložte 1–3 odkazy na weby, ktorých štýl sa vám páči (aj konkurencia).</div>
+          <textarea class="field" name="inspirationSites" placeholder="https://...&#10;https://..."></textarea>
+        </div>
+
+        <div class="field-block">
+          <label class="lbl">Čo sa vám naopak nepáči?<span class="opt">nepovinné</span></label>
+          <textarea class="field" name="dislikes" placeholder="Čomu sa chceme vyhnúť (farby, prvky, štýl)…"></textarea>
+        </div>
+
+        <div class="field-block" style="margin-bottom:0;">
+          <label class="lbl">Máte brand manuál / dizajn manuál?<span class="opt">nepovinné</span></label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="hasBrandGuide" value="true" /><span>Áno</span></label>
+            <label class="chip"><input type="radio" name="hasBrandGuide" value="false" /><span>Nie</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 · Technické -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">07</div>
+          <div><h2>Technické detaily</h2><div class="sub">Doména, hosting, napojenia</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="field-block">
+            <label class="lbl">Doména<span class="opt">nepovinné</span></label>
+            <input class="field" type="text" name="domain" placeholder="vasadomena.sk" />
+          </div>
+          <div class="field-block">
+            <label class="lbl">Stav domény<span class="opt">nepovinné</span></label>
+            <select class="field" name="domainStatus">
+              <option value="" disabled selected>Vyberte…</option>
+              <option>Mám a funguje</option>
+              <option>Mám, ale treba presmerovať</option>
+              <option>Ešte nemám</option>
+              <option>Potrebujem pomôcť vybrať</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Hosting<span class="opt">nepovinné</span></label>
+          <select class="field" name="hosting">
+            <option value="" disabled selected>Vyberte…</option>
+            <option>Mám vlastný hosting</option>
+            <option>Nemám, riešte to za mňa</option>
+            <option>Neviem</option>
+          </select>
+        </div>
+        <div class="field-block">
+          <label class="lbl">Potrebné napojenia / integrácie<span class="opt">vyberte všetko</span></label>
+          <div class="chips" data-other-trigger="integrationsOther">
+            <label class="chip"><input type="checkbox" name="integrations" value="Google Analytics / GTM" /><span>Analytics</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="Facebook / Meta Pixel" /><span>Meta Pixel</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="Rezervačný systém" /><span>Rezervácie</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="Platobná brána" /><span>Platby</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="CRM / Newsletter" /><span>CRM / Newsletter</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="Mapy / sociálne siete" /><span>Mapy / soc. siete</span></label>
+            <label class="chip"><input type="checkbox" name="integrations" value="iné" data-other="integrationsOther" /><span>Iné…</span></label>
+          </div>
+          <div class="other-input" data-other-for="integrationsOther">
+            <input class="field" type="text" name="integrationsOther" placeholder="Iná integrácia" />
+          </div>
+        </div>
+        <div class="field-block" style="margin-bottom:0;">
+          <label class="lbl">Má byť web viacjazyčný?<span class="opt">nepovinné</span></label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="multilingual" value="true" /><span>Áno</span></label>
+            <label class="chip"><input type="radio" name="multilingual" value="false" /><span>Nie</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 · Poznámky -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num">08</div>
+          <div><h2>Čokoľvek ďalšie</h2><div class="sub">Voľný priestor pre vaše myšlienky</div></div>
+        </div>
+        <div class="field-block" style="margin-bottom:0;">
+          <label class="lbl">Dodatočné poznámky<span class="opt">nepovinné</span></label>
+          <textarea class="field" name="notes" placeholder="Čokoľvek dôležité, čo sme sa nespýtali — špeciálne požiadavky, vaša vízia, obavy…" style="min-height:120px;"></textarea>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn-submit" id="submitBtn">Odoslať podklad →</button>
+        <div class="status" id="status"></div>
+        <p class="consent">Odoslaním súhlasíte so spracovaním údajov za účelom prípravy návrhu. Údaje nezdieľame s tretími stranami.</p>
+      </div>
+    </form>
+
+    <!-- Success -->
+    <div class="done" id="done">
+      <div class="check">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Ďakujeme! Podklad máme.</h2>
+      <p>Prešli sme si vaše predstavy a pripravíme prvý návrh. Ozveme sa vám e-mailom hneď, ako budeme mať vizuály pripravené.</p>
+    </div>
+
+    <div class="foot">ADLIFY · <a href="https://adlify.eu">adlify.eu</a></div>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('briefForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const status = document.getElementById('status');
+      const done = document.getElementById('done');
+      const fill = document.getElementById('progressFill');
+      const plabel = document.getElementById('progressLabel');
+
+      // ── Color picker ↔ hex sync ───────────────────────────────────
+      document.querySelectorAll('input[type="color"]').forEach((picker) => {
+        const hexId = picker.getAttribute('data-hex');
+        const hexInput = document.getElementById(hexId);
+        picker.addEventListener('input', () => { hexInput.value = picker.value.toUpperCase(); updateProgress(); });
+        hexInput.addEventListener('input', () => {
+          let v = hexInput.value.trim();
+          if (!v.startsWith('#')) v = '#' + v;
+          if (/^#[0-9a-fA-F]{6}$/.test(v)) picker.value = v;
+        });
+      });
+
+      // ── Color presets ─────────────────────────────────────────────
+      document.querySelectorAll('#colorPresets .preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const colors = JSON.parse(btn.getAttribute('data-colors'));
+          const ids = ['hexPrimary', 'hexSecondary', 'hexAccent'];
+          const names = ['colorPrimary', 'colorSecondary', 'colorAccent'];
+          colors.forEach((c, i) => {
+            document.getElementById(ids[i]).value = c;
+            document.querySelector('input[name="' + names[i] + '"]').value = c;
+          });
+          document.querySelectorAll('#colorPresets .preset').forEach((p) => p.classList.remove('active'));
+          btn.classList.add('active');
+          updateProgress();
+        });
+      });
+
+      // ── "Iné…" conditional inputs ─────────────────────────────────
+      // Select-based
+      document.querySelectorAll('select[data-other-trigger]').forEach((sel) => {
+        const box = document.querySelector('.other-input[data-other-for="' + sel.name + '"]');
+        sel.addEventListener('change', () => {
+          if (sel.value === 'iné') box.classList.add('show');
+          else box.classList.remove('show');
+          updateProgress();
+        });
+      });
+      // Checkbox-based ("iné" chip with data-other)
+      document.querySelectorAll('input[type="checkbox"][data-other]').forEach((cb) => {
+        const key = cb.getAttribute('data-other');
+        const box = document.querySelector('.other-input[data-other-for="' + key + '"]');
+        cb.addEventListener('change', () => {
+          if (cb.checked) box.classList.add('show');
+          else box.classList.remove('show');
+        });
+      });
+
+      // ── Progress bar ──────────────────────────────────────────────
+      const tracked = Array.from(form.elements).filter((el) =>
+        el.name && el.name !== '_gotcha' && el.type !== 'submit'
+      );
+      function updateProgress() {
+        const groups = {};
+        tracked.forEach((el) => {
+          if (el.type === 'checkbox' || el.type === 'radio') {
+            groups[el.name] = groups[el.name] || false;
+            if (el.checked && el.value !== 'true') groups[el.name] = true;
+            else if (el.checked) groups[el.name] = true;
+          } else if (el.type === 'color') {
+            // colors always count as touched-by-default; skip from %
+          } else {
+            groups[el.name] = (el.value || '').trim() !== '';
+          }
+        });
+        const keys = Object.keys(groups);
+        const filled = keys.filter((k) => groups[k]).length;
+        const pct = keys.length ? Math.round((filled / keys.length) * 100) : 0;
+        fill.style.width = pct + '%';
+        plabel.textContent = pct + ' % vyplnené';
+      }
+      form.addEventListener('input', updateProgress);
+      form.addEventListener('change', updateProgress);
+      updateProgress();
+
+      // ── Submit ────────────────────────────────────────────────────
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Validate required
+        const required = ['contactName', 'contactEmail', 'companyName'];
+        for (const name of required) {
+          const el = form.elements[name];
+          if (!el || !el.value.trim()) {
+            status.style.color = 'rgb(220,38,38)';
+            status.textContent = '✗ Vyplňte prosím meno, e-mail a názov firmy.';
+            el && el.focus();
+            return;
+          }
+        }
+        const pt = form.querySelector('input[name="projectType"]:checked');
+        if (!pt) {
+          status.style.color = 'rgb(220,38,38)';
+          status.textContent = '✗ Vyberte prosím typ projektu.';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        status.style.color = 'var(--muted)';
+        status.textContent = 'Odosielame…';
+
+        // Build payload
+        const fd = new FormData(form);
+        const payload = {};
+        const multi = ['goals', 'languages', 'markets', 'sections', 'features', 'styleKeywords', 'integrations'];
+        // single-value fields
+        for (const [k, v] of fd.entries()) {
+          if (multi.includes(k)) {
+            payload[k] = payload[k] || [];
+            payload[k].push(v);
+          } else {
+            payload[k] = v;
+          }
+        }
+
+        try {
+          const res = await fetch('/.netlify/functions/web-brief', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            let msg = 'Odoslanie zlyhalo (HTTP ' + res.status + ')';
+            try { const j = await res.json(); if (j.error) msg = j.error; } catch (e) {}
+            throw new Error(msg);
+          }
+          form.style.display = 'none';
+          document.getElementById('progressWrap').style.display = 'none';
+          done.classList.add('show');
+          done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (err) {
+          console.error(err);
+          status.style.color = 'rgb(220,38,38)';
+          status.textContent = '✗ ' + (err.message || 'Niečo zlyhalo. Skúste znova alebo napíšte na info@adlify.eu');
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
